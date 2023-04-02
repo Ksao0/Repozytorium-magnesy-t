@@ -1,0 +1,9 @@
+Data: 02.04.2023 22:42
+Koszty: 2388.00 z³
+Zysk sprzeda¿y: 29868.00 z³
+Liczba pakietów: 12.0 szt.
+Liczba magnesów: 2688.0 szt.
+Cena za 1 magnes: 12.00 z³
+Jeden pakiet to: 2688.00 z³
+Cena za wszystkie pakiety: 32256.00 z³
+

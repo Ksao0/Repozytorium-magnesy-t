@@ -44,7 +44,7 @@ def oblicz_zyski():
     koszty = tektura + nadruk + foliamg + woreczkipp + nowy_koszt
     bilans = razem - koszty
 
-    wyniki = f"Data to: {data_obliczenia}\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+    wyniki = f"Data: {data_obliczenia}\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
     label_wyniki.configure(text=wyniki)
 
     # Zapis wyników do pliku, jeśli zmienna zapis_do_pliku jest ustawiona na True

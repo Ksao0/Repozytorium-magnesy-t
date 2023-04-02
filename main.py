@@ -105,7 +105,7 @@ checkbox_zapis = tk.Checkbutton(
     root, text="Zapisz wyniki do pliku", variable=zapis_do_pliku)
 checkbox_zapis.pack()
 
-# Przycisk otwierajacy drugie okno
+# Przycisk otwierajacy drugie okno o nazwie historia
 button_historia = tk.Button(
     frame_przyciski, text="Historia", command=otworz_okno)
 button_historia.pack(side=tk.LEFT)

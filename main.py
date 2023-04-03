@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 import datetime
-import urllib.request
+
 
 def oblicz_zyski():
 

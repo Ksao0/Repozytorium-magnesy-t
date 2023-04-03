@@ -1,6 +1,6 @@
 1.0.1.2 (Beta) Aktualizacje sa zalecane przed kazdym uzyciem
 
- - Pierwsza dostepna wersja programu
- - Poprawiono komentarze w kodzie. Oznaczone sa znakiem # (nie jest on czytany przez kompilator)
  - Usunieto niektore bledy
  - Rozpoczeto dodawanie nowych funkcji
+ - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas.
+   Czasami moze byc to wymagane do pobrania nowej aktualizacji. Jezeli bedzie to wymagane - zostanie to zapowiedziane we wczesniejszych aktualizacjach.

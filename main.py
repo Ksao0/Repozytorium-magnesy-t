@@ -7,7 +7,7 @@ import datetime
 
 def oblicz_zyski():
 
-    # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenieeeee
+    # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
     if not os.path.isfile("Zapisy.txt"):
         open("Zapisy.txt", "w").close()
 

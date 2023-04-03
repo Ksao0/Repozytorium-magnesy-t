@@ -29,7 +29,7 @@ if os.path.exists(path):
     os.remove(path)
 print("Usunięto plik version.txt")
 
-# pobierz plik version.txt z repozytorium
+# pobierz plik version.txt z repozytorium i utwórz go
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt"
 urllib.request.urlretrieve(url, path)
 print("Zastąpiono plik version.txt")

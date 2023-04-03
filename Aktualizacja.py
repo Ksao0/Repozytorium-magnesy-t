@@ -13,3 +13,4 @@ print("Usunięto plik main.py")
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/main.py"
 urllib.request.urlretrieve(url, path)
 print("Zastąpiono plik")
+input("Naciśnij klawisz Enter, aby zakończyć program...")

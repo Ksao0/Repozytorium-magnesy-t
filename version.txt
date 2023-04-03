@@ -1,6 +1,8 @@
 1.0.1.3 (Beta) Aktualizacje pierwszego i drugiego poziomu sa zalecane przed kazdym uzyciem
 
  - Usunieto niektore bledy
- - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas (jeżeli nie jest to określone - rób to co najmniej raz w miesiącu jeżeli używasz programu)
+ - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas
+   Jezeli nie jest to określone - rób aktualizacje drugiego poziomu co najmniej raz w miesiącu, aby program działał poprawnie
+   Jest to wymagane, ponieważ aktualizacje pierwszego poziomu nie maja opcji dodawania nowych plikow i zmiany aktualizatora 
  - Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem
  - Rozpoczeto dodawanie nowych funkcji

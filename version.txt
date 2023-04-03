@@ -1,4 +1,4 @@
 1.0.1.1 (Beta)
 
  - Pierwsza dostepna wersja programu
- - Testowa
+ - Wersja testowa bez zadnych waznych zmian. Ma na celu sprawdzenie mechanizmu aktualizacji

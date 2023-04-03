@@ -70,4 +70,6 @@ with open(nazwa_pliku, 'w') as plik:
 # wyświetl komunikat o zakończeniu zapisu
 print(f'Plik {nazwa_pliku} został utworzony i zapisany.')
 
+# KONIEC NOWEJ FUNKCJI
+
 input("Naciśnij klawisz Enter, aby zakończyć program...")

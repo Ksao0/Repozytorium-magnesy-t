@@ -13,7 +13,7 @@ url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/main.
 urllib.request.urlretrieve(url, path)
 print("Zastąpiono plik main.py")
 
-
+#hfuwifughweouhfouwdbduboaanoviahihhdhoshdhlh lshao hodhasodh agfuuagfugasugfoua gfouagkfggfi hhjfjj
 # ścieżka do pliku version.txt w bieżącym folderze
 path = os.path.join(os.getcwd(), "version.txt")
 

@@ -1,4 +1,5 @@
-1.0.1.1 (Beta)
+1.0.1.1 (Beta) Aktualizacje są zalecane przed każdym użyciem
 
  - Pierwsza dostepna wersja programu
- 
+ - Poprawiono komentarze w kodzie. Oznaczone sa znakiem # (nie jesst on czytany przez kompilator)
+ - Rozpoczeto dodawanie nowych funkcji

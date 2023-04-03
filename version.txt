@@ -1,6 +1,6 @@
 1.0.1.2 (Beta) Aktualizacje sa zalecane przed kazdym uzyciem
 
  - Usunieto niektore bledy
- - Rozpoczeto dodawanie nowych funkcji
  - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas.
    Czasami moze byc to wymagane do pobrania nowej aktualizacji. Jezeli bedzie to wymagane - zostanie to zapowiedziane we wczesniejszych aktualizacjach.
+ - Rozpoczeto dodawanie nowych funkcji

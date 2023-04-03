@@ -3,6 +3,21 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 import datetime
+import urllib.request
+
+
+# Aktualizacja aktualizatora
+# ścieżka do pliku main.py w bieżącym folderze
+path = os.path.join(os.getcwd(), "Aktualizacja.py")
+
+# usuń plik Aktualizacja.py, jeśli istnieje
+if os.path.exists(path):
+    os.remove(path) #Usunięto plik Aktualizacja.py
+
+# pobierz plik Aktualizacja.py z repozytorium
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizacja.py"
+urllib.request.urlretrieve(url, path)   # Zastąpiono plik
+
 
 
 def oblicz_zyski():

@@ -11,12 +11,17 @@ import urllib.request
 path = os.path.join(os.getcwd(), "Aktualizacja.py")
 
 # usuń plik Aktualizacja.py, jeśli istnieje
-if os.path.exists(path):
-    os.remove(path) #Usunięto plik Aktualizacja.py
 
+if os.path.exists(path):
+    os.remove(path)
+    
+#Usunięto plik Aktualizacja.py
 # pobierz plik Aktualizacja.py z repozytorium
+
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizacja.py"
-urllib.request.urlretrieve(url, path)   # Zastąpiono plik
+urllib.request.urlretrieve(url, path)
+
+# Zastąpiono plik
 
 
 

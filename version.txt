@@ -3,4 +3,5 @@
  - Usunieto niektore bledy
  - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas.
    Czasami moze byc to wymagane do pobrania nowej aktualizacji. Jezeli bedzie to wymagane - zostanie to zapowiedziane we wczesniejszych aktualizacjach.
+ - Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem
  - Rozpoczeto dodawanie nowych funkcji

@@ -66,7 +66,7 @@ with open(nazwa_pliku, 'w') as plik:
     plik.write('import tkinter as tk\n')
     plik.write('from tkinter import messagebox\n')
     plik.write('from tkinter import scrolledtext\n')
-
+    plik.write('# Włączanie aktualizacji obu poziomów, a następnie programu
 # wyświetl komunikat o zakończeniu zapisu
 print(f'Plik {nazwa_pliku} został utworzony i zapisany.')
 

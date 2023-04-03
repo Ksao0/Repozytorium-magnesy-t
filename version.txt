@@ -1,4 +1,5 @@
 1.0.1 (Beta)
 
-Dodano opcje aktualizacji pliku aktualizujacego program main.py
-Jest on aktualizowany wraz z kazdym uruchomieniem main.py
+ - Dodano opcje aktualizacji pliku aktualizujacego program main.py
+   Jest on aktualizowany wraz z kazdym uruchomieniem main.py
+ - Poprawiono drobne bledy

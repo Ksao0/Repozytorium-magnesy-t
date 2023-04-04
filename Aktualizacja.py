@@ -74,7 +74,7 @@ data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
 
 with open("Zapisy.txt", "a") as plik:
     plik.write(
-        f"          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
+        f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
     plik.write(f"           Stara wersja: {stara_version}\n")
     plik.write(f"           Nowa wersja: {nowa_version}\n\n")
 

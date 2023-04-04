@@ -81,7 +81,6 @@ with open("Zapisy.txt", "a") as plik:
 print(f"Stara wersja: {stara_version}\n")
 print(f"Nowa wersja: {nowa_version}\n\n")
 
-
 # NOWE FUNKCJE
 
 ### Kasowanie Uruchamianie.py

@@ -18,5 +18,5 @@ print('Rozpoczynanie aktualizacji I poziomu')
 Aktualizator1 = "Aktualizator.py"
 subprocess.run(Aktualizator1)
 
-print("Zakończono aktualizację II poziomu")
+print("Zakończono aktualizację I poziomu")
 input("Naciśnij klawisz Enter, aby zakończyć program...")

@@ -108,7 +108,7 @@ print("Usunięto plik Aktualizator_aktualizatora.py")
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
 print("Zastąpiono plik Aktualizator_aktualizatora.py")
-
+print("Zakończono aktualizację II poziomu")
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI

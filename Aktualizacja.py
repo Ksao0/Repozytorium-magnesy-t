@@ -51,24 +51,12 @@ print(f"Nowa wersja: {nowa_version}\n\n")
 
 # NOWA FUNKCJA
 
-# nazwa pliku do utworzenia
 nazwa_pliku = 'Uruchamianie.py'
 
 # usuń plik o nazwie 'Uruchamianie.py', jeśli taki istnieje
 if os.path.exists(nazwa_pliku):
     os.remove(nazwa_pliku)
     print(f'Usunięto plik {nazwa_pliku}.')
-
-# otwórz plik w trybie zapisu
-with open(nazwa_pliku, 'w') as plik:
-    # zapisz dane do pliku
-    plik.write('import os\n')
-    plik.write('import tkinter as tk\n')
-    plik.write('from tkinter import messagebox\n')
-    plik.write('from tkinter import scrolledtext\n')
-    plik.write('# Włączanie aktualizacji obu poziomów, a następnie programu')
-# wyświetl komunikat o zakończeniu zapisu
-print(f'Plik {nazwa_pliku} został utworzony i zapisany.')
 
 # KONIEC NOWEJ FUNKCJI
 

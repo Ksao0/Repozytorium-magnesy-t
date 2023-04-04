@@ -15,8 +15,8 @@ urllib.request.urlretrieve(url, path)
 print("Zakończono aktualizację II poziomu")
 print('Rozpoczynanie aktualizacji I poziomu')
 
-Aktualizator1 = ["python", "Aktualizacja.py"]
-subprocess.run(Aktualizator1)
+Aktualizacja = ["python", "Aktualizacja.py"]
+subprocess.run(Aktualizacja)
 
 print("Zakończono aktualizację I poziomu")
 input("Naciśnij klawisz Enter, aby zakończyć program...")

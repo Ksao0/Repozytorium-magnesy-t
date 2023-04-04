@@ -12,8 +12,8 @@ print("Usunięto plik Aktualizator.py")
 # pobierz plik Aktualizator.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator.py"
 urllib.request.urlretrieve(url, path)
-print("Zakończono aktualizację I poziomu")
-print('Rozpoczynanie aktualizacji II poziomu')
+print("Zakończono aktualizację II poziomu")
+print('Rozpoczynanie aktualizacji I poziomu')
 
 Aktualizator1 = "Aktualizator.py"
 subprocess.run(Aktualizator1)

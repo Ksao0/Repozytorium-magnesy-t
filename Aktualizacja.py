@@ -112,5 +112,4 @@ print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
 # KONIEC NOWYCH FUNKCJI
 
-
 input("Naciśnij klawisz Enter, aby zakończyć program...")

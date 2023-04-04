@@ -10,12 +10,12 @@ if os.path.exists(path):
     os.remove(path)
 print("Rozpoczynanie aktualizacji II poziomu")
 # pobierz plik Aktualizator.py z repozytorium
-url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator.py"
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizacja.py"
 urllib.request.urlretrieve(url, path)
 print("Zakończono aktualizację II poziomu")
 print('Rozpoczynanie aktualizacji I poziomu')
 
-Aktualizator1 = "Aktualizator.py"
+Aktualizator1 = ["python", "Aktualizacja.py"]
 subprocess.run(Aktualizator1)
 
 print("Zakończono aktualizację I poziomu")

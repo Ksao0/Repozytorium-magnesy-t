@@ -49,9 +49,10 @@ with open("Zapisy.txt", "a") as plik:
 print(f"Stara wersja: {stara_version}\n")
 print(f"Nowa wersja: {nowa_version}\n\n")
 
-# NOWAE FUNKCJE
 
-### Kasowanie Uruchamianie.py
+# NOWE FUNKCJE
+
+# Kasowanie Uruchamianie.py
 # nazwa pliku
 nazwa_pliku = 'Uruchamianie.py'
 
@@ -60,8 +61,25 @@ if os.path.exists(nazwa_pliku):
     os.remove(nazwa_pliku)
     print(f'Usunięto plik {nazwa_pliku}.')
 
-### Koniec kasowania Uruchamianie.py
+# Koniec dla: Kasowanie Uruchamianie.py
+
+# Aktualizacja pliku Aktualizator_aktualizatora
+
+# ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+
+# usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+if os.path.exists(path):
+    os.remove(path)
+print("Usunięto plik Aktualizator_aktualizatora.py")
+# pobierz plik main.py z repozytorium
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
+urllib.request.urlretrieve(url, path)
+print("Zastąpiono plik Aktualizator_aktualizatora.py")
+
+# Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI
+
 
 input("Naciśnij klawisz Enter, aby zakończyć program...")

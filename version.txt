@@ -4,4 +4,4 @@
  - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas
    Jezeli nie jest to okreslone - rob aktualizacje drugiego poziomu (wlacz plik Aktualizator_akttualizatora.py) co najmniej raz w miesiacu,
    aby program dzialal poprawnie jest to wymagane, poniewaz aktualizacje pierwszego poziomu nie maja opcji dodawania nowych plikow i zmiany aktualizatora 
- - Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem
+ - Aktualizowanie aktualizatora jest aktualnie wymagane przed kazdym uzyciem

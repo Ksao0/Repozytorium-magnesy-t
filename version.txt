@@ -1,4 +1,4 @@
-1.0.1.30000000000000000000000000000000000000000 (pre-Beta) Aktualizacje pierwszego i drugiego poziomu sa zalecane przed kazdym uzyciem!
+1.0.1.300000000000000000000000000000000000mbhlsdsduugdusdugkudfghughishgihigsgdgdgdgds00000 (pre-Beta) Aktualizacje pierwszego i drugiego poziomu sa zalecane przed kazdym uzyciem!
 
  - Usunieto niektore bledy
  - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas

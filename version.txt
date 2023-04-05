@@ -1,6 +1,7 @@
-1.0.0.5 (Beta) Aktualizacje pierwszego i drugiego poziomu są zalecane przed każdym użyciem!
+1.0.0.6 (Beta) Aktualizacje pierwszego i drugiego poziomu są zalecane przed każdym użyciem!
 
 - Poprawki błędów
+  - Teraz program obsługuje polskie znaki
   - Naprawiono problem z zacinaniem się programu podczas aktualizacji
 - Dodano możliwość aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakiś czas
   - Aktualizator_Aktualizatora.py pobiera najnowszą wersję aktualizatora z internetu i zastępuje nią starą

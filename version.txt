@@ -1,8 +1,12 @@
-1.0.0.5 (Beta) Aktualizacje pierwszego i drugiego poziomu sa zalecane przed kazdym uzyciem!
+1.0.0.5 (Beta) Aktualizacje pierwszego i drugiego poziomu są zalecane przed każdym użyciem!
 
- - Poprawki bledow
- - Dodano mozliwosc aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakis czas
-   Jezeli nie jest to okreslone - rob aktualizacje pierwszego poziomu (wlacz plik Aktualizator_aktualizatora.py) co najmniej raz w miesiacu,
-   aby program dzialal poprawnie jest to wymagane, poniewaz aktualizacje drugiego poziomu nie maja opcji dodawania nowych plikow i zmiany aktualizatora 
- - Aktualizowanie aktualizatora jest aktualnie wymagane przed kazdym uzyciem (aby to zrobic nalezy uruchomic plik aktualizacja.py, a nastepnie Aktualizator_aktualizatora.py dalej wystarczy tylko uruchamianie Aktualizator_aktualizatora.py)
-   Nalezy zrobic to co najmniej dwa razy (Powtarzanie wiecej niz 4 razy jest bezcelowe i nie powoduje dalszych zmian w kodzie)
+- Poprawki błędów
+  - Naprawiono problem z zacinaniem się programu podczas aktualizacji
+- Dodano możliwość aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakiś czas
+  - Aktualizator_Aktualizatora.py pobiera najnowszą wersję aktualizatora z internetu i zastępuje nią starą
+  - Aktualizowanie aktualizatora zapewnia lepszą wydajność, bezpieczeństwo i stabilność programu
+  - Jeżeli nie jest to określone - rób aktualizacje pierwszego poziomu (włącz plik Aktualizator_aktualizatora.py) co najmniej raz w miesiącu,
+    aby program działał poprawnie jest to wymagane, ponieważ aktualizacje drugiego poziomu nie mają opcji dodawania nowych plików i zmiany aktualizatora 
+- Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem (aby to zrobić należy uruchomić plik aktualizacja.py, a następnie Aktualizator_aktualizatora.py dalej wystarczy tylko uruchamianie Aktualizator_aktualizatora.py)
+  - Należy zrobić to co najmniej dwa razy (Powtarzanie więcej niż 4 razy jest bezcelowe i nie powoduje dalszych zmian w kodzie)
+  - Po każdej aktualizacji należy ponownie uruchomić program, aby wprowadzić zmiany

@@ -7,11 +7,11 @@ path = os.path.join(os.getcwd(), "main.py")
 # usuń plik main.py, jeśli istnieje
 if os.path.exists(path):
     os.remove(path)
-print("Usunięto plik main.py")
+# print("Usunięto plik main.py")
 # pobierz plik main.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/main.py"
 urllib.request.urlretrieve(url, path)
-print("Zastąpiono plik main.py")
+# print("Zastąpiono plik main.py")
 
 # NOWE FUNKCJE
 
@@ -23,11 +23,11 @@ path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 # usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
 if os.path.exists(path):
     os.remove(path)
-print("Usunięto plik Aktualizator_aktualizatora.py")
+# print("Usunięto plik Aktualizator_aktualizatora.py")
 # pobierz plik main.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
-print("Zastąpiono plik Aktualizator_aktualizatora.py")
+# print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
@@ -46,12 +46,12 @@ else:
 # usuń plik version.txt, jeśli istnieje
 if os.path.exists(path):
     os.remove(path)
-print("Usunięto plik version.txt")
+# print("Usunięto plik version.txt")
 
 # pobierz plik version.txt z repozytorium i utwórz go
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt"
 urllib.request.urlretrieve(url, path)
-print("Zastąpiono plik version.txt")
+# print("Zastąpiono plik version.txt")
 
 # odczytaj zawartość pliku version.txt do zmiennej nowa_version
 with open(path, "r", encoding='utf-8') as f:
@@ -91,11 +91,12 @@ path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 # usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
 if os.path.exists(path):
     os.remove(path)
-print("Usunięto plik Aktualizator_aktualizatora.py")
+# print("Usunięto plik Aktualizator_aktualizatora.py")
 # pobierz plik main.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
-print("Zastąpiono plik Aktualizator_aktualizatora.py")
+# print("Zastąpiono plik Aktualizator_aktualizatora.py")
+print('Zakończono altualizację II poziomu')
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI

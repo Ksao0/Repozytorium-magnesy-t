@@ -6,5 +6,3 @@
    aby program dzialal poprawnie jest to wymagane, poniewaz aktualizacje drugiego poziomu nie maja opcji dodawania nowych plikow i zmiany aktualizatora 
  - Aktualizowanie aktualizatora jest aktualnie wymagane przed kazdym uzyciem (aby to zrobic nalezy uruchomic plik aktualizacja.py, a nastepnie Aktualizator_aktualizatora.py
    Nalezy zrobic to co najmniej dwa razy (Powtarzanie wiecej niz 4 razy jest bezcelowe i nie powoduje dalszych zmian w kodzie)
- # Co Planujemy?
- - Dodanie funkcji zglaszania bledow znalezionych przez  uzytkownikow

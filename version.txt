@@ -1,13 +1,12 @@
-1.0.0.6 (Beta) Aktualizacje pierwszego i drugiego poziomu są zalecane przed każdym użyciem!
+1.0.0.6 (Beta). Zaleca się aktualizowanie programu przed każdym użyciem
 
-- Poprawki błędów
-  - Teraz program obsługuje polskie znaki
+- Aby zaktualizować program do najnowszej wersji, należy wykonać następujące kroki:
+  - Uruchomić plik Aktualizator_Aktualizatora.py, który pobierze i zainstaluje najnowszą wersję aktualizatora
+  - Uruchomić plik Aktualizacja.py, który pobierze i zainstaluje najnowsze poprawki i funkcje programu
+  - Powtórzyć te kroki co najmniej dwa razy, aby upewnić się, że wszystkie zmiany zostały wprowadzone
+  - Ponownie uruchomić program main.py (jeśli był wcześniej wyłączony), aby zastosować aktualizacje.
+- Zaleca się aktualizowanie programu przed każdym użyciem, ponieważ zawiera on ważne poprawki błędów i ulepszenia
+- Niektóre z nowości i poprawek w wersji 1.0.0.6 (Beta) to:
+  - Dodano obsługę polskich znaków w programie
   - Naprawiono problem z zacinaniem się programu podczas aktualizacji
-- Dodano możliwość aktualizowania aktualizatora. Uruchom plik Aktualizator_Aktualizatora.py co jakiś czas
-  - Aktualizator_Aktualizatora.py pobiera najnowszą wersję aktualizatora z internetu i zastępuje nią starą
-  - Aktualizowanie aktualizatora zapewnia lepszą wydajność, bezpieczeństwo i stabilność programu
-  - Jeżeli nie jest to określone - rób aktualizacje pierwszego poziomu (włącz plik Aktualizator_aktualizatora.py) co najmniej raz w miesiącu,
-    aby program działał poprawnie jest to wymagane, ponieważ aktualizacje drugiego poziomu nie mają opcji dodawania nowych plików i zmiany aktualizatora 
-- Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem (aby to zrobić należy uruchomić plik aktualizacja.py, a następnie Aktualizator_aktualizatora.py dalej wystarczy tylko uruchamianie Aktualizator_aktualizatora.py)
-  - Należy zrobić to co najmniej dwa razy (Powtarzanie więcej niż 4 razy jest bezcelowe i nie powoduje dalszych zmian w kodzie)
-  - Po każdej aktualizacji należy ponownie uruchomić program, aby wprowadzić zmiany
+  - Dodano możliwość aktualizowania aktualizatora, co zapewnia lepszą wydajność, bezpieczeństwo i stabilność programu

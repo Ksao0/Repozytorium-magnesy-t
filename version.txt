@@ -4,7 +4,7 @@
   - Uruchomić plik Aktualizator_Aktualizatora.py, który pobierze i zainstaluje najnowszą wersję aktualizatora
   - Uruchomić plik Aktualizacja.py, który pobierze i zainstaluje najnowsze poprawki i funkcje programu
   - Powtórzyć te kroki co najmniej dwa razy, aby upewnić się, że wszystkie zmiany zostały wprowadzone
-  - Ponownie uruchomić program main.py (jeśli był wcześniej wyłączony), aby zastosować aktualizacje.
+  - Ponownie uruchomić program main.py, aby zastosować aktualizacje.
 - Zaleca się aktualizowanie programu przed każdym użyciem, ponieważ zawiera on ważne poprawki błędów i ulepszenia
 - Niektóre z nowości i poprawek w wersji 1.0.0.6 (Beta) to:
   - Dodano obsługę polskich znaków w programie

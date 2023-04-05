@@ -1,4 +1,4 @@
-1.0.0.7 (Beta). Zaleca się aktualizowanie programu przed każdym użyciem
+1.0.0.6 (Beta). Zaleca się aktualizowanie programu przed każdym użyciem
 
 - Aby zaktualizować program do najnowszej wersji, należy wykonać następujące kroki:
   - Uruchomić plik Aktualizator_Aktualizatora.py, który pobierze i zainstaluje najnowszą wersję aktualizatora

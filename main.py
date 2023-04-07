@@ -111,6 +111,12 @@ button_historia = tk.Button(
 button_historia.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
+
+
+label_wyniki = tk.Label(frame_wyniki, text="", font=("Arial", 12))
+label_wyniki.config(font=("Arial", 16))
+
+
 label_wyniki = tk.Label(root, text="")
 label_wyniki.pack()
 

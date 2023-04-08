@@ -27,7 +27,7 @@ def oblicz_zyski():
 
     now = datetime.datetime.now()
 
-    data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
+    data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
 
     # Liczenie kosztów
     magnesy_w_pakiecie = liczba_pakietow * 224

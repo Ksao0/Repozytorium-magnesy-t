@@ -2,4 +2,3 @@
 
 - Usunięto znane błędy
 - Poprawiono niektóre błędy związane z wyświetlaniem tekstu
-- Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem

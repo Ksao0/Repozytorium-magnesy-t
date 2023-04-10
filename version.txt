@@ -1,3 +1,3 @@
 1.0.0.8 (Beta). Zaleca się aktualizowanie programu przed każdym użyciem
 
-- Poprawki bledow
+- Poprawki błędow

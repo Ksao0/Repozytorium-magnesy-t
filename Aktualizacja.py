@@ -38,7 +38,7 @@ path = os.path.join(os.getcwd(), "version.txt")
 
 # zapisz zawartość pliku version.txt do zmiennej stara_version
 if os.path.exists(path):
-    with open(path, "r", encoding='utf-8') as f:
+    with open(path, "r") as f:
         stara_version = f.read()
 else:
     stara_version = ""
@@ -96,9 +96,9 @@ if os.path.exists(path):
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik Aktualizator_aktualizatora.py")
-print('Zakończono aktualizację I poziomu')
+print('Zakończono altualizację I poziomu')
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI
 
-input("Naciśnij dowolny klawisz, aby zakończyć program...")
+input("Naciśnij klawisz Enter, aby zakończyć program...")

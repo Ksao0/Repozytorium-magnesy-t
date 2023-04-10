@@ -9,7 +9,7 @@ def oblicz_zyski():
 
     # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
     if not os.path.isfile("Zapisy.txt"):
-        open("Zapisy.txt", "w", encoding='utf-8').close()
+        open("Zapisy.txt", "w").close()
 
     liczba_pakietow = float(entry_pakietow.get())
     if not liczba_pakietow.is_integer():
@@ -27,7 +27,7 @@ def oblicz_zyski():
 
     now = datetime.datetime.now()
 
-    data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
+    data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
 
     # Liczenie kosztów
     magnesy_w_pakiecie = liczba_pakietow * 224
@@ -49,10 +49,10 @@ def oblicz_zyski():
 
     # Zapis wyników do pliku, jeśli zmienna zapis_do_pliku jest ustawiona na True
     if zapis_do_pliku.get():
-        with open("Zapisy.txt", "a", encoding='utf-8') as plik:
+        with open("Zapisy.txt", "a") as plik:
             plik.write(wyniki)
         if not os.path.isfile("Zapisy.txt"):
-            open("Zapisy.txt", "w", encoding='utf-8').close()
+            open("Zapisy.txt", "w").close()
             plik.write(wyniki)
 
 
@@ -66,7 +66,7 @@ zapis_do_pliku.set(True)
 
 
 def otworz_okno():
-    with open("Zapisy.txt", "r", encoding='utf-8') as plik:
+    with open("Zapisy.txt", "r") as plik:
         zawartosc = plik.read()
 
     # Tworzenie nowego okna
@@ -111,12 +111,6 @@ button_historia = tk.Button(
 button_historia.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
-
-
-label_wyniki = tk.Label(frame_wyniki, text="", font=("Arial", 12))
-label_wyniki.config(font=("Arial", 16))
-
-
 label_wyniki = tk.Label(root, text="")
 label_wyniki.pack()
 

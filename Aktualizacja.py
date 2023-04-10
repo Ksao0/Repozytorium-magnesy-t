@@ -38,7 +38,7 @@ path = os.path.join(os.getcwd(), "version.txt")
 
 # zapisz zawartość pliku version.txt do zmiennej stara_version
 if os.path.exists(path):
-    with open(path, "r") as f:
+    with open(path, "r", encoding='utf-8') as f:
         stara_version = f.read()
 else:
     stara_version = ""

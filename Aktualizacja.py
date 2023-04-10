@@ -96,7 +96,7 @@ if os.path.exists(path):
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik Aktualizator_aktualizatora.py")
-print('Zakończono altualizację I poziomu')
+print('Zakończono aktualizację I poziomu')
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI

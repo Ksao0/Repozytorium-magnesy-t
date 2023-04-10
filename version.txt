@@ -1,5 +1,5 @@
-1.0.0.9 (Beta) Zaleca się aktualizowanie programu przed każdym użyciem
+1.0.0.8 (Beta) Zaleca się aktualizowanie programu przed każdym użyciem
 
 - Usunięto znane błędy
-- Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem
 - Poprawiono niektóre błędy związane z wyświetlaniem tekstu
+- Aktualizowanie aktualizatora jest aktualnie wymagane przed każdym użyciem

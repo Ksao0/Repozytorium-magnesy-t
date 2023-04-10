@@ -9,7 +9,7 @@ def oblicz_zyski():
 
     # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
     if not os.path.isfile("Zapisy.txt"):
-        open("Zapisy.txt", "w").close()
+        open("Zapisy.txt", "w", encoding='utf-8').close()
 
     liczba_pakietow = float(entry_pakietow.get())
     if not liczba_pakietow.is_integer():
@@ -49,10 +49,10 @@ def oblicz_zyski():
 
     # Zapis wyników do pliku, jeśli zmienna zapis_do_pliku jest ustawiona na True
     if zapis_do_pliku.get():
-        with open("Zapisy.txt", "a") as plik:
+        with open("Zapisy.txt", "a", encoding='utf-8') as plik:
             plik.write(wyniki)
         if not os.path.isfile("Zapisy.txt"):
-            open("Zapisy.txt", "w").close()
+            open("Zapisy.txt", "w", encoding='utf-8').close()
             plik.write(wyniki)
 
 
@@ -66,7 +66,7 @@ zapis_do_pliku.set(True)
 
 
 def otworz_okno():
-    with open("Zapisy.txt", "r") as plik:
+    with open("Zapisy.txt", "r", encoding='utf-8') as plik:
         zawartosc = plik.read()
 
     # Tworzenie nowego okna

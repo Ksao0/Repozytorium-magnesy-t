@@ -15,7 +15,7 @@ urllib.request.urlretrieve(url, path)
 
 # NOWE FUNKCJE
 
-### Aktualizacja pliku Aktualizator_aktualizatora
+# Aktualizacja pliku Aktualizator_aktualizatora
 
 # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
 path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
@@ -29,9 +29,10 @@ url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktua
 urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
-### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
+# Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI
+
 
 # ścieżka do pliku version.txt w bieżącym folderze
 path = os.path.join(os.getcwd(), "version.txt")
@@ -57,21 +58,47 @@ urllib.request.urlretrieve(url, path)
 with open(path, "r", encoding='utf-8') as f:
     nowa_version = f.read()
 
-now = datetime.datetime.now()
-data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
 
-with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-    plik.write(
-        f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
-    plik.write(f"           Stara wersja: {stara_version}\n")
-    plik.write(f"           Nowa wersja: {nowa_version}\n\n")
+# Plik sprawdzajacy nową wersję
+# ścieżka do pliku nowa.txt w bieżącym folderze
+path = os.path.join(os.getcwd(), "nowa.txt")
 
-print(f"Stara wersja: {stara_version}\n")
-print(f"Nowa wersja: {nowa_version}\n\n")
+# zapisz zawartość pliku nowa.txt do zmiennej nowa_st
+if os.path.exists(path):
+    with open(path, "r", encoding='utf-8') as f:
+        nowa_st = f.read()
+else:
+    nowa_st = ""
+
+# usuń plik nowa.txt, jeśli istnieje
+if os.path.exists(path):
+    os.remove(path)
+
+# pobierz plik nowa.txt z repozytorium i utwórz go
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/nowa.txt"
+urllib.request.urlretrieve(url, path)
+
+# odczytaj zawartość pliku nowa.txt do zmiennej nowa_no
+with open(path, "r", encoding='utf-8') as f:
+    nowa_no = f.read()
+
+if nowa_st == nowa_no:
+    print(f"Brak aktualizacji")
+else:
+    now = datetime.datetime.now()
+    data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
+    with open("Zapisy.txt", "a", encoding='utf-8') as plik:
+        plik.write(
+            f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
+        plik.write(f"           Stara wersja: {stara_version}\n")
+        plik.write(f"           Nowa wersja: {nowa_version}\n\n")
+    print(f"Stara wersja: {stara_version}\n")
+    print(f"Nowa wersja: {nowa_version}\n\n")
+
 
 # NOWE FUNKCJE
 
-### Kasowanie Uruchamianie.py
+# Kasowanie Uruchamianie.py
 
 # nazwa pliku
 nazwa_pliku = 'Uruchamianie.py'
@@ -81,9 +108,9 @@ if os.path.exists(nazwa_pliku):
     os.remove(nazwa_pliku)
     print(f'Usunięto plik {nazwa_pliku}.')
 
-### Koniec dla: Kasowanie Uruchamianie.py
+# Koniec dla: Kasowanie Uruchamianie.py
 
-### Aktualizacja pliku Aktualizator_aktualizatora
+# Aktualizacja pliku Aktualizator_aktualizatora
 
 # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
 path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
@@ -97,7 +124,7 @@ url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktua
 urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik Aktualizator_aktualizatora.py")
 print('Zakończono aktualizację I poziomu')
-### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
+# Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
 # KONIEC NOWYCH FUNKCJI
 

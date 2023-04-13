@@ -4,6 +4,27 @@ from tkinter import messagebox
 from tkinter import scrolledtext
 import datetime
 import urllib.request
+import subprocess
+
+
+def aktul():
+    # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+
+    # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+    # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
+    urllib.request.urlretrieve(url, path)
+
+    # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
+    if not os.path.isfile("Zapisy.txt"):
+        open("Zapisy.txt", "w", encoding='utf-8').close()
+
+    print('Aktualizowanie...')
+    Aktualizacja = ["python", "Aktualizacja.py"]
+    subprocess.run(Aktualizacja)
 
 
 def oblicz_zyski():

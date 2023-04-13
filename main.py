@@ -18,13 +18,46 @@ def aktul():
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
-    # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-    if not os.path.isfile("Zapisy.txt"):
-        open("Zapisy.txt", "w", encoding='utf-8').close()
-
-    print('Aktualizowanie...')
-    Aktualizacja = ["python", "Aktualizacja.py"]
+    print('Aktualizowanie... Uruchom ponownie program po zakończeniu')
+    Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
     subprocess.run(Aktualizacja)
+    print('Zakończono aktualizację! ')
+
+    # ścieżka do pliku version.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "version.txt")
+
+    # zapisz zawartość pliku version.txt do zmiennej stara_version
+    if os.path.exists(path):
+        with open(path, "r", encoding='utf-8') as f:
+            stara_version = f.read()
+    else:
+        stara_version = ""
+
+    # usuń plik version.txt, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+    # print("Usunięto plik version.txt")
+
+    # pobierz plik version.txt z repozytorium i utwórz go
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt"
+    urllib.request.urlretrieve(url, path)
+    # print("Zastąpiono plik version.txt")
+
+    # odczytaj zawartość pliku version.txt do zmiennej nowa_version
+    with open(path, "r", encoding='utf-8') as f:
+        nowa_version = f.read()
+
+    now = datetime.datetime.now()
+    data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
+
+    with open("Zapisy.txt", "a", encoding='utf-8') as plik:
+        plik.write(
+            f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
+        plik.write(f"           Stara wersja: {stara_version}\n")
+        plik.write(f"           Nowa wersja: {nowa_version}\n\n")
+
+    print(f"Stara wersja: {stara_version}\n")
+    print(f"Nowa wersja: {nowa_version}\n\n")
 
 
 def oblicz_zyski():
@@ -141,6 +174,11 @@ checkbox_zapis.pack()
 button_historia = tk.Button(
     frame_przyciski, text="Historia", command=otworz_okno)
 button_historia.pack(side=tk.LEFT)
+
+# Przycisk aktul
+button_aktul = tk.Button(
+    frame_przyciski, text="Aktualizacja (terminal)", command=aktul)
+button_aktul.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
 label_wyniki = tk.Label(root, text="")

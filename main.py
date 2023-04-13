@@ -18,7 +18,7 @@ def aktul():
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
-    print('Aktualizowanie... Uruchom ponownie program po zakończeniu')
+    print('Aktualizowanie...')
     Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
     subprocess.run(Aktualizacja)
     print('Zakończono aktualizację! ')
@@ -52,7 +52,7 @@ def aktul():
 
     with open("Zapisy.txt", "a", encoding='utf-8') as plik:
         plik.write(
-            f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
+            f"\n          Zaktualizowano program do nowej wersji! Uruchom ponownie, aby wprowadzić zmiany! Data: {data_obliczenia}\n")
         plik.write(f"           Stara wersja: {stara_version}\n")
         plik.write(f"           Nowa wersja: {nowa_version}\n\n")
 

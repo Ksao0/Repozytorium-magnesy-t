@@ -6,17 +6,15 @@ import datetime
 import urllib.request
 
 
-# ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+# Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
 path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 
-# usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+# Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
 if os.path.exists(path):
     os.remove(path)
-# print("Usunięto plik Aktualizator_aktualizatora.py")
-# pobierz plik Aktualizator_aktualizatora.py z repozytorium
+# Pobierz plik Aktualizator_aktualizatora.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
-# print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
 
 def oblicz_zyski():

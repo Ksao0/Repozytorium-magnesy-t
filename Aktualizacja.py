@@ -101,4 +101,4 @@ print('Zakończono aktualizację I poziomu')
 
 # KONIEC NOWYCH FUNKCJI
 
-input("Naciśnij dowolny klaiwsz, aby wyłączyć program...")
+input("Naciśnij klawisz Enter, aby zakończyć program...")

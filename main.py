@@ -3,19 +3,20 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 import datetime
+import urllib.request
 
 
-# ścieżka do pliku Aktualizacja.py w bieżącym folderze
-path = os.path.join(os.getcwd(), "Aktualizacja.py")
+# ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 
-# usuń plik Aktualizacja.py, jeśli istnieje
+# usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
 if os.path.exists(path):
     os.remove(path)
-# print("Usunięto plik Aktualizacja.py")
-# pobierz plik Aktualizacja.py z repozytorium
-url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizacja.py"
+# print("Usunięto plik Aktualizator_aktualizatora.py")
+# pobierz plik Aktualizator_aktualizatora.py z repozytorium
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
 urllib.request.urlretrieve(url, path)
-# print("Zastąpiono plik Aktualizacja.py")
+# print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
 
 def oblicz_zyski():

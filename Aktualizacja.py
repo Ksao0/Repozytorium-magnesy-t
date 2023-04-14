@@ -58,7 +58,7 @@ with open(path, "r", encoding='utf-8') as f:
     nowa_version = f.read()
 
 now = datetime.datetime.now()
-data_obliczenia = now.strftime("%d.%m.%Y %H:%M")
+data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
 
 with open("Zapisy.txt", "a", encoding='utf-8') as plik:
     plik.write(

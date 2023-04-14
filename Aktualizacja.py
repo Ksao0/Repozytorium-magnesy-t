@@ -41,7 +41,7 @@ if os.path.exists(path):
     with open(path, "r", encoding='utf-8') as f:
         stara_version = f.read()
 else:
-    stara_version = ""
+    stara_version = "BRAK DANYCH"
 
 # usuń plik version.txt, jeśli istnieje
 if os.path.exists(path):

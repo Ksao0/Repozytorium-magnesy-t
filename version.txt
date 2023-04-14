@@ -2,3 +2,4 @@
 Wydano: 14.04.2023
 
 - Zmiany estetyczne
+- Inny sposób prowadzenia historii

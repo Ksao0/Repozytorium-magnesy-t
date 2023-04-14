@@ -89,7 +89,7 @@ def oblicz_zyski():
 # Tworzenie głównego okna
 root = tk.Tk()
 root.title("Kalkulator zysków")
-root.geometry("400x300")
+root.geometry("410x350")
 
 zapis_do_pliku = tk.BooleanVar()
 zapis_do_pliku.set(True)
@@ -122,6 +122,11 @@ label_ceny = tk.Label(root, text="Cena za magnes:")
 label_ceny.pack()
 entry_ceny = tk.Entry(root)
 entry_ceny.pack()
+
+
+pustka = tk.Label()
+pustka.pack()
+
 
 # Dodanie kontenera typu Frame
 frame_przyciski = tk.Frame(root)

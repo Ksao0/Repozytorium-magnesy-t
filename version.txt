@@ -1,5 +1,4 @@
-1.0.0.1.11 (Beta) Zaleca się aktualizowanie programu przed każdym użyciem
+1.0.0.1.12 (Beta) Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 14.04.2023
 
-- Usunięto znane błędy
-- Poprawiono błędy związane z wyświetlaniem tekstu, poprawiono kodowanie
+- Zmiany estetyczne

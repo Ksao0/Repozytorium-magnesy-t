@@ -75,7 +75,7 @@ def oblicz_zyski():
     bilans = razem - koszty
 
     wyniki = f"Data: {data_obliczenia}\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
-    label_wyniki.configure(text=wyniki)
+    label_wyniki.configure(text=wyniki.rjust(200))
 
     # Zapis wyników do pliku, jeśli zmienna zapis_do_pliku jest ustawiona na True
     if zapis_do_pliku.get():
@@ -146,7 +146,7 @@ button_aktul = tk.Button(
 button_aktul.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
-label_wyniki = tk.Label(root, text="")
-label_wyniki.pack()
+label_wyniki = tk.Label(root, text="", justify="left")
+label_wyniki.pack(side="left")
 
 root.mainloop()

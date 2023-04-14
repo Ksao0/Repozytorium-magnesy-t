@@ -58,6 +58,7 @@ def aktul():
 
     print(f"Stara wersja: {stara_version}\n")
     print(f"Nowa wersja: {nowa_version}\n\n")
+    print('Uruchom ponownie program, aby wprowadzić zmiany')
 
 
 def oblicz_zyski():

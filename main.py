@@ -78,12 +78,30 @@ def oblicz_zyski():
     label_wyniki.configure(text=wyniki.rjust(200))
 
     # Zapis wyników do pliku, jeśli zmienna zapis_do_pliku jest ustawiona na True
+
+    # ścieżka do pliku Zapisy.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Zapisy.txt")
+
+    # zapisz zawartość pliku Zapisy.txt do zmiennej stare_zapisy
+    if os.path.exists(path):
+        with open(path, "r", encoding='utf-8') as f:
+            stare_zapisy = f.read()
+    else:
+        stare_zapisy = ""
+
+    # usuń plik Zapisy.txt, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+    # print("Usunięto plik Zapisy.txt")
+
     if zapis_do_pliku.get():
         with open("Zapisy.txt", "a", encoding='utf-8') as plik:
             plik.write(wyniki)
+            plik.write(stare_zapisy)
         if not os.path.isfile("Zapisy.txt"):
             open("Zapisy.txt", "w", encoding='utf-8').close()
             plik.write(wyniki)
+            plik.write(stare_zapisy)
 
 
 # Tworzenie głównego okna

@@ -6,8 +6,10 @@ import datetime
 import urllib.request
 import subprocess
 
+print('Nie zamykaj tego okna')
 
 def aktul():
+    os.system('cls')
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 

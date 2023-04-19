@@ -2,4 +2,5 @@
 Wydano: 19.04.2023
 
 
-W tej wersji wprowadzono kilka usprawnień i poprawek, które sprawią, że nasza aplikacja będzie działać szybciej i sprawniej. Nie musisz się przejmować szczegółami technicznymi - wszystko jest zrobione tak, aby ułatwić Ci korzystanie z aplikacji.
+W tej wersji wprowadzono kilka usprawnień i poprawek, które sprawią, że nasza aplikacja będzie działać szybciej i sprawniej.
+Nie musisz się przejmować szczegółami technicznymi - wszystko jest zrobione tak, aby ułatwić Ci korzystanie z aplikacji.

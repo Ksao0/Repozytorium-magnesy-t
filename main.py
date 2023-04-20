@@ -109,7 +109,7 @@ def oblicz_zyski():
 # Tworzenie głównego okna
 
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
-url = 'https://raw.githubusercontent.com/NazwaTwojegoRepozytorium/version.txt'
+url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
 response = requests.get(url)
 version_online = response.text.strip()
 
@@ -122,15 +122,14 @@ else:
     version_local = "BRAK DANYCH"
 
 # porównaj wersje
-
-if version_online != version_local:
-    print('Dostępna jest nowa wersja programu i/lub wykryto brak niektórych plików.\nZaktualizuj program')
-    wersja = "DOSTĘPNA AKTUALIZACJA"
+if version_local != "BRAK DANYCH":
+    if version_online != version_local:
+        print('Dostępna jest nowa wersja programu.')
+        wersja = "DOSTĘPNA AKTUALIZACJA"
+    else:
+        print('Masz najnowszą wersję programu.')
 else:
-    print('Masz najnowszą wersję programu.')
-
-# zapisz zawartość pliku zapisy.txt do zmiennej
-
+    print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
 
 root = tk.Tk()
 root.title(f"Kalkulator zysków ver. {wersja}")

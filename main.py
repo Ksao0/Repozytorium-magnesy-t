@@ -106,8 +106,19 @@ def oblicz_zyski():
 
 
 # Tworzenie głównego okna
+
+# zapisz zawartość pliku zapisy.txt do zmiennej
+
+path = os.path.join(os.getcwd(), "version.txt")
+if os.path.exists(path):
+    with open(path, "r", encoding="utf-8") as f:
+        wersja = f.readline().split("(")[0]
+else:
+    wersja = "BRAK DANYCH"
+
+
 root = tk.Tk()
-root.title("Kalkulator zysków")
+root.title(f"Kalkulator zysków ver. {wersja}")
 root.geometry("410x350")
 
 zapis_do_pliku = tk.BooleanVar()
@@ -116,7 +127,7 @@ zapis_do_pliku.set(True)
 
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
-    okno_wyborowe.title("Nowe okno")
+    okno_wyborowe.title("Okno wyborowe")
     okno_wyborowe.geometry("300x200+800+0")
     okno_wyborowe.grab_set()
 
@@ -124,7 +135,8 @@ def otworz_okno_wybor():
     button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
                        command=aktul)
     button.pack()
-    label_informacja = tk.Label(okno_wyborowe, text="Z czasem będzie tu dodawane więcej opcji")
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Z czasem będzie tu dodawane więcej opcji")
     label_informacja.pack()
 
 

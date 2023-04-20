@@ -71,8 +71,6 @@ def oblicz_zyski():
     foliamg = 18 * liczba_pakietow
     woreczkipp = 11 * liczba_pakietow
 
-    nowy_koszt = 123 * liczba_pakietow
-
     koszty = tektura + nadruk + foliamg + woreczkipp + nowy_koszt
     bilans = razem - koszty
 

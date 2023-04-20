@@ -108,8 +108,6 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 
-import requests
-import os
 
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
@@ -128,10 +126,13 @@ else:
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
         print('Masz najnowszą wersję programu.')
+        wersja = version_local
     else:
         print('Dostępna jest nowa wersja programu.')
+        wersja = "DOSTĘPNA AKTUALIZACJA"
 else:
     print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
+    wersja = "ZAKTUALIZUJ PROGRAM"
 
 
 root = tk.Tk()

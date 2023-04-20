@@ -71,7 +71,7 @@ def oblicz_zyski():
     foliamg = 18 * liczba_pakietow
     woreczkipp = 11 * liczba_pakietow
 
-    koszty = tektura + nadruk + foliamg + woreczkipp + nowy_koszt
+    koszty = tektura + nadruk + foliamg + woreczkipp
     bilans = razem - koszty
 
     wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"

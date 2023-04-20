@@ -112,7 +112,8 @@ def oblicz_zyski():
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
 response = requests.get(url)
-version_online = response.text.strip()
+
+version_online = response.content.decode('utf-8').strip()  # ręczne dekodowanie
 
 # odczytaj zawartość pliku version.txt w twoim programie
 path = os.path.join(os.getcwd(), "version.txt")

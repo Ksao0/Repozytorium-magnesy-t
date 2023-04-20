@@ -123,6 +123,7 @@ else:
     version_local = "BRAK DANYCH"
 
 # porównaj wersje
+print('Aktualna wersja: version_local')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
         print('Masz najnowszą wersję programu.')

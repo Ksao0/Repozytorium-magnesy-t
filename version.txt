@@ -1,6 +1,7 @@
-1.0.0.0.1.16 (Beta) Zaleca się aktualizowanie programu przed każdym użyciem
+1.0.0.0.1.17 (Beta) Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
 
 
 W tej wersji wprowadzono kilka usprawnień i poprawek, które sprawią, że nasza aplikacja będzie działać szybciej i sprawniej.
-Nie musisz się przejmować szczegółami technicznymi - wszystko jest zrobione tak, aby ułatwić Ci korzystanie z aplikacji.
+Nie musisz się przejmować szczegółami technicznymi - jak zwykle poprawiliśmy kilka błędów, a wszystko jest zrobione tak,
+aby jak najbardziej ułatwić Ci korzystanie z aplikacji.

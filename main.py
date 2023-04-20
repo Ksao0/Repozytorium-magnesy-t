@@ -122,18 +122,14 @@ else:
     version_local = "BRAK DANYCH"
 
 # porównaj wersje
-if version_local != "BRAK DANYCH":
-    if version_online != version_local:
-        print('Dostępna jest nowa wersja programu.')
-        wersja = "DOSTĘPNA AKTUALIZACJA"
-    else:
-        print('Masz najnowszą wersję programu.')
+
+if version_online != version_local:
+    print('Dostępna jest nowa wersja programu i/lub wykryto brak niektórych plików.\nZaktualizuj program')
+    wersja = "DOSTĘPNA AKTUALIZACJA"
 else:
-    print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
+    print('Masz najnowszą wersję programu.')
 
 # zapisz zawartość pliku zapisy.txt do zmiennej
-
-
 
 
 root = tk.Tk()

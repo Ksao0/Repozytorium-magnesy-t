@@ -114,6 +114,18 @@ zapis_do_pliku = tk.BooleanVar()
 zapis_do_pliku.set(True)
 
 
+def otworz_okno_wybor():
+    okno_wyborowe = tk.Toplevel()
+    okno_wyborowe.title("Nowe okno")
+    okno_wyborowe.geometry("300x200+800+0")
+    okno_wyborowe.grab_set()
+
+    # Dodanie przycisku do nowego okna
+    button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
+                       command=aktul)
+    button.pack()
+
+
 def otworz_okno_zapisy():
     with open("Zapisy.txt", "r", encoding='utf-8') as plik:
         zawartosc = plik.read()
@@ -164,9 +176,9 @@ button_historia = tk.Button(
     frame_przyciski, text="Historia", command=otworz_okno_zapisy)
 button_historia.pack(side=tk.LEFT)
 
-# Przycisk aktul
+# Przycisk więcej opcji
 button_aktul = tk.Button(
-    frame_przyciski, text="Aktualizacja (terminal)", command=aktul)
+    frame_przyciski, text="Więcej opcji", command=otworz_okno_wybor)
 button_aktul.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki

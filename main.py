@@ -124,6 +124,8 @@ def otworz_okno_wybor():
     button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
                        command=aktul)
     button.pack()
+    label_informacja = tk.Label(okno_wyborowe, text="Z czasem będzie tu dodawane więcej opcji")
+    label_informacja.pack()
 
 
 def otworz_okno_zapisy():

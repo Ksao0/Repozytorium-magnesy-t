@@ -66,7 +66,7 @@ def oblicz_zyski():
     cena_za_pakiet = cena_za_magnes * 224
     razem = cena_za_pakiet * liczba_pakietow
 
-    tektura = 12 * liczba_pakietow
+    tektura = 13 * liczba_pakietow
     nadruk = 35 * liczba_pakietow
     foliamg = 18 * liczba_pakietow
     woreczkipp = 11 * liczba_pakietow

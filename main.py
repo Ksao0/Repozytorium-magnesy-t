@@ -113,13 +113,13 @@ def oblicz_zyski():
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
 response = requests.get(url)
 
-version_online = response.content.decode('utf-8').strip()  # ręczne dekodowanie
+version_online = response.content.decode('utf-8').strip()
 
 # odczytaj zawartość pliku version.txt w twoim programie
 path = os.path.join(os.getcwd(), "version.txt")
 if os.path.exists(path):
     with open(path, "r", encoding="utf-8") as f:
-        version_local = f.readline().strip()
+        version_local = f.read().strip()
 else:
     version_local = "BRAK DANYCH"
 

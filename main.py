@@ -8,6 +8,7 @@ import subprocess
 
 print('Nie zamykaj tego okna')
 
+
 def aktul():
     os.system('cls')
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
@@ -113,7 +114,7 @@ zapis_do_pliku = tk.BooleanVar()
 zapis_do_pliku.set(True)
 
 
-def otworz_okno():
+def otworz_okno_zapisy():
     with open("Zapisy.txt", "r", encoding='utf-8') as plik:
         zawartosc = plik.read()
 
@@ -160,7 +161,7 @@ checkbox_zapis.pack()
 
 # Przycisk otwierajacy drugie okno o nazwie historia
 button_historia = tk.Button(
-    frame_przyciski, text="Historia", command=otworz_okno)
+    frame_przyciski, text="Historia", command=otworz_okno_zapisy)
 button_historia.pack(side=tk.LEFT)
 
 # Przycisk aktul

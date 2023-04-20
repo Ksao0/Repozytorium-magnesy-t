@@ -5,6 +5,7 @@ from tkinter import scrolledtext
 import datetime
 import urllib.request
 import subprocess
+import requests
 
 print('Nie zamykaj tego okna')
 
@@ -107,14 +108,32 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 
-# zapisz zawartość pliku zapisy.txt do zmiennej
+# pobierz zawartość pliku version.txt z repozytorium na GitHub
+url = 'https://raw.githubusercontent.com/NazwaTwojegoRepozytorium/version.txt'
+response = requests.get(url)
+version_online = response.text.strip()
 
+# odczytaj zawartość pliku version.txt w twoim programie
 path = os.path.join(os.getcwd(), "version.txt")
 if os.path.exists(path):
     with open(path, "r", encoding="utf-8") as f:
-        wersja = f.readline().split("(")[0]
+        version_local = f.readline().split("(")[0]
 else:
-    wersja = "BRAK DANYCH"
+    version_local = "BRAK DANYCH"
+
+# porównaj wersje
+if version_local != "BRAK DANYCH":
+    if version_online != version_local:
+        print('Dostępna jest nowa wersja programu.')
+        wersja = "DOSTĘPNA AKTUALIZACJA"
+    else:
+        print('Masz najnowszą wersję programu.')
+else:
+    print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
+
+# zapisz zawartość pliku zapisy.txt do zmiennej
+
+
 
 
 root = tk.Tk()

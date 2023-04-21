@@ -11,9 +11,7 @@ if os.path.exists(path):
 # pobierz plik main.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/main.py"
 urllib.request.urlretrieve(url, path)
-# print("Zastąpiono plik main.py")
-
-# NOWE FUNKCJE
+# print("Zastąpiono plik main.py")
 
 ### Aktualizacja pliku Aktualizator_aktualizatora
 
@@ -31,7 +29,6 @@ urllib.request.urlretrieve(url, path)
 
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
-# KONIEC NOWYCH FUNKCJI
 
 # ścieżka do pliku version.txt w bieżącym folderze
 path = os.path.join(os.getcwd(), "version.txt")

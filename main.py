@@ -124,7 +124,8 @@ else:
     version_local = "BRAK DANYCH"
 
 # porównaj wersje
-print(f'Aktualna wersja: {version_local}')
+print(f'Wersja na komputerze: {version_local}')
+print(f'Wersja w repozytorium: {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
         print('Masz najnowszą wersję programu.')

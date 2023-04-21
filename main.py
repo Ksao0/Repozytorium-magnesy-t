@@ -108,7 +108,7 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 
-
+print('Sprawdzanie dostępności aktualizacji...')
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
 response = requests.get(url)

@@ -7,7 +7,7 @@ import urllib.request
 import subprocess
 import requests
 
-print('Nie zamykaj tego okna')
+print('Nie zamykaj tego okna!')
 
 
 def aktul():
@@ -123,9 +123,14 @@ if os.path.exists(path):
 else:
     version_local = "BRAK DANYCH"
 
+# wyświetl tylko pierwszą linijkę wersji
+version_local_first_line = version_local.split('\n')[0]
+version_online_first_line = version_online.split('\n')[0]
+
 # porównaj wersje
-print(f'Wersja na komputerze: {version_local}')
-print(f'Wersja w repozytorium: {version_online}')
+print(f'\nWersja na komputerze: {version_local_first_line}')
+print(f'Wersja w repozytorium: {version_online_first_line}')
+print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
         print('Masz najnowszą wersję programu.')

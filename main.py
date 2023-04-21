@@ -128,6 +128,10 @@ print(f'Aktualna wersja: {version_local}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
         print('Masz najnowszą wersję programu.')
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.readline().strip()
         wersja = version_local
     else:
         print('Dostępna jest nowa wersja programu.')

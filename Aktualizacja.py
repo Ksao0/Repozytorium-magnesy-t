@@ -29,7 +29,6 @@ urllib.request.urlretrieve(url, path)
 
 ### Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
-
 # ścieżka do pliku version.txt w bieżącym folderze
 path = os.path.join(os.getcwd(), "version.txt")
 
@@ -79,10 +78,7 @@ if os.path.exists(path):
 
 # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
 if not os.path.isfile("Zapisy.txt"):
-    open("Zapisy.txt", "w", encoding='utf-8').close()
-
-
-
+    open("Zapisy.txt", "w", encoding='utf-8').close()
 
 with open("Zapisy.txt", "a", encoding='utf-8') as plik:
     plik.write(

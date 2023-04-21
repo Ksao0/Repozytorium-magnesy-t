@@ -4,12 +4,3 @@ Wydano: 20.04.2023
 
 W tej wersji wprowadzono kilka poprawek, dzięki którym nasza aplikacja będzie działać szybciej i sprawniej.
 Nie musisz się przejmować szczegółami technicznymi - wszystko jest zrobione tak, aby ułatwić korzystanie z aplikacji.
-Wymagane biblioteki:
- os 
- tkinter as tk 
- tkinter import messagebox 
- tkinter import scrolledtext 
- datetime 
- urllib.request 
- subprocess 
- requests

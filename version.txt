@@ -1,4 +1,4 @@
-1.0.0.0.2.11 Wydanie: Alfa
+1.0.0.0.2.11 Wydanie: Beta
 Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
 

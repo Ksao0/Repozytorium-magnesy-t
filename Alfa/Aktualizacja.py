@@ -1,7 +1,28 @@
 import os
 import urllib.request
 import datetime
-print('Jaką wersję programu:\n1: Beta\n2: Alfa')
+import requests
+
+# pobierz zawartość pliku version.txt z repozytorium na GitHub
+url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
+response = requests.get(url)
+
+version_online = response.content.decode('utf-8').strip()
+
+# odczytaj zawartość pliku version.txt w twoim programie
+path = os.path.join(os.getcwd(), "version.txt")
+if os.path.exists(path):
+    with open(path, "r", encoding="utf-8") as f:
+        version_local = f.read().strip()
+else:
+    version_local = "BRAK DANYCH"
+
+# wyświetl tylko pierwszą linijkę wersji
+version_local_first_line = version_local.split('\n')[0]
+version_online_first_line = version_online.split('\n')[0]
+
+print(f'Aktualna wersja: {version_local_first_line}')
+print('Jaką wersję programu chcesz pobrać:\n1: Beta\n2: Alfa')
 
 wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:
@@ -245,4 +266,4 @@ elif wersja_programu == 2:
 
     # KONIEC NOWYCH FUNKCJI
 else:
-    print('Nie ma takiej opcji. Aktualizacja została przerwana.')
+    print('Nie ma takiej opcji.')

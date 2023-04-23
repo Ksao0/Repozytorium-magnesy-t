@@ -13,6 +13,7 @@ import os
  urllib.request.urlretrieve(url, path) 
  # print("Zastąpiono plik main.py") 
   
+
  ### Aktualizacja pliku Aktualizator_aktualizatora 
   
  # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze 

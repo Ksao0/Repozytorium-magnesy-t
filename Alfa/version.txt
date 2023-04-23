@@ -4,3 +4,20 @@ Wydano: 20.04.2023
 
 Jest to wersja alfa naszego programu liczącego. Aktualizacje będą wypuszczane częściej lub wcześniej niż w wersji beta, ale mogą występować drobne błędy.
 W każdej chwili możesz wrócić do stabilniejszej wersji beta.
+Po wybraniu tej wersji zainstaluj wymagane biblioteki:
+ - os
+ - tkinter
+ - messagebox
+ - tkinter
+ - scrolledtext
+ - datetime
+ - urllib
+ - request
+ - subprocess
+ - requests
+ - webbrowser
+Aby to zrobić otwórz terminal cmd i wpisz:
+ pip install (nazwa biblioteki)
+ 
+Na przykład:
+ pip install tkinter

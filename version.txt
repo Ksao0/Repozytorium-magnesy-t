@@ -1,4 +1,5 @@
 1.0.0.0.2.12 Beta
 Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
-Dodaliśmy możliwość przejścia na kanał Alfa naszego programu - w Alfie aktualizacje są wypuszczane częściej niz w Becie, ale czasami mogą wystepować błędy
+Dodaliśmy możliwość przejścia na kanał Alfa naszego programu - w Alfie aktualizacje są wypuszczane częściej niz w Becie,
+czasami mogą wystepować błędy

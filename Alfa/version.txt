@@ -2,4 +2,5 @@
 Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
 
-Jest to wersja alfa naszego programu liczącego. Aktualizacje będą wypuszczane częściej lub wcześniej niż w wersji beta, ale mogą występować drobne błędy. W każdej chwili możesz wrócić do stabilniejszej wersji beta.
+Jest to wersja alfa naszego programu liczącego. Aktualizacje będą wypuszczane częściej lub wcześniej niż w wersji beta, ale mogą występować drobne błędy.
+W każdej chwili możesz wrócić do stabilniejszej wersji beta.

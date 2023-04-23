@@ -6,6 +6,7 @@ import datetime
 import urllib.request
 import subprocess
 import requests
+import webbrowser
 
 print('Nie zamykaj tego okna!')
 
@@ -27,6 +28,11 @@ def aktul():
     subprocess.run(Aktualizacja)
     print('Zakończono aktualizację! ')
     print('Uruchom program ponownie, aby wprowadzić zmiany')
+
+
+def Blad():
+    url = "https://github.com/ksao0/repozytorium-magnesy-t/issues"
+    webbrowser.open(url)
 
 
 def oblicz_zyski():
@@ -165,7 +171,13 @@ def otworz_okno_wybor():
                        command=aktul)
     button.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Z czasem będzie tu dodawane więcej opcji")
+        okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
+    label_informacja.pack()
+    button_blad = tk.Button(okno_wyborowe, text="Zgłoś błąd",
+                       command=Blad)
+    button_blad.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Po wybraniu tej opcji:\nWybierz zielony przycisk 'New Issue' (przeglądarka)\n i opisz błąd, który wystąpił lub swoją propozycję")
     label_informacja.pack()
 
 

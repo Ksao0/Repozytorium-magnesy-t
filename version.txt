@@ -3,3 +3,5 @@ Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
 Dodaliśmy możliwość przejścia na kanał Alfa naszego programu - w Alfie aktualizacje są wypuszczane częściej niz w Becie,
 czasami mogą wystepować błędy
+Co to dla was oznacza?
+Więcej funkcji oraz lepszy kontakt z użytkownikami!

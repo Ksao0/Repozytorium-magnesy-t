@@ -245,4 +245,4 @@ elif wersja_programu == 2:
 
     # KONIEC NOWYCH FUNKCJI
 else:
-    print('Nie ma takiej opcji.')
+    print('Nie ma takiej opcji. Aktualizacja została przerwana.')

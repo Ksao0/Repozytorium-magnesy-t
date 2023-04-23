@@ -158,7 +158,7 @@ zapis_do_pliku.set(True)
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("300x200+800+0")
+    okno_wyborowe.geometry("350x250+800+0")
     okno_wyborowe.grab_set()
 
     # Dodanie przycisku do nowego okna

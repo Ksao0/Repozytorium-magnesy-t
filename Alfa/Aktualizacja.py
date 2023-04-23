@@ -232,7 +232,7 @@ elif wersja_programu == 2:
         plik.write(stara_zapisy)
 
     print(f"Stara wersja: {stara_version}\n")
-    print(f"Nowa wersja: {nowa_version}\n\n")
+    print(f"Nowa wersja: {nowa_version}")
 
     # NOWE FUNKCJE
 

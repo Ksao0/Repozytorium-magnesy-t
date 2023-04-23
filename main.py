@@ -133,7 +133,7 @@ print(f'Wersja w repozytorium: {version_online_first_line}')
 print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
-        print('Masz najnowszą wersję programu.')
+        print('Masz najnowszą wersję Beta programu.')
         path = os.path.join(os.getcwd(), "version.txt")
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:

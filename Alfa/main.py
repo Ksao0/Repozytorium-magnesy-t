@@ -6,7 +6,6 @@ import datetime
 import urllib.request
 import subprocess
 import requests
-import webbrowser
 
 print('Nie zamykaj tego okna!')
 

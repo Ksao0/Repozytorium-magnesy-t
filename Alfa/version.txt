@@ -15,7 +15,6 @@ Po wybraniu tej wersji zainstaluj wymagane biblioteki:
  - request
  - subprocess
  - requests
- - webbrowser
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)
  

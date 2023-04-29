@@ -90,7 +90,7 @@ if Obecnosc_local == Obecnosc_online:
     aktul_Obecnosc = 0
 else:
     aktul_Obecnosc = 1
-    print(f'Plik Obecnosc.py jest nieaktualny lub uszkodzony.')
+    print(f'Plik Obecnosc.py jest nieaktualny lub uszkodzony\n   Wykonuj czynności związane z naprawą dwa razy. Jeżeli błąd nadal będzie występował:\n      Wybierz opcję 2 przy pytaniu o automatyczną naprawę i zastosuj się do poleceń')
 
 # pobierz zawartość pliku main.py z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/main.py'
@@ -136,12 +136,20 @@ def aktul():
 def naprawa():
     naprawa = int(input("Wybór: "))
     if naprawa == 1:
+        if aktul_Obecnosc == 1:
+            print(f'Plik Obecnosc.py jest nieaktualny lub uszkodzony\n   Wykonuj czynności związane z naprawą dwa razy. Jeżeli błąd nadal będzie występował:\n      Wybierz opcję 2 przy pytaniu o automatyczną naprawę i zastosuj się do poleceń')
         aktul()
     elif naprawa == 2:
-        print('Program może działać nieprawidłowo. Możesz wykonać te czynności (dostosowano do możliwości):')
-        if aktul_Aktualizator_aktualizatora == 0:
-          print('   Zaktualizować go do najnowszej wersji, jeżeli jeszcze tego nie zrobiono')
-        print('   Ponownie sprawdzić zgodność plików i wybrać opcję naprawy')
+        if aktul_Aktualizator_aktualizatora == 1 and aktul_Aktualizacja == 1 and aktul_Obecnosc == 1:
+            print('Wykryto błąd krytyczny! Musisz wykonać te czynności:')
+            print('Usuń plik Aktualizator_aktualizatora.py, utwórz plik o tej samej nazwie (Aktualizator_aktualizatora.py)\nNastępnie wklej do niego zawartość tego linku i uruchom ten plik:\nhttps://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py')
+        else:
+            print(
+                'Program może działać nieprawidłowo. Możesz wykonać te czynności (dostosowano do możliwości):')
+            if aktul_Aktualizator_aktualizatora == 0:
+                print(
+                    '   Zaktualizować go do najnowszej wersji, jeżeli jeszcze tego nie zrobiono')
+            print('   Ponownie sprawdzić zgodność plików i wybrać opcję naprawy')
     else:
         print('Nie ma takiej opcji')
         naprawa()

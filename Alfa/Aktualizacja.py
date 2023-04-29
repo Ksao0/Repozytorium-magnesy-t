@@ -26,12 +26,23 @@ print('Jaką wersję programu chcesz pobrać:\n1: Beta\n2: Alfa')
 
 wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:
+    # ścieżka do pliku Obecnosc.py w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Obecnosc.py")
+
+    # usuń plik Obecnosc.py, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 
     # usuń plik main.py, jeśli istnieje
     if os.path.exists(path):
         os.remove(path)
+        
+        
+
+    
     # print("Usunięto plik main.py")
     # pobierz plik main.py z repozytorium
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/main.py"

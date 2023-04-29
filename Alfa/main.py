@@ -182,67 +182,65 @@ def otworz_okno_wybor():
     label_informacja = tk.Label(
         okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
     label_informacja.pack()
-        okno_wyborowe, text="Z czasem będzie tu więcej opcji")
-    label_informacja.pack()
-
 
 def otworz_okno_zapisy():
-    with open("Zapisy.txt", "r", encoding='utf-8') as plik:
-        zawartosc = plik.read()
+    with open("Zapisy.txt", "r", encoding = 'utf-8') as plik:
+        zawartosc=plik.read()
 
     # Tworzenie nowego okna
-    okno = tk.Toplevel()
+    okno=tk.Toplevel()
     okno.title("Historia")
     okno.geometry("800x900")
 
     # Dodanie elementu ScrolledText
-    pole_tekstowe = scrolledtext.ScrolledText(okno, wrap=tk.WORD)
-    pole_tekstowe.pack(expand=True, fill=tk.BOTH)
+    pole_tekstowe=scrolledtext.ScrolledText(okno, wrap = tk.WORD)
+    pole_tekstowe.pack(expand = True, fill = tk.BOTH)
 
     # Wstawienie zawartości pliku do elementu ScrolledText
     pole_tekstowe.insert(tk.END, zawartosc)
 
 
 # Dodanie etykiet i pól tekstowych
-label_pakietow = tk.Label(root, text="Liczba pakietów:")
+label_pakietow=tk.Label(root, text = "Liczba pakietów:")
 label_pakietow.pack()
-entry_pakietow = tk.Entry(root)
+entry_pakietow=tk.Entry(root)
 entry_pakietow.pack()
 
-label_ceny = tk.Label(root, text="Cena za magnes:")
+label_ceny=tk.Label(root, text = "Cena za magnes:")
 label_ceny.pack()
-entry_ceny = tk.Entry(root)
+entry_ceny=tk.Entry(root)
 entry_ceny.pack()
 
 
-pustka = tk.Label()
+pustka=tk.Label()
 pustka.pack()
 
 
 # Dodanie kontenera typu Frame
-frame_przyciski = tk.Frame(root)
+frame_przyciski=tk.Frame(root)
 frame_przyciski.pack()
 
 # Dodanie przycisków do kontenera
-button_oblicz = tk.Button(frame_przyciski, text="Oblicz", command=oblicz_zyski)
-button_oblicz.pack(side=tk.LEFT)
+button_oblicz=tk.Button(
+    frame_przyciski, text = "Oblicz", command = oblicz_zyski)
+button_oblicz.pack(side = tk.LEFT)
 
-checkbox_zapis = tk.Checkbutton(
-    root, text="Zapisz wyniki do pliku", variable=zapis_do_pliku)
+checkbox_zapis=tk.Checkbutton(
+    root, text = "Zapisz wyniki do pliku", variable = zapis_do_pliku)
 checkbox_zapis.pack()
 
 # Przycisk otwierajacy drugie okno o nazwie historia
-button_historia = tk.Button(
-    frame_przyciski, text="Historia", command=otworz_okno_zapisy)
-button_historia.pack(side=tk.LEFT)
+button_historia=tk.Button(
+    frame_przyciski, text = "Historia", command = otworz_okno_zapisy)
+button_historia.pack(side = tk.LEFT)
 
 # Przycisk więcej opcji
-button_aktul = tk.Button(
-    frame_przyciski, text="Więcej opcji", command=otworz_okno_wybor)
-button_aktul.pack(side=tk.LEFT)
+button_aktul=tk.Button(
+    frame_przyciski, text = "Więcej opcji", command = otworz_okno_wybor)
+button_aktul.pack(side = tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
-label_wyniki = tk.Label(root, text="", justify="left")
+label_wyniki=tk.Label(root, text = "", justify = "left")
 label_wyniki.pack()
 
 root.mainloop()

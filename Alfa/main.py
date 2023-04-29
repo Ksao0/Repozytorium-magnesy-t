@@ -29,8 +29,6 @@ def aktul():
     print('Uruchom program ponownie, aby wprowadzić zmiany')
 
 
-
-
 def oblicz_zyski():
 
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
@@ -184,7 +182,6 @@ def otworz_okno_wybor():
     label_informacja = tk.Label(
         okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
     label_informacja.pack()
-
 
 
 def otworz_okno_zapisy():

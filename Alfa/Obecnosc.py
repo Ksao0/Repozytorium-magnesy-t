@@ -7,6 +7,8 @@ import urllib.request
 import subprocess
 import requests
 
+print('Sprawdzanie zgodności...')
+print('Wyniki:')
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
 response = requests.get(url)
@@ -28,27 +30,6 @@ else:
     aktul_wersja = 1
     print(f'Plik version.txt jest nieaktualny lub uszkodzony.')
 
-
-# pobierz zawartość pliku Aktualizacja.py z repozytorium na GitHub
-url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizacja.py'
-response = requests.get(url)
-
-Aktualizacja_online = response.content.decode('utf-8').strip()
-
-# odczytaj zawartość pliku Aktualizacja.py w twoim programie
-path = os.path.join(os.getcwd(), "Aktualizacja.py")
-if os.path.exists(path):
-    with open(path, "r", encoding="utf-8") as f:
-        Aktualizacja_local = f.read().strip()
-else:
-    Aktualizacja_local = "BRAK DANYCH"
-
-# porównaj wersje
-if Aktualizacja_local == Aktualizacja_online:
-    aktul_Aktualizacja = 0
-else:
-    aktul_Aktualizacja = 1
-    print(f'Plik Aktualizacja.py jest nieaktualny lub uszkodzony (aktualizacja możliwa).')
 
 # pobierz zawartość pliku Aktualizator_aktualizatora.py z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py'
@@ -140,7 +121,7 @@ def naprawa():
             print(f'Plik Obecnosc.py jest nieaktualny lub uszkodzony\n   Wykonuj czynności związane z naprawą dwa razy. Jeżeli błąd nadal będzie występował:\n      Wybierz opcję 2 przy pytaniu o automatyczną naprawę i zastosuj się do poleceń')
         aktul()
     elif naprawa == 2:
-        if aktul_Aktualizator_aktualizatora == 1 and aktul_Aktualizacja == 1 and aktul_Obecnosc == 1:
+        if aktul_Aktualizator_aktualizatora == 1 and aktul_Obecnosc == 1:
             print('Wykryto błąd krytyczny! Musisz wykonać te czynności:')
             print('Usuń plik Aktualizator_aktualizatora.py, utwórz plik o tej samej nazwie (Aktualizator_aktualizatora.py)\nNastępnie wklej do niego zawartość tego linku i uruchom ten plik:\nhttps://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py')
         else:
@@ -155,7 +136,7 @@ def naprawa():
         naprawa()
 
 
-if not aktul_Obecnosc == 0 or aktul_Aktualizacja == 0 or aktul_Aktualizator_aktualizatora == 0 or aktul_main == 0:
+if not aktul_Obecnosc == 0 or aktul_Aktualizator_aktualizatora == 0 or aktul_main == 0:
     print('Naprawić błąd? (żadne twoje dane nie zostaną usunęte)\n1: Tak\n2: Nie')
     naprawa()
 else:

@@ -156,8 +156,23 @@ if version_local != "BRAK DANYCH":
                 version_local = f.readline().strip()
         wersja = version_local
     else:
-        print('Dostępna jest nowa wersja programu.')
-        wersja = "DOSTĘPNA AKTUALIZACJA"
+        if version_local_first_line == version_online_first_line:
+            print('Masz najnowszą wersję programu.')
+            wersja = version_local
+            # ścieżka do pliku version.txt w bieżącym folderze
+            path = os.path.join(os.getcwd(), "version.txt")
+
+            # usuń plik version.txt, jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
+            # print("Usunięto plik version.txt")
+
+            # pobierz plik version.txt z repozytorium i utwórz go
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt"
+            urllib.request.urlretrieve(url, path)
+        else:
+            print('Dostępna jest nowa wersja programu.')
+            wersja = "DOSTĘPNA AKTUALIZACJA"
 else:
     print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
     wersja = "ZAKTUALIZUJ PROGRAM"
@@ -189,6 +204,7 @@ def otworz_okno_wybor():
     label_informacja = tk.Label(
         okno_wyborowe, text="Sprawdzanie czy wszystkie pliki są zgodne z najnowszą wersją\n(nie zostaną od razu zaktualizowane)")
     label_informacja.pack()
+
 
 def otworz_okno_zapisy():
     with open("Zapisy.txt", "r", encoding='utf-8') as plik:

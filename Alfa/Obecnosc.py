@@ -154,6 +154,6 @@ def naprawa():
         print('Nie ma takiej opcji')
         naprawa()
 
-
-print('Naprawić błąd? (żadne twoje dane nie zostaną usunęte)\n1: Tak\n2: Nie')
-naprawa()
+if aktul_wersja == 0 and (aktul_Obecnosc or aktul_Aktualizacja or aktul_Aktualizator_aktualizatora or aktul_main):
+    print('Naprawić błąd? (żadne twoje dane nie zostaną usunęte)\n1: Tak\n2: Nie')
+    naprawa()

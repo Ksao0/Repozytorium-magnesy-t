@@ -29,6 +29,18 @@ def aktul():
     print('Uruchom program ponownie, aby wprowadzić zmiany')
 
 
+def wykasuj_zapisy():
+
+    # Ścieżka do pliku Zapisy.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Zapisy.txt")
+
+    # Usuń plik Zapisy.txt, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+        with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
+            file.write('To jest przykładowy tekst zapisany w pliku "tak.txt"')
+
+
 def oblicz_zyski():
 
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
@@ -181,6 +193,12 @@ def otworz_okno_wybor():
     button.pack()
     label_informacja = tk.Label(
         okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
+    label_informacja.pack()
+    button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
+                                      command=wykasuj_zapisy)
+    button_wykasuj_zapisy.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
     label_informacja.pack()
 
 

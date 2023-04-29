@@ -29,22 +29,6 @@ def aktul():
     print('Uruchom program ponownie, aby wprowadzić zmiany')
 
 
-def sprawdzanie_obecnosci():
-    os.system('cls')
-    # Ścieżka do pliku Obecnosc.py w bieżącym folderze
-    path = os.path.join(os.getcwd(), "Obecnosc.py")
-
-    # Usuń plik Obecnosc.py, jeśli istnieje
-    if os.path.exists(path):
-        os.remove(path)
-    # Pobierz plik Obecnosc.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Obecnosc.py"
-    urllib.request.urlretrieve(url, path)
-    print('Sprawdzanie zgodności...')
-    Obecnosc = ["python", "Obecnosc.py"]
-    subprocess.run(Obecnosc)
-
-
 def oblicz_zyski():
 
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
@@ -198,11 +182,7 @@ def otworz_okno_wybor():
     label_informacja = tk.Label(
         okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
     label_informacja.pack()
-    button_obecnosci = tk.Button(okno_wyborowe, text="Sprawdz zgodność plików",
-                                 command=sprawdzanie_obecnosci)
-    button_obecnosci.pack()
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Sprawdzanie czy wszystkie pliki są zgodne z najnowszą wersją\n(nie zostaną od razu zaktualizowane)")
+        okno_wyborowe, text="Z czasem będzie tu więcej opcji")
     label_informacja.pack()
 
 

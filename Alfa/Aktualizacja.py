@@ -158,6 +158,20 @@ elif wersja_programu == 2:
     urllib.request.urlretrieve(url, path)
     # print("Zastąpiono plik main.py")
 
+
+    # ścieżka do pliku Obecnosc.py w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Obecnosc.py")
+
+    # usuń plik Obecnosc.py, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+    # print("Usunięto plik Obecnosc.py")
+    # pobierz plik Obecnosc.py z repozytorium
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Obecnosc.py"
+    urllib.request.urlretrieve(url, path)
+    # print("Zastąpiono plik Obecnosc.py")
+
+
     # Aktualizacja pliku Aktualizator_aktualizatora
 
     # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze

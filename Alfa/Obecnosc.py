@@ -154,20 +154,21 @@ def naprawa():
         print('Nie ma takiej opcji')
         naprawa()
 
-if  not aktul_Obecnosc = 0 or aktul_Aktualizacja = 0 or aktul_Aktualizator_aktualizatora = 0 or aktul_main = 0:
+
+if not aktul_Obecnosc == 0 or aktul_Aktualizacja == 0 or aktul_Aktualizator_aktualizatora == 0 or aktul_main == 0:
     print('Naprawić błąd? (żadne twoje dane nie zostaną usunęte)\n1: Tak\n2: Nie')
     naprawa()
 else:
     print('Nie wykryto błędów')
-    
+
     # ścieżka do pliku version.txt w bieżącym folderze
     path = os.path.join(os.getcwd(), "version.txt")
-    
+
     # usuń plik version.txt, jeśli istnieje
     if os.path.exists(path):
         os.remove(path)
     # print("Usunięto plik version.txt")
-    
+
     # pobierz plik version.txt z repozytorium i utwórz go
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt"
     urllib.request.urlretrieve(url, path)

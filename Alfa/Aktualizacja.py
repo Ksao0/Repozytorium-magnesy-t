@@ -26,6 +26,7 @@ print('Jaką wersję programu chcesz pobrać:\n1: Beta\n2: Alfa')
 
 wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:
+
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 

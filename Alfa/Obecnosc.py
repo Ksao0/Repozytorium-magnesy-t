@@ -146,7 +146,7 @@ def naprawa():
         else:
             print(
                 'Program może działać nieprawidłowo. Możesz wykonać te czynności (dostosowano do możliwości):')
-            if aktul_Aktualizator_aktualizatora == 0:
+            if aktul_Aktualizator_aktualizatora == 0 and aktul_main == 0:
                 print(
                     '   Zaktualizować go do najnowszej wersji, jeżeli jeszcze tego nie zrobiono')
             print('   Ponownie sprawdzić zgodność plików i wybrać opcję naprawy')

@@ -38,7 +38,7 @@ def wykasuj_zapisy():
     if os.path.exists(path):
         os.remove(path)
         with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
-            file.write('To jest przykładowy tekst zapisany w pliku "tak.txt"')
+            file.write('')
 
 
 def oblicz_zyski():

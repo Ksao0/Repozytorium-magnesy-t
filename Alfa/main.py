@@ -43,7 +43,7 @@ def wykasuj_zapisy():
 def edycja_kosztow():
     okno_zmiany = tk.Toplevel()
     okno_zmiany.title("Zmiana kosztów")
-    okno_zmiany.geometry("370x290+800+300")
+    okno_zmiany.geometry("370x300+800+290")
     okno_zmiany.grab_set()
 
     def edycja_kosztow_wczytaj():
@@ -58,7 +58,7 @@ def edycja_kosztow():
             os.remove(path)
 
         with open("Ceny.txt", "a", encoding='utf-8') as plik:
-            plik.write(ceny_tektura,)
+            plik.write(ceny_tektura)
             plik.write('\n')
             plik.write(ceny_nadruk)
             plik.write('\n')
@@ -68,9 +68,41 @@ def edycja_kosztow():
         if not os.path.isfile("Ceny.txt"):
             open("Ceny.txt", "w", encoding='utf-8').close()
             plik.write(ceny_tektura)
+            plik.write('\n')
             plik.write(ceny_nadruk)
+            plik.write('\n')
             plik.write(ceny_foliamg)
+            plik.write('\n')
             plik.write(ceny_woreczkipp)
+
+    def edycja_kosztow_domyslna():
+        ceny_tektura = str(entry_cena_tektura.get())
+        ceny_nadruk = str(entry_cena_nadruk.get())
+        ceny_foliamg = str(entry_cena_foliamg.get())
+        ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        if os.path.exists(path):
+            os.remove(path)
+
+        with open("Ceny.txt", "a", encoding='utf-8') as plik:
+            plik.write('13')
+            plik.write('\n')
+            plik.write('35')
+            plik.write('\n')
+            plik.write('18')
+            plik.write('\n')
+            plik.write('11')
+        if not os.path.isfile("Ceny.txt"):
+            open("Ceny.txt", "w", encoding='utf-8').close()
+            plik.write('13')
+            plik.write('\n')
+            plik.write('35')
+            plik.write('\n')
+            plik.write('18')
+            plik.write('\n')
+            plik.write('11')
 
     # ścieżka do pliku Ceny.txt w bieżącym folderze
     path = os.path.join(os.getcwd(), "Ceny.txt")
@@ -126,12 +158,19 @@ def edycja_kosztow():
     entry_cena_woreczkipp = tk.Entry(okno_zmiany)
     entry_cena_woreczkipp.pack()
 
-    pustka = tk.Label()
+    pustka = tk.Label(okno_zmiany)
     pustka.pack()
 
+    edycja = tk.Frame(okno_zmiany)
+    edycja.pack()
+
     button_zmien = tk.Button(
-        okno_zmiany, text="Zapisz zmiany", command=edycja_kosztow_wczytaj)
-    button_zmien.pack()
+        edycja, text="Zapisz zmiany", command=edycja_kosztow_wczytaj)
+    button_zmien.pack(side=tk.LEFT)
+
+    button_zmien_domyslne = tk.Button(
+        edycja, text="Wczytaj domyślne", command=edycja_kosztow_domyslna)
+    button_zmien_domyslne.pack(side=tk.RIGHT)
 
 
 def oblicz_zyski():

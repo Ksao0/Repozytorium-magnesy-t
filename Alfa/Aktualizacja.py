@@ -22,7 +22,7 @@ version_local_first_line = version_local.split('\n')[0]
 version_online_first_line = version_online.split('\n')[0]
 
 print(f'Aktualna wersja: {version_local_first_line}')
-print('Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n   Wersja zawierająca sprawdzone rozwiązania\n2: Wersja wstępna\n   Wersja z nowymi, nie ukazywanymi  wcześniej rozwiązaniami\n3: Więcej informacji o wersji wetępnej (ta opcja anuluje aktualizację)')
+print('Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n   Wersja zawierająca sprawdzone rozwiązania\n2: Wersja wstępna\nWersja z nowymi, nie ukazywanymi  wcześniej rozwiązaniami\n3: Więcej informacji o wersji wetępnej (ta opcja anuluje aktualizację)')
 
 wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:
@@ -267,5 +267,7 @@ elif wersja_programu == 2:
     # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
     # KONIEC NOWYCH FUNKCJI
+elif wersja_programu == 3:
+    print('Wersja wstępna to specjalna wersja naszej aplikacji, w której eksperymentujemy z nowymi funkcjami i rozwiązaniami. Jest ona oddzielona od wersji głównej, aby nie zakłócać pracy użytkownikom i umożliwić nam sprawne testowanie.\nWersja ta może czasem zawierać błędy, ale staramy się je szybko naprawiać. ')
 else:
     print('Nie ma takiej opcji.')

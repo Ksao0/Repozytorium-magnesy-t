@@ -8,6 +8,7 @@ import subprocess
 import requests
 
 print('Nie zamykaj tego okna!')
+print('Wykonywanie czynności początkowych...')
 
 
 def aktul():
@@ -321,6 +322,7 @@ else:
     print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
     wersja = "ZAKTUALIZUJ PROGRAM"
 
+
 root = tk.Tk()
 root.title(f"Kalkulator zysków ver. {wersja}")
 root.geometry("410x350")
@@ -348,9 +350,11 @@ def otworz_okno_wybor():
     label_informacja = tk.Label(
         okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
     label_informacja.pack()
+
     button_zmiana_danych = tk.Button(
         okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
     button_zmiana_danych.pack()
+
     label_informacja = tk.Label(
         okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej linii")
     label_informacja.pack()
@@ -407,9 +411,9 @@ button_historia = tk.Button(
 button_historia.pack(side=tk.LEFT)
 
 # Przycisk więcej opcji
-button_aktul = tk.Button(
+button_wiecej = tk.Button(
     frame_przyciski, text="Więcej opcji", command=otworz_okno_wybor)
-button_aktul.pack(side=tk.LEFT)
+button_wiecej.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
 label_wyniki = tk.Label(root, text="", justify="left")

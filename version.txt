@@ -1,10 +1,7 @@
-1.0.0.0.2.13 Beta
+1.0.0.0.2.12 Beta
 Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
 Dodaliśmy możliwość przejścia na kanał Alfa naszego programu - w Alfie aktualizacje są wypuszczane częściej niz w Becie,
 czasami mogą wystepować błędy
 Co to dla Was oznacza?
 Więcej funkcji oraz lepszy kontakt z użytkownikami!
-Zmiany względem poprzzedniej wersji wstępneej:
- - Poprawki błędów
- - Możliwość usunięcia informacji o poprzednich obliczeniach

@@ -12,6 +12,7 @@ print('Nie zamykaj tego okna!')
 
 def aktul():
     os.system('cls')
+    print(' - import os\n - import tkinter as tk\n - from tkinter import messagebox\n - from tkinter import scrolledtext\n - import datetime\n - import urllib.request\n - import subprocess\n - import requests')
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 

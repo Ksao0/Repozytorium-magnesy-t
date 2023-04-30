@@ -30,7 +30,6 @@ def aktul():
 
 
 def wykasuj_zapisy():
-
     # Ścieżka do pliku Zapisy.txt w bieżącym folderze
     path = os.path.join(os.getcwd(), "Zapisy.txt")
 
@@ -39,6 +38,100 @@ def wykasuj_zapisy():
         os.remove(path)
         with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
             file.write('')
+
+
+def edycja_kosztow():
+    okno_zmiany = tk.Toplevel()
+    okno_zmiany.title("Zmiana kosztów")
+    okno_zmiany.geometry("370x290+800+300")
+    okno_zmiany.grab_set()
+
+    def edycja_kosztow_wczytaj():
+        ceny_tektura = str(entry_cena_tektura.get())
+        ceny_nadruk = str(entry_cena_nadruk.get())
+        ceny_foliamg = str(entry_cena_foliamg.get())
+        ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        if os.path.exists(path):
+            os.remove(path)
+
+        with open("Ceny.txt", "a", encoding='utf-8') as plik:
+            plik.write(ceny_tektura,)
+            plik.write('\n')
+            plik.write(ceny_nadruk)
+            plik.write('\n')
+            plik.write(ceny_foliamg)
+            plik.write('\n')
+            plik.write(ceny_woreczkipp)
+        if not os.path.isfile("Ceny.txt"):
+            open("Ceny.txt", "w", encoding='utf-8').close()
+            plik.write(ceny_tektura)
+            plik.write(ceny_nadruk)
+            plik.write(ceny_foliamg)
+            plik.write(ceny_woreczkipp)
+
+    # ścieżka do pliku Ceny.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Ceny.txt")
+
+    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+    if os.path.exists(path):
+        with open(path, "r", encoding='utf-8') as f:
+            teraz_ceny = f.read()
+        if not os.path.isfile("Ceny.txt"):
+            open("Ceny.txt", "w", encoding='utf-8').close()
+            f.write('13')
+            f.write('35')
+            f.write('18')
+            f.write('11')
+    else:
+        teraz_ceny = "13\n35\n18\n11"
+
+    ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+    ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+    ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+    ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+
+    label_tektura = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za tekturę: {ceny_tektura}zł,    Domyślna: 13,00zł".rjust(50))
+    label_tektura.pack()
+    label_nadruk = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za nadruk: {ceny_nadruk}zł,    Domyślna: 35,00zł".rjust(50))
+    label_nadruk.pack()
+    label_foliamg = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za folię: {ceny_foliamg}zł,    Domyślna: 18,00zł".rjust(50))
+    label_foliamg.pack()
+    label_woreczkipp = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za woreczki: {ceny_woreczkipp}zł,    Domyślna: 11,00zł".rjust(50))
+    label_woreczkipp.pack()
+
+    label_cena_tektura = tk.Label(okno_zmiany, text="Zmiana ceny tektury:")
+    label_cena_tektura.pack()
+    entry_cena_tektura = tk.Entry(okno_zmiany)
+    entry_cena_tektura.pack()
+
+    label_cena_nadruk = tk.Label(okno_zmiany, text="Zmiana ceny nadruk:")
+    label_cena_nadruk.pack()
+    entry_cena_nadruk = tk.Entry(okno_zmiany)
+    entry_cena_nadruk.pack()
+
+    label_cena_foliamg = tk.Label(okno_zmiany, text="Zmiana ceny folia:")
+    label_cena_foliamg.pack()
+    entry_cena_foliamg = tk.Entry(okno_zmiany)
+    entry_cena_foliamg.pack()
+
+    label_cena_woreczkipp = tk.Label(okno_zmiany, text="Zmiana ceny woreczki:")
+    label_cena_woreczkipp.pack()
+    entry_cena_woreczkipp = tk.Entry(okno_zmiany)
+    entry_cena_woreczkipp.pack()
+
+    pustka = tk.Label()
+    pustka.pack()
+
+    button_zmien = tk.Button(
+        okno_zmiany, text="Zapisz zmiany", command=edycja_kosztow_wczytaj)
+    button_zmien.pack()
 
 
 def oblicz_zyski():
@@ -76,14 +169,30 @@ def oblicz_zyski():
     data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
 
     # Liczenie kosztów
+
+    # # Pobieranie kosztów z pliku
+    path = os.path.join(os.getcwd(), "Ceny.txt")
+
+    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+    if os.path.exists(path):
+        with open(path, "r", encoding='utf-8') as f:
+            teraz_ceny = f.read()
+    else:
+        teraz_ceny = "13\n35\n18\n11"
+
+    ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+    ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+    ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+    ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+
     magnesy_w_pakiecie = liczba_pakietow * 224
     cena_za_pakiet = cena_za_magnes * 224
     razem = cena_za_pakiet * liczba_pakietow
 
-    tektura = 13 * liczba_pakietow
-    nadruk = 35 * liczba_pakietow
-    foliamg = 18 * liczba_pakietow
-    woreczkipp = 11 * liczba_pakietow
+    tektura = ceny_tektura * liczba_pakietow
+    nadruk = ceny_nadruk * liczba_pakietow
+    foliamg = ceny_foliamg * liczba_pakietow
+    woreczkipp = ceny_woreczkipp * liczba_pakietow
 
     koszty = tektura + nadruk + foliamg + woreczkipp
     bilans = razem - koszty
@@ -184,7 +293,7 @@ zapis_do_pliku.set(True)
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("350x250+800+0")
+    okno_wyborowe.geometry("370x250+800+0")
     okno_wyborowe.grab_set()
 
     # Dodanie przycisku do nowego okna
@@ -199,6 +308,12 @@ def otworz_okno_wybor():
     button_wykasuj_zapisy.pack()
     label_informacja = tk.Label(
         okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
+    label_informacja.pack()
+    button_zmiana_danych = tk.Button(
+        okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
+    button_zmiana_danych.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej linii")
     label_informacja.pack()
 
 

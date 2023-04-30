@@ -25,8 +25,8 @@ def aktul():
     print('Aktualizowanie...')
     Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
     subprocess.run(Aktualizacja)
-    print('Zakończono aktualizację! ')
-    print('Uruchom program ponownie, aby wprowadzić zmiany')
+    print('Zakończono! ')
+    print('Uruchom program ponownie, aby wprowadzić ewentualne zmiany')
 
 
 def wykasuj_zapisy():

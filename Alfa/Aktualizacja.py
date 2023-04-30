@@ -25,6 +25,7 @@ print(f'Aktualna wersja: {version_local_first_line}')
 print('Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n   Wersja zawierająca sprawdzone rozwiązania\n2: Wersja wstępna\nWersja z nowymi, nie ukazywanymi  wcześniej rozwiązaniami\n3: Więcej informacji o wersji wetępnej (ta opcja anuluje aktualizację)')
 
 wersja_programu = int(input("Podaj wersję programu: "))
+print('\n')
 if wersja_programu == 1:
 
     # ścieżka do pliku main.py w bieżącym folderze

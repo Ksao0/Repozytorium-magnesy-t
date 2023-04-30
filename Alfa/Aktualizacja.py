@@ -22,7 +22,7 @@ version_local_first_line = version_local.split('\n')[0]
 version_online_first_line = version_online.split('\n')[0]
 
 print(f'Aktualna wersja: {version_local_first_line}')
-print('Jaką wersję programu chcesz pobrać:\n1: Beta\n2: Alfa')
+print('Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n2: Wersja wstępna')
 
 wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:

@@ -1,7 +1,7 @@
 import os
 import urllib.request
 import datetime
-print('Jaką wersję programu:\n1: Beta\n2: Alfa')
+print('Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wetępna')
 
 wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:

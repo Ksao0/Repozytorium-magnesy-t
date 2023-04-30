@@ -1,9 +1,9 @@
 import os
 import urllib.request
 import datetime
-print('Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wstępna')
+print('Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wstępna\n')
 
-wersja_programu = int(input("\nPodaj wersję programu: "))
+wersja_programu = int(input("Podaj wersję programu: "))
 if wersja_programu == 1:
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")

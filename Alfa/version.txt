@@ -21,6 +21,6 @@ Aby to zrobić otwórz terminal cmd i wpisz:
 Na przykład:
  pip install tkinter
 
-Zmiany względem poprzzedniej wersji wstępneej:
+Zmiany względem poprzedniej wersji wstępneej:
  - Poprawki błędów
  - Możliwość usunięcia informacji o poprzednich obliczeniach

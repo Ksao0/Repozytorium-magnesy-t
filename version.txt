@@ -1,6 +1,7 @@
 1.0.0.0.2.16 Stabilna
 Zaleca się aktualizowanie programu przed każdym użyciem
 Wydano: 20.04.2023
+Główne zmiany:
 Dodaliśmy możliwość przejścia do wersji wstępnej naszego programu - aktualizacje są w niej wypuszczane częściej,
 czasami mogą wystepować błędy.
 Co to dla Was oznacza?

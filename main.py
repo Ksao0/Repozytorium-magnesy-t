@@ -6,8 +6,10 @@ import datetime
 import urllib.request
 import subprocess
 import requests
+from time import sleep
 
 print('Nie zamykaj tego okna!')
+print('Wykonywanie czynności początkowych...')
 
 
 def aktul():
@@ -19,14 +21,209 @@ def aktul():
     if os.path.exists(path):
         os.remove(path)
     # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
     print('Aktualizowanie...')
     Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
     subprocess.run(Aktualizacja)
-    print('Zakończono aktualizację! ')
-    print('Uruchom program ponownie, aby wprowadzić zmiany')
+    print('Zakończono! ')
+    print('Uruchom program ponownie, aby wprowadzić ewentualne zmiany')
+
+
+def wykasuj_zapisy():
+    # Ścieżka do pliku Zapisy.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Zapisy.txt")
+
+    # Usuń plik Zapisy.txt, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+        with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
+            file.write('')
+
+
+def rozwiaz_problemy():
+    os.system('cls')
+    print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program) zostaną usunięte. Tej operacji nie można cofnąć\nAby zainstalowaać program ponownie: Uruchom plik Aktualizator_aktualizatora.py')
+    input("Naciśnij klawisz Enter, aby potwierdzić operację...")
+    print('Aby anulować wpisz cokolwiek innego:')
+    usuwanie_danych_potwierdzenie = str(
+        input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
+    if usuwanie_danych_potwierdzenie == "USUN01":
+        print('Wszystkie dane zostały usunięte')
+        # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+
+            # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "version.txt")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+
+            # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Aktualizacja.py")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+
+            # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "main.py")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+            sleep(3)
+            exit()
+        
+    else:
+        print('Anulowano')
+
+
+def edycja_kosztow():
+    okno_zmiany = tk.Toplevel()
+    okno_zmiany.title("Zmiana kosztów")
+    okno_zmiany.geometry("370x300+800+290")
+    okno_zmiany.grab_set()
+
+    def edycja_kosztow_wczytaj():
+        ceny_tektura = str(entry_cena_tektura.get())
+        ceny_nadruk = str(entry_cena_nadruk.get())
+        ceny_foliamg = str(entry_cena_foliamg.get())
+        ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        if os.path.exists(path):
+            os.remove(path)
+
+        with open("Ceny.txt", "a", encoding='utf-8') as plik:
+            plik.write(ceny_tektura)
+            plik.write('\n')
+            plik.write(ceny_nadruk)
+            plik.write('\n')
+            plik.write(ceny_foliamg)
+            plik.write('\n')
+            plik.write(ceny_woreczkipp)
+        if not os.path.isfile("Ceny.txt"):
+            open("Ceny.txt", "w", encoding='utf-8').close()
+            plik.write(ceny_tektura)
+            plik.write('\n')
+            plik.write(ceny_nadruk)
+            plik.write('\n')
+            plik.write(ceny_foliamg)
+            plik.write('\n')
+            plik.write(ceny_woreczkipp)
+
+    def edycja_kosztow_domyslna():
+        ceny_tektura = str(entry_cena_tektura.get())
+        ceny_nadruk = str(entry_cena_nadruk.get())
+        ceny_foliamg = str(entry_cena_foliamg.get())
+        ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        if os.path.exists(path):
+            os.remove(path)
+
+        with open("Ceny.txt", "a", encoding='utf-8') as plik:
+            plik.write('13')
+            plik.write('\n')
+            plik.write('35')
+            plik.write('\n')
+            plik.write('18')
+            plik.write('\n')
+            plik.write('11')
+        if not os.path.isfile("Ceny.txt"):
+            open("Ceny.txt", "w", encoding='utf-8').close()
+            plik.write('13')
+            plik.write('\n')
+            plik.write('35')
+            plik.write('\n')
+            plik.write('18')
+            plik.write('\n')
+            plik.write('11')
+
+    # ścieżka do pliku Ceny.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "Ceny.txt")
+
+    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+    if os.path.exists(path):
+        with open(path, "r", encoding='utf-8') as f:
+            teraz_ceny = f.read()
+        if not os.path.isfile("Ceny.txt"):
+            open("Ceny.txt", "w", encoding='utf-8').close()
+            f.write('13')
+            f.write('35')
+            f.write('18')
+            f.write('11')
+    else:
+        teraz_ceny = "13\n35\n18\n11"
+
+    ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+    if ceny_tektura == '':
+        ceny_tektura = '13'
+    ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+    if ceny_nadruk == '':
+        ceny_nadruk = '35'
+    ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+    if ceny_foliamg == '':
+        ceny_foliamg = '18'
+    ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+    if ceny_woreczkipp == '':
+        ceny_woreczkipp = '11'
+
+    label_tektura = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za tekturę: {ceny_tektura}zł,    Domyślna: 13,00zł".rjust(50))
+    label_tektura.pack()
+    label_nadruk = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za nadruk: {ceny_nadruk}zł,    Domyślna: 35,00zł".rjust(50))
+    label_nadruk.pack()
+    label_foliamg = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za folię: {ceny_foliamg}zł,    Domyślna: 18,00zł".rjust(50))
+    label_foliamg.pack()
+    label_woreczkipp = tk.Label(
+        okno_zmiany, text=f"Aktualna cena za woreczki: {ceny_woreczkipp}zł,    Domyślna: 11,00zł".rjust(50))
+    label_woreczkipp.pack()
+
+    label_cena_tektura = tk.Label(okno_zmiany, text="Zmiana ceny tektury:")
+    label_cena_tektura.pack()
+    entry_cena_tektura = tk.Entry(okno_zmiany)
+    entry_cena_tektura.pack()
+
+    label_cena_nadruk = tk.Label(okno_zmiany, text="Zmiana ceny nadruk:")
+    label_cena_nadruk.pack()
+    entry_cena_nadruk = tk.Entry(okno_zmiany)
+    entry_cena_nadruk.pack()
+
+    label_cena_foliamg = tk.Label(okno_zmiany, text="Zmiana ceny folia:")
+    label_cena_foliamg.pack()
+    entry_cena_foliamg = tk.Entry(okno_zmiany)
+    entry_cena_foliamg.pack()
+
+    label_cena_woreczkipp = tk.Label(okno_zmiany, text="Zmiana ceny woreczki:")
+    label_cena_woreczkipp.pack()
+    entry_cena_woreczkipp = tk.Entry(okno_zmiany)
+    entry_cena_woreczkipp.pack()
+
+    pustka = tk.Label(okno_zmiany)
+    pustka.pack()
+
+    edycja = tk.Frame(okno_zmiany)
+    edycja.pack()
+
+    button_zmien = tk.Button(
+        edycja, text="Zapisz zmiany", command=edycja_kosztow_wczytaj)
+    button_zmien.pack(side=tk.LEFT)
+
+    button_zmien_domyslne = tk.Button(
+        edycja, text="Wczytaj domyślne", command=edycja_kosztow_domyslna)
+    button_zmien_domyslne.pack(side=tk.RIGHT)
 
 
 def oblicz_zyski():
@@ -38,7 +235,7 @@ def oblicz_zyski():
     if os.path.exists(path):
         os.remove(path)
     # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
     # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
@@ -64,14 +261,30 @@ def oblicz_zyski():
     data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
 
     # Liczenie kosztów
+
+    # # Pobieranie kosztów z pliku
+    path = os.path.join(os.getcwd(), "Ceny.txt")
+
+    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+    if os.path.exists(path):
+        with open(path, "r", encoding='utf-8') as f:
+            teraz_ceny = f.read()
+    else:
+        teraz_ceny = "13\n35\n18\n11"
+
+    ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+    ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+    ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+    ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+
     magnesy_w_pakiecie = liczba_pakietow * 224
     cena_za_pakiet = cena_za_magnes * 224
     razem = cena_za_pakiet * liczba_pakietow
 
-    tektura = 13 * liczba_pakietow
-    nadruk = 35 * liczba_pakietow
-    foliamg = 18 * liczba_pakietow
-    woreczkipp = 11 * liczba_pakietow
+    tektura = ceny_tektura * liczba_pakietow
+    nadruk = ceny_nadruk * liczba_pakietow
+    foliamg = ceny_foliamg * liczba_pakietow
+    woreczkipp = ceny_woreczkipp * liczba_pakietow
 
     koszty = tektura + nadruk + foliamg + woreczkipp
     bilans = razem - koszty
@@ -110,7 +323,7 @@ def oblicz_zyski():
 
 print('Sprawdzanie dostępności aktualizacji...')
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
-url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
+url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
 response = requests.get(url)
 
 version_online = response.content.decode('utf-8').strip()
@@ -133,18 +346,34 @@ print(f'Wersja w repozytorium: {version_online_first_line}')
 print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
-        print('Masz najnowszą wersję Beta programu.')
+        print('Masz najnowszą wersję programu.')
         path = os.path.join(os.getcwd(), "version.txt")
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 version_local = f.readline().strip()
         wersja = version_local
     else:
-        print('Dostępna jest nowa wersja programu.')
-        wersja = "DOSTĘPNA AKTUALIZACJA"
+        if version_local_first_line == version_online_first_line:
+            print('Masz najnowszą wersję programu.')
+            wersja = version_local
+            # ścieżka do pliku version.txt w bieżącym folderze
+            path = os.path.join(os.getcwd(), "version.txt")
+
+            # usuń plik version.txt, jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
+            # print("Usunięto plik version.txt")
+
+            # pobierz plik version.txt z repozytorium i utwórz go
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt"
+            urllib.request.urlretrieve(url, path)
+        else:
+            print('Dostępna jest nowa wersja programu.')
+            wersja = "DOSTĘPNA AKTUALIZACJA"
 else:
     print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
     wersja = "ZAKTUALIZUJ PROGRAM"
+
 
 root = tk.Tk()
 root.title(f"Kalkulator zysków ver. {wersja}")
@@ -157,7 +386,7 @@ zapis_do_pliku.set(True)
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("300x200+800+0")
+    okno_wyborowe.geometry("370x290+800+0")
     okno_wyborowe.grab_set()
 
     # Dodanie przycisku do nowego okna
@@ -165,7 +394,28 @@ def otworz_okno_wybor():
                        command=aktul)
     button.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Z czasem będzie tu dodawane więcej opcji")
+        okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
+    label_informacja.pack()
+    button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
+                                      command=wykasuj_zapisy)
+    button_wykasuj_zapisy.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
+    label_informacja.pack()
+
+    button_zmiana_danych = tk.Button(
+        okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
+    button_zmiana_danych.pack()
+
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej linii")
+    label_informacja.pack()
+
+    button_rozwiaz_problemy = tk.Button(
+        okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
+    button_rozwiaz_problemy.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Program zostanie zresetowany.\nWszystkie dane zostaną usunięte")
     label_informacja.pack()
 
 
@@ -220,9 +470,9 @@ button_historia = tk.Button(
 button_historia.pack(side=tk.LEFT)
 
 # Przycisk więcej opcji
-button_aktul = tk.Button(
+button_wiecej = tk.Button(
     frame_przyciski, text="Więcej opcji", command=otworz_okno_wybor)
-button_aktul.pack(side=tk.LEFT)
+button_wiecej.pack(side=tk.LEFT)
 
 # Dodanie pola tekstowego na wyniki
 label_wyniki = tk.Label(root, text="", justify="left")

@@ -15,6 +15,7 @@ Po wybraniu tej wersji zainstaluj wymagane biblioteki:
  - request
  - subprocess
  - requests
+ - time
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)
  

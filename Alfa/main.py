@@ -166,9 +166,17 @@ def edycja_kosztow():
         teraz_ceny = "13\n35\n18\n11"
 
     ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+    if ceny_tektura == '' or ceny_tektura == 201:
+        ceny_tektura = 13
     ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+    if ceny_nadruk == '' or ceny_nadruk == 201:
+        ceny_nadruk = 35
     ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+    if ceny_foliamg == '' or ceny_foliamg == 201:
+        ceny_foliamg = 18
     ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+    if ceny_woreczkipp == '' or ceny_woreczkipp == 201:
+        ceny_woreczkipp = 11
 
     label_tektura = tk.Label(
         okno_zmiany, text=f"Aktualna cena za tekturę: {ceny_tektura}zł,    Domyślna: 13,00zł".rjust(50))

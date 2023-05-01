@@ -127,7 +127,7 @@ if wersja_programu == 1:
     # KONIEC NOWYCH FUNKCJI
 elif wersja_programu == 2:
     os.system('cls')
-    print('Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - datetime\n - urllib\n - subprocess\n - requests')
+    print('Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n - request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej nazwie)\n - subprocess\n')
     input("Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")

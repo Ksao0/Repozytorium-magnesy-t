@@ -1,40 +1,17 @@
 import os
 import urllib.request
 import datetime
-import requests
-
-# pobierz zawartość pliku version.txt z repozytorium na GitHub
-url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
-response = requests.get(url)
-
-version_online = response.content.decode('utf-8').strip()
-
-# odczytaj zawartość pliku version.txt w twoim programie
-path = os.path.join(os.getcwd(), "version.txt")
-if os.path.exists(path):
-    with open(path, "r", encoding="utf-8") as f:
-        version_local = f.read().strip()
-else:
-    version_local = "BRAK DANYCH"
-
-# wyświetl tylko pierwszą linijkę wersji
-version_local_first_line = version_local.split('\n')[0]
-version_online_first_line = version_online.split('\n')[0]
-
-print(f'Aktualna wersja: {version_local_first_line}')
-print('Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n   Wersja zawierająca sprawdzone rozwiązania\n2: Wersja wstępna\n   Wersja z nowymi, nie ukazywanymi  wcześniej rozwiązaniami\n3: Więcej informacji o wersji wstępnej (ta opcja anuluje aktualizację)')
+print('Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wstępna\n')
 
 wersja_programu = int(input("Podaj wersję programu: "))
-print('\n')
 if wersja_programu == 1:
-
+    os.system('cls')
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 
     # usuń plik main.py, jeśli istnieje
     if os.path.exists(path):
         os.remove(path)
-
     # print("Usunięto plik main.py")
     # pobierz plik main.py z repozytorium
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/main.py"
@@ -149,6 +126,9 @@ if wersja_programu == 1:
 
     # KONIEC NOWYCH FUNKCJI
 elif wersja_programu == 2:
+    os.system('cls')
+    print('Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - datetime\n - urllib\n - request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej nazwie)\n - subprocess\n')
+    input("Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 
@@ -235,7 +215,7 @@ elif wersja_programu == 2:
         plik.write(stara_zapisy)
 
     print(f"Stara wersja: {stara_version}\n")
-    print(f"Nowa wersja: {nowa_version}")
+    print(f"Nowa wersja: {nowa_version}\n\n")
 
     # NOWE FUNKCJE
 
@@ -268,7 +248,5 @@ elif wersja_programu == 2:
     # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
     # KONIEC NOWYCH FUNKCJI
-elif wersja_programu == 3:
-    print('Wersja wstępna to specjalna wersja naszej aplikacji, w której eksperymentujemy z nowymi funkcjami i rozwiązaniami. Jest ona oddzielona od wersji głównej, aby nie zakłócać pracy użytkownikom i umożliwić nam sprawne testowanie.\nWersja ta może czasem zawierać błędy, ale staramy się je szybko naprawiać. ')
 else:
     print('Nie ma takiej opcji.')

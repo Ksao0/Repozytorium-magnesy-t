@@ -8,7 +8,6 @@ Po wybraniu tej wersji zainstaluj wymagane biblioteki:
  - os
  - tkinter
  - messagebox
- - tkinter
  - scrolledtext
  - datetime
  - urllib

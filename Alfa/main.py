@@ -6,6 +6,7 @@ import datetime
 import urllib.request
 import subprocess
 import requests
+from time import sleep
 
 print('Nie zamykaj tego okna!')
 print('Wykonywanie czynności początkowych...')
@@ -39,6 +40,49 @@ def wykasuj_zapisy():
         os.remove(path)
         with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
             file.write('')
+
+
+def rozwiaz_problemy():
+    os.system('cls')
+    print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program) zostaną usunięte. Tej operacji nie można cofnąć\nAby zainstalowaać program ponownie: Uruchom plik Aktualizator_aktualizatora.py')
+    input("Naciśnij klawisz Enter, aby potwierdzić operację...")
+    print('Aby anulować wpisz cokolwiek innego:')
+    usuwanie_danych_potwierdzenie = str(
+        input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
+    if usuwanie_danych_potwierdzenie == "USUN01":
+        print('Wszystkie dane zostały usunięte')
+        # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+
+            # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "version.txt")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+
+            # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Aktualizacja.py")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+
+            # Ścieżka do pliku w bieżącym folderze
+        path = os.path.join(os.getcwd(), "main.py")
+
+        # Usuń plik jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+            sleep(3)
+            exit()
+        
+    else:
+        print('Anulowano')
 
 
 def edycja_kosztow():
@@ -334,7 +378,7 @@ zapis_do_pliku.set(True)
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("370x250+800+0")
+    okno_wyborowe.geometry("370x290+800+0")
     okno_wyborowe.grab_set()
 
     # Dodanie przycisku do nowego okna
@@ -357,6 +401,13 @@ def otworz_okno_wybor():
 
     label_informacja = tk.Label(
         okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej linii")
+    label_informacja.pack()
+
+    button_rozwiaz_problemy = tk.Button(
+        okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
+    button_rozwiaz_problemy.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Program zostanie zresetowany.\nWszystkie dane zostaną usunięte")
     label_informacja.pack()
 
 

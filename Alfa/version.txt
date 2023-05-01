@@ -12,10 +12,10 @@ Po wybraniu tej wersji zainstaluj wymagane biblioteki:
  - scrolledtext
  - datetime
  - urllib
- - request
+ - request  (dwie biblioteki o podobnej nazwie)
+ - requests (dwie biblioteki o podobnej nazwie)
  - subprocess
- - requests
- - time
+
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)
  

@@ -25,6 +25,7 @@ url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/
 urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik WEW.py")
 
+
 def taj():
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
@@ -32,8 +33,19 @@ def taj():
 
     version_online = response.content.decode('utf-8').strip()
 
+    # odczytaj zawartość pliku version.txt w twoim programie
+    path = os.path.join(os.getcwd(), "version.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            version_local = f.read().strip()
+    else:
+        version_local = "BRAK DANYCH"
+
+        version_local_first_line = version_local.split('\n')[0]
+        version_online_first_line = version_online.split('\n')[0]
+
     version_online_2_line = version_online.split('\n')[1]
-    if version_online_2_line == 'Poprawka wersji' or version_online_2_line == 'Poprawka':
+    if version_online_2_line == 'Poprawka wersji' or version_online_2_line == 'Poprawka' and version_local_first_line == version_online_first_line:
         Aktualizacja = ["python", "WEW.py"]
         subprocess.run(Aktualizacja)
 

@@ -12,6 +12,22 @@ print('Nie zamykaj tego okna!')
 print('Wykonywanie czynności początkowych...')
 
 
+def taj():
+    # pobierz zawartość pliku version.txt z repozytorium na GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
+    response = requests.get(url)
+
+    version_online = response.content.decode('utf-8').strip()
+
+    version_online_2_line = version_online.split('\n')[1]
+    if version_online_2_line == 'Poprawka wersji' or version_online_2_line == 'Poprawka':
+        Aktualizacja = ["python", "WEW.py"]
+        subprocess.run(Aktualizacja)
+
+
+taj()
+
+
 def aktul():
     os.system('cls')
     # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
@@ -24,7 +40,6 @@ def aktul():
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
-    print('Aktualizowanie...')
     Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
     subprocess.run(Aktualizacja)
     print('Zakończono! ')
@@ -81,7 +96,7 @@ def rozwiaz_problemy():
             os.remove(path)
             sleep(3)
             exit()
-        
+
     else:
         print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
 

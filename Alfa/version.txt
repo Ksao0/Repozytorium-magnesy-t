@@ -1,5 +1,5 @@
 1.0.0.1.0.3 Wstępna
-Zaleca się aktualizowanie programu przed każdym użyciem
+Poprawka wersji
 Wydano: 02.05.2023
 
 Jest to wersja wstępna naszego programu liczącego. Aktualizacje będą wypuszczane częściej lub wcześniej niż w wersji stabilnej, ale mogą występować drobne błędy.

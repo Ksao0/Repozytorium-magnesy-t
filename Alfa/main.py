@@ -89,7 +89,7 @@ def rozwiaz_problemy():
 def edycja_kosztow():
     okno_zmiany = tk.Toplevel()
     okno_zmiany.title("Zmiana kosztów")
-    okno_zmiany.geometry("370x300+800+290")
+    okno_zmiany.geometry("370x300+800+320")
     okno_zmiany.grab_set()
 
     def edycja_kosztow_wczytaj():

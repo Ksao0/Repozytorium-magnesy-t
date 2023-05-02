@@ -45,7 +45,7 @@ def taj():
         version_online_first_line = version_online.split('\n')[0]
 
     version_online_2_line = version_online.split('\n')[1]
-    if version_online_2_line == 'Poprawka wersji' or version_online_2_line == 'Poprawka' or version_online_2_line == 'Łatka' and version_local_first_line == version_online_first_line:
+    if version_online_2_line == 'Poprawka wersji' or version_online_2_line == 'Poprawka' or version_online_2_line == 'Łatka' or version_online_2_line == 'Status: Poprawka wersji' and version_local_first_line == version_online_first_line:
         Aktualizacja = ["python", "WEW.py"]
         subprocess.run(Aktualizacja)
 

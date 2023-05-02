@@ -51,7 +51,7 @@ def rozwiaz_problemy():
     usuwanie_danych_potwierdzenie = str(
         input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
     if usuwanie_danych_potwierdzenie == "USUN01":
-        print('Wszystkie dane zostały usunięte')
+        print('Wszystkie dane zostały usunięte. Zaczekaj, aż to okno się zamknie.')
         # Ścieżka do pliku w bieżącym folderze
         path = os.path.join(os.getcwd(), "Ceny.txt")
 
@@ -83,7 +83,7 @@ def rozwiaz_problemy():
             exit()
         
     else:
-        print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle')
+        print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
 
 
 def edycja_kosztow():

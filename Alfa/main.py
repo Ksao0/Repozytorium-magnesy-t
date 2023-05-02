@@ -11,6 +11,19 @@ from time import sleep
 print('Nie zamykaj tego okna!')
 print('Wykonywanie czynności początkowych...')
 
+# Aktualizacja pliku WEW
+
+# ścieżka do pliku WEW.py w bieżącym folderze
+path = os.path.join(os.getcwd(), "WEW.py")
+
+# usuń plik WEW.py, jeśli istnieje
+if os.path.exists(path):
+    os.remove(path)
+# print("Usunięto plik WEW.py")
+# pobierz plik main.py z repozytorium
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
+urllib.request.urlretrieve(url, path)
+# print("Zastąpiono plik WEW.py")
 
 def taj():
     # pobierz zawartość pliku version.txt z repozytorium na GitHub

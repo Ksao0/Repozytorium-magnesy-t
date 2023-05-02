@@ -412,7 +412,7 @@ if version_local != "BRAK DANYCH":
             print('Dostępna jest nowa wersja programu.')
             wersja = "DOSTĘPNA AKTUALIZACJA"
 else:
-    print('Wykryto brak niektórych plików. Zaktualizuj program, aby program działał prawidłowo')
+    print('\n\nWykryto brak niektórych plików. Nie można też pobrać informacji o aktualnej wersji programu.\nZaktualizuj program, aby działał prawidłowo')
     wersja = "ZAKTUALIZUJ PROGRAM"
 
 

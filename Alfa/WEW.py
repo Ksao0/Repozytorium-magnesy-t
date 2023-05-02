@@ -79,17 +79,6 @@ if os.path.exists(path):
 
 # NOWE FUNKCJE
 
-# Kasowanie Uruchamianie.py
-
-# nazwa pliku
-nazwa_pliku = 'Uruchamianie.py'
-
-# usuń plik o nazwie 'Uruchamianie.py', jeśli taki istnieje
-if os.path.exists(nazwa_pliku):
-    os.remove(nazwa_pliku)
-
-
-# Koniec dla: Kasowanie Uruchamianie.py
 
 # Aktualizacja pliku Aktualizator_aktualizatora
 

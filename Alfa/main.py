@@ -112,7 +112,7 @@ def wykasuj_zapisy():
 def rozwiaz_problemy():
     os.system('cls')
     print('Nie zamykaj tego okna!')
-    print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Tej operacji nie można cofnąć.\nAby zainstalowaać program ponownie: Uruchom plik Aktualizator_aktualizatora.py')
+    print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Tej operacji nie można cofnąć.\nAby zainstalować program ponownie: Uruchom plik Aktualizator_aktualizatora.py')
     input("Naciśnij klawisz Enter, aby potwierdzić operację...")
     print('Aby anulować wpisz cokolwiek innego:')
     usuwanie_danych_potwierdzenie = str(

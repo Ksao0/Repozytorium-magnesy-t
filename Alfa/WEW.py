@@ -76,10 +76,6 @@ if os.path.exists(path):
     os.remove(path)
 # print("Usunięto plik zapisy.txt")
 
-
-# NOWE FUNKCJE
-
-
 # Aktualizacja pliku Aktualizator_aktualizatora
 
 # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze

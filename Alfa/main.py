@@ -54,7 +54,7 @@ def taj():
         return
     elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji":
         # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-        message = "Dostępna jest poprawka wersji programu. Istnieje szansa na to, że już ją pobrałeś,\nale nie jesteśmy w stanie tego sprawdzić Czy chcesz ją teraz zainstalować?"
+        message = "Dostępna jest poprawka wersji programu. Istnieje szansa na to, że już ją pobrałeś, ale nie jesteśmy w stanie tego sprawdzić.\n Czy chcesz ją teraz zainstalować?"
         if messagebox.askyesno("Aktualizacja", message):
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]

@@ -67,7 +67,7 @@ def taj():
 
     elif version_online_lines[0] != version_local_lines[0]:
         # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
-        message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
+        message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}.\nCzy chcesz ją teraz zainstalować?"
         if messagebox.askyesno("Aktualizacja", message):
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]

@@ -26,7 +26,7 @@ jeżeli program nie będzie działał prawidłowo, zainstaluj je wszystkie):
  - requests (dwie biblioteki o podobnej nazwie)
 
 Aby zainstalowac te biblioteki:
-  WYŁĄCZ TERMINAL CMD DOPIERO WTEDY ,KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:
+  WYŁĄCZ TERMINAL CMD DOPIERO WTEDY, KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:
  1. Otwórz terminal cmd
  2. Wpisz polecenie, które zaktualizuje twoje środowisko i naciśnij enter: python -m pip install --upgrade pip
       PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI)

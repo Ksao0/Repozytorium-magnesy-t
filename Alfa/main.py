@@ -35,7 +35,7 @@ def taj():
         version_online = response.content.decode('utf-8').strip()
     except requests.exceptions.RequestException as e:
         messagebox.showerror(
-            "Błąd", f'Wystąpił błąd połączenia z internetem: {e}')
+            "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
         return
 
     # Odczytaj zawartość pliku version.txt w twoim programie
@@ -66,8 +66,6 @@ def taj():
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
-
-
 
 
 taj()

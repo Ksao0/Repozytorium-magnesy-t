@@ -27,18 +27,18 @@ urllib.request.urlretrieve(url, path)
 
 
 def taj():
+    # Pobierz zawartość pliku version.txt z repozytorium na GitHub
     try:
-        # pobierz zawartość pliku version.txt z repozytorium na GitHub
         url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
         response = requests.get(url)
+        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
         version_online = response.content.decode('utf-8').strip()
     except requests.exceptions.RequestException as e:
-        # ustawiamy None, aby w przypadku braku internetu można było to wykryć i odpowiednio obsłużyć dalej w kodzie
-        version_online = None
         messagebox.showerror(
-            "Błąd", "Wystąpił błąd połączenia z internetem: {}".format(str(e)))
+            "Błąd", f'Wystąpił błąd połączenia z internetem: {e}')
+        return
 
-    # odczytaj zawartość pliku version.txt w twoim programie
+    # Odczytaj zawartość pliku version.txt w twoim programie
     path = os.path.join(os.getcwd(), "version.txt")
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
@@ -46,13 +46,28 @@ def taj():
     else:
         version_local = "BRAK DANYCH"
 
-        version_local_first_line = version_local.split('\n')[0]
-        version_online_first_line = version_online.split('\n')[0]
+    # Sprawdź, czy jest nowa wersja programu
+    version_online_lines = version_online.split('\n')
+    version_local_lines = version_local.split('\n')
+    if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji":
+        # Nie ma nowszej wersji, więc nie trzeba nic robić
+        return
+    elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji":
+        # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
+        message = "Dostępna jest poprawka wersji programu. Czy chcesz ją teraz zainstalować?"
+        if messagebox.askyesno("Aktualizacja", message):
+            # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+            Aktualizacja = ["python", "WEW.py"]
+            subprocess.run(Aktualizacja)
+    elif version_online_lines[0] != version_local_lines[0]:
+        # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
+        message = "Dostępna jest nowa wersja programu. Czy chcesz ją teraz zainstalować?"
+        if messagebox.askyesno("Aktualizacja", message):
+            # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+            Aktualizacja = ["python", "WEW.py"]
+            subprocess.run(Aktualizacja)
 
-    version_online_2_line = version_online.split('\n')[1]
-    if version_online_2_line == 'Status: Poprawka wersji' or version_online_2_line == 'Status: Poprawka' and version_local_first_line == version_online_first_line:
-        Aktualizacja = ["python", "WEW.py"]
-        subprocess.run(Aktualizacja)
+
 
 
 taj()

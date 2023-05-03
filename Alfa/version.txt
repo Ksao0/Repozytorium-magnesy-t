@@ -33,5 +33,3 @@ Aby to zrobić otwórz terminal cmd i wpisz:
  
 Przykład:
  pip install tkinter
-
-

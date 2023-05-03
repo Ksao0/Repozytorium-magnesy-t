@@ -55,7 +55,7 @@ def taj():
         return
     elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
         # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-        message = "Dostępna jest poprawka wersji programu. Czy chcesz ją teraz zainstalować?"
+        message = f"Dostępna jest poprawka wersji programu. {version_online_lines[2]} Czy chcesz ją teraz zainstalować?"
         if messagebox.askyesno("Aktualizacja", message):
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]
@@ -67,7 +67,7 @@ def taj():
 
     elif version_online_lines[0] != version_local_lines[0]:
         # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
-        message = "Dostępna jest nowa wersja programu. Czy chcesz ją teraz zainstalować?"
+        message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
         if messagebox.askyesno("Aktualizacja", message):
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]
@@ -410,6 +410,7 @@ version_online_first_line = version_online.split('\n')[0]
 version_local_pop_line = version_local.split('\n')[2]
 version_online_pop_line = version_online.split('\n')[2]
 
+
 # porównaj wersje
 print(
     f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
@@ -418,12 +419,16 @@ print(
 print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():
-        print('Masz najnowszą wersję programu.')
-        path = os.path.join(os.getcwd(), "version.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                version_local = f.readline().strip()
-        wersja = version_local
+        if version_local_pop_line == version_online_pop_line:
+            print('Masz najnowszą wersję programu.')
+            path = os.path.join(os.getcwd(), "version.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    version_local = f.readline().strip()
+            wersja = version_local
+        else:
+            print('Dostępna jest poprawka wersji')
+            wersja = 'DOSTĘPNA POPRAWKA'
     else:
         if version_local_first_line == version_online_first_line:
             print('Masz najnowszą wersję programu.')

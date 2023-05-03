@@ -12,22 +12,42 @@ print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
 print('Wykonywanie czynności początkowych...')
 
-# Aktualizacja pliku WEW
 
-# ścieżka do pliku WEW.py w bieżącym folderze
-path = os.path.join(os.getcwd(), "WEW.py")
+def czynnosci_poczatkowe():
+    global internet
+    internet = 1
+    # Aktualizacja pliku WEW
 
-# usuń plik WEW.py, jeśli istnieje
-if os.path.exists(path):
-    os.remove(path)
-# print("Usunięto plik WEW.py")
-try:
-    # pobierz plik main.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
-    urllib.request.urlretrieve(url, path)
-    # print("Zastąpiono plik WEW.py")
-except:
-    print('Wykryto brak połączenia z internetem')
+    # ścieżka do pliku WEW.py w bieżącym folderze
+    path = os.path.join(os.getcwd(), "WEW.py")
+
+    # usuń plik WEW.py, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+    # print("Usunięto plik WEW.py")
+    try:
+        # pobierz plik main.py z repozytorium
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
+        urllib.request.urlretrieve(url, path)
+        # print("Zastąpiono plik WEW.py")
+    except:
+        print('Wykryto brak połączenia z internetem')
+        messagebox.showerror(
+            "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
+        internet = 0
+        try:
+            # pobierz plik main.py z repozytorium
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
+            urllib.request.urlretrieve(url, path)
+            # print("Zastąpiono plik WEW.py")
+        except:
+            messagebox.showerror(
+                "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych')
+            if messagebox.askyesno("Aktualizacja", "Czy pomimo tego chcesz kontynuuować?"):
+                internet = 0
+
+
+czynnosci_poczatkowe()
 
 
 def taj():
@@ -87,25 +107,32 @@ def taj():
         exit()
 
 
-taj()
+if not internet == 0:
+    taj()
 
 
 def aktul():
-    os.system('cls')
-    # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-    path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+    if not internet == 0:
+        os.system('cls')
+        # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 
-    # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-    if os.path.exists(path):
-        os.remove(path)
-    # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
-    urllib.request.urlretrieve(url, path)
+        # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+        # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
+        urllib.request.urlretrieve(url, path)
 
-    Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
-    subprocess.run(Aktualizacja)
-    print('Zakończono! ')
-    print('Uruchom program ponownie.')
+        Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
+        subprocess.run(Aktualizacja)
+        print('Zakończono! ')
+        print('Uruchom program ponownie.')
+    else:
+        if messagebox.askyesno("Aktualizacja", 'Ponieważ nie można było wykonać czynności początkowych ta funkcja jest niedostępna. Czy chcesz je wykonać?'):
+            czynnosci_poczatkowe()
+            messagebox.showinfo(
+                "Aktualizacja", "Spróbuj zaktualizować program ponownie")
 
 
 def wykasuj_zapisy():

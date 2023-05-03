@@ -498,7 +498,7 @@ def otworz_okno_wybor():
         okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
     button_rozwiaz_problemy.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Program zostanie zresetowany.\nWszystkie dane zostaną usunięte")
+        okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte")
     label_informacja.pack()
 
 

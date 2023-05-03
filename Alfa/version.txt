@@ -11,7 +11,7 @@ Zmiany względem poprzedniej wersji wstępneej:
          Wersja w repoztorium: 1.0.0.1.7
       W powyższej sytuacji poprawka wersji 1.0.0.1.7 nie zostanie zainstalowana automatycznie.
    
-Przydatne informacje dla osób, które nie używały wcześniej tej wersji
+Przydatne informacje dla osób, które nie używały wcześniej tej wersji:
 Jest to wersja wstępna naszego programu liczącego. To tutaj są testowane wszystkie nowe funkcje.
 Aktualizacje oraz poprawki dla tej wersji są wypuszczane częściej niż dla wersji stabilnej.
 W każdej chwili możesz wrócić do wersji stabilnej: podczas aktualizowania programu wybierz

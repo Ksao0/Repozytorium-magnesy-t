@@ -81,7 +81,9 @@ def taj():
     else:
         messagebox.showerror(
             "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
-        open("Zapisy.txt", "w", encoding='utf-8').close()
+        open("version.txt", "w", encoding='utf-8').close()
+        with open("Zapisy.txt", "a", encoding='utf-8') as plik:
+            plik.write('BRAK DANYCH')
         exit()
 
 

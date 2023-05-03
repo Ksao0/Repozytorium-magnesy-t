@@ -49,10 +49,10 @@ def taj():
     # Sprawdź, czy jest nowa wersja programu
     version_online_lines = version_online.split('\n')
     version_local_lines = version_local.split('\n')
-    if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji":
+    if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
         # Nie ma nowszej wersji, więc nie trzeba nic robić
         return
-    elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji":
+    elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
         # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
         message = "Dostępna jest poprawka wersji programu. Istnieje szansa na to, że już ją pobrałeś, ale nie jesteśmy w stanie tego sprawdzić. Czy chcesz ją teraz zainstalować?"
         if messagebox.askyesno("Aktualizacja", message):

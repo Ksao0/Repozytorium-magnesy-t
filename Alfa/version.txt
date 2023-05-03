@@ -1,6 +1,6 @@
 1.0.0.1.7 Wstępna
 Status: Poprawka wersji
-Numer poprawki: 7
+Numer poprawki: 7b
 Wydano: 03.05.2023
 
 Zmiany względem poprzedniej wersji wstępneej:

@@ -59,7 +59,7 @@ def taj():
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
-            message = "Uruchom ponownie program, aby wprowadzić zmiany. Uruchomić ponownie?
+            message = "Uruchom ponownie program, aby wprowadzić zmiany. Uruchomić ponownie?"
             if messagebox.askyesno("Aktualizacja", message):
                 exit()
             

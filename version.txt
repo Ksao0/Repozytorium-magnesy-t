@@ -14,13 +14,13 @@ Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następują
  - urllib
  - subprocess
  - requests
-
+ - sleep
+ 
 Biblioteki, które prawdopodobnie posiadasz (zanotuj ich nazwy np. na kartce,
 jeżeli program nie będzie działał prawidłowo, zainstaluj je wszystkie):
  - os
  - time
  - datetime
- - sleep
  - messagebox
  - scrolledtext
  - request  (dwie biblioteki o podobnej nazwie)

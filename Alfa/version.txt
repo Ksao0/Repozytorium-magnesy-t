@@ -30,7 +30,7 @@ Po wybraniu tej wersji zainstaluj wymagane biblioteki:
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)
  
-Na przykład:
+Przykład:
  pip install tkinter
 
 

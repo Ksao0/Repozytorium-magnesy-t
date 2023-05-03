@@ -403,9 +403,12 @@ else:
 version_local_first_line = version_local.split('\n')[0]
 version_online_first_line = version_online.split('\n')[0]
 
+version_local_pop_line = version_local.split('\n')[2]
+version_online_pop_line = version_online.split('\n')[2]
+
 # porównaj wersje
-print(f'\nWersja na komputerze: {version_local_first_line}')
-print(f'Wersja w repozytorium: {version_online_first_line}')
+print(f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+print(f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
 print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():

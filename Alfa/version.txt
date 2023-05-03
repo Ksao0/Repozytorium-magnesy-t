@@ -5,7 +5,7 @@ Wydano: 03.05.2023
 Zmiany względem poprzedniej wersji wstępneej:
  - Poprawki wersji są pobierane automatycznie.
       Aktualizacje, które są oznaczone jako poprawka aktualizacji są pobierane automatycznie, jeżeli wersja programu jest identyczna.
-      Poprawka wersji nie wprowadza żadnych znaczących zmian oprócz usunięcia błędów lub usprawnienia działania programu
+      Poprawka wersji nie wprowadza żadnych znaczących zmian oprócz usunięcia błędów lub usprawnienia działania programu.
    Kiedy poprawka wersji nie zostanie pobrana?
       Poprawka wersji nie zostanie pobrana jeżeli jej wersja jest inna niż wersja twojego programu na przykład:
          Wersja na komputerze: 1.0.0.1.6

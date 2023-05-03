@@ -46,35 +46,40 @@ def taj():
             version_local = f.read().strip()
     else:
         version_local = "BRAK DANYCH"
+    if version_local != 'BRAK DANYCH':
+        # Sprawdź, czy jest nowa wersja programu
+        version_online_lines = version_online.split('\n')
+        version_local_lines = version_local.split('\n')
+        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
+            # Nie ma nowszej wersji, więc nie trzeba nic robić
+            return
+        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
+            # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
+            message = f"Dostępna jest poprawka wersji programu.\n{version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
+            if messagebox.askyesno("Aktualizacja", message):
+                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                print('Zaktualizowano!')
+                message = "Program zostanie uruchomiony ponownie"
+                if messagebox.showinfo("Aktualizacja", message):
+                    exit()
 
-    # Sprawdź, czy jest nowa wersja programu
-    version_online_lines = version_online.split('\n')
-    version_local_lines = version_local.split('\n')
-    if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
-        # Nie ma nowszej wersji, więc nie trzeba nic robić
-        return
-    elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
-        # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-        message = f"Dostępna jest poprawka wersji programu.\n{version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
-        if messagebox.askyesno("Aktualizacja", message):
-            # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-            Aktualizacja = ["python", "WEW.py"]
-            subprocess.run(Aktualizacja)
-            print('Zaktualizowano!')
-            message = "Program zostanie uruchomiony ponownie"
-            if messagebox.showinfo("Aktualizacja", message):
-                exit()
-
-    elif version_online_lines[0] != version_local_lines[0]:
-        # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
-        message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}.\nCzy chcesz ją teraz zainstalować?"
-        if messagebox.askyesno("Aktualizacja", message):
-            # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-            Aktualizacja = ["python", "WEW.py"]
-            subprocess.run(Aktualizacja)
-            message = "Program zostanie uruchomiony ponownie"
-            if messagebox.showinfo("Aktualizacja", message):
-                exit()
+        elif version_online_lines[0] != version_local_lines[0]:
+            # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
+            message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
+            if messagebox.askyesno("Aktualizacja", message):
+                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                message = "Program zostanie uruchomiony ponownie"
+                if messagebox.showinfo("Aktualizacja", message):
+                    exit()
+    else:
+        messagebox.showerror(
+            "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
+        open("Zapisy.txt", "w", encoding='utf-8').close()
+        exit()
 
 
 taj()
@@ -274,7 +279,8 @@ def edycja_kosztow():
     entry_cena_foliamg = tk.Entry(okno_zmiany)
     entry_cena_foliamg.pack()
 
-    label_cena_woreczkipp = tk.Label(okno_zmiany, text="Zmiana ceny za woreczki:")
+    label_cena_woreczkipp = tk.Label(
+        okno_zmiany, text="Zmiana ceny za woreczki:")
     label_cena_woreczkipp.pack()
     entry_cena_woreczkipp = tk.Entry(okno_zmiany)
     entry_cena_woreczkipp.pack()

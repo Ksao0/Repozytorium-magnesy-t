@@ -12,7 +12,7 @@ Zmiany względem poprzedniej wersji wstępneej:
          Wersja w repoztorium: 1.0.0.1.7
       W powyższej sytuacji poprawka wersji 1.0.0.1.7 nie zostanie zainstalowana automatycznie.
    
- 
+Przydatne informacje dla osób, które nie używały wcześniej tej wersji
 Jest to wersja wstępna naszego programu liczącego. Aktualizacje będą wypuszczane częściej niż w wersji stabilnej, ale mogą występować drobne błędy.
 W każdej chwili możesz wrócić do stabilniejszej wersji beta.
 Po wybraniu tej wersji zainstaluj wymagane biblioteki:

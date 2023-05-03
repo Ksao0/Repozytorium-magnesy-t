@@ -259,22 +259,22 @@ def edycja_kosztow():
         okno_zmiany, text=f"Aktualna cena za woreczki: {ceny_woreczkipp}zł,    Domyślna: 11,00zł".rjust(50))
     label_woreczkipp.pack()
 
-    label_cena_tektura = tk.Label(okno_zmiany, text="Zmiana ceny tektury:")
+    label_cena_tektura = tk.Label(okno_zmiany, text="Zmiana ceny za tekturę:")
     label_cena_tektura.pack()
     entry_cena_tektura = tk.Entry(okno_zmiany)
     entry_cena_tektura.pack()
 
-    label_cena_nadruk = tk.Label(okno_zmiany, text="Zmiana ceny nadruk:")
+    label_cena_nadruk = tk.Label(okno_zmiany, text="Zmiana ceny za nadruk:")
     label_cena_nadruk.pack()
     entry_cena_nadruk = tk.Entry(okno_zmiany)
     entry_cena_nadruk.pack()
 
-    label_cena_foliamg = tk.Label(okno_zmiany, text="Zmiana ceny folia:")
+    label_cena_foliamg = tk.Label(okno_zmiany, text="Zmiana ceny za folię:")
     label_cena_foliamg.pack()
     entry_cena_foliamg = tk.Entry(okno_zmiany)
     entry_cena_foliamg.pack()
 
-    label_cena_woreczkipp = tk.Label(okno_zmiany, text="Zmiana ceny woreczki:")
+    label_cena_woreczkipp = tk.Label(okno_zmiany, text="Zmiana ceny za woreczki:")
     label_cena_woreczkipp.pack()
     entry_cena_woreczkipp = tk.Entry(okno_zmiany)
     entry_cena_woreczkipp.pack()

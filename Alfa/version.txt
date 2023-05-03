@@ -2,6 +2,17 @@
 Status: Poprawka wersji
 Wydano: 03.05.2023
 
+Zmiany względem poprzedniej wersji wstępneej:
+ - Poprawki wersji są pobierane automatycznie.
+      Aktualizacje, które są oznaczone jako poprawka aktualizacji są pobierane automatycznie, jeżeli wersja programu jest identyczna.
+      Poprawka wersji nie wprowadza żadnych znaczących zmian oprócz usunięcia błędów lub usprawnienia działania
+   Kiedy poprawka wersji nie zostanie pobrana?
+      Poprawka wersji nie zostanie pobrana jeżeli jej wersja jest inna niż wersja twojego programu na przykład:
+         Wersja na komputerze: 1.0.0.1.6
+         Wersja w repoztorium: 1.0.0.1.7
+      W powyższej sytuacji poprawka wersji 1.0.0.1.7 nie zostanie zainstalowana automatycznie.
+   
+ 
 Jest to wersja wstępna naszego programu liczącego. Aktualizacje będą wypuszczane częściej niż w wersji stabilnej, ale mogą występować drobne błędy.
 W każdej chwili możesz wrócić do stabilniejszej wersji beta.
 Po wybraniu tej wersji zainstaluj wymagane biblioteki:
@@ -21,5 +32,4 @@ Aby to zrobić otwórz terminal cmd i wpisz:
 Na przykład:
  pip install tkinter
 
-Zmiany względem poprzedniej wersji wstępneej:
- - Poprawki wersji są pobierane automatycznie
+

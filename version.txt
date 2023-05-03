@@ -7,7 +7,7 @@ Oznacza to, że to właśnie ona stała się wersją, do której dodawane są no
 intensywnych zmian i poprawek, uznając, że stała sie ona w pełni użytkowa i spełnia wymagania do tego,
 by to właśnie ją nazwać stabilną. Podjęliśmy więc decyzję o tym, aby zrównać ze sobą obie wersje.
 Stanie się to najwcześniej 10 maja 2023 roku. Będzie to też jedyna aktualizacja tej wersji do tego czasu,
-która nie musi być identyczna z wersją wstępną przed tą datą.
+która nie musi być identyczna z udostępnianą wcześniej wersją wstępną.
 
 Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki (instrukcja znajduje się dalej):
  - tkinter

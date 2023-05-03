@@ -21,10 +21,13 @@ path = os.path.join(os.getcwd(), "WEW.py")
 if os.path.exists(path):
     os.remove(path)
 # print("Usunięto plik WEW.py")
-# pobierz plik main.py z repozytorium
-url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
-urllib.request.urlretrieve(url, path)
-# print("Zastąpiono plik WEW.py")
+try:
+    # pobierz plik main.py z repozytorium
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
+    urllib.request.urlretrieve(url, path)
+    # print("Zastąpiono plik WEW.py")
+except:
+    print('Wykryto brak połączenia z internetem')
 
 
 def taj():

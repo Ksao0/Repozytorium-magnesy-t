@@ -61,10 +61,10 @@ def taj():
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
             print('Zaktualizowano!')
-            message = "Uruchom ponownie program, aby wprowadzić zmiany. Uruchomić ponownie?"
-            if messagebox.askyesno("Aktualizacja", message):
+            message = "Program zostanie uruchomiony ponownie"
+            if messagebox.showinfo("Aktualizacja", message):
                 exit()
-            
+
     elif version_online_lines[0] != version_local_lines[0]:
         # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
         message = "Dostępna jest nowa wersja programu. Czy chcesz ją teraz zainstalować?"
@@ -72,6 +72,9 @@ def taj():
             # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
+            message = "Program zostanie uruchomiony ponownie"
+            if messagebox.showinfo("Aktualizacja", message):
+                exit()
 
 
 taj()
@@ -408,8 +411,10 @@ version_local_pop_line = version_local.split('\n')[2]
 version_online_pop_line = version_online.split('\n')[2]
 
 # porównaj wersje
-print(f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
-print(f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
+print(
+    f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+print(
+    f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
 print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
 if version_local != "BRAK DANYCH":
     if version_online.strip() == version_local.strip():

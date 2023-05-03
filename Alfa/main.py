@@ -29,10 +29,15 @@ urllib.request.urlretrieve(url, path)
 def taj():
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
-    response = requests.get(url)
-
-    version_online = response.content.decode('utf-8').strip()
-
+    try:
+        response = requests.get(url)
+        version_online = response.content.decode('utf-8').strip()
+    except requests.exceptions.RequestException as e:
+        # ustawiamy None, aby w przypadku braku internetu można było to wykryć i odpowiednio obsłużyć dalej w kodzie
+        version_online = None
+        messagebox.showerror(
+            "Błąd", "Wystąpił błąd połączenia z internetem: {}".format(str(e)))
+        
     # odczytaj zawartość pliku version.txt w twoim programie
     path = os.path.join(os.getcwd(), "version.txt")
     if os.path.exists(path):

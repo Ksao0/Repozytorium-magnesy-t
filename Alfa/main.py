@@ -77,7 +77,7 @@ def taj():
         version_local_lines = version_local.split('\n')
         if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7":
             # Prowadzone są intensywne zmiany
-            message = f"Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz ją teraz zainstalować?"
+            message = f"Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?"
             if messagebox.askokcancel("Aktualizacja", message):
                 # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                 Aktualizacja = ["python", "WEW.py"]

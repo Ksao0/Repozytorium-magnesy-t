@@ -83,7 +83,7 @@ def taj():
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 print('Zaktualizowano!')
-                message = "Zmiany będą widoczne przy następnym uruchomieniu"
+                message = "Zmiany będą widoczne po następnym uruchomieniu"
                 messagebox.showinfo("Aktualizacja", message)
             else:
                 exit()

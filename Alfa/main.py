@@ -122,7 +122,7 @@ def taj():
         exit()
 
 
-if not internet == 0:
+if internet == 1:
     taj()
 
 
@@ -456,76 +456,79 @@ def oblicz_zyski():
 
 
 # Tworzenie głównego okna
+if internet == 1:
+    # pobierz zawartość pliku version.txt z repozytorium na GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
+    response = requests.get(url)
 
-# pobierz zawartość pliku version.txt z repozytorium na GitHub
-url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
-response = requests.get(url)
+    version_online = response.content.decode('utf-8').strip()
 
-version_online = response.content.decode('utf-8').strip()
-
-# odczytaj zawartość pliku version.txt w twoim programie
-path = os.path.join(os.getcwd(), "version.txt")
-if os.path.exists(path):
-    with open(path, "r", encoding="utf-8") as f:
-        version_local = f.read().strip()
-else:
-    version_local = "BRAK DANYCH"
-
-# wyświetl tylko pierwszą linijkę wersji
-version_local_first_line = version_local.split('\n')[0]
-version_online_first_line = version_online.split('\n')[0]
-
-version_local_pop_line = version_local.split('\n')[2]
-version_online_pop_line = version_online.split('\n')[2]
-
-
-# porównaj wersje
-print(
-    f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
-print(
-    f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
-print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
-if version_local != "BRAK DANYCH":
-    if version_online.strip() == version_local.strip():
-        if version_local_pop_line == version_online_pop_line:
-            print('Masz najnowszą wersję programu.')
-            path = os.path.join(os.getcwd(), "version.txt")
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    version_local = f.readline().strip()
-            wersja = version_local
-        else:
-            print('Dostępna jest poprawka wersji')
-            wersja = 'DOSTĘPNA POPRAWKA'
+    # odczytaj zawartość pliku version.txt w twoim programie
+    path = os.path.join(os.getcwd(), "version.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            version_local = f.read().strip()
     else:
-        if version_local_first_line == version_online_first_line:
-            print('Masz najnowszą wersję programu.')
-            wersja = version_local
-            # ścieżka do pliku version.txt w bieżącym folderze
-            path = os.path.join(os.getcwd(), "version.txt")
+        version_local = "BRAK DANYCH"
 
-            # usuń plik version.txt, jeśli istnieje
-            if os.path.exists(path):
-                os.remove(path)
-            # print("Usunięto plik version.txt")
+    # wyświetl tylko pierwszą linijkę wersji
+    version_local_first_line = version_local.split('\n')[0]
+    version_online_first_line = version_online.split('\n')[0]
 
-            # pobierz plik version.txt z repozytorium i utwórz go
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt"
-            urllib.request.urlretrieve(url, path)
+    version_local_pop_line = version_local.split('\n')[2]
+    version_online_pop_line = version_online.split('\n')[2]
+
+
+    # porównaj wersje
+    print(
+        f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+    print(
+        f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
+    print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
+    if version_local != "BRAK DANYCH":
+        if version_online.strip() == version_local.strip():
+            if version_local_pop_line == version_online_pop_line:
+                print('Masz najnowszą wersję programu.')
+                path = os.path.join(os.getcwd(), "version.txt")
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        version_local = f.readline().strip()
+                wersja = version_local
+            else:
+                print('Dostępna jest poprawka wersji')
+                wersja = 'DOSTĘPNA POPRAWKA'
         else:
-            print('Dostępna jest nowa wersja programu.')
-            wersja = "DOSTĘPNA AKTUALIZACJA"
+            if version_local_first_line == version_online_first_line:
+                print('Masz najnowszą wersję programu.')
+                wersja = version_local
+                # ścieżka do pliku version.txt w bieżącym folderze
+                path = os.path.join(os.getcwd(), "version.txt")
+
+                # usuń plik version.txt, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                # print("Usunięto plik version.txt")
+
+                # pobierz plik version.txt z repozytorium i utwórz go
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt"
+                urllib.request.urlretrieve(url, path)
+            else:
+                print('Dostępna jest nowa wersja programu.')
+                wersja = "DOSTĘPNA AKTUALIZACJA"
+    else:
+        print('\n\nWykryto brak niektórych plików. Zaktualizuj program, aby działał prawidłowo')
+        wersja = "ZAKTUALIZUJ PROGRAM"
+    root = tk.Tk()
+    root.title(f"Kalkulator zysków ver. {wersja}")
+    root.geometry("410x350")
+    zapis_do_pliku = tk.BooleanVar()
+    zapis_do_pliku.set(True)
 else:
-    print('\n\nWykryto brak niektórych plików. Zaktualizuj program, aby działał prawidłowo')
-    wersja = "ZAKTUALIZUJ PROGRAM"
-
-
-root = tk.Tk()
-root.title(f"Kalkulator zysków ver. {wersja}")
-root.geometry("410x350")
-
-zapis_do_pliku = tk.BooleanVar()
-zapis_do_pliku.set(True)
+    root = tk.Tk()
+    root.title(f"Kalkulator zysków")
+    root.geometry("410x350")
+    zapis_do_pliku = tk.BooleanVar()
+    zapis_do_pliku.set(True)
 
 
 def otworz_okno_wybor():

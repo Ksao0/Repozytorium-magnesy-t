@@ -75,6 +75,19 @@ def taj():
         # Sprawdź, czy jest nowa wersja programu
         version_online_lines = version_online.split('\n')
         version_local_lines = version_local.split('\n')
+        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7":
+            # Prowadzone są intensywne zmiany
+            message = f"Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz ją teraz zainstalować?"
+            if messagebox.askokcancel("Aktualizacja", message):
+                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                print('Zaktualizowano!')
+                message = "Program zostanie uruchomiony ponownie"
+                if messagebox.showinfo("Aktualizacja", message):
+                    exit()
+            else:
+                exit()
         if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
             # Nie ma nowszej wersji, więc nie trzeba nic robić
             return
@@ -89,19 +102,6 @@ def taj():
                 message = "Program zostanie uruchomiony ponownie"
                 if messagebox.showinfo("Aktualizacja", message):
                     exit()
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7":
-            # Prowadzone są intensywne zmiany
-            message = f"Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz ją teraz zainstalować?"
-            if messagebox.askokcancel("Aktualizacja", message):
-                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-                print('Zaktualizowano!')
-                message = "Program zostanie uruchomiony ponownie"
-                if messagebox.showinfo("Aktualizacja", message):
-                    exit()
-            else:
-                exit()
 
         elif version_online_lines[0] != version_local_lines[0]:
             # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
@@ -163,7 +163,8 @@ def wykasuj_zapisy():
 
 def rozwiaz_problemy():
     if not internet == 0:
-        messagebox.showwarning("Ostrzeżenie", "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle)")
+        messagebox.showwarning(
+            "Ostrzeżenie", "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle)")
         os.system('cls')
         print('Nie zamykaj tego okna!')
         print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych tej operacji nie można cofnąć.\nAby zainstalować program ponownie: Uruchom plik WEW.py')
@@ -217,7 +218,6 @@ def rozwiaz_problemy():
     else:
         if messagebox.askquestion("Błąd", "Niestety nie mozna było wykonać czynności początkowych, więc nie można wykonać tej czynności. Upewnij się, że masz połączenie z internetem i spróbuj ponownie naciskając przycisk tak."):
             czynnosci_poczatkowe()
-        
 
 
 def edycja_kosztow():
@@ -477,7 +477,6 @@ if internet == 1:
 
     version_local_pop_line = version_local.split('\n')[2]
     version_online_pop_line = version_online.split('\n')[2]
-
 
     # porównaj wersje
     print(

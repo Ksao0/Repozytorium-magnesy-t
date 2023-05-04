@@ -163,11 +163,11 @@ def wykasuj_zapisy():
 def rozwiaz_problemy():
     if not internet == 0:
         messagebox.showwarning(
-            "Ostrzeżenie", "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle)")
+            "Ostrzeżenie", "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem.")
         os.system('cls')
         print('Nie zamykaj tego okna!')
         print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych tej operacji nie można cofnąć.\nAby zainstalować program ponownie: Uruchom plik WEW.py')
-        input("Naciśnij klawisz Enter, aby potwierdzić operację...")
+        input("Naciśnij klawisz Enter, aby kontynuuować...")
         print('Aby anulować wpisz cokolwiek innego:')
         usuwanie_danych_potwierdzenie = str(
             input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))

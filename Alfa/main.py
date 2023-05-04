@@ -45,6 +45,8 @@ def czynnosci_poczatkowe():
                 "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych')
             if messagebox.askyesno("Aktualizacja", "Czy pomimo tego chcesz kontynuuować?"):
                 internet = 0
+            else:
+                exit()
 
 
 czynnosci_poczatkowe()
@@ -87,6 +89,19 @@ def taj():
                 message = "Program zostanie uruchomiony ponownie"
                 if messagebox.showinfo("Aktualizacja", message):
                     exit()
+        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7":
+            # Prowadzone są intensywne zmiany
+            message = f"Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz ją teraz zainstalować?"
+            if messagebox.askyesnocancel("Aktualizacja", message):
+                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                print('Zaktualizowano!')
+                message = "Program zostanie uruchomiony ponownie"
+                if messagebox.showinfo("Aktualizacja", message):
+                    exit()
+            else:
+                exit()
 
         elif version_online_lines[0] != version_local_lines[0]:
             # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
@@ -147,47 +162,62 @@ def wykasuj_zapisy():
 
 
 def rozwiaz_problemy():
-    os.system('cls')
-    print('Nie zamykaj tego okna!')
-    print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Tej operacji nie można cofnąć.\nAby zainstalować program ponownie: Uruchom plik Aktualizator_aktualizatora.py')
-    input("Naciśnij klawisz Enter, aby potwierdzić operację...")
-    print('Aby anulować wpisz cokolwiek innego:')
-    usuwanie_danych_potwierdzenie = str(
-        input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
-    if usuwanie_danych_potwierdzenie == "USUN01":
-        print('Zaczekaj, aż to okno się zamknie.')
-        # Ścieżka do pliku w bieżącym folderze
-        path = os.path.join(os.getcwd(), "Ceny.txt")
-
-        # Usuń plik jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
-
+    if not internet == 0:
+        messagebox.showwarning("Ostrzeżenie", "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle)")
+        os.system('cls')
+        print('Nie zamykaj tego okna!')
+        print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych tej operacji nie można cofnąć.\nAby zainstalować program ponownie: Uruchom plik WEW.py')
+        input("Naciśnij klawisz Enter, aby potwierdzić operację...")
+        print('Aby anulować wpisz cokolwiek innego:')
+        usuwanie_danych_potwierdzenie = str(
+            input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
+        if usuwanie_danych_potwierdzenie == "USUN01":
+            print('Zaczekaj, aż to okno się zamknie.')
             # Ścieżka do pliku w bieżącym folderze
-        path = os.path.join(os.getcwd(), "version.txt")
+            path = os.path.join(os.getcwd(), "Ceny.txt")
 
-        # Usuń plik jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
+            # Usuń plik jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
 
-            # Ścieżka do pliku w bieżącym folderze
-        path = os.path.join(os.getcwd(), "Aktualizacja.py")
+                # Ścieżka do pliku w bieżącym folderze
+            path = os.path.join(os.getcwd(), "version.txt")
 
-        # Usuń plik jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
+            # Usuń plik jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
 
-            # Ścieżka do pliku w bieżącym folderze
-        path = os.path.join(os.getcwd(), "main.py")
+                # Ścieżka do pliku w bieżącym folderze
+            path = os.path.join(os.getcwd(), "Aktualizacja.py")
 
-        # Usuń plik jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
-            sleep(3)
-            exit()
+            # Usuń plik jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
 
+                # Ścieżka do pliku w bieżącym folderze
+            path = os.path.join(os.getcwd(), "main.py")
+
+            # Usuń plik jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
+                sleep(3)
+                exit()
+
+                # Ścieżka do pliku w bieżącym folderze
+            path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+
+            # Usuń plik jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
+                sleep(3)
+                exit()
+
+        else:
+            print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
     else:
-        print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
+        if messagebox.askquestion("Błąd", "Niestety nie mozna było wykonać czynności początkowych, więc nie można wykonać tej czynności. Upewnij się, że masz połączenie z internetem i spróbuj ponownie naciskając przycisk tak."):
+            czynnosci_poczatkowe()
+        
 
 
 def edycja_kosztow():

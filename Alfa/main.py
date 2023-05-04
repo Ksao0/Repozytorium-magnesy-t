@@ -540,7 +540,7 @@ def otworz_okno_wybor():
                        command=aktul)
     button.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Do wyboru są dwie stale aktualizowane wersje:\nAlfa i Beta")
+        okno_wyborowe, text="Ręcznie zaktualizuje program oraz/nZapisz informacje o aktualizacji do historii/nDo wyboru są dwie stale aktualizowane wersje:\nWstępna i Stabilna")
     label_informacja.pack()
     button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
                                       command=wykasuj_zapisy)

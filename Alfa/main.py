@@ -94,7 +94,7 @@ def taj():
                 messagebox.showinfo("Aktualizacja", message)
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
+        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
             message = "Dostępna szybka poprawka wersji"
             messagebox.showinfo("Aktualizacja", message)
             Aktualizacja = ["python", "WEW.py"]

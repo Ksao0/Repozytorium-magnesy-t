@@ -90,13 +90,13 @@ def taj():
                     exit()
                     # Poprawki B7 zakończone:
             elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
-                if version_local_lines[1] == "Status: Poprawka wersji":
+                if version_local_lines[1] == "Status: Poprawki B7":
                     message = "Proces intensywnych zmian w kodzie został zakończony."
                     messagebox.showinfo("Aktualizacja", message)
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     
-                elif version_local_lines[1] == "Status: B7":
+                elif version_local_lines[1] == "Status: Poprawka wersji":
                     message = "Dostępna szybka poprawka wersji"
                     messagebox.showinfo("Aktualizacja", message)
                     Aktualizacja = ["python", "WEW.py"]

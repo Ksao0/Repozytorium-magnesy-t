@@ -87,7 +87,7 @@ def taj():
                 messagebox.showinfo("Aktualizacja", message)
             else:
                 exit()
-        if version_online_lines[0] == version_local_lines[0] and (version_online_lines[1] == "Status: Poprawki B7 zakończone" or version_online_lines[1] == "Status: Poprawki B7 (zakończone)") and version_local_lines[1] != version_online_lines[1]:
+        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawki B7 zakończone":
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
             message = "Proces intensywnych zmian w kodzie został zakończony."
@@ -545,7 +545,7 @@ def otworz_okno_wybor():
                        command=aktul)
     button.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Ręcznie zaktualizuje program oraz\nZapisz informacje o aktualizacji do historii\nDo wyboru są dwie stale aktualizowane wersje:\nWstępna i Stabilna")
+        okno_wyborowe, text="Ręcznie zaktualizuje program oraz/nZapisz informacje o aktualizacji do historii\nDo wyboru są dwie stale aktualizowane wersje:\nWstępna i Stabilna")
     label_informacja.pack()
     button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
                                       command=wykasuj_zapisy)

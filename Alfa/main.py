@@ -87,12 +87,20 @@ def taj():
                 messagebox.showinfo("Aktualizacja", message)
             else:
                 exit()
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone" and version_online_lines[2] == version_local_lines[2]:
+
+        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone":
+            if version_local_lines[1] == "Status: B7":
+                message = "Proces intensywnych zmian w kodzie został zakończony."
+                messagebox.showinfo("Aktualizacja", message)
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+        else:
+            message = "Dostępna szybka poprawka wersji"
+            messagebox.showinfo("Aktualizacja", message)
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
-            message = "Proces intensywnych zmian w kodzie został zakończony."
-            messagebox.showinfo("Aktualizacja", message)
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
+
+        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
             # Nie ma nowszej wersji, więc nie trzeba nic robić
             return
         elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
@@ -106,7 +114,6 @@ def taj():
                 message = "Program zostanie uruchomiony ponownie"
                 if messagebox.showinfo("Aktualizacja", message):
                     exit()
-
         elif version_online_lines[0] != version_local_lines[0]:
             # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
             message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"

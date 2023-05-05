@@ -88,19 +88,19 @@ def taj():
             else:
                 exit()
 
-        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone":
+        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone":
             if version_local_lines[1] == "Status: B7":
                 message = "Proces intensywnych zmian w kodzie został zakończony."
                 messagebox.showinfo("Aktualizacja", message)
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
+        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
             message = "Dostępna szybka poprawka wersji"
             messagebox.showinfo("Aktualizacja", message)
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
 
-        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
+        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
             # Nie ma nowszej wersji, więc nie trzeba nic robić
             return
         elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:

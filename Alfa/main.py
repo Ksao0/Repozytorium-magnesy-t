@@ -222,7 +222,7 @@ def rozwiaz_problemy():
         else:
             print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
     else:
-        if messagebox.askquestion("Błąd", "Niestety nie mozna było wykonać czynności początkowych, więc nie można wykonać tej czynności. Upewnij się, że masz połączenie z internetem i spróbuj ponownie naciskając przycisk tak."):
+        if messagebox.askquestion("Błąd", "Niestety nie można było wykonać czynności początkowych, więc nie można wykonać tej czynności. Upewnij się, że masz połączenie z internetem i spróbuj ponownie naciskając przycisk tak."):
             czynnosci_poczatkowe()
 
 

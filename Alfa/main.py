@@ -131,7 +131,6 @@ def taj():
             plik.write('BRAK DANYCH')
         exit()
 
-
 if internet == 1:
     taj()
 

@@ -1,6 +1,6 @@
 1.0.2.0 Wstępna
 Status: B7 zakończone
-Numer poprawki: 4
+Numer poprawki: B7 (z)
 Wydano: 04.05.2023
 
 Zmiany względem poprzedniej wersji wstępneej:

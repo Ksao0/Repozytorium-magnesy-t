@@ -1,5 +1,5 @@
 1.0.1.2 Wstępna
-Status: Poprawki B7
+Status: B7
 Numer poprawki: B7
 Wydano: 04.05.2023
 

@@ -13,7 +13,7 @@ print('Nigdy nie kasuj pliku WEW.py')
 print('Wykonywanie czynności początkowych...')
 
 internet = 1
-
+    
 def czynnosci_poczatkowe():
     global internet
     # Aktualizacja pliku WEW
@@ -71,50 +71,49 @@ def taj():
             version_local = f.read().strip()
     else:
         version_local = "BRAK DANYCH"
-    if version_local != 'BRAK DANYCH':
-        # Sprawdź, czy jest nowa wersja programu
+    
+    if version_local != "BRAK DANYCH":
         version_online_lines = version_online.split('\n')
         version_local_lines = version_local.split('\n')
-        if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7":
-            # Prowadzone są intensywne zmiany
-            message = f"Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?"
-            if messagebox.askokcancel("Aktualizacja", message):
-                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-                print('Zaktualizowano!')
-                message = "Zmiany będą widoczne po następnym uruchomieniu"
-                messagebox.showinfo("Aktualizacja", message)
-            else:
-                exit()
-
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone":
-            if version_local_lines[1] == "Status: B7 zakończone":
-                message = "Proces intensywnych zmian w kodzie został zakończony."
-                messagebox.showinfo("Aktualizacja", message)
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
-            message = "Dostępna szybka poprawka wersji"
-            messagebox.showinfo("Aktualizacja", message)
-            Aktualizacja = ["python", "WEW.py"]
-            subprocess.run(Aktualizacja)
-
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] != "Status: Poprawka wersji" and version_online_lines[2] == version_local_lines[2]:
-            # Nie ma nowszej wersji, więc nie trzeba nic robić
-            return
-        elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
-            # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-            message = f"Dostępna jest poprawka wersji programu.\n{version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
-            if messagebox.askyesno("Aktualizacja", message):
-                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-                print('Zaktualizowano!')
-                message = "Program zostanie uruchomiony ponownie"
-                if messagebox.showinfo("Aktualizacja", message):
+        # Trwające poprawki B7:
+        if version_online_lines[0] == version_local_lines[0]:
+            if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
+                # Prowadzone są intensywne zmiany
+                if messagebox.askokcancel("Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?"):
+                    # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    print('Zaktualizowano!')
+                    message = "Zmiany będą widoczne po następnym uruchomieniu"
+                    messagebox.showinfo("Aktualizacja", message)
+                else:
                     exit()
-        elif version_online_lines[0] != version_local_lines[0]:
+                    # Poprawki B7 zakończone:
+            if version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
+                if version_local_lines[1] == "Status: Poprawka wersji":
+                    message = "Proces intensywnych zmian w kodzie został zakończony."
+                    messagebox.showinfo("Aktualizacja", message)
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    
+                elif version_local_lines[1] == "Status: B7":
+                    message = "Dostępna szybka poprawka wersji"
+                    messagebox.showinfo("Aktualizacja", message)
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    #Zwykłe poprawki:
+            if version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
+                # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
+                message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
+                if messagebox.askyesno("Aktualizacja", message):
+                    # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    print('Zaktualizowano!')
+                    message = "Program zostanie uruchomiony ponownie"
+                    if messagebox.showinfo("Aktualizacja", message):
+                        exit()
+        if version_online_lines[0] != version_local_lines[0]:
             # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
             message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
             if messagebox.askyesno("Aktualizacja", message):
@@ -124,6 +123,7 @@ def taj():
                 message = "Program zostanie uruchomiony ponownie"
                 if messagebox.showinfo("Aktualizacja", message):
                     exit()
+
     else:
         messagebox.showerror(
             "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
@@ -135,7 +135,6 @@ def taj():
 
 if internet == 1:
     taj()
-
 
 def aktul():
     if not internet == 0:

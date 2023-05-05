@@ -89,7 +89,7 @@ def taj():
                 else:
                     exit()
                     # Poprawki B7 zakończone:
-            if version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
+            elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
                 if version_local_lines[1] == "Status: Poprawka wersji":
                     message = "Proces intensywnych zmian w kodzie został zakończony."
                     messagebox.showinfo("Aktualizacja", message)
@@ -102,7 +102,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     #Zwykłe poprawki:
-            if version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
+            elif version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
                 if messagebox.askyesno("Aktualizacja", message):
@@ -113,7 +113,7 @@ def taj():
                     message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
                         exit()
-        if version_online_lines[0] != version_local_lines[0]:
+        elif version_online_lines[0] != version_local_lines[0]:
             # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
             message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
             if messagebox.askyesno("Aktualizacja", message):
@@ -123,7 +123,6 @@ def taj():
                 message = "Program zostanie uruchomiony ponownie"
                 if messagebox.showinfo("Aktualizacja", message):
                     exit()
-
     else:
         messagebox.showerror(
             "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')

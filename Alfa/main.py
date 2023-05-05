@@ -12,10 +12,10 @@ print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
 print('Wykonywanie czynności początkowych...')
 
+internet = 1
 
 def czynnosci_poczatkowe():
     global internet
-    internet = 1
     # Aktualizacja pliku WEW
 
     # ścieżka do pliku WEW.py w bieżącym folderze
@@ -26,7 +26,7 @@ def czynnosci_poczatkowe():
         os.remove(path)
     # print("Usunięto plik WEW.py")
     try:
-        # pobierz plik main.py z repozytorium
+    # pobierz plik main.py z repozytorium
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
         urllib.request.urlretrieve(url, path)
         # print("Zastąpiono plik WEW.py")
@@ -89,7 +89,7 @@ def taj():
                 exit()
 
         elif version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: B7 zakończone":
-            if version_local_lines[1] == "Status: B7":
+            if version_local_lines[1] == "Status: B7 zakończone":
                 message = "Proces intensywnych zmian w kodzie został zakończony."
                 messagebox.showinfo("Aktualizacja", message)
                 Aktualizacja = ["python", "WEW.py"]

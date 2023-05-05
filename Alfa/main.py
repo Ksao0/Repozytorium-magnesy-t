@@ -231,7 +231,7 @@ def rozwiaz_problemy():
 def edycja_kosztow():
     okno_zmiany = tk.Toplevel()
     okno_zmiany.title("Zmiana kosztów")
-    okno_zmiany.geometry("370x300+800+335")
+    okno_zmiany.geometry("370x300+800+315")
     okno_zmiany.grab_set()
 
     def edycja_kosztow_wczytaj():
@@ -541,7 +541,7 @@ else:
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("370x300+800+0")
+    okno_wyborowe.geometry("370x280+800+0")
     okno_wyborowe.grab_set()
 
     # Dodanie przycisku do nowego okna
@@ -549,7 +549,7 @@ def otworz_okno_wybor():
                        command=aktul)
     button.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Ręcznie zaktualizuje program oraz\nZapisz informacje o aktualizacji do historii\nDo wyboru są dwie stale aktualizowane wersje:\nWstępna i Stabilna")
+        okno_wyborowe, text="Zaktualizuj program ręcznie i zapisz tę informację do historii.\nMożesz też zmienić wersję programu")
     label_informacja.pack()
     button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
                                       command=wykasuj_zapisy)

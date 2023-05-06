@@ -137,28 +137,34 @@ if internet == 1:
     taj()
 
 
+def blad_poczatkowe():
+    if messagebox.askokcancel("Błąd", "Podczas uruchamiania nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"):
+        czynnosci_poczatkowe()
+    else:
+        return
+
+
 def aktul():
     if not internet == 0:
-        os.system('cls')
-        # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-        path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+        czynnosci_poczatkowe()
+        if not internet == 0:
+            os.system('cls')
+            # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+            path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 
-        # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
-        # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
-        urllib.request.urlretrieve(url, path)
+            # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
+            # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+            urllib.request.urlretrieve(url, path)
 
-        Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
-        subprocess.run(Aktualizacja)
-        print('Zakończono! ')
-        print('Uruchom program ponownie.')
+            Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
+            subprocess.run(Aktualizacja)
+            print('Zakończono! ')
+            print('Uruchom program ponownie.')
     else:
-        if messagebox.askyesno("Aktualizacja", 'Ponieważ nie można było wykonać czynności początkowych ta funkcja jest niedostępna. Czy chcesz je wykonać?'):
-            czynnosci_poczatkowe()
-            messagebox.showinfo(
-                "Aktualizacja", "Spróbuj zaktualizować program ponownie")
+        blad_poczatkowe()
 
 
 def wykasuj_zapisy():
@@ -225,8 +231,7 @@ def rozwiaz_problemy():
         else:
             print('Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
     else:
-        if messagebox.showinfo("Błąd", "Niestety nie mozna było wykonać czynności początkowych, więc nie można wykonać tej czynności. Upewnij się, że masz połączenie z internetem."):
-            czynnosci_poczatkowe()
+        blad_poczatkowe()
 
 
 def edycja_kosztow():

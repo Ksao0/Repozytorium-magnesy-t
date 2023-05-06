@@ -328,8 +328,8 @@ def edycja_kosztow():
         okno_edycja_kosztow_otwarte = 1
 
     def zamknij_okno():
-        global okno_otwarte
-        okno_otwarte = 0
+        global okno_edycja_kosztow_otwarte
+        okno_edycja_kosztow_otwarte = 0
         okno_zmiany.destroy()
 
     if okno_edycja_kosztow_otwarte == 0:

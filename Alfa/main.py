@@ -13,11 +13,12 @@ print('Nigdy nie kasuj pliku WEW.py')
 print('Wykonywanie czynności początkowych...')
 
 internet = 1
-    
+
+
 def czynnosci_poczatkowe():
     global internet
     # Aktualizacja pliku WEW
-  
+
     # ścieżka do pliku WEW.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "WEW.py")
 
@@ -26,7 +27,7 @@ def czynnosci_poczatkowe():
         os.remove(path)
     # print("Usunięto plik WEW.py")
     try:
-    # pobierz plik main.py z repozytorium
+        # pobierz plik main.py z repozytorium
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
         urllib.request.urlretrieve(url, path)
         # print("Zastąpiono plik WEW.py")
@@ -71,7 +72,7 @@ def taj():
             version_local = f.read().strip()
     else:
         version_local = "BRAK DANYCH"
-    
+
     if version_local != "BRAK DANYCH":
         version_online_lines = version_online.split('\n')
         version_local_lines = version_local.split('\n')
@@ -95,13 +96,13 @@ def taj():
                     messagebox.showinfo("Aktualizacja", message)
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    
+
                 elif version_local_lines[1] == "Status: Poprawka wersji":
                     message = "Dostępna szybka poprawka wersji"
                     messagebox.showinfo("Aktualizacja", message)
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    #Zwykłe poprawki:
+                    # Zwykłe poprawki:
             elif version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
@@ -131,8 +132,10 @@ def taj():
             plik.write('BRAK DANYCH')
         exit()
 
+
 if internet == 1:
     taj()
+
 
 def aktul():
     if not internet == 0:

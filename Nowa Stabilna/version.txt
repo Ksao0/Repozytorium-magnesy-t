@@ -12,18 +12,6 @@ Tak jak zapowiadaliśmy, zrównaliśmy ze sobą wersję stabilną i wstępną. D
       nie jest porównywana tylko wersja), może też być wyświetlana informacja o prowadzonych zmianach w kodzie.
       Dzięki temu będziesz na bieżąco informowany o najnowszych zmianach.
    - Program wyświetla odpowiednie informacje o problemach związanych m. in. z internetem, dzięki czemu może się on do nich dostosować.
-   - 
-
-1.0.0.0.2.17 Stabilna
-
-Wydano: 20.04.2023
-
-Jak najprawdopodobniej wiesz, jakiś czas temu rozpoczęliśmy prace nad wersją wstępną naszego programu.
-Oznacza to, że to właśnie ona stała się wersją, do której dodawane są nowe funkcjonalności. Zakończyliśmy proces
-intensywnych zmian i poprawek, uznając, że stała sie ona w pełni użytkowa i spełnia wymagania do tego,
-by to właśnie ją nazwać stabilną. Podjęliśmy więc decyzję o tym, aby zrównać ze sobą obie wersje.
-Stanie się to najwcześniej 10 maja 2023 roku. Będzie to też jedyna aktualizacja tej wersji do tego czasu,
-która nie musi być identyczna z udostępnianą wcześniej wersją wstępną.
 
 Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki (instrukcja znajduje się dalej):
  - tkinter

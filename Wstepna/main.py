@@ -44,7 +44,9 @@ def czynnosci_poczatkowe():
         except:
             messagebox.showerror(
                 "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych')
-            if messagebox.askyesno("Aktualizacja", "Czy pomimo tego chcesz kontynuuować?"):
+            response = messagebox.askyesno(
+                "Aktualizacja", "Czy pomimo tego chcesz kontynuuować?")
+            if response == True:
                 internet = 0
             else:
                 exit()
@@ -80,7 +82,9 @@ def taj():
         if version_online_lines[0] == version_local_lines[0]:
             if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
                 # Prowadzone są intensywne zmiany
-                if messagebox.askokcancel("Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?"):
+                response = messagebox.askokcancel(
+                    "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
+                if response == True:
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
@@ -106,7 +110,8 @@ def taj():
             elif version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
-                if messagebox.askyesno("Aktualizacja", message):
+                response = messagebox.askyesno("Aktualizacja", message)
+                if response == True:
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
@@ -114,16 +119,21 @@ def taj():
                     message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
                         exit()
+                else:
+                    return
         elif version_online_lines[0] != version_local_lines[0]:
             # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
             message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
-            if messagebox.askyesno("Aktualizacja", message):
+            response = messagebox.askyesno("Aktualizacja", message)
+            if response == True:
                 # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 message = "Program zostanie uruchomiony ponownie"
                 if messagebox.showinfo("Aktualizacja", message):
                     exit()
+            else:
+                return
     else:
         messagebox.showerror(
             "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
@@ -138,7 +148,9 @@ if internet == 1:
 
 
 def blad_poczatkowe():
-    if messagebox.askokcancel("Błąd", "Podczas uruchamiania nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"):
+    message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
+    response = messagebox.askokcancel("Błąd", message)
+    if response == True:
         czynnosci_poczatkowe()
     else:
         return
@@ -180,11 +192,13 @@ def wykasuj_zapisy():
 
 def rozwiaz_problemy():
     if not internet == 0:
-        messagebox.showwarning(
-            "Ostrzeżenie", "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem.")
+        message = "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem."
+        messagebox.showwarning("Ostrzeżenie", message)
+
         os.system('cls')
         print('Nie zamykaj tego okna!')
         print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych tej operacji nie można cofnąć.\nAby zainstalować program ponownie: Uruchom plik WEW.py')
+
         input("Naciśnij klawisz Enter, aby kontynuuować...")
         print('Aby anulować wpisz cokolwiek innego:')
         usuwanie_danych_potwierdzenie = str(

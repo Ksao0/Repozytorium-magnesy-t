@@ -300,7 +300,7 @@ def informacje_o_wersji_utworz_okno():
         informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
     label_informacja.pack()
 
-    for line in version_online_lines[6:14]:
+    for line in version_online_lines[6:22]:
         label_opis_wersji = tk.Label(
             informacje_wersji, text=f"{line}", justify="left", anchor="w")
         label_opis_wersji.pack(fill="x", padx=(20, 0))

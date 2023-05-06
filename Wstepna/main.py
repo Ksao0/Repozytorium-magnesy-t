@@ -249,9 +249,6 @@ def rozwiaz_problemy():
 
 
 def informacje_o_wersji_utworz_okno():
-    zapis_do_pliku = tk.BooleanVar()
-    zapis_do_pliku.set(True)
-
     version_online = "BRAK DANYCH"
 
     # Pobierz zawartość pliku version.txt z repozytorium na GitHub
@@ -300,10 +297,12 @@ def informacje_o_wersji_utworz_okno():
         informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
     label_informacja.pack()
 
-    for line in version_online_lines[6:22]:
+    for line in version_online_lines[6:15]:
         label_opis_wersji = tk.Label(
             informacje_wersji, text=f"{line}", justify="left", anchor="w")
         label_opis_wersji.pack(fill="x", padx=(20, 0))
+    informacje_wersji.geometry("+1180+0")
+
     informacje_wersji.mainloop()
 
 

@@ -12,10 +12,10 @@ print("Rozpoczynanie aktualizacji II poziomu")
 # Pobierz plik Aktualizacja.py z repozytorium
 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Aktualizacja.py"
 urllib.request.urlretrieve(url, path)
-print("Zakończono aktualizację II poziomu\n")
+print("Zakończono aktualizację II poziomu")
 print('Rozpoczynanie aktualizacji I poziomu')
 
 Aktualizacja = ["python", "Aktualizacja.py"]
 subprocess.run(Aktualizacja)
 
-input("Naciśnij klawisz Enter, aby zakończyć...")
+input("Naciśnij klawisz Enter, aby zakończyć aktualizację...")

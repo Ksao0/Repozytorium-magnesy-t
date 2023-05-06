@@ -1,17 +1,13 @@
-1.1.0.0 Wstępna
-Status: Poprawka wersji
-Numer poprawki: 0
-Wydano: 05.05.2023
+1.0.0.0.2.17 Stabilna
 
-Tak jak zapowiadaliśmy, zrównaliśmy ze sobą wersję stabilną i wstępną. Dzięki temu do tej wersji dodano:
-   - Możliwość wykasowania historii obliczeń
-   - Możliwość zmiany cen kosztów (folia, woreczki, nadruk itd.), dzięki czemu możesz dostosować program do swoich wymagań
-   - Opcja przywócenia programu do ustawień fabrycznych w celu naprawienia błędów
-   - Zmiany związane z aktualizowaniem:
-      Teraz po każdym uruchomieniu sprawdzana jest dostępność aktualizacji (w przeciwieństwie do poprzedniej wersji,
-      nie jest porównywana tylko wersja), może też być wyświetlana informacja o prowadzonych zmianach w kodzie.
-      Dzięki temu będziesz na bieżąco informowany o najnowszych zmianach.
-   - Program wyświetla odpowiednie informacje o problemach związanych m. in. z internetem, dzięki czemu może się on do nich dostosować.
+Wydano: 20.04.2023
+
+Jak najprawdopodobniej wiesz, pewien czas temu rozpoczęliśmy prace nad wersją wstępną naszego programu.
+Oznacza to, że to właśnie ona stała się wersją, do której dodawane są nowe funkcjonalności. Zakończyliśmy proces
+intensywnych zmian i poprawek, uznając, że stała sie ona w pełni użytkowa i spełnia wymagania do tego,
+by to właśnie ją nazwać stabilną. Podjęliśmy więc decyzję o tym, aby zrównać ze sobą obie wersje.
+Stanie się to najwcześniej 10 maja 2023 roku. Będzie to też jedyna aktualizacja tej wersji do tego czasu,
+która nie musi być identyczna z udostępnianą wcześniej wersją wstępną.
 
 Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki (instrukcja znajduje się dalej):
  - tkinter
@@ -34,7 +30,7 @@ Aby zainstalowac te biblioteki:
   WYŁĄCZ TERMINAL CMD DOPIERO WTEDY, KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:
  1. Otwórz terminal cmd
  2. Wpisz polecenie, które zaktualizuje twoje środowisko i naciśnij enter: python -m pip install --upgrade pip
-      PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI
+      PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI)
  3. Zainstaluj biblioteki:
       pip install NAZWA_BIBLIOTEKI
     Przykład: pip install tkinter

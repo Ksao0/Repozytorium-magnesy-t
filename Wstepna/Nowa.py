@@ -38,29 +38,31 @@ else:
 version_online_lines = version_online.split('\n')
 version_local_lines = version_local.split('\n')
 
+
 label_informacja_wersji = tk.Label(
     informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
 label_informacja_wersji.pack()
 label_informacja_wersji = tk.Label(
-    informacje_wersji, text=f"Status: {version_local_lines[1]}", justify="left")
+    informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
 label_informacja_wersji.pack()
 label_informacja_wersji = tk.Label(
-    informacje_wersji, text=f"Numer poprawki: {version_local_lines[2]}", justify="left")
+    informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
 label_informacja_wersji.pack()
 pustka = tk.Label()
 pustka.pack()
-pustka = tk.Label()
-pustka.pack()
+
 label_informacja_wersji = tk.Label(
     informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
 label_informacja_wersji.pack()
 label_informacja_wersji = tk.Label(
-    informacje_wersji, text=f"Status: {version_online_lines[1]}", justify="left")
+    informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
 label_informacja_wersji.pack()
 label_informacja_wersji = tk.Label(
-    informacje_wersji, text=f"Numer poprawki: {version_online_lines[2]}", justify="left")
+    informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
+label_informacja_wersji.pack()
 
-# Dodanie kontenera typu Frame
-frame_przyciski = tk.Frame(informacje_wersji)
-frame_przyciski.pack()
+for line in version_online_lines[6:16]:
+    label_opis_wersji = tk.Label(
+        informacje_wersji, text=f"{line}", justify="left", anchor="w")
+    label_opis_wersji.pack(fill="x", expand=True, padx=(50, 0))
 informacje_wersji.mainloop()

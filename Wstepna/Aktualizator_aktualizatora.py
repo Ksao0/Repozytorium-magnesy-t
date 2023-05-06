@@ -10,7 +10,7 @@ if os.path.exists(path):
     os.remove(path)
 print("Rozpoczynanie aktualizacji II poziomu")
 # Pobierz plik Aktualizacja.py z repozytorium
-url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizacja.py"
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizacja.py"
 urllib.request.urlretrieve(url, path)
 print("Zakończono aktualizację II poziomu\n")
 print('Rozpoczynanie aktualizacji I poziomu')

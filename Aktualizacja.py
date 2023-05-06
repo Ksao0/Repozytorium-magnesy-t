@@ -137,7 +137,7 @@ elif wersja_programu == 2:
         os.remove(path)
     # print("Usunięto plik main.py")
     # pobierz plik main.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/main.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
     urllib.request.urlretrieve(url, path)
     # print("Zastąpiono plik main.py")
 
@@ -151,7 +151,7 @@ elif wersja_programu == 2:
         os.remove(path)
     # print("Usunięto plik Aktualizator_aktualizatora.py")
     # pobierz plik main.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
     # print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
@@ -173,7 +173,7 @@ elif wersja_programu == 2:
     # print("Usunięto plik version.txt")
 
     # pobierz plik version.txt z repozytorium i utwórz go
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
     urllib.request.urlretrieve(url, path)
     # print("Zastąpiono plik version.txt")
 
@@ -241,7 +241,7 @@ elif wersja_programu == 2:
         os.remove(path)
     # print("Usunięto plik Aktualizator_aktualizatora.py")
     # pobierz plik main.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
     # print("Zastąpiono plik Aktualizator_aktualizatora.py")
     print('Zakończono aktualizację I poziomu')

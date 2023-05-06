@@ -28,7 +28,7 @@ def czynnosci_poczatkowe():
     # print("Usunięto plik WEW.py")
     try:
         # pobierz plik main.py z repozytorium
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
         urllib.request.urlretrieve(url, path)
         # print("Zastąpiono plik WEW.py")
     except:
@@ -38,7 +38,7 @@ def czynnosci_poczatkowe():
         internet = 0
         try:
             # pobierz plik main.py z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/WEW.py"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
             urllib.request.urlretrieve(url, path)
             # print("Zastąpiono plik WEW.py")
         except:
@@ -56,7 +56,7 @@ czynnosci_poczatkowe()
 def taj():
     # Pobierz zawartość pliku version.txt z repozytorium na GitHub
     try:
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
         response = requests.get(url)
         response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
         version_online = response.content.decode('utf-8').strip()
@@ -147,7 +147,7 @@ def aktul():
         if os.path.exists(path):
             os.remove(path)
         # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
         urllib.request.urlretrieve(url, path)
 
         Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
@@ -380,7 +380,7 @@ def oblicz_zyski():
     if os.path.exists(path):
         os.remove(path)
     # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
     # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
@@ -467,7 +467,7 @@ def oblicz_zyski():
 # Tworzenie głównego okna
 if internet == 1:
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt'
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
     response = requests.get(url)
 
     version_online = response.content.decode('utf-8').strip()
@@ -518,7 +518,7 @@ if internet == 1:
                 # print("Usunięto plik version.txt")
 
                 # pobierz plik version.txt z repozytorium i utwórz go
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Alfa/version.txt"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
                 urllib.request.urlretrieve(url, path)
             else:
                 print('Dostępna jest nowa wersja programu.')

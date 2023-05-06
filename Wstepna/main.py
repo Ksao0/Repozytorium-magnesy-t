@@ -650,8 +650,12 @@ else:
 
 
 def otworz_okno_zapisy():
-    with open("Zapisy.txt", "r", encoding='utf-8') as plik:
-        zawartosc = plik.read()
+    path = os.path.join(os.getcwd(), "Zapisy.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            zawartosc = f.read().strip()
+    else:
+        zawartosc = "BRAK DANYCH"
 
     # Tworzenie nowego okna
     okno = tk.Toplevel()

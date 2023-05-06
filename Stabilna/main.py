@@ -19,7 +19,7 @@ def aktul():
     if os.path.exists(path):
         os.remove(path)
     # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
     print('Aktualizowanie...')
@@ -38,7 +38,7 @@ def oblicz_zyski():
     if os.path.exists(path):
         os.remove(path)
     # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Aktualizator_aktualizatora.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
 
     # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
@@ -110,7 +110,7 @@ def oblicz_zyski():
 
 print('Sprawdzanie dostępności aktualizacji...')
 # pobierz zawartość pliku version.txt z repozytorium na GitHub
-url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/version.txt'
+url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/version.txt'
 response = requests.get(url)
 
 version_online = response.content.decode('utf-8').strip()

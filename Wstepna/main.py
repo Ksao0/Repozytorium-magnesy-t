@@ -248,11 +248,69 @@ def rozwiaz_problemy():
         blad_poczatkowe()
 
 
+def informacje_o_wersji_utworz_okno():
+    zapis_do_pliku = tk.BooleanVar()
+    zapis_do_pliku.set(True)
+
+    version_online = "BRAK DANYCH"
+
+    # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+    try:
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+        response = requests.get(url)
+        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+        version_online = response.content.decode('utf-8').strip()
+    except:
+        messagebox.showerror(
+            "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
+
+    # Odczytaj zawartość pliku version.txt w twoim programie
+    path = os.path.join(os.getcwd(), "version.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            version_local = f.read().strip()
+    else:
+        version_local = "BRAK DANYCH"
+
+    version_online_lines = version_online.split('\n')
+    version_local_lines = version_local.split('\n')
+
+    informacje_wersji = tk.Tk()
+    informacje_wersji.title(f"Informacje o wersji")
+
+    label_informacja = tk.Label(
+        informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
+    label_informacja.pack()
+    label_informacja = tk.Label(
+        informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
+    label_informacja.pack()
+    label_informacja = tk.Label(
+        informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
+    label_informacja.pack()
+    pustka = tk.Label()
+    pustka.pack()
+
+    label_informacja = tk.Label(
+        informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
+    label_informacja.pack()
+    label_informacja = tk.Label(
+        informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
+    label_informacja.pack()
+    label_informacja = tk.Label(
+        informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
+    label_informacja.pack()
+
+    for line in version_online_lines[6:14]:
+        label_opis_wersji = tk.Label(
+            informacje_wersji, text=f"{line}", justify="left", anchor="w")
+        label_opis_wersji.pack(fill="x", padx=(20, 0))
+    informacje_wersji.mainloop()
+
+
 def edycja_kosztow():
     okno_zmiany = tk.Toplevel()
     okno_zmiany.title("Zmiana kosztów")
-    okno_zmiany.geometry("370x300+800+315")
-    okno_zmiany.grab_set()
+    okno_zmiany.geometry("370x300+800+360")
 
     def edycja_kosztow_wczytaj():
         ceny_tektura = str(entry_cena_tektura.get())
@@ -547,7 +605,7 @@ if internet == 1:
         wersja = "ZAKTUALIZUJ PROGRAM"
     root = tk.Tk()
     root.title(f"Kalkulator zysków ver. {wersja}")
-    root.geometry("410x350")
+    root.geometry("410x350+250+200")
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
 else:
@@ -558,11 +616,27 @@ else:
     zapis_do_pliku.set(True)
 
 
+def otworz_okno_zapisy():
+    with open("Zapisy.txt", "r", encoding='utf-8') as plik:
+        zawartosc = plik.read()
+
+    # Tworzenie nowego okna
+    okno = tk.Toplevel()
+    okno.title("Historia")
+    okno.geometry("800x900")
+
+    # Dodanie elementu ScrolledText
+    pole_tekstowe = scrolledtext.ScrolledText(okno, wrap=tk.WORD)
+    pole_tekstowe.pack(expand=True, fill=tk.BOTH)
+
+    # Wstawienie zawartości pliku do elementu ScrolledText
+    pole_tekstowe.insert(tk.END, zawartosc)
+
+
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("370x280+800+0")
-    okno_wyborowe.grab_set()
+    okno_wyborowe.geometry("370x330+800+0")
 
     # Dodanie przycisku do nowego okna
     button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
@@ -593,22 +667,12 @@ def otworz_okno_wybor():
         okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte")
     label_informacja.pack()
 
-
-def otworz_okno_zapisy():
-    with open("Zapisy.txt", "r", encoding='utf-8') as plik:
-        zawartosc = plik.read()
-
-    # Tworzenie nowego okna
-    okno = tk.Toplevel()
-    okno.title("Historia")
-    okno.geometry("800x900")
-
-    # Dodanie elementu ScrolledText
-    pole_tekstowe = scrolledtext.ScrolledText(okno, wrap=tk.WORD)
-    pole_tekstowe.pack(expand=True, fill=tk.BOTH)
-
-    # Wstawienie zawartości pliku do elementu ScrolledText
-    pole_tekstowe.insert(tk.END, zawartosc)
+    button_informacje_o_wersji = tk.Button(
+        okno_wyborowe, text="Informacje o wersji", command=informacje_o_wersji_utworz_okno)
+    button_informacje_o_wersji.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
+    label_informacja.pack()
 
 
 # Dodanie etykiet i pól tekstowych

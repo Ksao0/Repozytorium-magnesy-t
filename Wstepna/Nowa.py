@@ -61,8 +61,8 @@ label_informacja_wersji = tk.Label(
     informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
 label_informacja_wersji.pack()
 
-for line in version_online_lines[6:16]:
+for line in version_online_lines[6:14]:
     label_opis_wersji = tk.Label(
         informacje_wersji, text=f"{line}", justify="left", anchor="w")
-    label_opis_wersji.pack(fill="x", expand=True, padx=(50, 0))
+    label_opis_wersji.pack(fill="x", padx=(50, 0))
 informacje_wersji.mainloop()

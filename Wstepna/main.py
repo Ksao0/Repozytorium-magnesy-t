@@ -12,6 +12,8 @@ print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
 print('Wykonywanie czynności początkowych...')
 
+okno_informacje_otwarte = 0
+okno_edycja_kosztow_otwarte = 0
 internet = 1
 
 
@@ -249,202 +251,234 @@ def rozwiaz_problemy():
 
 
 def informacje_o_wersji_utworz_okno():
-    version_online = "BRAK DANYCH"
+    def otworz_okno():
+        global okno_informacje_otwarte
+        okno_informacje_otwarte = 1
 
-    # Pobierz zawartość pliku version.txt z repozytorium na GitHub
-    try:
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-        response = requests.get(url)
-        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-        version_online = response.content.decode('utf-8').strip()
-    except:
-        messagebox.showerror(
-            "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
+    def zamknij_okno():
+        global okno_informacje_otwarte
+        okno_informacje_otwarte = 0
+        informacje_wersji.destroy()
 
-    # Odczytaj zawartość pliku version.txt w twoim programie
-    path = os.path.join(os.getcwd(), "version.txt")
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            version_local = f.read().strip()
+    if okno_informacje_otwarte == 0:
+        version_online = "BRAK DANYCH"
+        # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            version_online = response.content.decode('utf-8').strip()
+        except:
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
+
+        # Odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
+        else:
+            version_local = "BRAK DANYCH"
+
+        version_online_lines = version_online.split('\n')
+        version_local_lines = version_local.split('\n')
+
+        informacje_wersji = tk.Tk()
+        informacje_wersji.title(f"Informacje o wersji")
+
+        label_informacja = tk.Label(
+            informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
+        label_informacja.pack()
+        label_informacja = tk.Label(
+            informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
+        label_informacja.pack()
+        label_informacja = tk.Label(
+            informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
+        label_informacja.pack()
+        pustka = tk.Label()
+        pustka.pack()
+
+        label_informacja = tk.Label(
+            informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
+        label_informacja.pack()
+        label_informacja = tk.Label(
+            informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
+        label_informacja.pack()
+        label_informacja = tk.Label(
+            informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
+        label_informacja.pack()
+
+        for line in version_online_lines[6:15]:
+            label_opis_wersji = tk.Label(
+                informacje_wersji, text=f"{line}", justify="left", anchor="w")
+            label_opis_wersji.pack(fill="x", padx=(20, 0))
+        informacje_wersji.geometry("+1180+0")
+
+        informacje_wersji.protocol("WM_DELETE_WINDOW", zamknij_okno)
+        informacje_wersji.bind("<Map>", lambda event: otworz_okno())
+
+        informacje_wersji.mainloop()
     else:
-        version_local = "BRAK DANYCH"
-
-    version_online_lines = version_online.split('\n')
-    version_local_lines = version_local.split('\n')
-
-    informacje_wersji = tk.Tk()
-    informacje_wersji.title(f"Informacje o wersji")
-
-    label_informacja = tk.Label(
-        informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
-    label_informacja.pack()
-    label_informacja = tk.Label(
-        informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
-    label_informacja.pack()
-    label_informacja = tk.Label(
-        informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
-    label_informacja.pack()
-    pustka = tk.Label()
-    pustka.pack()
-
-    label_informacja = tk.Label(
-        informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
-    label_informacja.pack()
-    label_informacja = tk.Label(
-        informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
-    label_informacja.pack()
-    label_informacja = tk.Label(
-        informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
-    label_informacja.pack()
-
-    for line in version_online_lines[6:15]:
-        label_opis_wersji = tk.Label(
-            informacje_wersji, text=f"{line}", justify="left", anchor="w")
-        label_opis_wersji.pack(fill="x", padx=(20, 0))
-    informacje_wersji.geometry("+1180+0")
-
-    informacje_wersji.mainloop()
+        messagebox.showerror("Błąd", "To okno jest już otwarte")
 
 
 def edycja_kosztow():
-    okno_zmiany = tk.Toplevel()
-    okno_zmiany.title("Zmiana kosztów")
-    okno_zmiany.geometry("370x300+800+360")
+    def otworz_okno():
+        global okno_edycja_kosztow_otwarte
+        okno_edycja_kosztow_otwarte = 1
 
-    def edycja_kosztow_wczytaj():
-        ceny_tektura = str(entry_cena_tektura.get())
-        ceny_nadruk = str(entry_cena_nadruk.get())
-        ceny_foliamg = str(entry_cena_foliamg.get())
-        ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+    def zamknij_okno():
+        global okno_otwarte
+        okno_otwarte = 0
+        okno_zmiany.destroy()
 
+    if okno_edycja_kosztow_otwarte == 0:
+        okno_zmiany = tk.Toplevel()
+        okno_zmiany.title("Zmiana kosztów")
+        okno_zmiany.geometry("370x300+800+360")
+
+        def edycja_kosztow_wczytaj():
+            ceny_tektura = str(entry_cena_tektura.get())
+            ceny_nadruk = str(entry_cena_nadruk.get())
+            ceny_foliamg = str(entry_cena_foliamg.get())
+            ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+
+            path = os.path.join(os.getcwd(), "Ceny.txt")
+
+            if os.path.exists(path):
+                os.remove(path)
+
+            with open("Ceny.txt", "a", encoding='utf-8') as plik:
+                plik.write(ceny_tektura)
+                plik.write('\n')
+                plik.write(ceny_nadruk)
+                plik.write('\n')
+                plik.write(ceny_foliamg)
+                plik.write('\n')
+                plik.write(ceny_woreczkipp)
+            if not os.path.isfile("Ceny.txt"):
+                open("Ceny.txt", "w", encoding='utf-8').close()
+                plik.write(ceny_tektura)
+                plik.write('\n')
+                plik.write(ceny_nadruk)
+                plik.write('\n')
+                plik.write(ceny_foliamg)
+                plik.write('\n')
+                plik.write(ceny_woreczkipp)
+
+        def edycja_kosztow_domyslna():
+            ceny_tektura = str(entry_cena_tektura.get())
+            ceny_nadruk = str(entry_cena_nadruk.get())
+            ceny_foliamg = str(entry_cena_foliamg.get())
+            ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+
+            path = os.path.join(os.getcwd(), "Ceny.txt")
+
+            if os.path.exists(path):
+                os.remove(path)
+
+            with open("Ceny.txt", "a", encoding='utf-8') as plik:
+                plik.write('13')
+                plik.write('\n')
+                plik.write('35')
+                plik.write('\n')
+                plik.write('18')
+                plik.write('\n')
+                plik.write('11')
+            if not os.path.isfile("Ceny.txt"):
+                open("Ceny.txt", "w", encoding='utf-8').close()
+                plik.write('13')
+                plik.write('\n')
+                plik.write('35')
+                plik.write('\n')
+                plik.write('18')
+                plik.write('\n')
+                plik.write('11')
+
+        # ścieżka do pliku Ceny.txt w bieżącym folderze
         path = os.path.join(os.getcwd(), "Ceny.txt")
 
+        # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
         if os.path.exists(path):
-            os.remove(path)
+            with open(path, "r", encoding='utf-8') as f:
+                teraz_ceny = f.read()
+            if not os.path.isfile("Ceny.txt"):
+                open("Ceny.txt", "w", encoding='utf-8').close()
+                f.write('13')
+                f.write('35')
+                f.write('18')
+                f.write('11')
+        else:
+            teraz_ceny = "13\n35\n18\n11"
 
-        with open("Ceny.txt", "a", encoding='utf-8') as plik:
-            plik.write(ceny_tektura)
-            plik.write('\n')
-            plik.write(ceny_nadruk)
-            plik.write('\n')
-            plik.write(ceny_foliamg)
-            plik.write('\n')
-            plik.write(ceny_woreczkipp)
-        if not os.path.isfile("Ceny.txt"):
-            open("Ceny.txt", "w", encoding='utf-8').close()
-            plik.write(ceny_tektura)
-            plik.write('\n')
-            plik.write(ceny_nadruk)
-            plik.write('\n')
-            plik.write(ceny_foliamg)
-            plik.write('\n')
-            plik.write(ceny_woreczkipp)
+        ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+        if ceny_tektura == '' or ceny_tektura == 201:
+            ceny_tektura = 13
+        ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+        if ceny_nadruk == '' or ceny_nadruk == 201:
+            ceny_nadruk = 35
+        ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+        if ceny_foliamg == '' or ceny_foliamg == 201:
+            ceny_foliamg = 18
+        ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+        if ceny_woreczkipp == '' or ceny_woreczkipp == 201:
+            ceny_woreczkipp = 11
 
-    def edycja_kosztow_domyslna():
-        ceny_tektura = str(entry_cena_tektura.get())
-        ceny_nadruk = str(entry_cena_nadruk.get())
-        ceny_foliamg = str(entry_cena_foliamg.get())
-        ceny_woreczkipp = str(entry_cena_woreczkipp.get())
+        label_tektura = tk.Label(
+            okno_zmiany, text=f"Aktualna cena za tekturę: {ceny_tektura}zł,    Domyślna: 13,00zł".rjust(50))
+        label_tektura.pack()
+        label_nadruk = tk.Label(
+            okno_zmiany, text=f"Aktualna cena za nadruk: {ceny_nadruk}zł,    Domyślna: 35,00zł".rjust(50))
+        label_nadruk.pack()
+        label_foliamg = tk.Label(
+            okno_zmiany, text=f"Aktualna cena za folię: {ceny_foliamg}zł,    Domyślna: 18,00zł".rjust(50))
+        label_foliamg.pack()
+        label_woreczkipp = tk.Label(
+            okno_zmiany, text=f"Aktualna cena za woreczki: {ceny_woreczkipp}zł,    Domyślna: 11,00zł".rjust(50))
+        label_woreczkipp.pack()
 
-        path = os.path.join(os.getcwd(), "Ceny.txt")
+        label_cena_tektura = tk.Label(
+            okno_zmiany, text="Zmiana ceny za tekturę:")
+        label_cena_tektura.pack()
+        entry_cena_tektura = tk.Entry(okno_zmiany)
+        entry_cena_tektura.pack()
 
-        if os.path.exists(path):
-            os.remove(path)
+        label_cena_nadruk = tk.Label(
+            okno_zmiany, text="Zmiana ceny za nadruk:")
+        label_cena_nadruk.pack()
+        entry_cena_nadruk = tk.Entry(okno_zmiany)
+        entry_cena_nadruk.pack()
 
-        with open("Ceny.txt", "a", encoding='utf-8') as plik:
-            plik.write('13')
-            plik.write('\n')
-            plik.write('35')
-            plik.write('\n')
-            plik.write('18')
-            plik.write('\n')
-            plik.write('11')
-        if not os.path.isfile("Ceny.txt"):
-            open("Ceny.txt", "w", encoding='utf-8').close()
-            plik.write('13')
-            plik.write('\n')
-            plik.write('35')
-            plik.write('\n')
-            plik.write('18')
-            plik.write('\n')
-            plik.write('11')
+        label_cena_foliamg = tk.Label(
+            okno_zmiany, text="Zmiana ceny za folię:")
+        label_cena_foliamg.pack()
+        entry_cena_foliamg = tk.Entry(okno_zmiany)
+        entry_cena_foliamg.pack()
 
-    # ścieżka do pliku Ceny.txt w bieżącym folderze
-    path = os.path.join(os.getcwd(), "Ceny.txt")
+        label_cena_woreczkipp = tk.Label(
+            okno_zmiany, text="Zmiana ceny za woreczki:")
+        label_cena_woreczkipp.pack()
+        entry_cena_woreczkipp = tk.Entry(okno_zmiany)
+        entry_cena_woreczkipp.pack()
 
-    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
-    if os.path.exists(path):
-        with open(path, "r", encoding='utf-8') as f:
-            teraz_ceny = f.read()
-        if not os.path.isfile("Ceny.txt"):
-            open("Ceny.txt", "w", encoding='utf-8').close()
-            f.write('13')
-            f.write('35')
-            f.write('18')
-            f.write('11')
+        pustka = tk.Label(okno_zmiany)
+        pustka.pack()
+
+        edycja = tk.Frame(okno_zmiany)
+        edycja.pack()
+
+        button_zmien = tk.Button(
+            edycja, text="Zapisz zmiany", command=edycja_kosztow_wczytaj)
+        button_zmien.pack(side=tk.LEFT)
+
+        button_zmien_domyslne = tk.Button(
+            edycja, text="Wczytaj domyślne", command=edycja_kosztow_domyslna)
+        button_zmien_domyslne.pack(side=tk.RIGHT)
+        okno_zmiany.protocol("WM_DELETE_WINDOW", zamknij_okno)
+        okno_zmiany.bind("<Map>", lambda event: otworz_okno())
+        okno_zmiany.mainloop()
     else:
-        teraz_ceny = "13\n35\n18\n11"
-
-    ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
-    if ceny_tektura == '' or ceny_tektura == 201:
-        ceny_tektura = 13
-    ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
-    if ceny_nadruk == '' or ceny_nadruk == 201:
-        ceny_nadruk = 35
-    ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
-    if ceny_foliamg == '' or ceny_foliamg == 201:
-        ceny_foliamg = 18
-    ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
-    if ceny_woreczkipp == '' or ceny_woreczkipp == 201:
-        ceny_woreczkipp = 11
-
-    label_tektura = tk.Label(
-        okno_zmiany, text=f"Aktualna cena za tekturę: {ceny_tektura}zł,    Domyślna: 13,00zł".rjust(50))
-    label_tektura.pack()
-    label_nadruk = tk.Label(
-        okno_zmiany, text=f"Aktualna cena za nadruk: {ceny_nadruk}zł,    Domyślna: 35,00zł".rjust(50))
-    label_nadruk.pack()
-    label_foliamg = tk.Label(
-        okno_zmiany, text=f"Aktualna cena za folię: {ceny_foliamg}zł,    Domyślna: 18,00zł".rjust(50))
-    label_foliamg.pack()
-    label_woreczkipp = tk.Label(
-        okno_zmiany, text=f"Aktualna cena za woreczki: {ceny_woreczkipp}zł,    Domyślna: 11,00zł".rjust(50))
-    label_woreczkipp.pack()
-
-    label_cena_tektura = tk.Label(okno_zmiany, text="Zmiana ceny za tekturę:")
-    label_cena_tektura.pack()
-    entry_cena_tektura = tk.Entry(okno_zmiany)
-    entry_cena_tektura.pack()
-
-    label_cena_nadruk = tk.Label(okno_zmiany, text="Zmiana ceny za nadruk:")
-    label_cena_nadruk.pack()
-    entry_cena_nadruk = tk.Entry(okno_zmiany)
-    entry_cena_nadruk.pack()
-
-    label_cena_foliamg = tk.Label(okno_zmiany, text="Zmiana ceny za folię:")
-    label_cena_foliamg.pack()
-    entry_cena_foliamg = tk.Entry(okno_zmiany)
-    entry_cena_foliamg.pack()
-
-    label_cena_woreczkipp = tk.Label(
-        okno_zmiany, text="Zmiana ceny za woreczki:")
-    label_cena_woreczkipp.pack()
-    entry_cena_woreczkipp = tk.Entry(okno_zmiany)
-    entry_cena_woreczkipp.pack()
-
-    pustka = tk.Label(okno_zmiany)
-    pustka.pack()
-
-    edycja = tk.Frame(okno_zmiany)
-    edycja.pack()
-
-    button_zmien = tk.Button(
-        edycja, text="Zapisz zmiany", command=edycja_kosztow_wczytaj)
-    button_zmien.pack(side=tk.LEFT)
-
-    button_zmien_domyslne = tk.Button(
-        edycja, text="Wczytaj domyślne", command=edycja_kosztow_domyslna)
-    button_zmien_domyslne.pack(side=tk.RIGHT)
+        messagebox.showerror("Błąd", "To okno jest już otwarte!")
 
 
 def oblicz_zyski():

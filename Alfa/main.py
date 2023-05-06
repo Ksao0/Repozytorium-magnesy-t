@@ -17,7 +17,7 @@ internet = 1
 def czynnosci_poczatkowe():
     global internet
     # Aktualizacja pliku WEW
-
+  
     # ścieżka do pliku WEW.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "WEW.py")
 

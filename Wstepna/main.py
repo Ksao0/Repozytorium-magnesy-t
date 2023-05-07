@@ -283,7 +283,7 @@ def informacje_o_wersji_utworz_okno():
         version_online_lines = version_online.split('\n')
         version_local_lines = version_local.split('\n')
 
-        informacje_wersji = tk.Tk()
+        informacje_wersji = tk.Toplevel()
         informacje_wersji.title(f"Informacje o wersji")
 
         label_informacja = tk.Label(

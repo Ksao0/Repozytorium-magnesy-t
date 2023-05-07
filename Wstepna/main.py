@@ -319,7 +319,7 @@ def informacje_o_wersji_utworz_okno():
 
         informacje_wersji.mainloop()
     else:
-        messagebox.showerror("Błąd", "To okno jest już otwarte")
+        messagebox.showerror("Błąd", "To okno jest już otwarte!")
 
 
 def edycja_kosztow():
@@ -655,7 +655,7 @@ def otworz_okno_zapisy():
         with open(path, "r", encoding="utf-8") as f:
             zawartosc = f.read().strip()
     else:
-        zawartosc = "BRAK DANYCH"
+        zawartosc = ''
 
     # Tworzenie nowego okna
     okno = tk.Toplevel()

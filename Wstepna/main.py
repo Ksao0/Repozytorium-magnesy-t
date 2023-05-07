@@ -658,12 +658,13 @@ def otworz_okno_zapisy():
         zawartosc = ''
 
     # Tworzenie nowego okna
-    okno = tk.Toplevel()
-    okno.title("Historia")
-    okno.geometry("800x900")
+    okno_zapisy = tk.Toplevel()
+    okno_zapisy.title("Historia")
+    okno_zapisy.geometry("800x900")
+    okno_zapisy.grab_set()
 
     # Dodanie elementu ScrolledText
-    pole_tekstowe = scrolledtext.ScrolledText(okno, wrap=tk.WORD)
+    pole_tekstowe = scrolledtext.ScrolledText(okno_zapisy, wrap=tk.WORD)
     pole_tekstowe.pack(expand=True, fill=tk.BOTH)
 
     # Wstawienie zawartości pliku do elementu ScrolledText

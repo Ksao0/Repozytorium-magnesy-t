@@ -1,4 +1,4 @@
-1.1.1.3 Wstępna
+1.1.2.0 Wstępna
 Status: Poprawka wersji
 Numer poprawki: 0
 Wydano: 05.05.2023
@@ -12,7 +12,7 @@ Zmiany względem poprzedniej wersji wstępnej:
          Wersja w repoztorium: 1.0.0.1.7
       W powyższej sytuacji poprawka wersji 1.0.0.1.7 nie zostanie zainstalowana automatycznie.
  - Program obsługuje niektóre problemy w działaniu
- - Możliwość używania wszystkich okin jednocześnie
+ - Możliwość używania wszystkich okien jednocześnie
 
 Przydatne informacje dla osób, które nie używały wcześniej tej wersji:
 Jest to wersja wstępna naszego programu liczącego. To tutaj są testowane wszystkie nowe funkcje.

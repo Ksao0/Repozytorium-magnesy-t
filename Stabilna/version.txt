@@ -30,7 +30,7 @@ Aby zainstalowac te biblioteki:
   WYŁĄCZ TERMINAL CMD DOPIERO WTEDY, KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:
  1. Otwórz terminal cmd
  2. Wpisz polecenie, które zaktualizuje twoje środowisko i naciśnij enter: python -m pip install --upgrade pip
-      PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI)
+      PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI
  3. Zainstaluj biblioteki:
       pip install NAZWA_BIBLIOTEKI
     Przykład: pip install tkinter

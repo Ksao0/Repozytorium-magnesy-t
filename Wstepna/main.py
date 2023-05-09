@@ -7,6 +7,8 @@ import urllib.request
 import subprocess
 import requests
 from time import sleep
+from github import Github
+
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -14,7 +16,88 @@ print('Wykonywanie czynności początkowych...')
 
 okno_informacje_otwarte = 0
 okno_edycja_kosztow_otwarte = 0
+okno_problemu_otwarte = 0
 internet = 1
+
+
+def zglos_problem():
+    def otworz_okno():
+        global okno_problemu_otwarte
+        okno_problemu_otwarte = 1
+
+    def zamknij_okno():
+        global okno_problemu_otwarte
+        okno_problemu_otwarte = 0
+        okno_problemu.destroy()
+
+    if okno_problemu_otwarte == 0:
+        def zglos_problem_wyslij():
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
+                messagebox.showerror(
+                    "Błąd", 'Poproś twórcę programu o informacje')
+
+            if not plik_od_dewelopera == "BRAK PLIKU D":
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+            else:
+                messagebox.showinfo("Informacja", 'Operacja zakończona')
+                return
+
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = f'{entry_tutul_problemu.get()}'
+            issue_body = entry_opis_problemu.get("1.0", tk.END)
+
+            # autentykacja
+            g = Github(username, password)
+
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
+
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
+
+            messagebox.showinfo("Informacja", 'Zgłoszenie wysłane!')
+
+        okno_problemu = tk.Toplevel()
+        okno_problemu.title("Zgłaszanie problemów z programem")
+        okno_problemu.geometry("370x300+800+410")
+
+        label_informacja = tk.Label(
+            okno_problemu, text="Po opisaniu problemu naciśnij przycisk")
+        label_informacja.pack()
+
+        label_informacja = tk.Label(
+            okno_problemu, text="Tytuł problemu")
+        label_informacja.pack()
+        entry_tutul_problemu = tk.Entry(okno_problemu)
+        entry_tutul_problemu.pack()
+
+        label_informacja = tk.Label(
+            okno_problemu, text="Opisz na czym polega problem")
+        label_informacja.pack()
+        entry_opis_problemu = tk.Text(okno_problemu, height=11)
+        entry_opis_problemu.pack()
+
+        button_wyslij_problem = tk.Button(
+            okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
+        button_wyslij_problem.pack()
+
+        okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
+        okno_problemu.bind("<Map>", lambda event: otworz_okno)
+
+        okno_problemu.mainloop()
+    else:
+        messagebox.showerror("Błąd", "To okno jest już otwarte!")
 
 
 def czynnosci_poczatkowe():
@@ -251,75 +334,78 @@ def rozwiaz_problemy():
 
 
 def informacje_o_wersji_utworz_okno():
-    def otworz_okno():
-        global okno_informacje_otwarte
-        okno_informacje_otwarte = 1
+    if not internet == 0:
+        def otworz_okno():
+            global okno_informacje_otwarte
+            okno_informacje_otwarte = 1
 
-    def zamknij_okno():
-        global okno_informacje_otwarte
-        okno_informacje_otwarte = 0
-        informacje_wersji.destroy()
+        def zamknij_okno():
+            global okno_informacje_otwarte
+            okno_informacje_otwarte = 0
+            informacje_wersji.destroy()
 
-    if okno_informacje_otwarte == 0:
-        version_online = "BRAK DANYCH"
-        # Pobierz zawartość pliku version.txt z repozytorium na GitHub
-        try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-            response = requests.get(url)
-            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-            version_online = response.content.decode('utf-8').strip()
-        except:
-            messagebox.showerror(
-                "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
+        if okno_informacje_otwarte == 0:
+            version_online = "BRAK DANYCH"
+            # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+            try:
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+                response = requests.get(url)
+                response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+                version_online = response.content.decode('utf-8').strip()
+            except:
+                messagebox.showerror(
+                    "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
 
-        # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "version.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                version_local = f.read().strip()
+            # Odczytaj zawartość pliku version.txt w twoim programie
+            path = os.path.join(os.getcwd(), "version.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    version_local = f.read().strip()
+            else:
+                version_local = "BRAK DANYCH"
+
+            version_online_lines = version_online.split('\n')
+            version_local_lines = version_local.split('\n')
+
+            informacje_wersji = tk.Toplevel()
+            informacje_wersji.title(f"Informacje o wersji")
+
+            label_informacja = tk.Label(
+                informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
+            label_informacja.pack()
+            label_informacja = tk.Label(
+                informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
+            label_informacja.pack()
+            label_informacja = tk.Label(
+                informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
+            label_informacja.pack()
+            pustka = tk.Label()
+            pustka.pack()
+
+            label_informacja = tk.Label(
+                informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
+            label_informacja.pack()
+            label_informacja = tk.Label(
+                informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
+            label_informacja.pack()
+            label_informacja = tk.Label(
+                informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
+            label_informacja.pack()
+
+            for line in version_online_lines[6:15]:
+                label_opis_wersji = tk.Label(
+                    informacje_wersji, text=f"{line}", justify="left", anchor="w")
+                label_opis_wersji.pack(fill="x", padx=(20, 0))
+            informacje_wersji.geometry("+1180+0")
+
+            informacje_wersji.protocol("WM_DELETE_WINDOW", zamknij_okno)
+            informacje_wersji.bind("<Map>", lambda event: otworz_okno())
+
+            informacje_wersji.mainloop()
         else:
-            version_local = "BRAK DANYCH"
-
-        version_online_lines = version_online.split('\n')
-        version_local_lines = version_local.split('\n')
-
-        informacje_wersji = tk.Toplevel()
-        informacje_wersji.title(f"Informacje o wersji")
-
-        label_informacja = tk.Label(
-            informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
-        label_informacja.pack()
-        label_informacja = tk.Label(
-            informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
-        label_informacja.pack()
-        label_informacja = tk.Label(
-            informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
-        label_informacja.pack()
-        pustka = tk.Label()
-        pustka.pack()
-
-        label_informacja = tk.Label(
-            informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
-        label_informacja.pack()
-        label_informacja = tk.Label(
-            informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
-        label_informacja.pack()
-        label_informacja = tk.Label(
-            informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
-        label_informacja.pack()
-
-        for line in version_online_lines[6:15]:
-            label_opis_wersji = tk.Label(
-                informacje_wersji, text=f"{line}", justify="left", anchor="w")
-            label_opis_wersji.pack(fill="x", padx=(20, 0))
-        informacje_wersji.geometry("+1180+0")
-
-        informacje_wersji.protocol("WM_DELETE_WINDOW", zamknij_okno)
-        informacje_wersji.bind("<Map>", lambda event: otworz_okno())
-
-        informacje_wersji.mainloop()
+            messagebox.showerror("Błąd", "To okno jest już otwarte!")
     else:
-        messagebox.showerror("Błąd", "To okno jest już otwarte!")
+        blad_poczatkowe()
 
 
 def edycja_kosztow():
@@ -335,7 +421,7 @@ def edycja_kosztow():
     if okno_edycja_kosztow_otwarte == 0:
         okno_zmiany = tk.Toplevel()
         okno_zmiany.title("Zmiana kosztów")
-        okno_zmiany.geometry("370x300+800+360")
+        okno_zmiany.geometry("370x300+800+410")
 
         def edycja_kosztow_wczytaj():
             ceny_tektura = str(entry_cena_tektura.get())
@@ -674,7 +760,7 @@ def otworz_okno_zapisy():
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("370x330+800+0")
+    okno_wyborowe.geometry("370x380+800+0")
 
     # Dodanie przycisku do nowego okna
     button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
@@ -710,6 +796,13 @@ def otworz_okno_wybor():
     button_informacje_o_wersji.pack()
     label_informacja = tk.Label(
         okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
+    label_informacja.pack()
+
+    button_zglos_problem = tk.Button(
+        okno_wyborowe, text="Zgłoś problem", command=zglos_problem)
+    button_zglos_problem.pack()
+    label_informacja = tk.Label(
+        okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników")
     label_informacja.pack()
 
 

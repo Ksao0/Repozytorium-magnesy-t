@@ -14,6 +14,11 @@ print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
 print('Wykonywanie czynności początkowych...')
 
+global okno_informacje_otwarte
+global okno_edycja_kosztow_otwarte
+global okno_problemu_otwarte
+global internet
+
 okno_informacje_otwarte = 0
 okno_edycja_kosztow_otwarte = 0
 okno_problemu_otwarte = 0
@@ -21,6 +26,9 @@ internet = 1
 
 
 def zglos_problem():
+    global okno_edycja_kosztow_otwarte
+    global okno_problemu_otwarte
+
     def otworz_okno():
         global okno_problemu_otwarte
         okno_problemu_otwarte = 1
@@ -31,6 +39,8 @@ def zglos_problem():
         okno_problemu.destroy()
 
     if okno_problemu_otwarte == 0:
+        okno_problemu_otwarte = 1
+
         def zglos_problem_wyslij():
             # Odczytaj zawartość pliku Develop.txt w twoim programie
             path = os.path.join(os.getcwd(), "Develop.txt")
@@ -68,9 +78,14 @@ def zglos_problem():
 
             messagebox.showinfo("Informacja", 'Zgłoszenie wysłane!')
 
-        okno_problemu = tk.Toplevel()
-        okno_problemu.title("Zgłaszanie problemów z programem")
-        okno_problemu.geometry("370x300+800+410")
+        if not okno_edycja_kosztow_otwarte == 0:
+            okno_problemu = tk.Toplevel()
+            okno_problemu.title("Zgłaszanie problemów z programem")
+            okno_problemu.geometry("370x300+1170+410")
+        else:
+            okno_problemu = tk.Toplevel()
+            okno_problemu.title("Zgłaszanie problemów z programem")
+            okno_problemu.geometry("370x300+800+410")
 
         label_informacja = tk.Label(
             okno_problemu, text="Po opisaniu problemu naciśnij przycisk")
@@ -409,6 +424,9 @@ def informacje_o_wersji_utworz_okno():
 
 
 def edycja_kosztow():
+    global okno_edycja_kosztow_otwarte
+    global okno_problemu_otwarte
+
     def otworz_okno():
         global okno_edycja_kosztow_otwarte
         okno_edycja_kosztow_otwarte = 1
@@ -419,9 +437,17 @@ def edycja_kosztow():
         okno_zmiany.destroy()
 
     if okno_edycja_kosztow_otwarte == 0:
-        okno_zmiany = tk.Toplevel()
-        okno_zmiany.title("Zmiana kosztów")
-        okno_zmiany.geometry("370x300+800+410")
+        if not okno_problemu_otwarte == 0:
+            okno_zmiany = tk.Toplevel()
+            okno_zmiany.title("Zmiana kosztów")
+            okno_zmiany.geometry("370x300+1170+410")
+        else:
+            okno_zmiany = tk.Toplevel()
+            okno_zmiany.title("Zmiana kosztów")
+            okno_zmiany.geometry("370x300+800+410")
+
+        okno_zmiany.protocol("WM_DELETE_WINDOW", zamknij_okno)
+        okno_zmiany.bind("<Map>", lambda event: otworz_okno())
 
         def edycja_kosztow_wczytaj():
             ceny_tektura = str(entry_cena_tektura.get())
@@ -560,8 +586,6 @@ def edycja_kosztow():
         button_zmien_domyslne = tk.Button(
             edycja, text="Wczytaj domyślne", command=edycja_kosztow_domyslna)
         button_zmien_domyslne.pack(side=tk.RIGHT)
-        okno_zmiany.protocol("WM_DELETE_WINDOW", zamknij_okno)
-        okno_zmiany.bind("<Map>", lambda event: otworz_okno())
         okno_zmiany.mainloop()
     else:
         messagebox.showerror("Błąd", "To okno jest już otwarte!")

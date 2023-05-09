@@ -17,11 +17,13 @@ print('Wykonywanie czynności początkowych...')
 global okno_informacje_otwarte
 global okno_edycja_kosztow_otwarte
 global okno_problemu_otwarte
+global okno_wyborowe_otwarte
 global internet
 
 okno_informacje_otwarte = 0
 okno_edycja_kosztow_otwarte = 0
 okno_problemu_otwarte = 0
+okno_wyborowe_otwarte = 0
 internet = 1
 
 
@@ -782,52 +784,66 @@ def otworz_okno_zapisy():
 
 
 def otworz_okno_wybor():
-    okno_wyborowe = tk.Toplevel()
-    okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("370x390+800+0")
+    def otworz_okno():
+        global okno_wyborowe_otwarte
+        okno_wyborowe_otwarte = 1
 
-    # Dodanie przycisku do nowego okna
-    button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
-                       command=aktul)
-    button.pack()
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Zaktualizuj program ręcznie i zapisz tę informację do historii.\nMożesz też zmienić wersję programu")
-    label_informacja.pack()
-    button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
-                                      command=wykasuj_zapisy)
-    button_wykasuj_zapisy.pack()
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
-    label_informacja.pack()
+    def zamknij_okno():
+        global okno_wyborowe_otwarte
+        okno_wyborowe_otwarte = 0
+        okno_wyborowe.destroy()
+    if okno_wyborowe_otwarte == 0:
+        okno_wyborowe = tk.Toplevel()
+        okno_wyborowe.title("Okno wyborowe")
+        okno_wyborowe.geometry("370x390+800+0")
 
-    button_zmiana_danych = tk.Button(
-        okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
-    button_zmiana_danych.pack()
+        # Dodanie przycisku do nowego okna
+        button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
+                           command=aktul)
+        button.pack()
+        label_informacja = tk.Label(
+            okno_wyborowe, text="Zaktualizuj program ręcznie i zapisz tę informację do historii.\nMożesz też zmienić wersję programu")
+        label_informacja.pack()
+        button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
+                                          command=wykasuj_zapisy)
+        button_wykasuj_zapisy.pack()
+        label_informacja = tk.Label(
+            okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
+        label_informacja.pack()
 
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej linii")
-    label_informacja.pack()
+        button_zmiana_danych = tk.Button(
+            okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
+        button_zmiana_danych.pack()
 
-    button_rozwiaz_problemy = tk.Button(
-        okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
-    button_rozwiaz_problemy.pack()
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte")
-    label_informacja.pack()
+        label_informacja = tk.Label(
+            okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej linii")
+        label_informacja.pack()
 
-    button_informacje_o_wersji = tk.Button(
-        okno_wyborowe, text="Informacje o wersji", command=informacje_o_wersji_utworz_okno)
-    button_informacje_o_wersji.pack()
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
-    label_informacja.pack()
+        button_rozwiaz_problemy = tk.Button(
+            okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
+        button_rozwiaz_problemy.pack()
+        label_informacja = tk.Label(
+            okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte")
+        label_informacja.pack()
 
-    button_zglos_problem = tk.Button(
-        okno_wyborowe, text="Zgłoś problem", command=zglos_problem)
-    button_zglos_problem.pack()
-    label_informacja = tk.Label(
-        okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")
-    label_informacja.pack()
+        button_informacje_o_wersji = tk.Button(
+            okno_wyborowe, text="Informacje o wersji", command=informacje_o_wersji_utworz_okno)
+        button_informacje_o_wersji.pack()
+        label_informacja = tk.Label(
+            okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
+        label_informacja.pack()
+
+        button_zglos_problem = tk.Button(
+            okno_wyborowe, text="Zgłoś problem", command=zglos_problem)
+        button_zglos_problem.pack()
+        label_informacja = tk.Label(
+            okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")
+        label_informacja.pack()
+        okno_wyborowe.protocol("WM_DELETE_WINDOW", zamknij_okno)
+        okno_wyborowe.bind("<Map>", lambda event: otworz_okno())
+        okno_wyborowe.mainloop()
+    else:
+        messagebox.showerror("Błąd", "To okno jest już otwarte!")
 
 
 # Dodanie etykiet i pól tekstowych

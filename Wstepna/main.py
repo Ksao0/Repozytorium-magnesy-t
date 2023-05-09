@@ -90,17 +90,17 @@ def zglos_problem():
             okno_problemu.geometry("370x300+800+420")
 
         label_informacja = tk.Label(
-            okno_problemu, text="Po opisaniu problemu naciśnij przycisk")
+            okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
         label_informacja.pack()
 
         label_informacja = tk.Label(
-            okno_problemu, text="Tytuł problemu:")
+            okno_problemu, text="Tytuł problemu lub propozycji:")
         label_informacja.pack()
         entry_tutul_problemu = tk.Entry(okno_problemu)
         entry_tutul_problemu.pack()
 
         label_informacja = tk.Label(
-            okno_problemu, text="Opisz na czym polega problem:")
+            okno_problemu, text="Opisz jak najdokładniej problem lub propozycję:")
         label_informacja.pack()
         entry_opis_problemu = tk.Text(okno_problemu, height=11)
         entry_opis_problemu.pack()

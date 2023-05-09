@@ -82,11 +82,11 @@ def zglos_problem():
 
         if not okno_edycja_kosztow_otwarte == 0:
             okno_problemu = tk.Toplevel()
-            okno_problemu.title("Zgłaszanie problemów z programem")
+            okno_problemu.title("Zgłaszanie problemów i propozycji")
             okno_problemu.geometry("370x300+1170+420")
         else:
             okno_problemu = tk.Toplevel()
-            okno_problemu.title("Zgłaszanie problemów z programem")
+            okno_problemu.title("Zgłaszanie problemów i propozycji")
             okno_problemu.geometry("370x300+800+420")
 
         label_informacja = tk.Label(

@@ -92,13 +92,13 @@ def zglos_problem():
         label_informacja.pack()
 
         label_informacja = tk.Label(
-            okno_problemu, text="Tytuł problemu")
+            okno_problemu, text="Tytuł problemu:")
         label_informacja.pack()
         entry_tutul_problemu = tk.Entry(okno_problemu)
         entry_tutul_problemu.pack()
 
         label_informacja = tk.Label(
-            okno_problemu, text="Opisz na czym polega problem")
+            okno_problemu, text="Opisz na czym polega problem:")
         label_informacja.pack()
         entry_opis_problemu = tk.Text(okno_problemu, height=11)
         entry_opis_problemu.pack()
@@ -826,7 +826,7 @@ def otworz_okno_wybor():
         okno_wyborowe, text="Zgłoś problem", command=zglos_problem)
     button_zglos_problem.pack()
     label_informacja = tk.Label(
-        okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników")
+        okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")
     label_informacja.pack()
 
 

@@ -82,11 +82,11 @@ def zglos_problem():
 
         if not okno_edycja_kosztow_otwarte == 0:
             okno_problemu = tk.Toplevel()
-            okno_problemu.title("Zgłaszanie problemów i propozycji")
+            okno_problemu.title("Zgłaszanie problemów lub propozycji")
             okno_problemu.geometry("370x300+1170+420")
         else:
             okno_problemu = tk.Toplevel()
-            okno_problemu.title("Zgłaszanie problemów i propozycji")
+            okno_problemu.title("Zgłaszanie problemów lub propozycji")
             okno_problemu.geometry("370x300+800+420")
 
         label_informacja = tk.Label(
@@ -834,7 +834,7 @@ def otworz_okno_wybor():
         label_informacja.pack()
 
         button_zglos_problem = tk.Button(
-            okno_wyborowe, text="Zgłoś problem", command=zglos_problem)
+            okno_wyborowe, text="Zgłoś problemy lub propozycje", command=zglos_problem)
         button_zglos_problem.pack()
         label_informacja = tk.Label(
             okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")

@@ -81,11 +81,11 @@ def zglos_problem():
         if not okno_edycja_kosztow_otwarte == 0:
             okno_problemu = tk.Toplevel()
             okno_problemu.title("Zgłaszanie problemów z programem")
-            okno_problemu.geometry("370x300+1170+410")
+            okno_problemu.geometry("370x300+1170+420")
         else:
             okno_problemu = tk.Toplevel()
             okno_problemu.title("Zgłaszanie problemów z programem")
-            okno_problemu.geometry("370x300+800+410")
+            okno_problemu.geometry("370x300+800+420")
 
         label_informacja = tk.Label(
             okno_problemu, text="Po opisaniu problemu naciśnij przycisk")
@@ -440,11 +440,11 @@ def edycja_kosztow():
         if not okno_problemu_otwarte == 0:
             okno_zmiany = tk.Toplevel()
             okno_zmiany.title("Zmiana kosztów")
-            okno_zmiany.geometry("370x300+1170+410")
+            okno_zmiany.geometry("370x300+1170+420")
         else:
             okno_zmiany = tk.Toplevel()
             okno_zmiany.title("Zmiana kosztów")
-            okno_zmiany.geometry("370x300+800+410")
+            okno_zmiany.geometry("370x300+800+420")
 
         okno_zmiany.protocol("WM_DELETE_WINDOW", zamknij_okno)
         okno_zmiany.bind("<Map>", lambda event: otworz_okno())
@@ -784,7 +784,7 @@ def otworz_okno_zapisy():
 def otworz_okno_wybor():
     okno_wyborowe = tk.Toplevel()
     okno_wyborowe.title("Okno wyborowe")
-    okno_wyborowe.geometry("370x380+800+0")
+    okno_wyborowe.geometry("370x390+800+0")
 
     # Dodanie przycisku do nowego okna
     button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",

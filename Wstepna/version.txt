@@ -9,7 +9,6 @@ Zmiany względem poprzedniej wersji wstępnej:
    - traceback
    - github
    - time
-
  - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
  - Program obsługuje niektóre problemy w działaniu
  - Możliwość używania wszystkich okien jednocześnie

@@ -1,16 +1,16 @@
 1.3.1.0 Wstępna
 Status: Poprawka wersji
-Numer poprawki: 0
-Wydano: 05.05.2023
+Numer poprawki: 1
+Wydano: 13.05.2023
 
 Zmiany względem poprzedniej wersji wstępnej:
- - Poprawki wersji są pobierane automatycznie, jeżeli wersja programu jest identyczna.
-      Poprawka wersji nie wprowadza żadnych znaczących zmian oprócz usunięcia błędów lub usprawnienia działania itp.
-   Kiedy poprawka wersji nie zostanie pobrana?
-      Poprawka wersji nie zostanie pobrana jeżeli jej wersja jest inna niż wersja twojego programu na przykład:
-         Wersja na komputerze: 1.0.0.1.6
-         Wersja w repoztorium: 1.0.0.1.7
-      W powyższej sytuacji poprawka wersji 1.0.0.1.7 nie zostanie zainstalowana automatycznie.
+ - WAŻNE Dnia 13.05.2023 dodano następujące biblioteki. Pobierz je poleceniem pip install nazwa biblioteki:
+   - sys
+   - traceback
+   - github
+   - time
+
+ - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
  - Program obsługuje niektóre problemy w działaniu
  - Możliwość używania wszystkich okien jednocześnie
  - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
@@ -30,6 +30,10 @@ Po wybraniu tej wersji zainstaluj wymagane biblioteki:
  - request  (dwie biblioteki o podobnej nazwie)
  - requests (dwie biblioteki o podobnej nazwie)
  - subprocess
+ - time
+ - github
+ - sys
+ - traceback
 
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)

@@ -696,7 +696,7 @@ def informacje_o_wersji_utworz_okno():
                     label_opis_wersji = tk.Label(
                         informacje_wersji, text=f"{line}", justify="left", anchor="w")
                     label_opis_wersji.pack(fill="x", padx=(20, 0))
-                informacje_wersji.geometry("+1180+0")
+                informacje_wersji.geometry("+1170+0")
 
                 informacje_wersji.protocol("WM_DELETE_WINDOW", zamknij_okno)
                 informacje_wersji.bind("<Map>", lambda event: otworz_okno())

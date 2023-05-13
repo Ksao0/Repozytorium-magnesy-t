@@ -1,6 +1,6 @@
 1.3.1.0 Wstępna
 Status: Poprawka wersji
-Numer poprawki: 1
+Numer poprawki: 2
 Wydano: 13.05.2023
 
 Zmiany względem poprzedniej wersji wstępnej:
@@ -14,26 +14,6 @@ Zmiany względem poprzedniej wersji wstępnej:
  - Program obsługuje niektóre problemy w działaniu
  - Możliwość używania wszystkich okien jednocześnie
  - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
-
-Przydatne informacje dla osób, które nie używały wcześniej tej wersji:
-Jest to wersja wstępna naszego programu liczącego. To tutaj są testowane wszystkie nowe funkcje.
-Aktualizacje oraz poprawki dla tej wersji są wypuszczane częściej niż dla wersji stabilnej.
-W każdej chwili możesz wrócić do wersji stabilnej: podczas aktualizowania programu wybierz
-wersję stabilną, jako wersję do pobrania
-Po wybraniu tej wersji zainstaluj wymagane biblioteki:
- - os
- - tkinter
- - messagebox
- - scrolledtext
- - datetime
- - urllib
- - request  (dwie biblioteki o podobnej nazwie)
- - requests (dwie biblioteki o podobnej nazwie)
- - subprocess
- - time
- - github
- - sys
- - traceback
 
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)

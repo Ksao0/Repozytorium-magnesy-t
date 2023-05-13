@@ -27,94 +27,106 @@ okno_wyborowe_otwarte = 0
 internet = 1
 
 
-def zglos_problem():
-    global okno_edycja_kosztow_otwarte
-    global okno_problemu_otwarte
-
-    def otworz_okno():
-        global okno_problemu_otwarte
-        okno_problemu_otwarte = 1
-
-    def zamknij_okno():
-        global okno_problemu_otwarte
-        okno_problemu_otwarte = 0
-        okno_problemu.destroy()
-
-    if okno_problemu_otwarte == 0:
-        okno_problemu_otwarte = 1
-
-        def zglos_problem_wyslij():
-            # Odczytaj zawartość pliku Develop.txt w twoim programie
-            path = os.path.join(os.getcwd(), "Develop.txt")
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    plik_od_dewelopera = f.read().strip()
-            else:
-                plik_od_dewelopera = "BRAK PLIKU D"
-                messagebox.showerror(
-                    "Błąd", 'Poproś twórcę programu o informacje')
-
-            if not plik_od_dewelopera == "BRAK PLIKU D":
-                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-                nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                token_do_wpisania = informacje_do_zgloszenia[1]
-            else:
-                messagebox.showinfo("Informacja", 'Operacja zakończona')
-                return
-
-            # ustawienia konta
-            username = f'{nazwa_uzytkownika}'
-            password = f'{token_do_wpisania}'
-            repository_name = 'Ksao0/Repozytorium-magnesy-t'
-            issue_title = f'{entry_tutul_problemu.get()}'
-            issue_body = entry_opis_problemu.get("1.0", tk.END)
-
-            # autentykacja
-            g = Github(username, password)
-
-            # pobierz repozytorium
-            repo = g.get_repo(repository_name)
-
-            # utwórz nowe zgłoszenie błędu
-            repo.create_issue(title=issue_title, body=issue_body)
-
-            messagebox.showinfo("Informacja", 'Zgłoszenie wysłane!')
-
-        if not okno_edycja_kosztow_otwarte == 0:
-            okno_problemu = tk.Toplevel()
-            okno_problemu.title("Zgłaszanie problemów lub propozycji")
-            okno_problemu.geometry("370x300+1170+420")
-        else:
-            okno_problemu = tk.Toplevel()
-            okno_problemu.title("Zgłaszanie problemów lub propozycji")
-            okno_problemu.geometry("370x300+800+420")
-
-        label_informacja = tk.Label(
-            okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
-        label_informacja.pack()
-
-        label_informacja = tk.Label(
-            okno_problemu, text="Tytuł problemu lub propozycji:")
-        label_informacja.pack()
-        entry_tutul_problemu = tk.Entry(okno_problemu)
-        entry_tutul_problemu.pack()
-
-        label_informacja = tk.Label(
-            okno_problemu, text="Opisz jak najdokładniej problem lub propozycję:")
-        label_informacja.pack()
-        entry_opis_problemu = tk.Text(okno_problemu, height=11)
-        entry_opis_problemu.pack()
-
-        button_wyslij_problem = tk.Button(
-            okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
-        button_wyslij_problem.pack()
-
-        okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
-        okno_problemu.bind("<Map>", lambda event: otworz_okno)
-
-        okno_problemu.mainloop()
+def blad_poczatkowe():
+    message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
+    response = messagebox.askokcancel("Błąd", message)
+    if response == True:
+        czynnosci_poczatkowe()
     else:
-        messagebox.showerror("Błąd", "To okno jest już otwarte!")
+        return
+
+
+def zglos_problem():
+    if not internet == 0:
+        global okno_edycja_kosztow_otwarte
+        global okno_problemu_otwarte
+
+        def otworz_okno():
+            global okno_problemu_otwarte
+            okno_problemu_otwarte = 1
+
+        def zamknij_okno():
+            global okno_problemu_otwarte
+            okno_problemu_otwarte = 0
+            okno_problemu.destroy()
+
+        if okno_problemu_otwarte == 0:
+            okno_problemu_otwarte = 1
+
+            def zglos_problem_wyslij():
+                # Odczytaj zawartość pliku Develop.txt w twoim programie
+                path = os.path.join(os.getcwd(), "Develop.txt")
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        plik_od_dewelopera = f.read().strip()
+                else:
+                    plik_od_dewelopera = "BRAK PLIKU D"
+                    messagebox.showerror(
+                        "Błąd", 'Poproś twórcę programu o informacje')
+
+                if not plik_od_dewelopera == "BRAK PLIKU D":
+                    informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                    nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                    token_do_wpisania = informacje_do_zgloszenia[1]
+                else:
+                    messagebox.showinfo("Informacja", 'Operacja zakończona')
+                    return
+
+                # ustawienia konta
+                username = f'{nazwa_uzytkownika}'
+                password = f'{token_do_wpisania}'
+                repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                issue_title = f'{entry_tutul_problemu.get()}'
+                issue_body = entry_opis_problemu.get("1.0", tk.END)
+
+                # autentykacja
+                g = Github(username, password)
+
+                # pobierz repozytorium
+                repo = g.get_repo(repository_name)
+
+                # utwórz nowe zgłoszenie błędu
+                repo.create_issue(title=issue_title, body=issue_body)
+
+                messagebox.showinfo("Informacja", 'Zgłoszenie wysłane!')
+
+            if not okno_edycja_kosztow_otwarte == 0:
+                okno_problemu = tk.Toplevel()
+                okno_problemu.title("Zgłaszanie problemów lub propozycji")
+                okno_problemu.geometry("370x300+1170+420")
+            else:
+                okno_problemu = tk.Toplevel()
+                okno_problemu.title("Zgłaszanie problemów lub propozycji")
+                okno_problemu.geometry("370x300+800+420")
+
+            label_informacja = tk.Label(
+                okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
+            label_informacja.pack()
+
+            label_informacja = tk.Label(
+                okno_problemu, text="Tytuł problemu lub propozycji:")
+            label_informacja.pack()
+            entry_tutul_problemu = tk.Entry(okno_problemu)
+            entry_tutul_problemu.pack()
+
+            label_informacja = tk.Label(
+                okno_problemu, text="Opisz jak najdokładniej problem lub propozycję:")
+            label_informacja.pack()
+            entry_opis_problemu = tk.Text(okno_problemu, height=11)
+            entry_opis_problemu.pack()
+
+            button_wyslij_problem = tk.Button(
+                okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
+            button_wyslij_problem.pack()
+
+            okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
+            okno_problemu.bind("<Map>", lambda event: otworz_okno)
+
+            okno_problemu.mainloop()
+        else:
+            messagebox.showerror("Błąd", "To okno jest już otwarte!")
+    else:
+        blad_poczatkowe()
 
 
 def czynnosci_poczatkowe():
@@ -247,15 +259,6 @@ def taj():
 
 if internet == 1:
     taj()
-
-
-def blad_poczatkowe():
-    message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
-    response = messagebox.askokcancel("Błąd", message)
-    if response == True:
-        czynnosci_poczatkowe()
-    else:
-        return
 
 
 def aktul():

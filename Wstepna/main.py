@@ -88,6 +88,7 @@ def zglos_problem():
                     elif dzisiaj == wygasa_data:
                         messagebox.showwarning(
                             "Czas mija...", "Dziś kończy się dzień możliwości korzystanie przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                        return
                 else:
                     messagebox.showinfo("Informacja", 'Operacja zakończona')
                     return

@@ -68,6 +68,26 @@ def zglos_problem():
                     informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
                     nazwa_uzytkownika = informacje_do_zgloszenia[0]
                     token_do_wpisania = informacje_do_zgloszenia[1]
+
+                    # pobierz datę wygaśnięcia
+                    wygasa_dnia = int(informacje_do_zgloszenia[2])
+                    wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                    wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                    # utwórz obiekt daty z daty wygaśnięcia
+                    wygasa_data = datetime.date(
+                        wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                    # pobierz dzisiejszą datę
+                    dzisiaj = datetime.date.today()
+                    # porównaj daty
+                    if dzisiaj > wygasa_data:
+                        messagebox.showerror(
+                            "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        return
+                    elif dzisiaj == wygasa_data:
+                        messagebox.showwarning(
+                            "Czas mija...", "Dziś kończy się dzień możliwości korzystanie przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
                 else:
                     messagebox.showinfo("Informacja", 'Operacja zakończona')
                     return
@@ -77,7 +97,8 @@ def zglos_problem():
                 password = f'{token_do_wpisania}'
                 repository_name = 'Ksao0/Repozytorium-magnesy-t'
                 issue_title = f'{entry_tutul_problemu.get()}'
-                issue_body = entry_opis_problemu.get("1.0", tk.END)
+                issue_body = entry_opis_problemu.get(
+                    "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
                 # autentykacja
                 g = Github(username, password)

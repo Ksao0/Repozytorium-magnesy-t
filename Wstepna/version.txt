@@ -1,6 +1,6 @@
-1.3.1.0 Wstępna
+1.3.1.1 Wstępna
 Status: Poprawka wersji
-Numer poprawki: 2
+Numer poprawki: 0
 Wydano: 13.05.2023
 
 Zmiany względem poprzedniej wersji wstępnej:

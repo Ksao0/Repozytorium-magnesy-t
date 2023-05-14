@@ -201,7 +201,7 @@ def zglos_problem():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z zglos_problem()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji zglos_problem():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -301,7 +301,7 @@ def czynnosci_poczatkowe():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z czynnosci_poczatkowe()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji czynnosci_poczatkowe():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -493,7 +493,7 @@ def wykasuj_zapisy():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z wykasuj_zapisy()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji wykasuj_zapisy():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji wykasuj_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -616,7 +616,7 @@ def rozwiaz_problemy():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z rozwiaz_problemy()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji rozwiaz_problemy():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -754,7 +754,7 @@ def informacje_o_wersji_utworz_okno():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z informacje_o_wersji_utworz_okno()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -985,7 +985,7 @@ def edycja_kosztow():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z edycja_kosztow()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji edycja_kosztow():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji edycja_kosztow():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1140,7 +1140,7 @@ def oblicz_zyski():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z oblicz_zyski()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji oblicz_zyski():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji oblicz_zyski():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1363,7 +1363,7 @@ def otworz_okno_wybor():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z otworz_okno_wybor()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji otworz_okno_wybor():\n{e}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)

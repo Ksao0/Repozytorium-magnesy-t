@@ -1,5 +1,5 @@
 1.3.2.0 Wstępna
-Status: Nowa wersja programu
+Status: Poprawka wersji
 Numer poprawki: 2
 Wydano: 13.05.2023
 

@@ -10,6 +10,7 @@ from time import sleep
 from github import Github
 import sys
 import traceback
+import matplotlib.pyplot as plt
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -634,6 +635,92 @@ def wykasuj_zapisy():
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
         exit()
+
+
+def wykres():
+    filename = "Zapisy.txt"
+    with open(filename, 'r', encoding='utf-8') as f:
+        data = f.read()
+
+    # Podziel dane na poszczególne obliczenia
+    obliczenia = data.split("\n\n")
+
+    # Sprawdź, czy jest wystarczająca liczba obliczeń do wygenerowania wykresu
+    if len(obliczenia) < 8:
+        print("Niewystarczająca liczba danych do wygenerowania wykresu")
+    else:
+        # Utwórz listy przechowujące dane dla wykresu
+        liczba_pakietow = []
+        liczba_magnesow = []
+        cena_magnesu = []
+        cena_pakietu = []
+        koszty = []
+        zyski = []
+        cena_za_w_pakiety = []
+
+        # Przejdź przez każde obliczenie
+        for obliczenie in obliczenia:
+            # Podziel obliczenie na linie
+            lines = obliczenie.strip().split("\n")
+            # Pobierz potrzebne wartości z obliczenia
+            for line in lines:
+                if "Liczba pakietów:" in line:
+                    liczba_pakietow.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+                elif "Liczba magnesów:" in line:
+                    liczba_magnesow.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+                elif "Cena za 1 magnes:" in line:
+                    cena_magnesu.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+                elif "Jeden pakiet to:" in line:
+                    cena_pakietu.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+                elif "Koszty:" in line:
+                    koszty.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+                elif "Zysk sprzedaży:" in line:
+                    zyski.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+                elif "Cena za wszystkie pakiety:" in line:
+                    cena_za_w_pakiety.append(
+                        float(line.split(":")[1].strip().split(" ")[0]))
+
+        # Utwórz wykres
+        fig, ax = plt.subplots()
+        ax.plot(liczba_pakietow, label='Liczba pakietów')
+        for i, j in zip(range(len(liczba_pakietow)), liczba_pakietow):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+        ax.plot(liczba_magnesow, label='Liczba magnesów')
+        for i, j in zip(range(len(liczba_magnesow)), liczba_magnesow):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+        ax.plot(cena_magnesu, label='Cena za 1 magnes')
+        for i, j in zip(range(len(cena_magnesu)), cena_magnesu):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+        ax.plot(cena_pakietu, label='Jeden pakiet to zł')
+        for i, j in zip(range(len(cena_pakietu)), cena_pakietu):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+        ax.plot(koszty, label='Koszty')
+        for i, j in zip(range(len(koszty)), koszty):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+        ax.plot(zyski, label='Zysk sprzedaży')
+        for i, j in zip(range(len(zyski)), zyski):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+        ax.plot(cena_za_w_pakiety, label='Cena za wszystkie pakiety')
+        for i, j in zip(range(len(cena_za_w_pakiety)), cena_za_w_pakiety):
+            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+
+        # Dodaj tytuł i etykiety osi
+        ax.set_title('Wyniki obliczeń sprzedaży magnesów')
+        ax.set_xlabel('Numer obliczenia')
+        ax.set_ylabel('Zł')
+
+        # Dodaj legendę
+        ax.legend()
+
+        # Wyświetl wykres
+        fig.set_size_inches(14, 8)
+        plt.show()
 
 
 def rozwiaz_problemy():
@@ -1492,6 +1579,13 @@ def otworz_okno_wybor():
             button_informacje_o_wersji.pack()
             label_informacja = tk.Label(
                 okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
+            label_informacja.pack()
+
+            button_wykres = tk.Button(
+                okno_wyborowe, text="Stwórz wykres", command=wykres)
+            button_wykres.pack()
+            label_informacja = tk.Label(
+                okno_wyborowe, text="Wygeneruj wykres na podstawie poprzednich obliczeń")
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(

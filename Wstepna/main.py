@@ -638,89 +638,154 @@ def wykasuj_zapisy():
 
 
 def wykres():
-    filename = "Zapisy.txt"
-    with open(filename, 'r', encoding='utf-8') as f:
-        data = f.read()
+    try:
+        filename = "Zapisy.txt"
+        with open(filename, 'r', encoding='utf-8') as f:
+            data = f.read()
 
-    # Podziel dane na poszczególne obliczenia
-    obliczenia = data.split("\n\n")
+        # Podziel dane na poszczególne obliczenia
+        obliczenia = data.split("\n\n")
 
-    # Sprawdź, czy jest wystarczająca liczba obliczeń do wygenerowania wykresu
-    if len(obliczenia) < 8:
-        print("Niewystarczająca liczba danych do wygenerowania wykresu")
-    else:
-        # Utwórz listy przechowujące dane dla wykresu
-        liczba_pakietow = []
-        liczba_magnesow = []
-        cena_magnesu = []
-        cena_pakietu = []
-        koszty = []
-        zyski = []
-        cena_za_w_pakiety = []
+        # Sprawdź, czy jest wystarczająca liczba obliczeń do wygenerowania wykresu
+        if len(obliczenia) < 8:
+            print("Niewystarczająca liczba danych do wygenerowania wykresu")
+        else:
+            # Utwórz listy przechowujące dane dla wykresu
+            liczba_pakietow = []
+            liczba_magnesow = []
+            cena_magnesu = []
+            cena_pakietu = []
+            koszty = []
+            zyski = []
+            cena_za_w_pakiety = []
 
-        # Przejdź przez każde obliczenie
-        for obliczenie in obliczenia:
-            # Podziel obliczenie na linie
-            lines = obliczenie.strip().split("\n")
-            # Pobierz potrzebne wartości z obliczenia
-            for line in lines:
-                if "Liczba pakietów:" in line:
-                    liczba_pakietow.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
-                elif "Liczba magnesów:" in line:
-                    liczba_magnesow.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
-                elif "Cena za 1 magnes:" in line:
-                    cena_magnesu.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
-                elif "Jeden pakiet to:" in line:
-                    cena_pakietu.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
-                elif "Koszty:" in line:
-                    koszty.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
-                elif "Zysk sprzedaży:" in line:
-                    zyski.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
-                elif "Cena za wszystkie pakiety:" in line:
-                    cena_za_w_pakiety.append(
-                        float(line.split(":")[1].strip().split(" ")[0]))
+            # Przejdź przez każde obliczenie
+            for obliczenie in obliczenia:
+                # Podziel obliczenie na linie
+                lines = obliczenie.strip().split("\n")
+                # Pobierz potrzebne wartości z obliczenia
+                for line in lines:
+                    if "Liczba pakietów:" in line:
+                        liczba_pakietow.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
+                    elif "Liczba magnesów:" in line:
+                        liczba_magnesow.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
+                    elif "Cena za 1 magnes:" in line:
+                        cena_magnesu.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
+                    elif "Jeden pakiet to:" in line:
+                        cena_pakietu.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
+                    elif "Koszty:" in line:
+                        koszty.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
+                    elif "Zysk sprzedaży:" in line:
+                        zyski.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
+                    elif "Cena za wszystkie pakiety:" in line:
+                        cena_za_w_pakiety.append(
+                            float(line.split(":")[1].strip().split(" ")[0]))
 
-        # Utwórz wykres
-        fig, ax = plt.subplots()
-        ax.plot(liczba_pakietow, label='Liczba pakietów')
-        for i, j in zip(range(len(liczba_pakietow)), liczba_pakietow):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
-        ax.plot(liczba_magnesow, label='Liczba magnesów')
-        for i, j in zip(range(len(liczba_magnesow)), liczba_magnesow):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
-        ax.plot(cena_magnesu, label='Cena za 1 magnes')
-        for i, j in zip(range(len(cena_magnesu)), cena_magnesu):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
-        ax.plot(cena_pakietu, label='Jeden pakiet to zł')
-        for i, j in zip(range(len(cena_pakietu)), cena_pakietu):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
-        ax.plot(koszty, label='Koszty')
-        for i, j in zip(range(len(koszty)), koszty):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
-        ax.plot(zyski, label='Zysk sprzedaży')
-        for i, j in zip(range(len(zyski)), zyski):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
-        ax.plot(cena_za_w_pakiety, label='Cena za wszystkie pakiety')
-        for i, j in zip(range(len(cena_za_w_pakiety)), cena_za_w_pakiety):
-            ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            # Utwórz wykres
+            fig, ax = plt.subplots()
+            ax.plot(liczba_pakietow, label='Liczba pakietów')
+            for i, j in zip(range(len(liczba_pakietow)), liczba_pakietow):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            ax.plot(liczba_magnesow, label='Liczba magnesów')
+            for i, j in zip(range(len(liczba_magnesow)), liczba_magnesow):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            ax.plot(cena_magnesu, label='Cena za 1 magnes')
+            for i, j in zip(range(len(cena_magnesu)), cena_magnesu):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            ax.plot(cena_pakietu, label='Jeden pakiet to zł')
+            for i, j in zip(range(len(cena_pakietu)), cena_pakietu):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            ax.plot(koszty, label='Koszty')
+            for i, j in zip(range(len(koszty)), koszty):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            ax.plot(zyski, label='Zysk sprzedaży')
+            for i, j in zip(range(len(zyski)), zyski):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
+            ax.plot(cena_za_w_pakiety, label='Cena za wszystkie pakiety')
+            for i, j in zip(range(len(cena_za_w_pakiety)), cena_za_w_pakiety):
+                ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
 
-        # Dodaj tytuł i etykiety osi
-        ax.set_title('Wyniki obliczeń sprzedaży magnesów')
-        ax.set_xlabel('Numer obliczenia')
-        ax.set_ylabel('Zł')
+            # Dodaj tytuł i etykiety osi
+            ax.set_title('Wyniki obliczeń sprzedaży magnesów')
+            ax.set_xlabel('Numer obliczenia')
+            ax.set_ylabel('Zł')
 
-        # Dodaj legendę
-        ax.legend()
+            # Dodaj legendę
+            ax.legend()
 
-        # Wyświetl wykres
-        fig.set_size_inches(14, 8)
-        plt.show()
+            # Wyświetl wykres
+            fig.set_size_inches(14, 8)
+            plt.show()
+    except Exception as e:
+        messagebox.askyesno(
+            'Zgłaszanie błędu', "Czy chcesz zgłosić błąd, kóry przed chwilą wystąpił? Prawdopodobną jego przyczyną jest brak danych do wytworzenia wykresu")
+        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Poproś twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                messagebox.showerror(
+                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                return
+            elif dzisiaj == wygasa_data:
+                messagebox.showwarning(
+                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+        else:
+            messagebox.showwarning(
+                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = 'Automatyczne zgłoszenie błędu z wykres()'
+        a = traceback.format_exc()
+        issue_body = f"Błąd funkcji wykres():\nPrawdodpodobna przyczyna: Brak danych do wygenerowania wykresu\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+
+        messagebox.showinfo("Problem został zgłoszony",
+                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        exit()
 
 
 def rozwiaz_problemy():

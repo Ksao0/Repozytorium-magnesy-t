@@ -321,90 +321,153 @@ czynnosci_poczatkowe()
 
 
 def taj():
-    # Pobierz zawartość pliku version.txt z repozytorium na GitHub
     try:
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-        response = requests.get(url)
-        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-        version_online = response.content.decode('utf-8').strip()
-    except requests.exceptions.RequestException as e:
-        messagebox.showerror(
-            "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
-        return
+        # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            version_online = response.content.decode('utf-8').strip()
+        except requests.exceptions.RequestException as e:
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+            return
 
-    # Odczytaj zawartość pliku version.txt w twoim programie
-    path = os.path.join(os.getcwd(), "version.txt")
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            version_local = f.read().strip()
-    else:
-        version_local = "BRAK DANYCH"
+        # Odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
+        else:
+            version_local = "BRAK DANYCH"
 
-    if version_local != "BRAK DANYCH":
-        version_online_lines = version_online.split('\n')
-        version_local_lines = version_local.split('\n')
-        # Trwające poprawki B7:
-        if version_online_lines[0] == version_local_lines[0]:
-            if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
-                # Prowadzone są intensywne zmiany
-                response = messagebox.askokcancel(
-                    "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
-                if response == True:
-                    # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                    Aktualizacja = ["python", "WEW.py"]
-                    subprocess.run(Aktualizacja)
-                    print('Zaktualizowano!')
-                    message = "Zmiany będą widoczne po następnym uruchomieniu"
-                    messagebox.showinfo("Aktualizacja", message)
-                else:
-                    exit()
-                    # Poprawki B7 zakończone:
-            elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
-                if version_local_lines[1] == "Status: Poprawki B7":
-                    message = "Proces intensywnych zmian w kodzie został zakończony."
-                    messagebox.showinfo("Aktualizacja", message)
-                    Aktualizacja = ["python", "WEW.py"]
-                    subprocess.run(Aktualizacja)
+        if version_local != "BRAK DANYCH":
+            version_online_lines = version_online.split('\n')
+            version_local_lines = version_local.split('\n')
+            # Trwające poprawki B7:
+            if version_online_lines[0] == version_local_lines[0]:
+                if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
+                    # Prowadzone są intensywne zmiany
+                    response = messagebox.askokcancel(
+                        "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz     kontynuuować?")
+                    if response == True:
+                        # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                        Aktualizacja = ["python", "WEW.py"]
+                        subprocess.run(Aktualizacja)
+                        print('Zaktualizowano!')
+                        message = "Zmiany będą widoczne po następnym uruchomieniu"
+                        messagebox.showinfo("Aktualizacja", message)
+                    else:
+                        exit()
+                        # Poprawki B7 zakończone:
+                elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
+                    if version_local_lines[1] == "Status: Poprawki B7":
+                        message = "Proces intensywnych zmian w kodzie został zakończony."
+                        messagebox.showinfo("Aktualizacja", message)
+                        Aktualizacja = ["python", "WEW.py"]
+                        subprocess.run(Aktualizacja)
 
-                elif version_local_lines[1] == "Status: Poprawka wersji":
-                    message = "Dostępna szybka poprawka wersji"
-                    messagebox.showinfo("Aktualizacja", message)
-                    Aktualizacja = ["python", "WEW.py"]
-                    subprocess.run(Aktualizacja)
-                    # Zwykłe poprawki:
-            elif version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
-                # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-                message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
+                    elif version_local_lines[1] == "Status: Poprawka wersji":
+                        message = "Dostępna szybka poprawka wersji"
+                        messagebox.showinfo("Aktualizacja", message)
+                        Aktualizacja = ["python", "WEW.py"]
+                        subprocess.run(Aktualizacja)
+                        # Zwykłe poprawki:
+                elif version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
+                    # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
+                    message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
+                    response = messagebox.askyesno("Aktualizacja", message)
+                    if response == True:
+                        # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                        Aktualizacja = ["python", "WEW.py"]
+                        subprocess.run(Aktualizacja)
+                        print('Zaktualizowano!')
+                        message = "Program zostanie uruchomiony ponownie"
+                        if messagebox.showinfo("Aktualizacja", message):
+                            exit()
+                    else:
+                        return
+            elif version_online_lines[0] != version_local_lines[0]:
+                # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
+                message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
                 if response == True:
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    print('Zaktualizowano!')
                     message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
                         exit()
                 else:
                     return
-        elif version_online_lines[0] != version_local_lines[0]:
-            # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
-            message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
-            response = messagebox.askyesno("Aktualizacja", message)
-            if response == True:
-                # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-                message = "Program zostanie uruchomiony ponownie"
-                if messagebox.showinfo("Aktualizacja", message):
-                    exit()
-            else:
+        else:
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
+            open("version.txt", "w", encoding='utf-8').close()
+            with open("Zapisy.txt", "a", encoding='utf-8') as plik:
+                plik.write('BRAK DANYCH')
+            exit()
+    except Exception as e:
+        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Poproś twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                messagebox.showerror(
+                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
-    else:
-        messagebox.showerror(
-            "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
-        open("version.txt", "w", encoding='utf-8').close()
-        with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-            plik.write('BRAK DANYCH')
+            elif dzisiaj == wygasa_data:
+                messagebox.showwarning(
+                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+        else:
+            messagebox.showwarning(
+                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = 'Automatyczne zgłoszenie błędu z taj()'
+        a = traceback.format_exc()
+        issue_body = f"Błąd funkcji taj():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+
+        messagebox.showinfo("Problem został zgłoszony",
+                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
         exit()
 
 
@@ -413,26 +476,90 @@ if internet == 1:
 
 
 def aktul():
-    if not internet == 0:
-        czynnosci_poczatkowe()
+    try:
         if not internet == 0:
-            os.system('cls')
-            # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-            path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+            czynnosci_poczatkowe()
+            if not internet == 0:
+                os.system('cls')
+                # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+                path = os.path.join(
+                    os.getcwd(), "Aktualizator_aktualizatora.py")
 
-            # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-            if os.path.exists(path):
-                os.remove(path)
-            # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
-            urllib.request.urlretrieve(url, path)
+                # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                urllib.request.urlretrieve(url, path)
 
-            Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
-            subprocess.run(Aktualizacja)
-            print('Zakończono! ')
-            print('Uruchom program ponownie.')
-    else:
-        blad_poczatkowe()
+                Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
+                subprocess.run(Aktualizacja)
+                print('Zakończono! ')
+                print('Uruchom program ponownie.')
+        else:
+            blad_poczatkowe()
+    except Exception as e:
+        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Poproś twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                messagebox.showerror(
+                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                return
+            elif dzisiaj == wygasa_data:
+                messagebox.showwarning(
+                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+        else:
+            messagebox.showwarning(
+                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = 'Automatyczne zgłoszenie błędu z aktul()'
+        a = traceback.format_exc()
+        issue_body = f"Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+
+        messagebox.showinfo("Problem został zgłoszony",
+                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        exit()
 
 
 def wykasuj_zapisy():
@@ -1232,25 +1359,88 @@ else:
 
 
 def otworz_okno_zapisy():
-    path = os.path.join(os.getcwd(), "Zapisy.txt")
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            zawartosc = f.read().strip()
-    else:
-        zawartosc = ''
+    try:
+        path = os.path.join(os.getcwd(), "Zapisy.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                zawartosc = f.read().strip()
+        else:
+            zawartosc = ''
 
-    # Tworzenie nowego okna
-    okno_zapisy = tk.Toplevel()
-    okno_zapisy.title("Historia")
-    okno_zapisy.geometry("800x900")
-    okno_zapisy.grab_set()
+        # Tworzenie nowego okna
+        okno_zapisy = tk.Toplevel()
+        okno_zapisy.title("Historia")
+        okno_zapisy.geometry("800x900")
+        okno_zapisy.grab_set()
 
-    # Dodanie elementu ScrolledText
-    pole_tekstowe = scrolledtext.ScrolledText(okno_zapisy, wrap=tk.WORD)
-    pole_tekstowe.pack(expand=True, fill=tk.BOTH)
+        # Dodanie elementu ScrolledText
+        pole_tekstowe = scrolledtext.ScrolledText(okno_zapisy, wrap=tk.WORD)
+        pole_tekstowe.pack(expand=True, fill=tk.BOTH)
 
-    # Wstawienie zawartości pliku do elementu ScrolledText
-    pole_tekstowe.insert(tk.END, zawartosc)
+        # Wstawienie zawartości pliku do elementu ScrolledText
+        pole_tekstowe.insert(tk.END, zawartosc)
+    except Exception as e:
+        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Poproś twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                messagebox.showerror(
+                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                return
+            elif dzisiaj == wygasa_data:
+                messagebox.showwarning(
+                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+        else:
+            messagebox.showwarning(
+                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = 'Automatyczne zgłoszenie błędu z otworz_okno_zapisy()'
+        a = traceback.format_exc()
+        issue_body = f"Błąd funkcji otworz_okno_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+
+        messagebox.showinfo("Problem został zgłoszony",
+                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        exit()
 
 
 def otworz_okno_wybor():

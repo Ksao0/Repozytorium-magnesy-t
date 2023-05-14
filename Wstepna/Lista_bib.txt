@@ -1,0 +1,14 @@
+os
+tkinter
+messagebox
+scrolledtext
+datetime
+urllib
+request  (dwie biblioteki o podobnej nazwie)
+requests (dwie biblioteki o podobnej nazwie)
+subprocess
+time
+Od 13.05.2023:
+ - github
+ - sys
+ - traceback

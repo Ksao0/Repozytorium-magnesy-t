@@ -4,15 +4,16 @@ Numer poprawki: 0
 Wydano: 13.05.2023
 
 Zmiany względem poprzedniej wersji wstępnej:
- - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
- - Program obsługuje niektóre problemy związane z internetem
- - Możliwość używania wszystkich okien jednocześnie
- - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
  + WAŻNE Dnia 13.05.2023 dodano następujące biblioteki. Pobierz je poleceniem pip install nazwa biblioteki:
    - sys
    - traceback
    - github
    - time
+ - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
+ - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
+ - Program obsługuje niektóre problemy związane z internetem
+ - Możliwość używania wszystkich okien jednocześnie
+ - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
 Aby to zrobić otwórz terminal cmd i wpisz:
  pip install (nazwa biblioteki)
  

@@ -809,7 +809,7 @@ def wykres():
                 ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
 
             # Dodaj tytuł i etykiety osi
-            ax.set_title('Wyniki obliczeń sprzedaży magnesów')
+            ax.set_title('Wyniki obliczeń sprzedaży magnesów (najnowsze wyniki są po lewej stronie, a starsze po prawej)')
             ax.set_xlabel('Numer obliczenia')
             ax.set_ylabel('Zł')
 

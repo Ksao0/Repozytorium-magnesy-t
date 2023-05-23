@@ -72,21 +72,6 @@ try:
     if not os.path.isfile("Zapisy.txt"):
         open("Zapisy.txt", "w", encoding='utf-8').close()
 
-    # ścieżka do pliku Zapisy.txt w bieżącym folderze
-    path = os.path.join(os.getcwd(), "zapisy.txt")
-
-    # zapisz zawartość pliku zapisy.txt do zmiennej stara_zapisy
-    if os.path.exists(path):
-        with open(path, "r", encoding='utf-8') as f:
-            stara_zapisy = f.read()
-    else:
-        stara_zapisy = ""
-
-    # usuń plik zapisy.txt, jeśli istnieje
-    if os.path.exists(path):
-        os.remove(path)
-    # print("Usunięto plik zapisy.txt")
-
     # Aktualizacja pliku Aktualizator_aktualizatora
 
     # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze

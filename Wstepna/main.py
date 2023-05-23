@@ -1630,7 +1630,7 @@ def Gra_snake():
         # Aktualizacja gry
 
         # ścieżka do gry w bieżącym folderze
-        path = os.path.join(os.getcwd(), "WEW.py")
+        path = os.path.join(os.getcwd(), "Snake.py")
 
         # usuń grę, jeśli istnieje
         if os.path.exists(path):

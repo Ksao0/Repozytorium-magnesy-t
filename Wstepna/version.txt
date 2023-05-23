@@ -1,6 +1,6 @@
 1.3.5.1 Wstępna
 Status: Poprawka wersji
-Numer poprawki: 3
+Numer poprawki: 4
 Wydano: 23.05.2023
 Informacja o bibliotekach: B
 

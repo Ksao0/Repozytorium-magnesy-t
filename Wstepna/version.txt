@@ -4,11 +4,8 @@ Numer poprawki: 1
 Wydano: 23.05.2023
 
 Zmiany względem poprzedniej wersji wstępnej:
- + WAŻNE Dnia 13.05.2023 dodano następujące biblioteki. Pobierz je poleceniem pip install nazwa biblioteki:
-   - sys
-   - traceback
-   - github
-   - time
+ + WAŻNE 23.05.2023 dodano następujące biblioteki. Pobierz je poleceniem pip install nazwa biblioteki:
+   - pygame
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
  - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
  - Program obsługuje niektóre problemy związane z internetem

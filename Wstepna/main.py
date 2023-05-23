@@ -401,6 +401,25 @@ def taj():
                         exit()
                 else:
                     return
+            if version_online_lines[4] != version_local_lines[4]:
+                biblioteki_pobrane = False
+                messagebox.showerror(
+                    "Wymagane biblioteki", "Do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
+                print(f'{version_online}')
+                while biblioteki_pobrane == False:
+                    input("Zainstaluj biblioteki, a następnie naciśnij enter...")
+                    if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?'):
+                        messagebox.showinfo(
+                            'Ponowne uruchamianie', "Program zostanie uruchomiony ponownie")
+                        biblioteki_pobrane = True
+                    else:
+                        messagebox.showwarning(
+                            'Pobierz wszystkie biblioteki', "Instrukcja do pobrania bibliotek jest wyświelana w terminalu")
+                        biblioteki_pobrane = False
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                exit()
+
         else:
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd podczas pobierania informacji o aktualnej wersji. Uruchom program ponownie')
@@ -976,7 +995,7 @@ def informacje_o_wersji_utworz_okno():
                     informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
                 label_informacja.pack()
 
-                for line in version_online_lines[6:16]:
+                for line in version_online_lines[7:16]:
                     label_opis_wersji = tk.Label(
                         informacje_wersji, text=f"{line}", justify="left", anchor="w")
                     label_opis_wersji.pack(fill="x", padx=(20, 0))

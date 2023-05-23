@@ -1,3 +1,5 @@
+import sys
+import traceback
 import random
 import pygame
 import os

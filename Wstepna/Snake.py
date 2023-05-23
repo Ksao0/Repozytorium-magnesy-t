@@ -3,10 +3,8 @@ import pygame
 import os
 import time
 
-
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-
 
 clear_screen()
 
@@ -16,6 +14,7 @@ pygame.init()
 # Ustalenie szerokości i wysokości ekranu
 width, height = 640, 480
 screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Gra Snake")  # Zmiana nazwy okna gry
 
 # Kolory
 bg_color = pygame.Color(51, 51, 51)
@@ -39,16 +38,13 @@ score = 0
 # Wyświetlanie tekstu
 font_style = pygame.font.Font(pygame.font.get_default_font(), 30)
 
-
 def display_score(score):
     value = font_style.render("Wynik: " + str(score), True, text_color)
     screen.blit(value, (10, 10))
 
-
 def game_over_f():
     msg = font_style.render("Koniec gry!", True, text_color)
     screen.blit(msg, (width // 2 - 80, height // 2 - 20))
-
 
 # Tworzenie jedzenia dla węża
 food_size = 20
@@ -84,10 +80,8 @@ while not game_over:
 
     # Rysowanie węża i jedzenia
     screen.fill(bg_color)
-    pygame.draw.rect(screen, food_color, pygame.Rect(
-        food_x, food_y, food_size, food_size))
-    pygame.draw.rect(screen, snake_color, pygame.Rect(
-        snake_x, snake_y, snake_size, snake_size))
+    pygame.draw.rect(screen, food_color, pygame.Rect(food_x, food_y, food_size, food_size))
+    pygame.draw.rect(screen, snake_color, pygame.Rect(snake_x, snake_y, snake_size, snake_size))
 
     # Warunki zakończenia gry
     if snake_x >= width or snake_x < 0 or snake_y >= height or snake_y < 0:

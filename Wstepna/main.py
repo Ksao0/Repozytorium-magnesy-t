@@ -419,6 +419,9 @@ def taj():
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 exit()
+            else:
+                messagebox.showerror(
+                    "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie uruchomiony ponownie")
 
         else:
             messagebox.showerror(

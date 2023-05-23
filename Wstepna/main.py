@@ -29,101 +29,6 @@ okno_wyborowe_otwarte = 0
 internet = 1
 
 
-def Gra_snake():
-    try:
-        global internet
-        # Aktualizacja gry
-
-        # ścieżka do gry w bieżącym folderze
-        path = os.path.join(os.getcwd(), "WEW.py")
-
-        # usuń grę, jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
-        try:
-            # pobierz grę z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
-            urllib.request.urlretrieve(url, path)
-            Gra = ["python", "Snake.py"]
-            subprocess.run(Gra)
-        except:
-            print('Wykryto brak połączenia z internetem')
-            messagebox.showerror(
-                "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
-            internet = 0
-            try:
-                # pobierz grę z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
-                urllib.request.urlretrieve(url, path)
-                Gra = ["python", "Snake.py"]
-                subprocess.run(Gra)
-            except:
-                messagebox.showerror(
-                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić gry.')
-    except Exception as e:
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
-                messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                return
-            elif dzisiaj == wygasa_data:
-                messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
-        else:
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
-
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z czynnosci_poczatkowe()'
-        a = traceback.format_exc()
-        issue_body = f"Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
-
-        # autentykacja
-        g = Github(username, password)
-
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
-
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
-
-        messagebox.showinfo("Problem został zgłoszony",
-                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        exit()
-
-
 def blad_poczatkowe():
     message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
     response = messagebox.askokcancel("Błąd", message)
@@ -215,11 +120,11 @@ def zglos_problem():
                 if not okno_edycja_kosztow_otwarte == 0:
                     okno_problemu = tk.Toplevel()
                     okno_problemu.title("Zgłaszanie problemów lub propozycji")
-                    okno_problemu.geometry("370x300+1170+470")
+                    okno_problemu.geometry("370x300+1170+510")
                 else:
                     okno_problemu = tk.Toplevel()
                     okno_problemu.title("Zgłaszanie problemów lub propozycji")
-                    okno_problemu.geometry("370x300+800+470")
+                    okno_problemu.geometry("370x300+800+510")
 
                 label_informacja = tk.Label(
                     okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
@@ -809,7 +714,8 @@ def wykres():
                 ax.annotate(str(j), xy=(i, j), ha='center', va='bottom')
 
             # Dodaj tytuł i etykiety osi
-            ax.set_title('Wyniki obliczeń sprzedaży magnesów (najnowsze wyniki są po lewej stronie, a starsze po prawej)')
+            ax.set_title(
+                'Wyniki obliczeń sprzedaży magnesów (najnowsze wyniki są po lewej stronie, a starsze po prawej)')
             ax.set_xlabel('Numer obliczenia')
             ax.set_ylabel('Zł')
 
@@ -1166,11 +1072,11 @@ def edycja_kosztow():
             if not okno_problemu_otwarte == 0:
                 okno_zmiany = tk.Toplevel()
                 okno_zmiany.title("Zmiana kosztów")
-                okno_zmiany.geometry("370x300+1170+470")
+                okno_zmiany.geometry("370x300+1170+510")
             else:
                 okno_zmiany = tk.Toplevel()
                 okno_zmiany.title("Zmiana kosztów")
-                okno_zmiany.geometry("370x300+800+470")
+                okno_zmiany.geometry("370x300+800+510")
 
             okno_zmiany.protocol("WM_DELETE_WINDOW", zamknij_okno)
             okno_zmiany.bind("<Map>", lambda event: otworz_okno())
@@ -1694,6 +1600,101 @@ def otworz_okno_zapisy():
         exit()
 
 
+def Gra_snake():
+    try:
+        global internet
+        # Aktualizacja gry
+
+        # ścieżka do gry w bieżącym folderze
+        path = os.path.join(os.getcwd(), "WEW.py")
+
+        # usuń grę, jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+        try:
+            # pobierz grę z repozytorium
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
+            urllib.request.urlretrieve(url, path)
+            Gra = ["python", "Snake.py"]
+            subprocess.run(Gra)
+        except:
+            print('Wykryto brak połączenia z internetem')
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
+            internet = 0
+            try:
+                # pobierz grę z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
+                urllib.request.urlretrieve(url, path)
+                Gra = ["python", "Snake.py"]
+                subprocess.run(Gra)
+            except:
+                messagebox.showerror(
+                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić gry.')
+    except Exception as e:
+        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Poproś twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                messagebox.showerror(
+                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                return
+            elif dzisiaj == wygasa_data:
+                messagebox.showwarning(
+                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+        else:
+            messagebox.showwarning(
+                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = 'Automatyczne zgłoszenie błędu z czynnosci_poczatkowe()'
+        a = traceback.format_exc()
+        issue_body = f"Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+
+        messagebox.showinfo("Problem został zgłoszony",
+                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        exit()
+
+
 def otworz_okno_wybor():
     try:
         def otworz_okno():
@@ -1707,7 +1708,7 @@ def otworz_okno_wybor():
         if okno_wyborowe_otwarte == 0:
             okno_wyborowe = tk.Toplevel()
             okno_wyborowe.title("Okno wyborowe")
-            okno_wyborowe.geometry("370x440+800+0")
+            okno_wyborowe.geometry("370x480+800+0")
 
             # Dodanie przycisku do nowego okna
             button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",

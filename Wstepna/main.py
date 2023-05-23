@@ -1698,7 +1698,7 @@ def Gra_snake():
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z czynnosci_poczatkowe()'
         a = traceback.format_exc()
-        issue_body = f"Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji Gra_snake():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)

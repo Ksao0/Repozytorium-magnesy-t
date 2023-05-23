@@ -421,7 +421,7 @@ def taj():
                 exit()
         else:
             messagebox.showerror(
-                "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji. Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane, wtedy naprawimy błąd jak najszybciej) - skontaktuj się z osobą odpowiedzialną za program.")
+                "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji. Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane) - skontaktuj się z osobą odpowiedzialną za program.")
             open("version.txt", "w", encoding='utf-8').close()
             with open("Zapisy.txt", "a", encoding='utf-8') as plik:
                 plik.write('BRAK DANYCH')

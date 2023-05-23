@@ -16,5 +16,4 @@ Zmiany względem poprzedniej wersji wstępnej:
  - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
  - Program obsługuje niektóre problemy związane z internetem
  - Możliwość używania wszystkich okien jednocześnie
- - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
- 
+ - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników

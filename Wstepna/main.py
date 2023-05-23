@@ -1696,7 +1696,7 @@ def Gra_snake():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z czynnosci_poczatkowe()'
+        issue_title = 'Automatyczne zgłoszenie błędu z Gra_snake()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji Gra_snake():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 

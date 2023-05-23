@@ -346,7 +346,7 @@ def taj():
             version_online_lines = version_online.split('\n')
             version_local_lines = version_local.split('\n')
             # Trwające poprawki B7:
-            if version_online_lines[0] == version_local_lines[0]:
+            if version_online_lines[0] == version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
                 if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
                     # Prowadzone są intensywne zmiany
                     response = messagebox.askokcancel(
@@ -388,7 +388,7 @@ def taj():
                             exit()
                     else:
                         return
-            elif version_online_lines[0] != version_local_lines[0]:
+            elif version_online_lines[0] != version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
                 # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
@@ -404,7 +404,7 @@ def taj():
             if version_online_lines[4] != version_local_lines[4]:
                 biblioteki_pobrane = False
                 messagebox.showerror(
-                    "Wymagane biblioteki", "Do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
+                    "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
                 print(f'{version_online}')
                 while biblioteki_pobrane == False:
                     input("Zainstaluj biblioteki, a następnie naciśnij enter...")

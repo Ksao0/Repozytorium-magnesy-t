@@ -85,6 +85,19 @@ try:
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
     urllib.request.urlretrieve(url, path)
     # print("Zastąpiono plik Aktualizator_aktualizatora.py")
+
+    # ścieżka do pliku lista_b.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "lista_b.txt")
+
+    # usuń plik lista_b.txt, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+    # print("Usunięto plik lista_b.txt")
+    # pobierz plik main.py z repozytorium
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt"
+    urllib.request.urlretrieve(url, path)
+    # print("Zastąpiono plik lista_b.txt")
+
 except Exception as e:
     # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
     exc_type, exc_value, exc_traceback = sys.exc_info()

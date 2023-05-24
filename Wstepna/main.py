@@ -334,6 +334,24 @@ def taj():
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
             return
 
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            lista_b_online = response.content.decode('utf-8').strip()
+        except requests.exceptions.RequestException as e:
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+            return
+
+        # Odczytaj zawartość pliku lista_b.txt na komputerze
+        path = os.path.join(os.getcwd(), "lista_b.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                lista_b_local = f.read().strip()
+        else:
+            lista_b_local = "BRAK PLIKU"
+
         # Odczytaj zawartość pliku version.txt w twoim programie
         path = os.path.join(os.getcwd(), "version.txt")
         if os.path.exists(path):
@@ -345,6 +363,8 @@ def taj():
         if version_local != "BRAK DANYCH":
             version_online_lines = version_online.split('\n')
             version_local_lines = version_local.split('\n')
+            lista_b_online_lines = lista_b_online.split('\n')
+            lista_b_local_lines = lista_b_local.split('\n')
             # Trwające poprawki B7:
             if version_online_lines[0] == version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
                 if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
@@ -401,11 +421,20 @@ def taj():
                         exit()
                 else:
                     return
-            if version_online_lines[4] != version_local_lines[4]:
+            if version_online_lines[4] != version_local_lines[4] or lista_b_online != lista_b_local:
                 biblioteki_pobrane = False
                 messagebox.showerror(
                     "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
                 print(f'{version_online}')
+                niepobrane_biblioteki = set(
+                    lista_b_online_lines) - set(lista_b_local_lines)
+                if niepobrane_biblioteki:
+                    print(
+                        f"Lista aktualnie wymaganych bibliotek, które nie zostały pobrane:\n{niepobrane_biblioteki}")
+                else:
+                    print(
+                        "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
+
                 while biblioteki_pobrane == False:
                     input("Zainstaluj biblioteki, a następnie naciśnij enter...")
                     if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?'):

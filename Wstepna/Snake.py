@@ -51,14 +51,8 @@ def game_over_f():
 
 # Tworzenie jedzenia dla węża
 food_size = 20
-
-
-def generate_food_position():
-    return round(random.randrange(0, width - food_size) / 20) * 20
-
-
-food_x = generate_food_position()
-food_y = generate_food_position()
+food_x = round(random.randrange(0, width - food_size) / 20) * 20
+food_y = round(random.randrange(0, height - food_size) / 20) * 20
 
 # Początkowa długość węża
 snake_length = 1
@@ -134,8 +128,8 @@ while not game_over:
         # Generowanie nowego położenia jedzenia
         food_collision = True
         while food_collision:
-            food_x = generate_food_position()
-            food_y = generate_food_position()
+            food_x = round(random.randrange(0, width - food_size) / 20) * 20
+            food_y = round(random.randrange(0, height - food_size) / 20) * 20
 
             # Sprawdzenie kolizji z ciałem węża
             if (food_x, food_y) not in snake_body:

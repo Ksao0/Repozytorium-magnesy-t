@@ -19,7 +19,6 @@ pygame.display.set_caption("Gra Snake")  # Zmiana nazwy okna gry
 
 # Kolory
 bg_color = pygame.Color(51, 51, 51)
-snake_color = pygame.Color(46, 139, 87)
 food_color = pygame.Color(255, 99, 71)
 text_color = pygame.Color(255, 255, 255)
 
@@ -58,6 +57,11 @@ food_y = round(random.randrange(0, height - food_size) / 20) * 20
 # Początkowa długość węża
 snake_length = 1
 snake_body = []
+
+# Lista kolorów dla segmentów węża
+snake_colors = [(128, 191, 133), (191, 128, 128),
+                (128, 128, 191), (191, 191, 128)]
+
 
 # Pętla główna gry
 game_over = False
@@ -98,8 +102,10 @@ while not game_over:
         del snake_body[0]
 
     # Rysowanie segmentów węża
-    for segment in snake_body:
-        pygame.draw.rect(screen, snake_color, pygame.Rect(
+    for i, segment in enumerate(snake_body):
+        # Losowe przypisanie koloru dla każdego segmentu
+        segment_color = snake_colors[i % len(snake_colors)]
+        pygame.draw.rect(screen, segment_color, pygame.Rect(
             segment[0], segment[1], snake_size, snake_size))
 
     # Kolizja z samym wężem
@@ -114,11 +120,20 @@ while not game_over:
         game_end_time = pygame.time.get_ticks() + 3000  # 3000 ms = 3 sekundy
         game_over = True
 
+    # Sprawdzenie kolizji z jedzeniem
     if snake_x == food_x and snake_y == food_y:
         score += 1
         snake_length += 1
-        food_x = round(random.randrange(0, width - food_size) / 20) * 20
-        food_y = round(random.randrange(0, height - food_size) / 20) * 20
+
+        # Generowanie nowego położenia jedzenia
+        food_collision = True
+        while food_collision:
+            food_x = round(random.randrange(0, width - food_size) / 20) * 20
+            food_y = round(random.randrange(0, height - food_size) / 20) * 20
+
+            # Sprawdzenie kolizji z ciałem węża
+            if (food_x, food_y) not in snake_body:
+                food_collision = False
 
     display_score(score)
     pygame.display.update()

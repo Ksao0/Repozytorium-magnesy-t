@@ -1,6 +1,6 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
-Numer poprawki: 0
+Numer poprawki: TESTOWA
 Wydano: 23.05.2023
 Informacja o bibliotekach: B
 

@@ -425,12 +425,15 @@ def taj():
                 biblioteki_pobrane = False
                 messagebox.showerror(
                     "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
+
                 print(f'{version_online}')
                 niepobrane_biblioteki = set(
                     lista_b_online_lines) - set(lista_b_local_lines)
                 if niepobrane_biblioteki:
                     print(
-                        f"Lista aktualnie wymaganych bibliotek, które nie zostały pobrane:\n{niepobrane_biblioteki}")
+                        "\n\nLista aktualnie wymaganych bibliotek, które nie zostały pobrane:")
+                    for biblioteka in niepobrane_biblioteki:
+                        print(f"{biblioteka}")
                 else:
                     print(
                         "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")

@@ -435,9 +435,74 @@ def taj():
                     for biblioteka in niepobrane_biblioteki:
                         print(f"{biblioteka}")
                 else:
-                    print(
-                        "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
+                    if version_online_lines[4] == version_local_lines[4] or lista_b_online == lista_b_local:
+                        if version_online_lines[4] != version_local_lines[4] and lista_b_online == lista_b_local:
+                            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                            exc_type, exc_value, exc_traceback = sys.exc_info()
+                            # Odczytaj zawartość pliku Develop.txt w twoim programie
+                            path = os.path.join(os.getcwd(), "Develop.txt")
+                            if os.path.exists(path):
+                                with open(path, "r", encoding="utf-8") as f:
+                                    plik_od_dewelopera = f.read().strip()
+                            else:
+                                plik_od_dewelopera = "BRAK PLIKU D"
+                                messagebox.showerror(
+                                    "Błąd", 'Poproś twórcę programu o informacje')
 
+                            if plik_od_dewelopera != "BRAK PLIKU D":
+                                informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                    '\n')
+                                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                                # pobierz datę wygaśnięcia
+                                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                                wygasa_miesiaca = int(
+                                    informacje_do_zgloszenia[3])
+                                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                                # utwórz obiekt daty z daty wygaśnięcia
+                                wygasa_data = datetime.date(
+                                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                                # pobierz dzisiejszą datę
+                                dzisiaj = datetime.date.today()
+                                # porównaj daty
+                                if dzisiaj > wygasa_data:
+                                    messagebox.showerror(
+                                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                    return
+                                elif dzisiaj == wygasa_data:
+                                    messagebox.showwarning(
+                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu   jego przedłużenia.                ")
+                            else:
+                                messagebox.showwarning(
+                                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                                return
+
+                            # ustawienia konta
+                            username = f'{nazwa_uzytkownika}'
+                            password = f'{token_do_wpisania}'
+                            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                            issue_title = 'Automatyczne zgłoszenie błędu z taj()'
+                            a = traceback.format_exc()
+                            issue_body = f"Błąd funkcji taj(): Nie dodano bibliotek do pobrania\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+
+                            # autentykacja
+                            g = Github(username, password)
+
+                            # pobierz repozytorium
+                            repo = g.get_repo(repository_name)
+
+                            # utwórz nowe zgłoszenie błędu
+                            repo.create_issue(
+                                title=issue_title, body=issue_body)
+
+                            messagebox.showwarning("Problem został zgłoszony",
+                                                   "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. W oknie, które zostanie wyświetlone po naciśnięciu Ok naciśnij opcję Tak. Następnie naciśnij dwa razy enter w oknie terminala cmd.\nJeśli okno się nie wyświetli - Naciśnij kilka razy enter w oknie terminala cmd i naciskaj Tak lub Ok we wszystkich oknach, które się pojawią\n Jeśli program nie będzie działał prawidłowo - skontaktuj się z osobą odpowiedzialną za program")
+                    else:
+                        print(
+                            "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
                 while biblioteki_pobrane == False:
                     input("Zainstaluj biblioteki, a następnie naciśnij enter...")
                     if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?'):

@@ -961,6 +961,14 @@ def rozwiaz_problemy():
                 # Usuń plik jeśli istnieje
                 if os.path.exists(path):
                     os.remove(path)
+
+                    # Ścieżka do pliku w bieżącym folderze
+                path = os.path.join(
+                    os.getcwd(), "Snake.py")
+
+                # Usuń plik jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
                     sleep(3)
                     exit()
 

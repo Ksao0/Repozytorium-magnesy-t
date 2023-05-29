@@ -1,7 +1,7 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
 Numer poprawki: TESA
-Wydano: 23.05.2023
+Wydano: 29.05.2023
 Informacja o bibliotekach: B
 
 Zmiany względem poprzedniej wersji wstępnej:

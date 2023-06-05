@@ -1,6 +1,6 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
-Nazwa oprawki: Wer 1
+Nazwa poprawki: Wer 2
 Wydano: 05.06.2023
 Informacja o bibliotekach: B
 

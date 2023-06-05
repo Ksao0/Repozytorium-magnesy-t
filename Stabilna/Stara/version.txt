@@ -1,0 +1,38 @@
+1.0.0.0.2.17 Stabilna
+
+Wydano: 20.04.2023
+Aktualizacja informacji (d.m.r): 05.06.2023
+
+Niestety prace nad zmianą wersji stabilnej przedłużyły się i zostanie ona zmieniona w innym terminie,
+którego nie jesteśmy w stanie oszacować. Przez ten czas rekomendujemy korzystanie z wersji wstępnej.
+Poniżej jest podana zaktualizowana lista bibliotek, które należy pobrać.
+
+Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki (instrukcja znajduje się dalej):
+ - os
+ - tkinter
+ - messagebox
+ - scrolledtext
+ - datetime
+ - urllib.request
+ - subprocess
+ - requests
+ - time
+ - sleep
+ - Github
+ - github
+ - sys
+ - traceback
+ - matplotlib.pyplot
+ - random
+ - plt
+ - pygame
+
+Aby zainstalowac te biblioteki:
+  WYŁĄCZ TERMINAL CMD DOPIERO WTEDY, KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:
+ 1. Otwórz terminal cmd
+ 2. Wpisz polecenie, które zaktualizuje twoje środowisko i naciśnij enter: python -m pip install --upgrade pip
+      PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI
+ 3. Zainstaluj biblioteki:
+      pip install NAZWA_BIBLIOTEKI
+    Przykład: pip install tkinter
+ Kiedy zainstalujesz już wszystkie biblioteki, zamknij terminal cmd.

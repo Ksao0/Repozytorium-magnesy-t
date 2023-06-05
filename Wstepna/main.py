@@ -403,7 +403,7 @@ def taj():
                         Aktualizacja = ["python", "WEW.py"]
                         subprocess.run(Aktualizacja)
                         print('Zaktualizowano!')
-                        message = "Program zostanie uruchomiony ponownie"
+                        message = "Uruchom program ponownie"
                         if messagebox.showinfo("Aktualizacja", message):
                             exit()
                     else:
@@ -416,7 +416,7 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    message = "Program zostanie uruchomiony ponownie"
+                    message = "Uruchom program ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
                         exit()
                 else:
@@ -507,7 +507,7 @@ def taj():
                     input("Zainstaluj biblioteki, a następnie naciśnij enter...")
                     if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?'):
                         messagebox.showinfo(
-                            'Ponowne uruchamianie', "Program zostanie uruchomiony ponownie")
+                            'Aktualizacja', "Uruchom program ponownie")
                         biblioteki_pobrane = True
                     else:
                         messagebox.showwarning(

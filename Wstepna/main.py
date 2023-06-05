@@ -1858,7 +1858,7 @@ def otworz_okno_wybor():
             button_zmiana_danych.pack()
 
             label_informacja = tk.Label(
-                okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr\n Każda w nowej    linii")
+                okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr, każda w nowej linii")
             label_informacja.pack()
 
             button_rozwiaz_problemy = tk.Button(

@@ -1,7 +1,7 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
-Numer poprawki: TESA
-Wydano: 29.05.2023
+Nazwa oprawki: Text 01
+Wydano: 05.06.2023
 Informacja o bibliotekach: B
 
 Zmiany względem poprzedniej wersji wstępnej:
@@ -11,7 +11,7 @@ Zmiany względem poprzedniej wersji wstępnej:
      pip install (nazwa biblioteki)
    Przykład:
      pip install tkinter
-
+ - Poprawa spójności tekstu
  - Dodano grę Snake
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
  - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)

@@ -11,6 +11,7 @@ Zmiany względem poprzedniej wersji wstępnej:
      pip install (nazwa biblioteki)
    Przykład:
      pip install tkinter
+
  - Poprawa spójności tekstu
  - Dodano grę Snake
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń

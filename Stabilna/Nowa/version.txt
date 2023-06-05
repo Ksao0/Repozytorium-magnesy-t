@@ -1,4 +1,4 @@
-2.0.0 Stabilna
+2.0.1 Stabilna
 Status: Poprawka wersji
 Nazwa poprawki: Wer 2
 Wydano: 05.06.2023

@@ -261,7 +261,8 @@ try:
 
         # KONIEC NOWYCH FUNKCJI
     else:
-        print('Nie ma takiej opcji.')
+        print('Nie ma takiej opcji, anulowano')
+        exit()
 except Exception as e:
     # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
     exc_type, exc_value, exc_traceback = sys.exc_info()

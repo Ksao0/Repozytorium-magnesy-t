@@ -1,6 +1,6 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
-Nazwa oprawki: Text 01
+Nazwa oprawki: Wer 1
 Wydano: 05.06.2023
 Informacja o bibliotekach: B
 

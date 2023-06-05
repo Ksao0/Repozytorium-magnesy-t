@@ -1,30 +1,31 @@
 1.0.0.0.2.17 Stabilna
 
 Wydano: 20.04.2023
+Aktualizacja informacji (d.m.r): 05.06.2023
 
-Jak najprawdopodobniej wiesz, pewien czas temu rozpoczęliśmy prace nad wersją wstępną naszego programu.
-Oznacza to, że to właśnie ona stała się wersją, do której dodawane są nowe funkcjonalności. Zakończyliśmy proces
-intensywnych zmian i poprawek, uznając, że stała sie ona w pełni użytkowa i spełnia wymagania do tego,
-by to właśnie ją nazwać stabilną. Podjęliśmy więc decyzję o tym, aby zrównać ze sobą obie wersje.
-Stanie się to najwcześniej 10 maja 2023 roku. Będzie to też jedyna aktualizacja tej wersji do tego czasu,
-która nie musi być identyczna z udostępnianą wcześniej wersją wstępną.
+Niestety prace nad zmianą wersji stabilnej przedłużyły się i zostanie ona zmieniona w innym terminie,
+którego nie jesteśmy w stanie oszacować.
+Poniżej jest podana zaktualizowana lista bibliotek, które należy pobrać.
 
 Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki (instrukcja znajduje się dalej):
- - tkinter
- - urllib
- - subprocess
- - requests
- - sleep
- 
-Biblioteki, które prawdopodobnie posiadasz (zanotuj ich nazwy np. na kartce,
-jeżeli program nie będzie działał prawidłowo, zainstaluj je wszystkie):
  - os
- - time
- - datetime
+ - tkinter
  - messagebox
  - scrolledtext
- - request  (dwie biblioteki o podobnej nazwie)
- - requests (dwie biblioteki o podobnej nazwie)
+ - datetime
+ - urllib.request
+ - subprocess
+ - requests
+ - time
+ - sleep
+ - Github
+ - github
+ - sys
+ - traceback
+ - matplotlib.pyplot
+ - random
+ - plt
+ - pygame
 
 Aby zainstalowac te biblioteki:
   WYŁĄCZ TERMINAL CMD DOPIERO WTEDY, KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:

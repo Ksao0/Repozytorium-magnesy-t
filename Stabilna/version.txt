@@ -4,7 +4,7 @@ Wydano: 20.04.2023
 Aktualizacja informacji (d.m.r): 05.06.2023
 
 Niestety prace nad zmianą wersji stabilnej przedłużyły się i zostanie ona zmieniona w innym terminie,
-którego nie jesteśmy w stanie oszacować.
+którego nie jesteśmy w stanie oszacować. Przez ten czas rekomendujemy korzystanie z wersji wstępnej.
 Poniżej jest podana zaktualizowana lista bibliotek, które należy pobrać.
 
 Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki (instrukcja znajduje się dalej):

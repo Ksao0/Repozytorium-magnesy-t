@@ -2,3 +2,4 @@
 
 Program liczący dane przydatne przy sprzedaży magnesów
 Wymagny jest kompilator języka python
+<h2>Dan</h2>

@@ -1,7 +1,7 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
-Poprawka: Wer 2
-Wydano: 05.06.2023
+Poprawka: DOKA
+Wydano: 07.06.2023
 Informacja o bibliotekach: B
 
 Zmiany względem poprzedniej wersji stabilnej:

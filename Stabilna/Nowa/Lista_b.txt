@@ -1,0 +1,35 @@
+ - os 
+
+  - tkinter 
+
+  - messagebox 
+
+  - scrolledtext 
+
+  - datetime 
+
+  - urllib.request 
+
+  - subprocess 
+
+  - requests 
+
+  - time 
+
+  - sleep 
+
+  - Github 
+
+  - github 
+
+  - sys 
+
+  - traceback 
+
+  - matplotlib.pyplot 
+
+  - random 
+
+  - plt 
+
+  - pygame

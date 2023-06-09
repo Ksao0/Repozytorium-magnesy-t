@@ -137,7 +137,7 @@ def zglos_problem():
                 entry_tutul_problemu.pack()
 
                 label_informacja = tk.Label(
-                    okno_problemu, text="Opisz jak najdokładniej problem lub propozycję (nie ma ograniczenia ilości znaków):")
+                    okno_problemu, text="Opisz jak najdokładniej problem lub propozycję:")
                 label_informacja.pack()
                 entry_opis_problemu = tk.Text(okno_problemu, height=11)
                 entry_opis_problemu.pack()

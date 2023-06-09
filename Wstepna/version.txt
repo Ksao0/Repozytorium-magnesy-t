@@ -1,7 +1,7 @@
 1.4.0.0 Wstępna
 Status: Poprawka wersji
 Nazwa poprawki: DOKA
-Wydano: 05.06.2023
+Wydano: 09.06.2023
 Informacja o bibliotekach: B
 
 Zmiany względem poprzedniej wersji wstępnej:

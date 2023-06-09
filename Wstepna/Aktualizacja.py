@@ -264,6 +264,7 @@ try:
         print('Nie ma takiej opcji, anulowano')
         exit()
 except Exception as e:
+    messagebox.showerror('Nie można wykonać aktualizacji', 'Wystąpł błąd, który uniemożliwił wykonanie aktualizacji')
     # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
     exc_type, exc_value, exc_traceback = sys.exc_info()
     # Odczytaj zawartość pliku Develop.txt w twoim programie

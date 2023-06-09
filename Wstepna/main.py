@@ -1774,25 +1774,30 @@ if internet == 1:
 
     def zapisz_telemetrie():
         global telemetria_zmienna
+        with open("telemetria.txt", "w") as file:
+            file.write(telemetria_zmienna)
 
-        # Odczytanie danych z pliku "Develop.txt"
+        wyslij_email(telemetria_zmienna)
+
+    def wyslij_email(tekst):
+        global telemetria_zmienna
         with open("Develop.txt", "r") as file:
-            lines = file.readlines()
-            email = lines[5].strip()  # Adres e-mail zapisany w szóstej linijce
-            password = lines[6].strip()  # Hasło zapisane w siódmej linijce
+            linie = file.readlines()
+            konto_odbierajace = linie[5].strip()
+            konto_wysylajace = linie[6].strip()
+            haslo = linie[7].strip()
 
-        # Wysłanie wiadomości e-mail
+        wiadomosc = f"Subject: Telemetria\n\n{tekst}"
+
         try:
-            # Adres i port serwera SMTP (dla Gmail)
-            server = smtplib.SMTP("smtp.gmail.com", 587)
-            server.starttls()  # Rozpoczęcie szyfrowanego połączenia
-            server.login(email, password)  # Logowanie do konta e-mail
-            # Wysłanie wiadomości e-mail na to samo konto
-            server.sendmail(email, email, telemetria_zmienna)
-            server.quit()
-            print("Telemetria została wysłana na konto e-mail.")
-        except smtplib.SMTPException as e:
-            print("Wystąpił błąd podczas wysyłania telemetrii:", e)
+            serwer = smtplib.SMTP("smtp.gmail.com", 587)
+            serwer.starttls()
+            serwer.login(konto_wysylajace, haslo)
+            serwer.sendmail(konto_wysylajace, konto_odbierajace, wiadomosc)
+            serwer.quit()
+            print("Telemetria wysłana pomyślnie.")
+        except Exception as e:
+            print("Wystąpił błąd podczas wysyłania telemetrii:", str(e))
 
     def zamknij_okno_glowne():
         global telemetria_zmienna

@@ -1,6 +1,6 @@
 1.5.0.0 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: WER3
+Nazwa poprawki: WER4
 Wydano: 09.06.2023
 Informacja o bibliotekach: C
 

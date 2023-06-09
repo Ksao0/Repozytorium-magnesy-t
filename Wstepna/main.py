@@ -1813,7 +1813,6 @@ if internet == 1:
 
     root.protocol("WM_DELETE_WINDOW", zamknij_okno_glowne)
     # root.bind("<Map>", lambda event: otworz_okno())
-    atexit.register(zapisz_telemetrie)
 
 else:
     root = tk.Tk()

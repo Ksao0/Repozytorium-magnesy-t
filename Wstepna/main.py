@@ -11,6 +11,8 @@ from github import Github
 import sys
 import traceback
 import matplotlib.pyplot as plt
+import atexit
+import smtplib
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -27,9 +29,23 @@ okno_edycja_kosztow_otwarte = 0
 okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
+global data_telemetrii
+global telemetria_zmienna
+telemetria_zmienna = ""
+
+
+def data_telemetrii_f():
+    global data_telemetrii
+    now = datetime.datetime.now()
+    data_telemetrii = now.strftime("%d.%m.%Y  %H:%M:%S")
+    return data_telemetrii
 
 
 def blad_poczatkowe():
+    global telemetria_zmienna
+    global data_telemetrii
+    data_telemetrii_f()
+    telemetria_zmienna += f"{data_telemetrii}: Funkcja blad_poczatkowe() uruchomiona\n"
     message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
     response = messagebox.askokcancel("Błąd", message)
     if response == True:
@@ -41,14 +57,26 @@ def blad_poczatkowe():
 def zglos_problem():
     try:
         if not internet == 0:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Zgłaszanie problemu zostało otwarte (brak internetu)\n"
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
             def otworz_okno():
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Otwarto okno zgłaszania problemów\n"
                 global okno_problemu_otwarte
                 okno_problemu_otwarte = 1
 
             def zamknij_okno():
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Zamknięto okno zgłaszania problemów\n"
                 global okno_problemu_otwarte
                 okno_problemu_otwarte = 0
                 okno_problemu.destroy()
@@ -104,7 +132,8 @@ def zglos_problem():
                     repository_name = 'Ksao0/Repozytorium-magnesy-t'
                     issue_title = f'{entry_tutul_problemu.get()}'
                     aktualna_data_czas = datetime.datetime.now()
-                    format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+                    format_data_czas = aktualna_data_czas.strftime(
+                        "%d.%m.%Y %H:%M")
                     issue_body = f"Data: {format_data_czas}\n" + entry_opis_problemu.get(
                         "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
@@ -153,10 +182,23 @@ def zglos_problem():
 
                 okno_problemu.mainloop()
             else:
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Okno zgłaszania było otwarte podczas próby uruchamiania go\n"
                 messagebox.showerror("Błąd", "To okno jest już otwarte!")
         else:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Zgłaszanie problemu nie zostało otwarte (brak internetu)\n"
             blad_poczatkowe()
     except Exception as e:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna += f"{data_telemetrii}: Zgłaszanie problemu nie zostało otwarte (brak internetu)\n"
+
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -170,6 +212,11 @@ def zglos_problem():
                 "Błąd", 'Poproś twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: BRAK PLIKU D\n"
+
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
             nazwa_uzytkownika = informacje_do_zgloszenia[0]
             token_do_wpisania = informacje_do_zgloszenia[1]
@@ -189,11 +236,23 @@ def zglos_problem():
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
                     "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Funkcje nieudostępnione wygasły\n"
                 return
             elif dzisiaj == wygasa_data:
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Dzisiaj kończy się dostęp do funkcji nieudostępnionych\n"
                 messagebox.showwarning(
                     "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
         else:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Nieznany błąd funkcji nieudostępnionych w zgłaszaniu problemów\n"
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
             return
@@ -219,11 +278,19 @@ def zglos_problem():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna += f"{data_telemetrii}: Zgłoszono problem przez użytkownika\n"
         exit()
 
 
 def czynnosci_poczatkowe():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna += f"{data_telemetrii}: Czynności początkowe uruchomione\n"
         global internet
         # Aktualizacja pliku WEW
 
@@ -244,21 +311,45 @@ def czynnosci_poczatkowe():
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
             internet = 0
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Błąd czynności początkowych 1/2\n"
             try:
                 # pobierz plik main.py z repozytorium
                 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik WEW.py")
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Ponowna próba czynności początkowych\n"
             except:
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna += f"{data_telemetrii}: Błąd czynności początkowych 2/2\n"
                 messagebox.showerror(
                     "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych')
                 response = messagebox.askyesno(
                     "Aktualizacja", "Czy pomimo tego chcesz kontynuuować?")
                 if response == True:
+                    global telemetria_zmienna
+                    global data_telemetrii
+                    data_telemetrii_f()
+                    telemetria_zmienna += f"{data_telemetrii}: Kontynuuowanie bez czynności początkowych\n"
                     internet = 0
                 else:
+                    global telemetria_zmienna
+                    global data_telemetrii
+                    data_telemetrii_f()
+                    telemetria_zmienna += f"{data_telemetrii}: Zamknięto program z powodu braku czynności początkowych\n"
                     exit()
     except Exception as e:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna += f"{data_telemetrii}: Automatyczne zgłaszanie problemu w czynności_początkowe()\n"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -321,31 +412,57 @@ def czynnosci_poczatkowe():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna += f"{data_telemetrii}: Zgłoszono błąd czynności początkowych\n"
         exit()
 
 
+data_telemetrii_f()
+telemetria_zmienna += f"{data_telemetrii}: Wywołano czynności_poczatkowe()\n"
 czynnosci_poczatkowe()
 
 
 def taj():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna += f"{data_telemetrii}: Uruchomiono taj()\n"
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Uruchomiono funkcję taj() część 1/2\n"
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             version_online = response.content.decode('utf-8').strip()
         except requests.exceptions.RequestException as e:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Brak internetu podczas uruchamiania funkcji taj()\n"
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
             return
 
         try:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Uruchomiono funkcję taj() część 2/2\n"
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             lista_b_online = response.content.decode('utf-8').strip()
         except requests.exceptions.RequestException as e:
+            global telemetria_zmienna
+            global data_telemetrii
+            data_telemetrii_f()
+            telemetria_zmienna += f"{data_telemetrii}: Brak internetu podczas uruchamiania funkcji taj()\n"
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
             return
@@ -493,7 +610,8 @@ def taj():
                             issue_title = 'Automatyczne zgłoszenie błędu z taj()'
                             a = traceback.format_exc()
                             aktualna_data_czas = datetime.datetime.now()
-                            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+                            format_data_czas = aktualna_data_czas.strftime(
+                                "%d.%m.%Y %H:%M")
                             issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
 
                             # autentykacja
@@ -508,6 +626,10 @@ def taj():
 
                             messagebox.showwarning("Problem został zgłoszony",
                                                    "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. W oknie, które zostanie wyświetlone po naciśnięciu Ok naciśnij opcję Tak. Następnie naciśnij dwa razy enter w oknie terminala cmd.\nJeśli okno się nie wyświetli - Naciśnij kilka razy enter w oknie terminala cmd i naciskaj Tak lub Ok we wszystkich oknach, które się pojawią\n Jeśli program nie będzie działał prawidłowo - skontaktuj się z osobą odpowiedzialną za program")
+                            global telemetria_zmienna
+                            global data_telemetrii
+                            data_telemetrii_f()
+                            telemetria_zmienna += f"{data_telemetrii}: Błąd bibliotek\n"
                     else:
                         print(
                             "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
@@ -1660,6 +1782,39 @@ if internet == 1:
     root.geometry("410x350+250+200")
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
+
+    def zapisz_telemetrie():
+        global telemetria_zmienna
+
+        # Odczytanie danych z pliku "Develop.txt"
+        with open("Develop.txt", "r") as file:
+            lines = file.readlines()
+            email = lines[5].strip()  # Adres e-mail zapisany w szóstej linijce
+            password = lines[6].strip()  # Hasło zapisane w siódmej linijce
+
+        # Wysłanie wiadomości e-mail
+        try:
+            # Adres i port serwera SMTP (dla Gmail)
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()  # Rozpoczęcie szyfrowanego połączenia
+            server.login(email, password)  # Logowanie do konta e-mail
+            # Wysłanie wiadomości e-mail na to samo konto
+            server.sendmail(email, email, telemetria_zmienna)
+            server.quit()
+            print("Telemetria została wysłana na konto e-mail.")
+        except smtplib.SMTPException as e:
+            print("Wystąpił błąd podczas wysyłania telemetrii:", e)
+
+    def zamknij_okno_glowne():
+        global telemetria_zmienna
+        zapisz_telemetrie()
+        root.destroy()
+        exit()
+
+    root.protocol("WM_DELETE_WINDOW", zamknij_okno_glowne)
+    # root.bind("<Map>", lambda event: otworz_okno())
+    atexit.register(zapisz_telemetrie)
+
 else:
     root = tk.Tk()
     root.title(f"Kalkulator zysków")

@@ -16,3 +16,5 @@
  - random
  - plt
  - pygame
+ - atexit
+ - smtplib

@@ -5,8 +5,9 @@ Wydano: 09.06.2023
 Informacja o bibliotekach: C
 
 Zmiany dodane w najbliższych aktualizacjach:
- + WAŻNE 23.05.2023 dodano następujące biblioteki. Pobierz je poleceniem pip install NAZWA BIBLIOTEKI:
-   - pygame
+ + WAŻNE 09.06.2023 dodano następujące biblioteki. Pobierz je poleceniem pip install NAZWA BIBLIOTEKI:
+    - atexit
+    - smtplib
    Aby to zrobić otwórz terminal cmd i wpisz:
      pip install (nazwa biblioteki)
    Przykład:

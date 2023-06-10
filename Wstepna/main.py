@@ -33,7 +33,7 @@ internet = 1
 global data_telemetrii
 global telemetria_zmienna
 data_telemetrii = " NOWE URUCHOMIENIE"
-telemetria_zmienna = " "
+telemetria_zmienna = ""
 
 
 def data_telemetrii_f():

@@ -13,6 +13,7 @@ import traceback
 import matplotlib.pyplot as plt
 import atexit
 import smtplib
+from email.mime.text import MIMEText
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -31,7 +32,7 @@ okno_wyborowe_otwarte = 0
 internet = 1
 global data_telemetrii
 global telemetria_zmienna
-data_telemetrii = " "
+data_telemetrii = " NOWE URUCHOMIENIE"
 telemetria_zmienna = " "
 
 
@@ -716,6 +717,11 @@ if internet == 1:
 
 def aktul():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + \
+            f"{data_telemetrii}: Uruchomiono funkcję aktul()\n"
         if not internet == 0:
             czynnosci_poczatkowe()
             if not internet == 0:
@@ -735,8 +741,14 @@ def aktul():
                 subprocess.run(Aktualizacja)
                 print('Zakończono! ')
                 print('Uruchom program ponownie.')
+                data_telemetrii_f()
+                telemetria_zmienna = telemetria_zmienna + \
+                    f"{data_telemetrii}: Zakończono aktualizację\n"
         else:
             blad_poczatkowe()
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + \
+                f"{data_telemetrii}: Aktualizacja nieudana (brak internetu)\n"
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -1774,30 +1786,13 @@ if internet == 1:
 
     def zapisz_telemetrie():
         global telemetria_zmienna
-        with open("telemetria.txt", "w") as file:
-            file.write(telemetria_zmienna)
-
-        wyslij_email(telemetria_zmienna)
-
-    def wyslij_email(tekst):
-        global telemetria_zmienna
-        with open("Develop.txt", "r") as file:
-            linie = file.readlines()
-            konto_odbierajace = linie[5].strip()
-            konto_wysylajace = linie[6].strip()
-            haslo = linie[7].strip()
-
-        wiadomosc = f"Subject: Telemetria\n\n{tekst}"
-
+        telemetria_zmienna = telemetria_zmienna + "\n\n"
         try:
-            serwer = smtplib.SMTP("smtp.gmail.com", 587)
-            serwer.starttls()
-            serwer.login(konto_wysylajace, haslo)
-            serwer.sendmail(konto_wysylajace, konto_odbierajace, wiadomosc)
-            serwer.quit()
-            print("Telemetria wysłana pomyślnie.")
-        except Exception as e:
-            print("Wystąpił błąd podczas wysyłania telemetrii:", str(e))
+            with open("telemetria.txt", "a") as file:
+                file.write(telemetria_zmienna)
+        except FileNotFoundError:
+            with open("telemetria.txt", "w") as file:
+                file.write(telemetria_zmienna)
 
     def zamknij_okno_glowne():
         global telemetria_zmienna

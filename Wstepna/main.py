@@ -493,7 +493,7 @@ def taj():
                     telemetria_zmienna = telemetria_zmienna + \
                         f"{data_telemetrii}: Poprawki B7 są prowadzone\n"
                     response = messagebox.askokcancel(
-                        "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz     kontynuuować?")
+                        "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
                     if response == True:
                         # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                         Aktualizacja = ["python", "WEW.py"]

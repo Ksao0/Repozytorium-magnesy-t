@@ -1,6 +1,6 @@
 1.5.0.1 Wstępna
-Status: Poprawka wersji
-Nazwa poprawki: 1
+Status: Poprawki B7
+Nazwa poprawki: B7-1
 Wydano: 09.06.2023
 Informacja o bibliotekach: C
 

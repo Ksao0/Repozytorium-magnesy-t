@@ -281,6 +281,7 @@ def zglos_problem():
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
             f"{data_telemetrii}: Zgłoszono problem przez użytkownika\n"
+        zapisz_telemetrie()
         exit()
 
 
@@ -339,6 +340,7 @@ def czynnosci_poczatkowe():
                     data_telemetrii_f()
                     telemetria_zmienna = telemetria_zmienna + \
                         f"{data_telemetrii}: Zamknięto program z powodu braku czynności początkowych\n"
+                    zapisz_telemetrie()
                     exit()
     except Exception as e:
         data_telemetrii_f()
@@ -409,6 +411,7 @@ def czynnosci_poczatkowe():
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
             f"{data_telemetrii}: Zgłoszono błąd czynności początkowych\n"
+        zapisz_telemetrie()
         exit()
 
 
@@ -475,6 +478,9 @@ def taj():
             version_local = "BRAK DANYCH"
 
         if version_local != "BRAK DANYCH":
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + \
+                f"{data_telemetrii}: Brak informacji o aktualnej wersji programu\n"
             version_online_lines = version_online.split('\n')
             version_local_lines = version_local.split('\n')
             lista_b_online_lines = lista_b_online.split('\n')
@@ -483,6 +489,9 @@ def taj():
             if version_online_lines[0] == version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
                 if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
                     # Prowadzone są intensywne zmiany
+                    data_telemetrii_f()
+                    telemetria_zmienna = telemetria_zmienna + \
+                        f"{data_telemetrii}: Poprawki B7 są prowadzone\n"
                     response = messagebox.askokcancel(
                         "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz     kontynuuować?")
                     if response == True:
@@ -492,7 +501,14 @@ def taj():
                         print('Zaktualizowano!')
                         message = "Zmiany będą widoczne po następnym uruchomieniu"
                         messagebox.showinfo("Aktualizacja", message)
+                        data_telemetrii_f()
+                        telemetria_zmienna = telemetria_zmienna + \
+                            f"{data_telemetrii}: Aktualizacja poprawek B7\n"
                     else:
+                        data_telemetrii_f()
+                        telemetria_zmienna = telemetria_zmienna + \
+                            f"{data_telemetrii}: Użytkownik nie chce kontynuuować z powodu poprawek B7\n"
+                        zapisz_telemetrie()
                         exit()
                         # Poprawki B7 zakończone:
                 elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
@@ -519,6 +535,7 @@ def taj():
                         print('Zaktualizowano!')
                         message = "Uruchom program ponownie"
                         if messagebox.showinfo("Aktualizacja", message):
+                            zapisz_telemetrie()
                             exit()
                     else:
                         return
@@ -532,6 +549,7 @@ def taj():
                     subprocess.run(Aktualizacja)
                     message = "Uruchom program ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
+                        zapisz_telemetrie()
                         exit()
                 else:
                     return
@@ -635,6 +653,7 @@ def taj():
                         biblioteki_pobrane = False
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
+                zapisz_telemetrie()
                 exit()
         else:
             messagebox.showerror(
@@ -644,6 +663,7 @@ def taj():
                 plik.write('BRAK DANYCH')
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
+            zapisz_telemetrie()
             exit()
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
@@ -708,6 +728,7 @@ def taj():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -812,6 +833,7 @@ def aktul():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -888,6 +910,7 @@ def wykasuj_zapisy():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -1044,6 +1067,7 @@ def wykres():
 
             messagebox.showinfo("Problem został zgłoszony",
                                 "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            zapisz_telemetrie()
             exit()
         else:
             return
@@ -1109,6 +1133,7 @@ def rozwiaz_problemy():
                 if os.path.exists(path):
                     os.remove(path)
                     sleep(3)
+                    zapisz_telemetrie()
                     exit()
 
             else:
@@ -1179,6 +1204,7 @@ def rozwiaz_problemy():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -1319,6 +1345,7 @@ def informacje_o_wersji_utworz_okno():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -1552,6 +1579,7 @@ def edycja_kosztow():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -1710,6 +1738,7 @@ def oblicz_zyski():
 
             messagebox.showinfo("Problem został zgłoszony",
                                 "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            zapisz_telemetrie()
             exit()
         else:
             messagebox.showinfo("Błąd leży po twojej stronie",
@@ -1895,6 +1924,7 @@ def otworz_okno_zapisy():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -1992,6 +2022,7 @@ def Gra_snake():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 
@@ -2134,6 +2165,7 @@ def otworz_okno_wybor():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        zapisz_telemetrie()
         exit()
 
 

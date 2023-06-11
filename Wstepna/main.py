@@ -1377,6 +1377,11 @@ def edycja_kosztow():
             okno_zmiany.bind("<Map>", lambda event: otworz_okno())
 
             def edycja_kosztow_wczytaj():
+                global telemetria_zmienna
+                global data_telemetrii
+                data_telemetrii_f()
+                telemetria_zmienna = telemetria_zmienna + \
+                    f"{data_telemetrii}: Edycja kosztów\n"
                 ceny_tektura = str(entry_cena_tektura.get())
                 ceny_nadruk = str(entry_cena_nadruk.get())
                 ceny_foliamg = str(entry_cena_foliamg.get())

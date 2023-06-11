@@ -130,7 +130,7 @@ def ankieta():
             frame_pyt3.pack()
 
             label_pytanie3 = tk.Label(
-                frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia (w jaki     sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
+                frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia (w jaki sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
             label_pytanie3.pack()
 
             pole_tekstowe_pyt3 = tk.Text(
@@ -138,8 +138,8 @@ def ankieta():
             pole_tekstowe_pyt3.pack()
 
             odpowiedz_pyt1 = pyt1.get()
-            odpowiedz_pyt2 = pole_tekstowe_pyt2.get("1.0", tk.END).strip()
-            odpowiedz_pyt3 = pole_tekstowe_pyt3.get("1.0", tk.END).strip()
+            odpowiedz_pyt2 = pole_tekstowe_pyt2
+            odpowiedz_pyt3 = pole_tekstowe_pyt3
 
             def wyslij():
                 if odpowiedz_pyt1 == 1:

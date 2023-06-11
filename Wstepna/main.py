@@ -90,7 +90,7 @@ def ankieta():
 
             okno_ankiety = tk.Toplevel()
             okno_ankiety.title("Ankieta")
-            okno_ankiety.geometry("700x500")
+            okno_ankiety.geometry("700x550")
 
             frame_pyt1 = tk.Frame(okno_ankiety)
             frame_pyt1.pack()

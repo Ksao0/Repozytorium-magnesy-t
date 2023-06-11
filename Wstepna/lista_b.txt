@@ -18,3 +18,4 @@
  - pygame
  - atexit
  - smtplib
+ - random

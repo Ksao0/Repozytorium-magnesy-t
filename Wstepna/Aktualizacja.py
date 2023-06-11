@@ -13,6 +13,11 @@ import traceback
 import matplotlib.pyplot as plt
 
 try:
+    path = os.path.join(os.getcwd(), "Ank.txt")
+
+    # Usuń plik jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
     print('Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wstępna\n')
 
     wersja_programu = int(input("Podaj wersję programu: "))
@@ -264,7 +269,8 @@ try:
         print('Nie ma takiej opcji, anulowano')
         exit()
 except Exception as e:
-    messagebox.showerror('Nie można wykonać aktualizacji', 'Wystąpł błąd, który uniemożliwił wykonanie aktualizacji')
+    messagebox.showerror('Nie można wykonać aktualizacji',
+                         'Wystąpł błąd, który uniemożliwił wykonanie aktualizacji')
     # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
     exc_type, exc_value, exc_traceback = sys.exc_info()
     # Odczytaj zawartość pliku Develop.txt w twoim programie

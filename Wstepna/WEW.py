@@ -13,6 +13,12 @@ import traceback
 import matplotlib.pyplot as plt
 
 try:
+    path = os.path.join(os.getcwd(), "Ank.txt")
+
+    # Usuń plik jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 

@@ -122,7 +122,7 @@ def ankieta():
                 frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu?')
             label_pytanie2.pack()
 
-            pole_tekstowe_pyt2 = scrolledtext.ScrolledText(
+            pole_tekstowe_pyt2 = tk.Text(
                 frame_pyt2, width=60, height=11)
             pole_tekstowe_pyt2.pack()
 
@@ -133,7 +133,7 @@ def ankieta():
                 frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia (w jaki     sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
             label_pytanie3.pack()
 
-            pole_tekstowe_pyt3 = scrolledtext.ScrolledText(
+            pole_tekstowe_pyt3 = tk.Text(
                 frame_pyt3, width=60, height=11)
             pole_tekstowe_pyt3.pack()
 
@@ -149,10 +149,9 @@ def ankieta():
                 else:
                     odpowiedz_pyt1_w = "Niezaznaczono"
 
-
                 if not odpowiedz_pyt2 or not odpowiedz_pyt3:
                     messagebox.askokcancel('Nieodpowiedziano na pytanie',
-                                           'Nieodpowiedziano na trzecie pytanie. Czy chcesz kontynuuować?')
+                                           'Nieodpowiedziano na niektóre pytania. Czy chcesz kontynuuować?')
 
                 path = os.path.join(os.getcwd(), "Ank.txt")
 
@@ -162,7 +161,7 @@ def ankieta():
 
                 with open("Ank.txt", "a", encoding='utf-8') as plik:
                     plik.write('Tak')
-                
+
                 # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -210,7 +209,8 @@ def ankieta():
                 repository_name = 'Ksao0/Repozytorium-magnesy-t'
                 issue_title = f'Ankieta od {nazwa_uzytkownika}'
                 aktualna_data_czas = datetime.datetime.now()
-                format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+                format_data_czas = aktualna_data_czas.strftime(
+                    "%d.%m.%Y %H:%M")
                 issue_body = f"Ankieta (data: {format_data_czas}):\nPytanie 1: {odpowiedz_pyt1_w}\nSugestie i uwagi: {odpowiedz_pyt2}\nOstatnie błędy: {odpowiedz_pyt3}"
 
                 # autentykacja

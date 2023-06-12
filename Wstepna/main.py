@@ -143,35 +143,31 @@ def ankieta():
                     frame_pyt3, width=60, height=11)
                 pole_tekstowe_pyt3.pack()
 
-                odpowiedz_pyt1 = pole_tekstowe_pyt1.get("1.0", tk.END)
-                odpowiedz_pyt2 = pole_tekstowe_pyt2.get("1.0", tk.END)
-                odpowiedz_pyt3 = pole_tekstowe_pyt3.get("1.0", tk.END)
-
                 def wyslij():
                     udzielone_odpowiedzi = 0
 
-                    if odpowiedz_pyt1:
+                    if pole_tekstowe_pyt1.get("1.0", tk.END):
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pyt2:
+                    if pole_tekstowe_pyt2.get("1.0", tk.END):
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pyt3:
+                    if pole_tekstowe_pyt3.get("1.0", tk.END):
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pyt1 == "Nie":
+                    if pole_tekstowe_pyt1.get("1.0", tk.END) == "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if odpowiedz_pyt2 == "Nie":
+                    if pole_tekstowe_pyt2.get("1.0", tk.END) == "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if odpowiedz_pyt3 == "Nie":
+                    if pole_tekstowe_pyt3.get("1.0", tk.END) == "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi
 
                     if udzielone_odpowiedzi == 3:
@@ -272,7 +268,8 @@ def ankieta():
                     aktualna_data_czas = datetime.datetime.now()
                     format_data_czas = aktualna_data_czas.strftime(
                         "%d.%m.%Y %H:%M")
-                    issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + pole_tekstowe_pyt1.get("1.0", tk.END) + "\n\nSugestie i uwagi: " + pole_tekstowe_pyt2.get("1.0", tk.END) + "\n\nOstatnie błędy: " + pole_tekstowe_pyt3.get("1.0", tk.END)
+                    issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + pole_tekstowe_pyt1.get(
+                        "1.0", tk.END) + "\n\nSugestie i uwagi: " + pole_tekstowe_pyt2.get("1.0", tk.END) + "\n\nOstatnie błędy: " + pole_tekstowe_pyt3.get("1.0", tk.END)
 
                     # autentykacja
                     g = Github(username, password)

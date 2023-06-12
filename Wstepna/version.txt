@@ -13,6 +13,7 @@ Większe zmiany dodane w najbliższych aktualizacjach:
      pip install (nazwa biblioteki)
    Przykład:
      pip install tkinter
+ - Dodano szansę na pojawienie się ankiety (ta funkcja działą tylko u wybranych użytkowników)
  - Dodano szansę na pojawienie się ankiety, której celem jest dostosowanie programu do waszych wymagań
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
  - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
@@ -20,3 +21,4 @@ Większe zmiany dodane w najbliższych aktualizacjach:
 
 Opis ostatniej małej poprawki wersji oraz informacje o błędach (widoczne tylko do następnej poprawki wersji):
  - Usunięto błąd, przez który informacja o zgłoszeniu błędu była wyświetlana od razu po uruchomieniu programu
+ - Naprawiono błąd związany z wyświetleniem się błędnych komunikatów po wysłaniu ankiety

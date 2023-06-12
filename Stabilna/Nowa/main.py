@@ -200,7 +200,7 @@ def zglos_problem():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z zglos_problem()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) zglos_problem()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -300,7 +300,7 @@ def czynnosci_poczatkowe():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z czynnosci_poczatkowe()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) czynnosci_poczatkowe()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -484,7 +484,7 @@ def taj():
                             username = f'{nazwa_uzytkownika}'
                             password = f'{token_do_wpisania}'
                             repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                            issue_title = 'Automatyczne zgłoszenie błędu z taj()'
+                            issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) taj()'
                             a = traceback.format_exc()
                             issue_body = f"Błąd funkcji taj(): Nie dodano bibliotek do pobrania\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
 
@@ -571,7 +571,7 @@ def taj():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z taj()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) taj()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji taj():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -662,7 +662,7 @@ def aktul():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z aktul()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) aktul()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -736,7 +736,7 @@ def wykasuj_zapisy():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z wykasuj_zapisy()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) wykasuj_zapisy()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji wykasuj_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -890,7 +890,7 @@ def wykres():
             username = f'{nazwa_uzytkownika}'
             password = f'{token_do_wpisania}'
             repository_name = 'Ksao0/Repozytorium-magnesy-t'
-            issue_title = 'Automatyczne zgłoszenie błędu z wykres()'
+            issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) wykres()'
             a = traceback.format_exc()
             issue_body = f"Błąd funkcji wykres():\nPrawdodpodobna przyczyna: Brak danych do wygenerowania wykresu\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:    {exc_value}\nTraceback:\n\n{a}"
 
@@ -1023,7 +1023,7 @@ def rozwiaz_problemy():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z rozwiaz_problemy()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) rozwiaz_problemy()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -1161,7 +1161,7 @@ def informacje_o_wersji_utworz_okno():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z informacje_o_wersji_utworz_okno()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) informacje_o_wersji_utworz_okno()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -1392,7 +1392,7 @@ def edycja_kosztow():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z edycja_kosztow()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) edycja_kosztow()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji edycja_kosztow():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -1548,7 +1548,7 @@ def oblicz_zyski():
             username = f'{nazwa_uzytkownika}'
             password = f'{token_do_wpisania}'
             repository_name = 'Ksao0/Repozytorium-magnesy-t'
-            issue_title = 'Automatyczne zgłoszenie błędu z oblicz_zyski()'
+            issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) oblicz_zyski()'
             a = traceback.format_exc()
             issue_body = f"Błąd funkcji oblicz_zyski():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -1711,7 +1711,7 @@ def otworz_okno_zapisy():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z otworz_okno_zapisy()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) otworz_okno_zapisy()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji otworz_okno_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -1806,7 +1806,7 @@ def Gra_snake():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z Gra_snake()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) Gra_snake()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji Gra_snake():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
@@ -1946,7 +1946,7 @@ def otworz_okno_wybor():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z otworz_okno_wybor()'
+        issue_title = 'Automatyczne zgłoszenie błędu z (stabilna) otworz_okno_wybor()'
         a = traceback.format_exc()
         issue_body = f"Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 

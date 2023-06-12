@@ -1,6 +1,6 @@
-2.0.1 Stabilna (Na podstawie 1.4.0.0 Wstępna)
+1.4.0 Stabilna (Na podstawie 1.4.0.0 Wstępna)
 Status: Poprawka wersji
-Poprawka: Wer 2
+Poprawka: Poprawka wersji
 Wydano: 05.06.2023
 Informacja o bibliotekach: B
 

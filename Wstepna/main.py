@@ -221,6 +221,7 @@ def ankieta():
 
                 # utwórz nowe zgłoszenie błędu
                 repo.create_issue(title=issue_title, body=issue_body)
+                okno_ankiety.destroy()
 
             button_wyslij = tk.Button(
                 okno_ankiety, text="Wyślij odpowiedzi", command=wyslij)
@@ -2195,7 +2196,7 @@ def Gra_snake():
 
 def otworz_okno_wybor():
     try:
-        if random.choices([True, False], [0.1, 0.9])[0]:
+        if random.choices([True, False], [0.2, 0.8])[0]:
             ankieta()
 
         def otworz_okno():

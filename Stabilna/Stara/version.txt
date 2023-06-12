@@ -1,39 +1,23 @@
-1.0.0.0.2.17 Stabilna
+1.4.0 Stabilna (Na podstawie 1.4.0.0 Wstępna)
+Status: Poprawka wersji
+Poprawka: Poprawka wersji
+Wydano: 05.06.2023
+Informacja o bibliotekach: B
 
-Wydano: 20.04.2023
-Stan z (d.m.r): 05.06.2023
+Po tak długim czasie przygotowań tej wersji udało się ją wam udostępnić. Teraz możecie korzystać z szeregu nowych funkcji
+bez obaw o tym, że wystąpią błędy lub inne problemy.
 
-Niestety prace nad zmianą wersji stabilnej przedłużyły się i zostanie ona zmieniona w innym terminie,
-którego nie jesteśmy w stanie oszacować. Przez ten czas rekomendujemy korzystanie z wersji wstępnej.
-Poniżej jest podana zaktualizowana lista bibliotek, które należy pobrać.
-
-Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki
-(instrukcja znajduje się dalej):
- - os
- - tkinter
- - messagebox
- - scrolledtext
- - datetime
- - urllib.request
- - subprocess
- - requests
- - time
- - sleep
- - Github
- - github
- - sys
- - traceback
- - matplotlib.pyplot
- - random
- - plt
- - pygame
-
-Aby zainstalowac te biblioteki:
-  WYŁĄCZ TERMINAL CMD DOPIERO WTEDY, KIEDY BĘDZIE TO NAPISANE W NASTĘPUJĄCYCH KROKACH:
- 1. Otwórz terminal cmd
- 2. Wpisz polecenie, które zaktualizuje twoje środowisko i naciśnij enter: python -m pip install --upgrade pip
-      PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI
- 3. Zainstaluj biblioteki:
-      pip install NAZWA_BIBLIOTEKI
-    Przykład: pip install tkinter
- Kiedy zainstalujesz już wszystkie biblioteki, zamknij terminal cmd.
+Zmiany względem poprzedniej wersji stabilnej:
+ - Ulepszony mechanizm aktualizacji (m.in informowanie o nowej wersji, nowej poprawce, nowych wymaganych bibliotekach)
+ - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
+ - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)
+ - Program obsługuje wszystkie problemy związane z internetem
+ - Opcja rozwiązywania problemów
+ - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
+ - Możliwość wykasowania poprzednich obliczeń
+ - Personalizacja cen i kozstów produkcji
+ - Teraz można zobaczyć więcej informacji o programie w specjalnym, dedykowanym oknie z poziomu programu
+ - Poprawa spójności tekstu
+ - Możliwość używania wszystkich okien jednocześnie (niedostępna nawet w poprzednich wersjach wstępnych)
+ - Dodano grę Snake
+Więcej nowości znajdziesz podczas zwykłego używania programu

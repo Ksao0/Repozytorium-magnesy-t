@@ -170,17 +170,17 @@ def ankieta():
 
                     udzielone_odpowiedzi = 0
 
-                    if odpowiedz_pytanie1:
+                    if odpowiedz_pytanie1 and odpowiedz_pytanie1 != "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie2:
+                    if odpowiedz_pytanie2 and odpowiedz_pytanie1 != "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie3:
+                    if odpowiedz_pytanie3 and odpowiedz_pytanie1 != "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1

@@ -143,31 +143,55 @@ def ankieta():
                     frame_pyt3, width=60, height=11)
                 pole_tekstowe_pyt3.pack()
 
+                global odpowiedz_pytanie1
+                global odpowiedz_pytanie2
+                global odpowiedz_pytanie3
+
+                odpowiedz_pytanie1 = ""
+                odpowiedz_pytanie2 = ""
+                odpowiedz_pytanie3 = ""
+
+                odpowiedz_pytanie1 = pole_tekstowe_pyt1.get("1.0", tk.END)
+                odpowiedz_pytanie2 = pole_tekstowe_pyt2.get("1.0", tk.END)
+                odpowiedz_pytanie3 = pole_tekstowe_pyt3.get("1.0", tk.END)
+
                 def wyslij():
+                    global odpowiedz_pytanie1
+                    global odpowiedz_pytanie2
+                    global odpowiedz_pytanie3
+
+                    odpowiedz_pytanie1 = ""
+                    odpowiedz_pytanie2 = ""
+                    odpowiedz_pytanie3 = ""
+
+                    odpowiedz_pytanie1 = pole_tekstowe_pyt1.get("1.0", tk.END)
+                    odpowiedz_pytanie2 = pole_tekstowe_pyt2.get("1.0", tk.END)
+                    odpowiedz_pytanie3 = pole_tekstowe_pyt3.get("1.0", tk.END)
+
                     udzielone_odpowiedzi = 0
 
-                    if pole_tekstowe_pyt1.get("1.0", tk.END):
+                    if odpowiedz_pytanie1:
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if pole_tekstowe_pyt2.get("1.0", tk.END):
+                    if odpowiedz_pytanie2:
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if pole_tekstowe_pyt3.get("1.0", tk.END):
+                    if odpowiedz_pytanie3:
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if pole_tekstowe_pyt1.get("1.0", tk.END) == "Nie":
+                    if odpowiedz_pytanie1 == "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if pole_tekstowe_pyt2.get("1.0", tk.END) == "Nie":
+                    if odpowiedz_pytanie2 == "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if pole_tekstowe_pyt3.get("1.0", tk.END) == "Nie":
+                    if odpowiedz_pytanie3 == "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi
 
                     if udzielone_odpowiedzi == 3:

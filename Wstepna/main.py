@@ -666,7 +666,7 @@ def taj():
             lista_b_local_lines = lista_b_local.split('\n')
             # Trwające poprawki B7:
             if version_online_lines[0] == version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
-                if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
+                if (version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7") or (version_local_lines[1] == "Status: B7" and version_online_lines[1] == "Status: Poprawka wersji"):
                     # Prowadzone są intensywne zmiany
                     data_telemetrii_f()
                     telemetria_zmienna = telemetria_zmienna + \
@@ -718,6 +718,19 @@ def taj():
                             exit()
                     else:
                         return
+                #I tak aktualizacja main.py:
+                # ścieżka do pliku main.py w bieżącym folderze
+                path = os.path.join(os.getcwd(), "main.py")
+
+                # usuń plik main.py, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                # print("Usunięto plik main.py")
+                # pobierz plik main.py z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
+                urllib.request.urlretrieve(url, path)
+                # print("Zastąpiono plik main.py")
+
             elif version_online_lines[0] != version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
                 # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
@@ -836,7 +849,7 @@ def taj():
                 exit()
         else:
             messagebox.showerror(
-                "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji. Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane) - skontaktuj się z osobą odpowiedzialną za program.")
+                "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji (kilka razy). Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane) - skontaktuj się z osobą odpowiedzialną za program.")
             open("version.txt", "w", encoding='utf-8').close()
             with open("Zapisy.txt", "a", encoding='utf-8') as plik:
                 plik.write('BRAK DANYCH')
@@ -2196,7 +2209,7 @@ def Gra_snake():
 
 def otworz_okno_wybor():
     try:
-        if random.choices([True, False], [0.2, 0.8])[0]:
+        if random.choices([True, False], [0.3, 0.7])[0]:
             ankieta()
 
         def otworz_okno():

@@ -272,7 +272,7 @@ def ankieta():
                     aktualna_data_czas = datetime.datetime.now()
                     format_data_czas = aktualna_data_czas.strftime(
                         "%d.%m.%Y %H:%M")
-                    issue_body = f"Ankieta (data: {format_data_czas}):\nPytanie 1: {odpowiedz_pyt1}\n\nSugestie i uwagi: {odpowiedz_pyt2}\n\nOstatnie błędy: {odpowiedz_pyt3}"
+                    issue_body = f"Ankieta (data: {format_data_czas}):\nPytanie 1: " + pole_tekstowe_pyt1.get("1.0", tk.END) + "\n\nSugestie i uwagi: " + pole_tekstowe_pyt2.get("1.0", tk.END) + "\n\nOstatnie błędy: " + pole_tekstowe_pyt3.get("1.0", tk.END)
 
                     # autentykacja
                     g = Github(username, password)

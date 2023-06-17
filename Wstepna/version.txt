@@ -1,7 +1,7 @@
 1.5.1.4 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: 2
-Wydano: 11.06.2023
+Nazwa poprawki: 3
+Wydano: 17.06.2023
 Informacja o bibliotekach: C1
 
 Większe zmiany dodane w najbliższych aktualizacjach:
@@ -22,3 +22,4 @@ Większe zmiany dodane w najbliższych aktualizacjach:
 Opis ostatniej małej poprawki wersji oraz informacje o błędach (widoczne tylko do następnej poprawki wersji):
  - Usunięto błąd, przez który informacja o zgłoszeniu błędu była wyświetlana od razu po uruchomieniu programu
  - Naprawiono błąd związany z wyświetleniem się błędnych komunikatów po wysłaniu ankiety
+ - usunięto błąd związany z niewysyłaniem ankiet przez program

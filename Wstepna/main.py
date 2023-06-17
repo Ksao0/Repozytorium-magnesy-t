@@ -144,159 +144,246 @@ def ankieta():
                 pole_tekstowe_pyt3.pack()
 
                 def wyslij():
-                    global odpowiedz_pytanie1
-                    global odpowiedz_pytanie2
-                    global odpowiedz_pytanie3
+                    try:
+                        global odpowiedz_pytanie1
+                        global odpowiedz_pytanie2
+                        global odpowiedz_pytanie3
 
-                    odpowiedz_pytanie1 = ""
-                    odpowiedz_pytanie2 = ""
-                    odpowiedz_pytanie3 = ""
+                        odpowiedz_pytanie1 = ""
+                        odpowiedz_pytanie2 = ""
+                        odpowiedz_pytanie3 = ""
 
-                    odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
-                        "1.0", tk.END).strip()
-                    odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
-                        "1.0", tk.END).strip()
-                    odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
-                        "1.0", tk.END).strip()
+                        odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
+                            "1.0", tk.END).strip()
+                        odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
+                            "1.0", tk.END).strip()
+                        odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
+                            "1.0", tk.END).strip()
 
-                    udzielone_odpowiedzi = 0
+                        udzielone_odpowiedzi = 0
 
-                    if odpowiedz_pytanie1 != "" and odpowiedz_pytanie1 != "Nie":
-                        udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-                    else:
-                        udzielone_odpowiedzi = udzielone_odpowiedzi - 1
+                        if odpowiedz_pytanie1 != "" and odpowiedz_pytanie1 != "Nie":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+                        else:
+                            udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie2 != "" and odpowiedz_pytanie1 != "Nie":
-                        udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-                    else:
-                        udzielone_odpowiedzi = udzielone_odpowiedzi - 1
+                        if odpowiedz_pytanie2 != "" and odpowiedz_pytanie1 != "Nie":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+                        else:
+                            udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie3 != "" and odpowiedz_pytanie1 != "Nie":
-                        udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-                    else:
-                        udzielone_odpowiedzi = udzielone_odpowiedzi - 1
+                        if odpowiedz_pytanie3 != "" and odpowiedz_pytanie1 != "Nie":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+                        else:
+                            udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie1 == "Nie":
-                        udzielone_odpowiedzi = udzielone_odpowiedzi
+                        if odpowiedz_pytanie1 == "Nie":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if odpowiedz_pytanie2 == "Nie":
-                        udzielone_odpowiedzi = udzielone_odpowiedzi
+                        if odpowiedz_pytanie2 == "Nie":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if odpowiedz_pytanie3 == "Nie":
-                        udzielone_odpowiedzi = udzielone_odpowiedzi
+                        if odpowiedz_pytanie3 == "Nie":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi
 
-                    if udzielone_odpowiedzi == 3:
-                        messagebox.showinfo('Ankieta zostałą wysłana',
-                                            'Dziękujemy za udzielenie odpowiedzi!')
+                        if udzielone_odpowiedzi == 3:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!')
 
-                    elif udzielone_odpowiedzi == 2:
-                        messagebox.showinfo('Ankieta zostałą wysłana',
-                                            'Dziękujemy za udzielenie odpowiedzi!')
+                        elif udzielone_odpowiedzi == 2:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!')
 
-                    elif udzielone_odpowiedzi == 1:
-                        messagebox.showinfo('Ankieta zostałą wysłana',
-                                            'Dziękujemy za udzielenie odpowiedzi!')
+                        elif udzielone_odpowiedzi == 1:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!')
 
-                    elif udzielone_odpowiedzi == 0:
-                        messagebox.showinfo('Ta ankieta jest nieistotna',
-                                            'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
+                        elif udzielone_odpowiedzi == 0:
+                            messagebox.showinfo('Ta ankieta jest nieistotna',
+                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
 
-                        path = os.path.join(os.getcwd(), "Ank.txt")
-                        # Usuń plik jeśli istnieje
-                        if os.path.exists(path):
-                            os.remove(path)
+                            path = os.path.join(os.getcwd(), "Ank.txt")
+                            # Usuń plik jeśli istnieje
+                            if os.path.exists(path):
+                                os.remove(path)
 
-                        with open("Ank.txt", "a", encoding='utf-8') as plik:
-                            plik.write('Tak')
+                            with open("Ank.txt", "a", encoding='utf-8') as plik:
+                                plik.write('Tak')
 
-                        okno_ankiety.destroy()
-                        return
-                    else:
-                        messagebox.showinfo('Ta ankieta jest nieistotna',
-                                            'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
-                        path = os.path.join(os.getcwd(), "Ank.txt")
-                        # Usuń plik jeśli istnieje
-                        if os.path.exists(path):
-                            os.remove(path)
-
-                        with open("Ank.txt", "a", encoding='utf-8') as plik:
-                            plik.write('Tak')
-
-                        okno_ankiety.destroy()
-
-                    path = os.path.join(os.getcwd(), "Ank.txt")
-
-                    # Usuń plik jeśli istnieje
-                    if os.path.exists(path):
-                        os.remove(path)
-
-                    with open("Ank.txt", "a", encoding='utf-8') as plik:
-                        plik.write('Tak')
-
-                    # Odczytaj zawartość pliku Develop.txt w twoim programie
-                    path = os.path.join(os.getcwd(), "Develop.txt")
-                    if os.path.exists(path):
-                        with open(path, "r", encoding="utf-8") as f:
-                            plik_od_dewelopera = f.read().strip()
-                    else:
-                        plik_od_dewelopera = "BRAK PLIKU D"
-                        messagebox.showerror(
-                            "Błąd", 'Poproś twórcę programu o informacje')
-
-                    if plik_od_dewelopera != "BRAK PLIKU D":
-                        informacje_do_zgloszenia = plik_od_dewelopera.split(
-                            '\n')
-                        nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                        token_do_wpisania = informacje_do_zgloszenia[1]
-
-                        # pobierz datę wygaśnięcia
-                        wygasa_dnia = int(informacje_do_zgloszenia[2])
-                        wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                        wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                        # utwórz obiekt daty z daty wygaśnięcia
-                        wygasa_data = datetime.date(
-                            wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                        # pobierz dzisiejszą datę
-                        dzisiaj = datetime.date.today()
-                        # porównaj daty
-                        if dzisiaj > wygasa_data:
-                            messagebox.showerror(
-                                "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                            okno_ankiety.destroy()
                             return
-                        elif dzisiaj == wygasa_data:
+                        else:
+                            messagebox.showinfo('Ta ankieta jest nieistotna',
+                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
+                            path = os.path.join(os.getcwd(), "Ank.txt")
+                            # Usuń plik jeśli istnieje
+                            if os.path.exists(path):
+                                os.remove(path)
+
+                            with open("Ank.txt", "a", encoding='utf-8') as plik:
+                                plik.write('Tak')
+
+                            okno_ankiety.destroy()
+
+                        path = os.path.join(os.getcwd(), "Ank.txt")
+
+                        # Usuń plik jeśli istnieje
+                        if os.path.exists(path):
+                            os.remove(path)
+
+                        with open("Ank.txt", "a", encoding='utf-8') as plik:
+                            plik.write('Tak')
+
+                        # Odczytaj zawartość pliku Develop.txt w twoim programie
+                        path = os.path.join(os.getcwd(), "Develop.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                plik_od_dewelopera = f.read().strip()
+                        else:
+                            plik_od_dewelopera = "BRAK PLIKU D"
+                            messagebox.showerror(
+                                "Błąd", 'Poproś twórcę programu o informacje')
+
+                        if plik_od_dewelopera != "BRAK PLIKU D":
+                            informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                '\n')
+                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                            token_do_wpisania = informacje_do_zgloszenia[1]
+
+                            # pobierz datę wygaśnięcia
+                            wygasa_dnia = int(informacje_do_zgloszenia[2])
+                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                            # utwórz obiekt daty z daty wygaśnięcia
+                            wygasa_data = datetime.date(
+                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                            # pobierz dzisiejszą datę
+                            dzisiaj = datetime.date.today()
+                            # porównaj daty
+                            if dzisiaj > wygasa_data:
+                                messagebox.showerror(
+                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                return
+                            elif dzisiaj == wygasa_data:
+                                messagebox.showwarning(
+                                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego      przedłużenia.        ")
+                        else:
                             messagebox.showwarning(
-                                "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego  przedłużenia.        ")
-                    else:
-                        messagebox.showwarning(
-                            'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                            return
+
+                        # ustawienia konta
+                        username = f'{nazwa_uzytkownika}'
+                        password = f'{token_do_wpisania}'
+                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                        issue_title = f'Ankieta od {nazwa_uzytkownika}'
+                        aktualna_data_czas = datetime.datetime.now()
+                        format_data_czas = aktualna_data_czas.strftime(
+                            "%d.%m.%Y %H:%M")
+                        issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
+                            "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
+                            "\n\nOstatnie błędy: " + odpowiedz_pytanie3
+
+                        # autentykacja
+                        g = Github(username, password)
+
+                        # pobierz repozytorium
+                        repo = g.get_repo(repository_name)
+
+                        # utwórz nowe zgłoszenie błędu
+                        repo.create_issue(title=issue_title, body=issue_body)
+
+                        okno_ankiety.destroy()
                         return
-
-                    # ustawienia konta
-                    username = f'{nazwa_uzytkownika}'
-                    password = f'{token_do_wpisania}'
-                    repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                    issue_title = f'Ankieta od {nazwa_uzytkownika}'
-                    aktualna_data_czas = datetime.datetime.now()
-                    format_data_czas = aktualna_data_czas.strftime(
-                        "%d.%m.%Y %H:%M")
-                    issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
-                        "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
-                        "\n\nOstatnie błędy: " + odpowiedz_pytanie3
-
-                    # autentykacja
-                    g = Github(username, password)
-
-                    # pobierz repozytorium
-                    repo = g.get_repo(repository_name)
-
-                    # utwórz nowe zgłoszenie błędu
-                    repo.create_issue(title=issue_title, body=issue_body)
-
-                    okno_ankiety.destroy()
-                    return
-
+                    except Exception as e:
+                        global telemetria_zmienna
+                        global data_telemetrii
+                        data_telemetrii_f()
+                        telemetria_zmienna = telemetria_zmienna + \
+                            f"{data_telemetrii}: Wystąpił błąd w kodzie ankiety\n"
+                
+                        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                        exc_type, exc_value, exc_traceback = sys.exc_info()
+                        # Odczytaj zawartość pliku Develop.txt w twoim programie
+                        path = os.path.join(os.getcwd(), "Develop.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                plik_od_dewelopera = f.read().strip()
+                        else:
+                            plik_od_dewelopera = "BRAK PLIKU D"
+                            messagebox.showerror(
+                                "Błąd", 'Poproś twórcę programu o informacje')
+                
+                        if plik_od_dewelopera != "BRAK PLIKU D":
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + \
+                                f"{data_telemetrii}: BRAK PLIKU D\n"
+                
+                            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                            token_do_wpisania = informacje_do_zgloszenia[1]
+                
+                            # pobierz datę wygaśnięcia
+                            wygasa_dnia = int(informacje_do_zgloszenia[2])
+                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                            wygasa_roku = int(informacje_do_zgloszenia[4])
+                
+                            # utwórz obiekt daty z daty wygaśnięcia
+                            wygasa_data = datetime.date(
+                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+                
+                            # pobierz dzisiejszą datę
+                            dzisiaj = datetime.date.today()
+                            # porównaj daty
+                            if dzisiaj > wygasa_data:
+                                messagebox.showerror(
+                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                data_telemetrii_f()
+                                telemetria_zmienna = telemetria_zmienna + \
+                                    f"{data_telemetrii}: Funkcje nieudostępnione wygasły\n"
+                                return
+                            elif dzisiaj == wygasa_data:
+                                data_telemetrii_f()
+                                telemetria_zmienna = telemetria_zmienna + \
+                                    f"{data_telemetrii}: Dzisiaj kończy się dostęp do funkcji nieudostępnionych\n"
+                                messagebox.showwarning(
+                                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.                      ")
+                        else:
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + \
+                                f"{data_telemetrii}: Nieznany błąd funkcji nieudostępnionych w zgłaszaniu problemów\n"
+                            messagebox.showwarning(
+                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                            return
+                
+                        # ustawienia konta
+                        username = f'{nazwa_uzytkownika}'
+                        password = f'{token_do_wpisania}'
+                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                        issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
+                        a = traceback.format_exc()
+                        aktualna_data_czas = datetime.datetime.now()
+                        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+                        issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+                
+                        # autentykacja
+                        g = Github(username, password)
+                
+                        # pobierz repozytorium
+                        repo = g.get_repo(repository_name)
+                
+                        # utwórz nowe zgłoszenie błędu
+                        repo.create_issue(title=issue_title, body=issue_body)
+                
+                        messagebox.showinfo("Problem został zgłoszony",
+                                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+                        data_telemetrii_f()
+                        telemetria_zmienna = telemetria_zmienna + \
+                            f"{data_telemetrii}: Zgłoszono problem przez użytkownika\n"
+                        zapisz_telemetrie()
+                        exit()
                 button_wyslij = tk.Button(
                     okno_ankiety, text="Wyślij odpowiedzi", command=wyslij)
                 button_wyslij.pack()

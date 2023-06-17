@@ -32,7 +32,7 @@ okno_wyborowe_otwarte = 0
 internet = 1
 global data_telemetrii
 global telemetria_zmienna
-data_telemetrii = " NOWE URUCHOMIENIE"
+data_telemetrii = " *NOWE URUCHOMIENIE*"
 telemetria_zmienna = ""
 
 

@@ -188,19 +188,19 @@ def ankieta():
 
                         if udzielone_odpowiedzi == 3:
                             messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!')
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
 
                         elif udzielone_odpowiedzi == 2:
                             messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!')
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
 
                         elif udzielone_odpowiedzi == 1:
                             messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!')
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
 
                         elif udzielone_odpowiedzi == 0:
-                            messagebox.showinfo('Ta ankieta jest nieistotna',
-                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 0')
 
                             path = os.path.join(os.getcwd(), "Ank.txt")
                             # Usuń plik jeśli istnieje
@@ -212,9 +212,9 @@ def ankieta():
 
                             okno_ankiety.destroy()
                             return
-                        else:
+                        elif udzielone_odpowiedzi == -3 or udzielone_odpowiedzi == -2 or udzielone_odpowiedzi == -1:
                             messagebox.showinfo('Ta ankieta jest nieistotna',
-                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
+                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
                             path = os.path.join(os.getcwd(), "Ank.txt")
                             # Usuń plik jeśli istnieje
                             if os.path.exists(path):
@@ -303,7 +303,7 @@ def ankieta():
                         data_telemetrii_f()
                         telemetria_zmienna = telemetria_zmienna + \
                             f"{data_telemetrii}: Wystąpił błąd w kodzie ankiety\n"
-                
+
                         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
                         exc_type, exc_value, exc_traceback = sys.exc_info()
                         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -315,25 +315,26 @@ def ankieta():
                             plik_od_dewelopera = "BRAK PLIKU D"
                             messagebox.showerror(
                                 "Błąd", 'Poproś twórcę programu o informacje')
-                
+
                         if plik_od_dewelopera != "BRAK PLIKU D":
                             data_telemetrii_f()
                             telemetria_zmienna = telemetria_zmienna + \
                                 f"{data_telemetrii}: BRAK PLIKU D\n"
-                
-                            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+
+                            informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                '\n')
                             nazwa_uzytkownika = informacje_do_zgloszenia[0]
                             token_do_wpisania = informacje_do_zgloszenia[1]
-                
+
                             # pobierz datę wygaśnięcia
                             wygasa_dnia = int(informacje_do_zgloszenia[2])
                             wygasa_miesiaca = int(informacje_do_zgloszenia[3])
                             wygasa_roku = int(informacje_do_zgloszenia[4])
-                
+
                             # utwórz obiekt daty z daty wygaśnięcia
                             wygasa_data = datetime.date(
                                 wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-                
+
                             # pobierz dzisiejszą datę
                             dzisiaj = datetime.date.today()
                             # porównaj daty
@@ -357,7 +358,7 @@ def ankieta():
                             messagebox.showwarning(
                                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
                             return
-                
+
                         # ustawienia konta
                         username = f'{nazwa_uzytkownika}'
                         password = f'{token_do_wpisania}'
@@ -365,18 +366,19 @@ def ankieta():
                         issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
                         a = traceback.format_exc()
                         aktualna_data_czas = datetime.datetime.now()
-                        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+                        format_data_czas = aktualna_data_czas.strftime(
+                            "%d.%m.%Y %H:%M")
                         issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
-                
+
                         # autentykacja
                         g = Github(username, password)
-                
+
                         # pobierz repozytorium
                         repo = g.get_repo(repository_name)
-                
+
                         # utwórz nowe zgłoszenie błędu
                         repo.create_issue(title=issue_title, body=issue_body)
-                
+
                         messagebox.showinfo("Problem został zgłoszony",
                                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
                         data_telemetrii_f()

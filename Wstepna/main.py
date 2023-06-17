@@ -87,7 +87,7 @@ def ankieta():
 
         if ankieta_wykonana != "Tak":
             if messagebox.askyesno(
-                    "Opinia", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
+                    "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
 
                 okno_ankiety = tk.Toplevel()
                 okno_ankiety.title("Ankieta")
@@ -152,10 +152,12 @@ def ankieta():
                     odpowiedz_pytanie2 = ""
                     odpowiedz_pytanie3 = ""
 
-                    odpowiedz_pytanie1 = pole_tekstowe_pyt1.get("1.0", tk.END).strip()
-                    odpowiedz_pytanie2 = pole_tekstowe_pyt2.get("1.0", tk.END).strip()
-                    odpowiedz_pytanie3 = pole_tekstowe_pyt3.get("1.0", tk.END).strip()
-
+                    odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
+                        "1.0", tk.END).strip()
+                    odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
+                        "1.0", tk.END).strip()
+                    odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
+                        "1.0", tk.END).strip()
 
                     udzielone_odpowiedzi = 0
 
@@ -187,15 +189,15 @@ def ankieta():
                         messagebox.showinfo('Ankieta zostałą wysłana',
                                             'Dziękujemy za udzielenie odpowiedzi!')
 
-                    if udzielone_odpowiedzi == 2:
+                    elif udzielone_odpowiedzi == 2:
                         messagebox.showinfo('Ankieta zostałą wysłana',
                                             'Dziękujemy za udzielenie odpowiedzi!')
 
-                    if udzielone_odpowiedzi == 1:
+                    elif udzielone_odpowiedzi == 1:
                         messagebox.showinfo('Ankieta zostałą wysłana',
                                             'Dziękujemy za udzielenie odpowiedzi!')
 
-                    if udzielone_odpowiedzi == 0:
+                    elif udzielone_odpowiedzi == 0:
                         messagebox.showinfo('Ta ankieta jest nieistotna',
                                             'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
 
@@ -212,10 +214,6 @@ def ankieta():
                     else:
                         messagebox.showinfo('Ta ankieta jest nieistotna',
                                             'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
-                    if udzielone_odpowiedzi < 0:
-                        messagebox.showinfo(
-                            'Ta ankieta jest nieistotna', "Nieudzielono żadnych istotnych odpowiedzi. Z tego powodu twoja ankieta nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program")
-
                         path = os.path.join(os.getcwd(), "Ank.txt")
                         # Usuń plik jeśli istnieje
                         if os.path.exists(path):

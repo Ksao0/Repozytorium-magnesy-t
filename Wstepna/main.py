@@ -162,28 +162,39 @@ def ankieta():
 
                         udzielone_odpowiedzi = 0
 
-                        if odpowiedz_pytanie1 != "" and odpowiedz_pytanie1 != "Nie":
+                        if odpowiedz_pytanie1 != "":
                             udzielone_odpowiedzi = udzielone_odpowiedzi + 1
 
-                        if odpowiedz_pytanie2 != "" and odpowiedz_pytanie1 != "Nie":
+                        if odpowiedz_pytanie2 != "":
                             udzielone_odpowiedzi = udzielone_odpowiedzi + 1
 
-                        if odpowiedz_pytanie3 != "" and odpowiedz_pytanie1 != "Nie":
+                        if odpowiedz_pytanie3 != "":
                             udzielone_odpowiedzi = udzielone_odpowiedzi + 1
 
-                        if udzielone_odpowiedzi == 3:
+                        liczba_nie = 0
+
+                        if odpowiedz_pytanie1 == "Nie":
+                            liczba_nie = liczba_nie + 1
+
+                        if odpowiedz_pytanie2 == "Nie":
+                            liczba_nie = liczba_nie + 1
+
+                        if odpowiedz_pytanie3 == "Nie":
+                            liczba_nie = liczba_nie + 1
+
+                        if udzielone_odpowiedzi == 3 and liczba_nie != 3:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
 
-                        elif udzielone_odpowiedzi == 2:
+                        elif udzielone_odpowiedzi == 2 and liczba_nie != 2:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
 
-                        elif udzielone_odpowiedzi == 1:
+                        elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
 
-                        elif udzielone_odpowiedzi == -3 or udzielone_odpowiedzi == -2 or udzielone_odpowiedzi == -1 or udzielone_odpowiedzi == 0:
+                        else: # dla 0 i innych (nie itp.)
                             messagebox.showinfo('Ta ankieta jest nieistotna',
                                                 'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
                             path = os.path.join(os.getcwd(), "Ank.txt")

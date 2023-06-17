@@ -143,18 +143,6 @@ def ankieta():
                     frame_pyt3, width=60, height=11)
                 pole_tekstowe_pyt3.pack()
 
-                global odpowiedz_pytanie1
-                global odpowiedz_pytanie2
-                global odpowiedz_pytanie3
-
-                odpowiedz_pytanie1 = ""
-                odpowiedz_pytanie2 = ""
-                odpowiedz_pytanie3 = ""
-
-                odpowiedz_pytanie1 = pole_tekstowe_pyt1.get("1.0", tk.END)
-                odpowiedz_pytanie2 = pole_tekstowe_pyt2.get("1.0", tk.END)
-                odpowiedz_pytanie3 = pole_tekstowe_pyt3.get("1.0", tk.END)
-
                 def wyslij():
                     global odpowiedz_pytanie1
                     global odpowiedz_pytanie2
@@ -164,23 +152,24 @@ def ankieta():
                     odpowiedz_pytanie2 = ""
                     odpowiedz_pytanie3 = ""
 
-                    odpowiedz_pytanie1 = pole_tekstowe_pyt1.get("1.0", tk.END)
-                    odpowiedz_pytanie2 = pole_tekstowe_pyt2.get("1.0", tk.END)
-                    odpowiedz_pytanie3 = pole_tekstowe_pyt3.get("1.0", tk.END)
+                    odpowiedz_pytanie1 = pole_tekstowe_pyt1.get("1.0", tk.END).strip()
+                    odpowiedz_pytanie2 = pole_tekstowe_pyt2.get("1.0", tk.END).strip()
+                    odpowiedz_pytanie3 = pole_tekstowe_pyt3.get("1.0", tk.END).strip()
+
 
                     udzielone_odpowiedzi = 0
 
-                    if odpowiedz_pytanie1 and odpowiedz_pytanie1 != "Nie":
+                    if odpowiedz_pytanie1 != "" and odpowiedz_pytanie1 != "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie2 and odpowiedz_pytanie1 != "Nie":
+                    if odpowiedz_pytanie2 != "" and odpowiedz_pytanie1 != "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
-                    if odpowiedz_pytanie3 and odpowiedz_pytanie1 != "Nie":
+                    if odpowiedz_pytanie3 != "" and odpowiedz_pytanie1 != "Nie":
                         udzielone_odpowiedzi = udzielone_odpowiedzi + 1
                     else:
                         udzielone_odpowiedzi = udzielone_odpowiedzi - 1
@@ -220,7 +209,9 @@ def ankieta():
 
                         okno_ankiety.destroy()
                         return
-
+                    else:
+                        messagebox.showinfo('Ta ankieta jest nieistotna',
+                                            'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program')
                     if udzielone_odpowiedzi < 0:
                         messagebox.showinfo(
                             'Ta ankieta jest nieistotna', "Nieudzielono żadnych istotnych odpowiedzi. Z tego powodu twoja ankieta nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program")

@@ -173,13 +173,13 @@ def ankieta():
 
                         liczba_nie = 0
 
-                        if odpowiedz_pytanie1 == "Nie":
+                        if odpowiedz_pytanie1 == "Nie" or odpowiedz_pytanie1 == "NIE" or odpowiedz_pytanie1 == "nie" or odpowiedz_pytanie1 == "nIE":
                             liczba_nie = liczba_nie + 1
 
-                        if odpowiedz_pytanie2 == "Nie":
+                        if odpowiedz_pytanie2 == "Nie" or odpowiedz_pytanie2 == "NIE" or odpowiedz_pytanie2 == "nie" or odpowiedz_pytanie2 == "nIE":
                             liczba_nie = liczba_nie + 1
 
-                        if odpowiedz_pytanie3 == "Nie":
+                        if odpowiedz_pytanie3 == "Nie" or odpowiedz_pytanie3 == "NIE" or odpowiedz_pytanie3 == "nie" or odpowiedz_pytanie3 == "nIE":
                             liczba_nie = liczba_nie + 1
 
                         if udzielone_odpowiedzi == 3 and liczba_nie != 3:

@@ -164,27 +164,12 @@ def ankieta():
 
                         if odpowiedz_pytanie1 != "" and odpowiedz_pytanie1 != "Nie":
                             udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-                        else:
-                            udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
                         if odpowiedz_pytanie2 != "" and odpowiedz_pytanie1 != "Nie":
                             udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-                        else:
-                            udzielone_odpowiedzi = udzielone_odpowiedzi - 1
 
                         if odpowiedz_pytanie3 != "" and odpowiedz_pytanie1 != "Nie":
                             udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-                        else:
-                            udzielone_odpowiedzi = udzielone_odpowiedzi - 1
-
-                        if odpowiedz_pytanie1 == "Nie":
-                            udzielone_odpowiedzi = udzielone_odpowiedzi
-
-                        if odpowiedz_pytanie2 == "Nie":
-                            udzielone_odpowiedzi = udzielone_odpowiedzi
-
-                        if odpowiedz_pytanie3 == "Nie":
-                            udzielone_odpowiedzi = udzielone_odpowiedzi
 
                         if udzielone_odpowiedzi == 3:
                             messagebox.showinfo('Ankieta zostałą wysłana',
@@ -198,21 +183,7 @@ def ankieta():
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
 
-                        elif udzielone_odpowiedzi == 0:
-                            messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 0')
-
-                            path = os.path.join(os.getcwd(), "Ank.txt")
-                            # Usuń plik jeśli istnieje
-                            if os.path.exists(path):
-                                os.remove(path)
-
-                            with open("Ank.txt", "a", encoding='utf-8') as plik:
-                                plik.write('Tak')
-
-                            okno_ankiety.destroy()
-                            return
-                        elif udzielone_odpowiedzi == -3 or udzielone_odpowiedzi == -2 or udzielone_odpowiedzi == -1:
+                        elif udzielone_odpowiedzi == -3 or udzielone_odpowiedzi == -2 or udzielone_odpowiedzi == -1 or udzielone_odpowiedzi == 0:
                             messagebox.showinfo('Ta ankieta jest nieistotna',
                                                 'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
                             path = os.path.join(os.getcwd(), "Ank.txt")

@@ -310,8 +310,6 @@ def ankieta():
                         okno_ankiety.destroy()
                         return
                     except Exception as e:
-                        global telemetria_zmienna
-                        global data_telemetrii
                         data_telemetrii_f()
                         telemetria_zmienna = telemetria_zmienna + \
                             f"{data_telemetrii}: Wystąpił błąd w kodzie ankiety\n"
@@ -408,8 +406,6 @@ def ankieta():
         else:
             return
     except Exception as e:
-        global telemetria_zmienna
-        global data_telemetrii
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
             f"{data_telemetrii}: Wystąpił błąd w kodzie ankiety\n"
@@ -1630,7 +1626,8 @@ def rozwiaz_problemy():
             blad_poczatkowe()
     except Exception as e:
         data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + "Wystąpił błąd podczas resetowania programu"
+        telemetria_zmienna = telemetria_zmienna + \
+            "Wystąpił błąd podczas resetowania programu"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -1699,7 +1696,7 @@ def rozwiaz_problemy():
 
 def informacje_o_wersji_utworz_okno():
     try:
-        
+
         if not internet == 0:
             def otworz_okno():
                 global okno_informacje_otwarte

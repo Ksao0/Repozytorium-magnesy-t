@@ -32,8 +32,9 @@ okno_wyborowe_otwarte = 0
 internet = 1
 global data_telemetrii
 global telemetria_zmienna
-data_telemetrii = " *NOWE URUCHOMIENIE*"
 telemetria_zmienna = ""
+telemetria_zmienna = telemetria_zmienna + " *NOWE URUCHOMIENIE*"
+data_telemetrii = ""
 
 
 def data_telemetrii_f():
@@ -77,6 +78,11 @@ def blad_poczatkowe():
 
 def ankieta():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + "uruchomiono funkcję ankieta()"
+
         # Odczytaj zawartość pliku Ank.txt na komputerze
         path = os.path.join(os.getcwd(), "Ank.txt")
         if os.path.exists(path):
@@ -86,9 +92,13 @@ def ankieta():
             ankieta_wykonana = "Nie"
 
         if ankieta_wykonana != "Tak":
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + \
+                "Ankieta nie została wcześniej wykonana, pytanie o wykonanie ankiety"
             if messagebox.askyesno(
                     "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
-
+                data_telemetrii_f()
+                telemetria_zmienna = telemetria_zmienna + "Wypełnianie ankiety"
                 okno_ankiety = tk.Toplevel()
                 okno_ankiety.title("Ankieta")
                 okno_ankiety.geometry("700x670")
@@ -145,6 +155,11 @@ def ankieta():
 
                 def wyslij():
                     try:
+                        global telemetria_zmienna
+                        global data_telemetrii
+                        data_telemetrii_f()
+                        telemetria_zmienna = telemetria_zmienna + \
+                            "Wysyłanie ankiety - funkcja wyslij()"
                         global odpowiedz_pytanie1
                         global odpowiedz_pytanie2
                         global odpowiedz_pytanie3
@@ -185,18 +200,27 @@ def ankieta():
                         if udzielone_odpowiedzi == 3 and liczba_nie != 3:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + "Ankieta zakończona z kodem 3"
 
                         elif udzielone_odpowiedzi == 2 and liczba_nie != 2:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + "Ankieta zakończona z kodem 2"
 
                         elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + "Ankieta zakończona z kodem 1"
 
                         else:  # dla 0 i innych (nie itp.)
                             messagebox.showinfo('Ta ankieta jest nieistotna',
                                                 'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + \
+                                "Ankieta zakończona z kodem 0 lub innym"
                             path = os.path.join(os.getcwd(), "Ank.txt")
                             # Usuń plik jeśli istnieje
                             if os.path.exists(path):
@@ -205,6 +229,8 @@ def ankieta():
                             with open("Ank.txt", "a", encoding='utf-8') as plik:
                                 plik.write('Tak')
 
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + "Ankieta nie zostanie wysłana"
                             okno_ankiety.destroy()
 
                         path = os.path.join(os.getcwd(), "Ank.txt")
@@ -215,6 +241,9 @@ def ankieta():
 
                         with open("Ank.txt", "a", encoding='utf-8') as plik:
                             plik.write('Tak')
+                            data_telemetrii_f()
+                            telemetria_zmienna = telemetria_zmienna + \
+                                "Zapisano informację o wykonaniu ankiety"
 
                         # Odczytaj zawartość pliku Develop.txt w twoim programie
                         path = os.path.join(os.getcwd(), "Develop.txt")
@@ -276,7 +305,8 @@ def ankieta():
 
                         # utwórz nowe zgłoszenie błędu
                         repo.create_issue(title=issue_title, body=issue_body)
-
+                        data_telemetrii_f()
+                        telemetria_zmienna = telemetria_zmienna + "Ankieta wysłana"
                         okno_ankiety.destroy()
                         return
                     except Exception as e:
@@ -1263,6 +1293,11 @@ def aktul():
 
 def wykasuj_zapisy():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + "Wykasowana zawartość Zapisy.txt"
         # Ścieżka do pliku Zapisy.txt w bieżącym folderze
         path = os.path.join(os.getcwd(), "Zapisy.txt")
 
@@ -1272,6 +1307,9 @@ def wykasuj_zapisy():
             with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
                 file.write('')
     except Exception as e:
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + \
+            "Wystąpił błąd podczas kasowania Zapisy.txt"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -1340,6 +1378,10 @@ def wykasuj_zapisy():
 
 def wykres():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + "Funkcja wykres() uruchomiona"
         filename = "Zapisy.txt"
         with open(filename, 'r', encoding='utf-8') as f:
             data = f.read()
@@ -1352,7 +1394,13 @@ def wykres():
             print("Niewystarczająca liczba danych do wygenerowania wykresu")
             messagebox.showinfo(
                 "Brak danych o wykresie", 'Niewystarczająca ilośc danych do wygenerowania wykresu. Wykonaj więcej obliczeń :D')
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + \
+                "Nie stworzonao wykresu (brak danych do wygenerowania)"
         else:
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + \
+                "Wystarczająca ilość danych do stworzenia wykresu"
             # Utwórz listy przechowujące dane dla wykresu
             liczba_pakietow = []
             liczba_magnesow = []
@@ -1426,7 +1474,12 @@ def wykres():
             # Wyświetl wykres
             fig.set_size_inches(14, 8)
             plt.show()
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + "Pomyślnie utworzono wykres"
     except Exception as e:
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + \
+            "Wystąpił błąd podczas tworzenia wykresu"
         if messagebox.askyesno(
            'Zgłaszanie błędu', "Czy chcesz zgłosić błąd, kóry przed chwilą wystąpił? Prawdopodobną jego przyczyną jest brak danych do wytworzenia wykresu"):
             # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
@@ -1494,11 +1547,17 @@ def wykres():
             zapisz_telemetrie()
             exit()
         else:
+            data_telemetrii_f()
+            telemetria_zmienna = telemetria_zmienna + "Brak donych do wytworzenia wykresu"
             return
 
 
 def rozwiaz_problemy():
     try:
+        global telemetria_zmienna
+        global data_telemetrii
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + "Zupełny restart programu"
         if not internet == 0:
             message = "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem."
             messagebox.showwarning("Ostrzeżenie", message)
@@ -1557,15 +1616,21 @@ def rozwiaz_problemy():
                 if os.path.exists(path):
                     os.remove(path)
                     sleep(3)
+                    data_telemetrii_f()
+                    telemetria_zmienna = telemetria_zmienna + "Restart zakończony"
                     zapisz_telemetrie()
                     exit()
 
             else:
                 print(
                     'Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
+                data_telemetrii_f()
+                telemetria_zmienna = telemetria_zmienna + "Anulowano restart"
         else:
             blad_poczatkowe()
     except Exception as e:
+        data_telemetrii_f()
+        telemetria_zmienna = telemetria_zmienna + "Wystąpił błąd podczas resetowania programu"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -1634,6 +1699,7 @@ def rozwiaz_problemy():
 
 def informacje_o_wersji_utworz_okno():
     try:
+        
         if not internet == 0:
             def otworz_okno():
                 global okno_informacje_otwarte

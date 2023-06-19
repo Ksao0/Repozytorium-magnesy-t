@@ -2078,6 +2078,10 @@ def oblicz_zyski():
         wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
         label_wyniki.configure(text=wyniki.rjust(200))
 
+        if bilans < 0:
+            messagebox.showwarning(
+                'To się nie opłaca', f"Na tej transakcji stracisz pieniądze!\nBilans: {bilans:.2f}zł\nPoniesione koszty (za jeden pakiet):\nTektura: {ceny_tektura}zł\nNadruk: {ceny_nadruk}zł\nFolia magnetyczna: {ceny_foliamg}zł\nWoreczki: {woreczkipp}zł")
+
         # Zapis wyników do pliku, jeśli zmienna zapis_do_pliku jest ustawiona na True
 
         # ścieżka do pliku Zapisy.txt w bieżącym folderze

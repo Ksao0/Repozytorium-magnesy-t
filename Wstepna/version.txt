@@ -1,6 +1,6 @@
 1.5.2.0 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: Poprawka wersji
+Nazwa poprawki: 1
 Wydano: 17.06.2023
 Informacja o bibliotekach: C1
 
@@ -20,5 +20,4 @@ Większe zmiany dodane w najbliższych aktualizacjach:
  - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
 
 Opis ostatniej poprawki wersji oraz informacje o błędach (widoczne tylko do następnej poprawki wersji):
- - Zmiany związane z tworzeniem funkcji ankiet zostały zakończone. Teraz ta funkcja jest już w gotowa.
-   Ankiety będą zmieniać się w czasie (nie tylko po aktualizacjach)
+ - Program poinformuje cię gdy wykryje, że będziesz stratny/a na transkacji

@@ -1300,7 +1300,7 @@ def wykasuj_zapisy():
         global data_telemetrii
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Wykasowana zawartość Zapisy.txt\n"
+            f"{data_telemetrii}: Wykasowano zawartość Zapisy.txt\n"
         # Ścieżka do pliku Zapisy.txt w bieżącym folderze
         path = os.path.join(os.getcwd(), "Zapisy.txt")
 

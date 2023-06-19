@@ -33,7 +33,7 @@ internet = 1
 global data_telemetrii
 global telemetria_zmienna
 telemetria_zmienna = ""
-telemetria_zmienna = telemetria_zmienna + " *NOWE URUCHOMIENIE*"
+telemetria_zmienna = telemetria_zmienna + " *NOWE URUCHOMIENIE*\n"
 data_telemetrii = ""
 
 
@@ -81,7 +81,8 @@ def ankieta():
         global telemetria_zmienna
         global data_telemetrii
         data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + "uruchomiono funkcję ankieta()"
+        telemetria_zmienna = telemetria_zmienna + \
+            f"{data_telemetrii}: Uruchomiono funkcję ankieta()\n"
 
         # Odczytaj zawartość pliku Ank.txt na komputerze
         path = os.path.join(os.getcwd(), "Ank.txt")
@@ -98,7 +99,8 @@ def ankieta():
             if messagebox.askyesno(
                     "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
                 data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + "Wypełnianie ankiety"
+                telemetria_zmienna = telemetria_zmienna + \
+                    f"{data_telemetrii}: Wypełnianie ankiety\n"
                 okno_ankiety = tk.Toplevel()
                 okno_ankiety.title("Ankieta")
                 okno_ankiety.geometry("700x670")
@@ -159,7 +161,7 @@ def ankieta():
                         global data_telemetrii
                         data_telemetrii_f()
                         telemetria_zmienna = telemetria_zmienna + \
-                            "Wysyłanie ankiety - funkcja wyslij()"
+                            f"{data_telemetrii}: Wysyłanie ankiety - funkcja wyslij()\n"
                         global odpowiedz_pytanie1
                         global odpowiedz_pytanie2
                         global odpowiedz_pytanie3
@@ -201,26 +203,29 @@ def ankieta():
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
                             data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + "Ankieta zakończona z kodem 3"
+                            telemetria_zmienna = telemetria_zmienna + \
+                                f"{data_telemetrii}: Ankieta zakończona z kodem 3\n"
 
                         elif udzielone_odpowiedzi == 2 and liczba_nie != 2:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
                             data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + "Ankieta zakończona z kodem 2"
+                            telemetria_zmienna = telemetria_zmienna + \
+                                f"{data_telemetrii}: Ankieta zakończona z kodem 2\n"
 
                         elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
                             data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + "Ankieta zakończona z kodem 1"
+                            telemetria_zmienna = telemetria_zmienna + \
+                                f"{data_telemetrii}: Ankieta zakończona z kodem 1\n"
 
                         else:  # dla 0 i innych (nie itp.)
                             messagebox.showinfo('Ta ankieta jest nieistotna',
                                                 'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
                             data_telemetrii_f()
                             telemetria_zmienna = telemetria_zmienna + \
-                                "Ankieta zakończona z kodem 0 lub innym"
+                                f"{data_telemetrii}: Ankieta zakończona z kodem 0 lub innym\n"
                             path = os.path.join(os.getcwd(), "Ank.txt")
                             # Usuń plik jeśli istnieje
                             if os.path.exists(path):
@@ -230,7 +235,8 @@ def ankieta():
                                 plik.write('Tak')
 
                             data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + "Ankieta nie zostanie wysłana"
+                            telemetria_zmienna = telemetria_zmienna + \
+                                f"{data_telemetrii}: Ankieta nie zostanie wysłana\n"
                             okno_ankiety.destroy()
 
                         path = os.path.join(os.getcwd(), "Ank.txt")
@@ -243,7 +249,7 @@ def ankieta():
                             plik.write('Tak')
                             data_telemetrii_f()
                             telemetria_zmienna = telemetria_zmienna + \
-                                "Zapisano informację o wykonaniu ankiety"
+                                f"{data_telemetrii}: Zapisano informację o wykonaniu ankiety\n"
 
                         # Odczytaj zawartość pliku Develop.txt w twoim programie
                         path = os.path.join(os.getcwd(), "Develop.txt")
@@ -306,7 +312,8 @@ def ankieta():
                         # utwórz nowe zgłoszenie błędu
                         repo.create_issue(title=issue_title, body=issue_body)
                         data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + "Ankieta wysłana"
+                        telemetria_zmienna = telemetria_zmienna + \
+                            f"{data_telemetrii}: Ankieta wysłana\n"
                         okno_ankiety.destroy()
                         return
                     except Exception as e:
@@ -639,7 +646,7 @@ def zglos_problem():
     except Exception as e:
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Zgłaszanie problemu nie zostało otwarte (brak internetu)\n"
+            f"{data_telemetrii}: Zgłaszanie problemu nie zostało otwarte (błąd)\n"
 
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -1292,8 +1299,8 @@ def wykasuj_zapisy():
         global telemetria_zmienna
         global data_telemetrii
         data_telemetrii_f()
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + "Wykasowana zawartość Zapisy.txt"
+        telemetria_zmienna = telemetria_zmienna + \
+            f"{data_telemetrii}: Wykasowana zawartość Zapisy.txt\n"
         # Ścieżka do pliku Zapisy.txt w bieżącym folderze
         path = os.path.join(os.getcwd(), "Zapisy.txt")
 
@@ -1305,7 +1312,7 @@ def wykasuj_zapisy():
     except Exception as e:
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
-            "Wystąpił błąd podczas kasowania Zapisy.txt"
+            f"{data_telemetrii}: Wystąpił błąd podczas kasowania Zapisy.txt\n"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -1377,7 +1384,8 @@ def wykres():
         global telemetria_zmienna
         global data_telemetrii
         data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + "Funkcja wykres() uruchomiona"
+        telemetria_zmienna = telemetria_zmienna + \
+            f"{data_telemetrii}: Funkcja wykres() uruchomiona\n"
         filename = "Zapisy.txt"
         with open(filename, 'r', encoding='utf-8') as f:
             data = f.read()
@@ -1392,11 +1400,11 @@ def wykres():
                 "Brak danych o wykresie", 'Niewystarczająca ilośc danych do wygenerowania wykresu. Wykonaj więcej obliczeń :D')
             data_telemetrii_f()
             telemetria_zmienna = telemetria_zmienna + \
-                "Nie stworzonao wykresu (brak danych do wygenerowania)"
+                f"{data_telemetrii}: Nie stworzonao wykresu (brak danych do wygenerowania)\n"
         else:
             data_telemetrii_f()
             telemetria_zmienna = telemetria_zmienna + \
-                "Wystarczająca ilość danych do stworzenia wykresu"
+                f"{data_telemetrii}: Wystarczająca ilość danych do stworzenia wykresu\n"
             # Utwórz listy przechowujące dane dla wykresu
             liczba_pakietow = []
             liczba_magnesow = []
@@ -1544,7 +1552,8 @@ def wykres():
             exit()
         else:
             data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + "Brak donych do wytworzenia wykresu"
+            telemetria_zmienna = telemetria_zmienna + \
+                f"{data_telemetrii}: Brak donych do wytworzenia wykresu\n"
             return
 
 
@@ -1553,7 +1562,8 @@ def rozwiaz_problemy():
         global telemetria_zmienna
         global data_telemetrii
         data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + "Zupełny restart programu"
+        telemetria_zmienna = telemetria_zmienna + \
+            f"{data_telemetrii}: Zupełny restart programu\n"
         if not internet == 0:
             message = "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem."
             messagebox.showwarning("Ostrzeżenie", message)
@@ -1621,13 +1631,14 @@ def rozwiaz_problemy():
                 print(
                     'Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
                 data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + "Anulowano restart"
+                telemetria_zmienna = telemetria_zmienna + \
+                    f"{data_telemetrii}: Anulowano restart"
         else:
             blad_poczatkowe()
     except Exception as e:
         data_telemetrii_f()
         telemetria_zmienna = telemetria_zmienna + \
-            "Wystąpił błąd podczas resetowania programu"
+            f"{data_telemetrii}: Wystąpił błąd podczas resetowania programu"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie

@@ -30,44 +30,17 @@ okno_edycja_kosztow_otwarte = 0
 okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
-global data_telemetrii
-global telemetria_zmienna
-telemetria_zmienna = ""
-telemetria_zmienna = telemetria_zmienna + " *NOWE URUCHOMIENIE*\n"
-data_telemetrii = ""
+def cofanie_bledow():
+    # Ścieżka do pliku Zapisy.txt w bieżącym folderze
+    path = os.path.join(os.getcwd(), "telemetria.txt")
 
+    # Usuń plik Zapisy.txt, jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
 
-def data_telemetrii_f():
-    global data_telemetrii
-    now = datetime.datetime.now()
-    data_telemetrii = now.strftime("%d.%m.%Y  %H:%M:%S")
-    return data_telemetrii
-
-
-def zapisz_telemetrie():
-    global telemetria_zmienna
-    telemetria_zmienna = telemetria_zmienna + "\n\n"
-    try:
-        with open("telemetria.txt", "a") as file:
-            file.write(telemetria_zmienna)
-    except FileNotFoundError:
-        with open("telemetria.txt", "w") as file:
-            file.write(telemetria_zmienna)
-
-
-def zamknij_okno_glowne():
-    global telemetria_zmienna
-    zapisz_telemetrie()
-    root.destroy()
-    exit()
-
+cofanie_bledow()
 
 def blad_poczatkowe():
-    global telemetria_zmienna
-    global data_telemetrii
-    data_telemetrii_f()
-    telemetria_zmienna = telemetria_zmienna + \
-        f"{data_telemetrii}: Funkcja blad_poczatkowe() uruchomiona\n"
     message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
     response = messagebox.askokcancel("Błąd", message)
     if response == True:
@@ -76,458 +49,17 @@ def blad_poczatkowe():
         return
 
 
-def ankieta():
-    try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Uruchomiono funkcję ankieta()\n"
-
-        # Odczytaj zawartość pliku Ank.txt na komputerze
-        path = os.path.join(os.getcwd(), "Ank.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                ankieta_wykonana = f.read().strip()
-        else:
-            ankieta_wykonana = "Nie"
-
-        if ankieta_wykonana != "Tak":
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                "Ankieta nie została wcześniej wykonana, pytanie o wykonanie ankiety"
-            if messagebox.askyesno(
-                    "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Wypełnianie ankiety\n"
-                okno_ankiety = tk.Toplevel()
-                okno_ankiety.title("Ankieta")
-                okno_ankiety.geometry("700x670")
-
-                frame_pyt1 = tk.Frame(okno_ankiety)
-                frame_pyt1.pack()
-
-                label_informacja = tk.Label(
-                    frame_pyt1, text='Jeżeli odpowiedź brzmi nie - Napisz \"Nie\"')
-                label_informacja.pack()
-
-                pustka = tk.Label()
-                pustka.pack()
-
-                label_pytanie = tk.Label(
-                    frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia?')
-                label_pytanie.pack()
-
-                pole_tekstowe_pyt1 = tk.Text(
-                    frame_pyt1, width=60, height=11)
-                pole_tekstowe_pyt1.pack()
-
-                # pyt1 = tk.IntVar()
-
-                # checkbox_pyt1_tak = tk.Radiobutton(
-                #    frame_pyt1, text="Tak", variable=pyt1, value=1)
-                # checkbox_pyt1_tak.pack()
-
-                # checkbox_pyt1_nie = tk.Radiobutton(
-                #    frame_pyt1, text="Nie", variable=pyt1, value=0)
-                # checkbox_pyt1_nie.pack()
-
-                frame_pyt2 = tk.Frame(okno_ankiety)
-                frame_pyt2.pack()
-
-                label_pytanie2 = tk.Label(
-                    frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu?')
-                label_pytanie2.pack()
-
-                pole_tekstowe_pyt2 = tk.Text(
-                    frame_pyt2, width=60, height=11)
-                pole_tekstowe_pyt2.pack()
-
-                frame_pyt3 = tk.Frame(okno_ankiety)
-                frame_pyt3.pack()
-
-                label_pytanie3 = tk.Label(
-                    frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia (w jaki sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
-                label_pytanie3.pack()
-
-                pole_tekstowe_pyt3 = tk.Text(
-                    frame_pyt3, width=60, height=11)
-                pole_tekstowe_pyt3.pack()
-
-                def wyslij():
-                    try:
-                        global telemetria_zmienna
-                        global data_telemetrii
-                        data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + \
-                            f"{data_telemetrii}: Wysyłanie ankiety - funkcja wyslij()\n"
-                        global odpowiedz_pytanie1
-                        global odpowiedz_pytanie2
-                        global odpowiedz_pytanie3
-
-                        odpowiedz_pytanie1 = ""
-                        odpowiedz_pytanie2 = ""
-                        odpowiedz_pytanie3 = ""
-
-                        odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
-                            "1.0", tk.END).strip()
-                        odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
-                            "1.0", tk.END).strip()
-                        odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
-                            "1.0", tk.END).strip()
-
-                        udzielone_odpowiedzi = 0
-
-                        if odpowiedz_pytanie1 != "":
-                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-
-                        if odpowiedz_pytanie2 != "":
-                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-
-                        if odpowiedz_pytanie3 != "":
-                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
-
-                        liczba_nie = 0
-
-                        if odpowiedz_pytanie1 == "Nie" or odpowiedz_pytanie1 == "NIE" or odpowiedz_pytanie1 == "nie" or odpowiedz_pytanie1 == "nIE":
-                            liczba_nie = liczba_nie + 1
-
-                        if odpowiedz_pytanie2 == "Nie" or odpowiedz_pytanie2 == "NIE" or odpowiedz_pytanie2 == "nie" or odpowiedz_pytanie2 == "nIE":
-                            liczba_nie = liczba_nie + 1
-
-                        if odpowiedz_pytanie3 == "Nie" or odpowiedz_pytanie3 == "NIE" or odpowiedz_pytanie3 == "nie" or odpowiedz_pytanie3 == "nIE":
-                            liczba_nie = liczba_nie + 1
-
-                        if udzielone_odpowiedzi == 3 and liczba_nie != 3:
-                            messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Ankieta zakończona z kodem 3\n"
-
-                        elif udzielone_odpowiedzi == 2 and liczba_nie != 2:
-                            messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Ankieta zakończona z kodem 2\n"
-
-                        elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
-                            messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Ankieta zakończona z kodem 1\n"
-
-                        else:  # dla 0 i innych (nie itp.)
-                            messagebox.showinfo('Ta ankieta jest nieistotna',
-                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Ankieta zakończona z kodem 0 lub innym\n"
-                            path = os.path.join(os.getcwd(), "Ank.txt")
-                            # Usuń plik jeśli istnieje
-                            if os.path.exists(path):
-                                os.remove(path)
-
-                            with open("Ank.txt", "a", encoding='utf-8') as plik:
-                                plik.write('Tak')
-
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Ankieta nie zostanie wysłana\n"
-                            okno_ankiety.destroy()
-
-                        path = os.path.join(os.getcwd(), "Ank.txt")
-
-                        # Usuń plik jeśli istnieje
-                        if os.path.exists(path):
-                            os.remove(path)
-
-                        with open("Ank.txt", "a", encoding='utf-8') as plik:
-                            plik.write('Tak')
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Zapisano informację o wykonaniu ankiety\n"
-
-                        # Odczytaj zawartość pliku Develop.txt w twoim programie
-                        path = os.path.join(os.getcwd(), "Develop.txt")
-                        if os.path.exists(path):
-                            with open(path, "r", encoding="utf-8") as f:
-                                plik_od_dewelopera = f.read().strip()
-                        else:
-                            plik_od_dewelopera = "BRAK PLIKU D"
-                            messagebox.showerror(
-                                "Błąd", 'Poproś twórcę programu o informacje')
-
-                        if plik_od_dewelopera != "BRAK PLIKU D":
-                            informacje_do_zgloszenia = plik_od_dewelopera.split(
-                                '\n')
-                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                            token_do_wpisania = informacje_do_zgloszenia[1]
-
-                            # pobierz datę wygaśnięcia
-                            wygasa_dnia = int(informacje_do_zgloszenia[2])
-                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                            # utwórz obiekt daty z daty wygaśnięcia
-                            wygasa_data = datetime.date(
-                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                            # pobierz dzisiejszą datę
-                            dzisiaj = datetime.date.today()
-                            # porównaj daty
-                            if dzisiaj > wygasa_data:
-                                messagebox.showerror(
-                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                                return
-                            elif dzisiaj == wygasa_data:
-                                messagebox.showwarning(
-                                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego      przedłużenia.        ")
-                        else:
-                            messagebox.showwarning(
-                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-                            return
-
-                        # ustawienia konta
-                        username = f'{nazwa_uzytkownika}'
-                        password = f'{token_do_wpisania}'
-                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                        issue_title = f'Ankieta od {nazwa_uzytkownika}'
-                        aktualna_data_czas = datetime.datetime.now()
-                        format_data_czas = aktualna_data_czas.strftime(
-                            "%d.%m.%Y %H:%M")
-                        issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
-                            "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
-                            "\n\nOstatnie błędy: " + odpowiedz_pytanie3
-
-                        # autentykacja
-                        g = Github(username, password)
-
-                        # pobierz repozytorium
-                        repo = g.get_repo(repository_name)
-
-                        # utwórz nowe zgłoszenie błędu
-                        repo.create_issue(title=issue_title, body=issue_body)
-                        data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + \
-                            f"{data_telemetrii}: Ankieta wysłana\n"
-                        okno_ankiety.destroy()
-                        return
-                    except Exception as e:
-                        data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + \
-                            f"{data_telemetrii}: Wystąpił błąd w kodzie ankiety\n"
-
-                        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-                        exc_type, exc_value, exc_traceback = sys.exc_info()
-                        # Odczytaj zawartość pliku Develop.txt w twoim programie
-                        path = os.path.join(os.getcwd(), "Develop.txt")
-                        if os.path.exists(path):
-                            with open(path, "r", encoding="utf-8") as f:
-                                plik_od_dewelopera = f.read().strip()
-                        else:
-                            plik_od_dewelopera = "BRAK PLIKU D"
-                            messagebox.showerror(
-                                "Błąd", 'Poproś twórcę programu o informacje')
-
-                        if plik_od_dewelopera != "BRAK PLIKU D":
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: BRAK PLIKU D\n"
-
-                            informacje_do_zgloszenia = plik_od_dewelopera.split(
-                                '\n')
-                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                            token_do_wpisania = informacje_do_zgloszenia[1]
-
-                            # pobierz datę wygaśnięcia
-                            wygasa_dnia = int(informacje_do_zgloszenia[2])
-                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                            # utwórz obiekt daty z daty wygaśnięcia
-                            wygasa_data = datetime.date(
-                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                            # pobierz dzisiejszą datę
-                            dzisiaj = datetime.date.today()
-                            # porównaj daty
-                            if dzisiaj > wygasa_data:
-                                messagebox.showerror(
-                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                                data_telemetrii_f()
-                                telemetria_zmienna = telemetria_zmienna + \
-                                    f"{data_telemetrii}: Funkcje nieudostępnione wygasły\n"
-                                return
-                            elif dzisiaj == wygasa_data:
-                                data_telemetrii_f()
-                                telemetria_zmienna = telemetria_zmienna + \
-                                    f"{data_telemetrii}: Dzisiaj kończy się dostęp do funkcji nieudostępnionych\n"
-                                messagebox.showwarning(
-                                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.                      ")
-                        else:
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Nieznany błąd funkcji nieudostępnionych w zgłaszaniu problemów\n"
-                            messagebox.showwarning(
-                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-                            return
-
-                        # ustawienia konta
-                        username = f'{nazwa_uzytkownika}'
-                        password = f'{token_do_wpisania}'
-                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                        issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
-                        a = traceback.format_exc()
-                        aktualna_data_czas = datetime.datetime.now()
-                        format_data_czas = aktualna_data_czas.strftime(
-                            "%d.%m.%Y %H:%M")
-                        issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
-
-                        # autentykacja
-                        g = Github(username, password)
-
-                        # pobierz repozytorium
-                        repo = g.get_repo(repository_name)
-
-                        # utwórz nowe zgłoszenie błędu
-                        repo.create_issue(title=issue_title, body=issue_body)
-
-                        messagebox.showinfo("Problem został zgłoszony",
-                                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-                        data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + \
-                            f"{data_telemetrii}: Zgłoszono problem przez użytkownika\n"
-                        zapisz_telemetrie()
-                        exit()
-                button_wyslij = tk.Button(
-                    okno_ankiety, text="Wyślij odpowiedzi", command=wyslij)
-                button_wyslij.pack()
-
-                okno_ankiety.mainloop()
-            else:
-                return
-        else:
-            return
-    except Exception as e:
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Wystąpił błąd w kodzie ankiety\n"
-
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: BRAK PLIKU D\n"
-
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
-                messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Funkcje nieudostępnione wygasły\n"
-                return
-            elif dzisiaj == wygasa_data:
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Dzisiaj kończy się dostęp do funkcji nieudostępnionych\n"
-                messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
-        else:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Nieznany błąd funkcji nieudostępnionych w zgłaszaniu problemów\n"
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
-
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
-        a = traceback.format_exc()
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
-
-        # autentykacja
-        g = Github(username, password)
-
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
-
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
-
-        messagebox.showinfo("Problem został zgłoszony",
-                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Zgłoszono problem przez użytkownika\n"
-        zapisz_telemetrie()
-        exit()
-
-        # if random.choices([True, False], [0.2, 0.8])[0]:
-        #     ankieta()
-
-
 def zglos_problem():
     try:
         if not internet == 0:
-            global telemetria_zmienna
-            global data_telemetrii
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Zgłaszanie problemu zostało otwarte (brak internetu)\n"
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
             def otworz_okno():
-                global telemetria_zmienna
-                global data_telemetrii
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Otwarto okno zgłaszania problemów\n"
                 global okno_problemu_otwarte
                 okno_problemu_otwarte = 1
 
             def zamknij_okno():
-                global telemetria_zmienna
-                global data_telemetrii
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Zamknięto okno zgłaszania problemów\n"
                 global okno_problemu_otwarte
                 okno_problemu_otwarte = 0
                 okno_problemu.destroy()
@@ -633,21 +165,10 @@ def zglos_problem():
 
                 okno_problemu.mainloop()
             else:
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Okno zgłaszania było otwarte podczas próby uruchamiania go\n"
                 messagebox.showerror("Błąd", "To okno jest już otwarte!")
         else:
-
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Zgłaszanie problemu nie zostało otwarte (brak internetu)\n"
             blad_poczatkowe()
     except Exception as e:
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Zgłaszanie problemu nie zostało otwarte (błąd)\n"
-
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -661,9 +182,6 @@ def zglos_problem():
                 "Błąd", 'Poproś twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: BRAK PLIKU D\n"
 
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
             nazwa_uzytkownika = informacje_do_zgloszenia[0]
@@ -684,20 +202,11 @@ def zglos_problem():
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
                     "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Funkcje nieudostępnione wygasły\n"
                 return
             elif dzisiaj == wygasa_data:
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Dzisiaj kończy się dostęp do funkcji nieudostępnionych\n"
                 messagebox.showwarning(
                     "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
         else:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Nieznany błąd funkcji nieudostępnionych w zgłaszaniu problemów\n"
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
             return
@@ -723,20 +232,11 @@ def zglos_problem():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Zgłoszono problem przez użytkownika\n"
-        zapisz_telemetrie()
         exit()
 
 
 def czynnosci_poczatkowe():
     try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Czynności początkowe uruchomione\n"
         global internet
         # Aktualizacja pliku WEW
 
@@ -757,40 +257,21 @@ def czynnosci_poczatkowe():
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
             internet = 0
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Błąd czynności początkowych 1/2\n"
             try:
                 # pobierz plik main.py z repozytorium
                 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik WEW.py")
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Ponowna próba czynności początkowych\n"
             except:
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Błąd czynności początkowych 2/2\n"
                 messagebox.showerror(
                     "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych')
                 response = messagebox.askyesno(
                     "Aktualizacja", "Czy pomimo tego chcesz kontynuuować?")
                 if response == True:
-                    data_telemetrii_f()
-                    telemetria_zmienna = telemetria_zmienna + \
-                        f"{data_telemetrii}: Kontynuuowanie bez czynności początkowych\n"
                     internet = 0
                 else:
-                    data_telemetrii_f()
-                    telemetria_zmienna = telemetria_zmienna + \
-                        f"{data_telemetrii}: Zamknięto program z powodu braku czynności początkowych\n"
-                    zapisz_telemetrie()
                     exit()
     except Exception as e:
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Automatyczne zgłaszanie problemu w czynności_początkowe()\n"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -853,55 +334,31 @@ def czynnosci_poczatkowe():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Zgłoszono błąd czynności początkowych\n"
-        zapisz_telemetrie()
         exit()
 
 
-data_telemetrii_f()
-telemetria_zmienna = telemetria_zmienna + \
-    f"{data_telemetrii}: Wywołano czynności_poczatkowe()\n"
 czynnosci_poczatkowe()
 
 
 def taj():
     try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Uruchomiono taj()\n"
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Uruchomiono funkcję taj() część 1/2\n"
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             version_online = response.content.decode('utf-8').strip()
         except requests.exceptions.RequestException as e:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Brak internetu podczas uruchamiania funkcji taj()\n"
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
             return
 
         try:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Uruchomiono funkcję taj() część 2/2\n"
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             lista_b_online = response.content.decode('utf-8').strip()
         except requests.exceptions.RequestException as e:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Brak internetu podczas uruchamiania funkcji taj()\n"
             messagebox.showerror(
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
             return
@@ -921,9 +378,6 @@ def taj():
                 version_local = f.read().strip()
         else:
             version_local = "BRAK DANYCH"
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Brak informacji o aktualnej wersji programu\n"
         if version_local != "BRAK DANYCH":
             version_online_lines = version_online.split('\n')
             version_local_lines = version_local.split('\n')
@@ -933,9 +387,6 @@ def taj():
             if version_online_lines[0] == version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
                 if (version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7") or (version_local_lines[1] == "Status: B7" and version_online_lines[1] == "Status: Poprawka wersji"):
                     # Prowadzone są intensywne zmiany
-                    data_telemetrii_f()
-                    telemetria_zmienna = telemetria_zmienna + \
-                        f"{data_telemetrii}: Poprawki B7 są prowadzone\n"
                     response = messagebox.askokcancel(
                         "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
                     if response == True:
@@ -945,14 +396,7 @@ def taj():
                         print('Zaktualizowano!')
                         message = "Zmiany będą widoczne po następnym uruchomieniu"
                         messagebox.showinfo("Aktualizacja", message)
-                        data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + \
-                            f"{data_telemetrii}: Aktualizacja poprawek B7\n"
                     else:
-                        data_telemetrii_f()
-                        telemetria_zmienna = telemetria_zmienna + \
-                            f"{data_telemetrii}: Użytkownik nie chce kontynuuować z powodu poprawek B7\n"
-                        zapisz_telemetrie()
                         exit()
                         # Poprawki B7 zakończone:
                 elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
@@ -979,7 +423,6 @@ def taj():
                         print('Zaktualizowano!')
                         message = "Uruchom program ponownie"
                         if messagebox.showinfo("Aktualizacja", message):
-                            zapisz_telemetrie()
                             exit()
                     else:
                         return
@@ -1006,7 +449,6 @@ def taj():
                     subprocess.run(Aktualizacja)
                     message = "Uruchom program ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
-                        zapisz_telemetrie()
                         exit()
                 else:
                     return
@@ -1092,9 +534,6 @@ def taj():
 
                             messagebox.showwarning("Problem został zgłoszony",
                                                    "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. W oknie, które zostanie wyświetlone po naciśnięciu Ok naciśnij opcję Tak. Następnie naciśnij dwa razy enter w oknie terminala cmd.\nJeśli okno się nie wyświetli - Naciśnij kilka razy enter w oknie terminala cmd i naciskaj Tak lub Ok we wszystkich oknach, które się pojawią\n Jeśli program nie będzie działał prawidłowo - skontaktuj się z osobą odpowiedzialną za program")
-                            data_telemetrii_f()
-                            telemetria_zmienna = telemetria_zmienna + \
-                                f"{data_telemetrii}: Błąd bibliotek\n"
                     else:
                         print(
                             "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
@@ -1110,7 +549,6 @@ def taj():
                         biblioteki_pobrane = False
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                zapisz_telemetrie()
                 exit()
         else:
             messagebox.showerror(
@@ -1120,7 +558,6 @@ def taj():
                 plik.write('BRAK DANYCH')
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
-            zapisz_telemetrie()
             exit()
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
@@ -1185,7 +622,6 @@ def taj():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
@@ -1195,11 +631,6 @@ if internet == 1:
 
 def aktul():
     try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Uruchomiono funkcję aktul()\n"
         if not internet == 0:
             czynnosci_poczatkowe()
             if not internet == 0:
@@ -1219,14 +650,8 @@ def aktul():
                 subprocess.run(Aktualizacja)
                 print('Zakończono! ')
                 print('Uruchom program ponownie.')
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Zakończono aktualizację\n"
         else:
             blad_poczatkowe()
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Aktualizacja nieudana (brak internetu)\n"
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -1290,17 +715,11 @@ def aktul():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
 def wykasuj_zapisy():
     try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Wykasowano zawartość Zapisy.txt\n"
         # Ścieżka do pliku Zapisy.txt w bieżącym folderze
         path = os.path.join(os.getcwd(), "Zapisy.txt")
 
@@ -1310,9 +729,6 @@ def wykasuj_zapisy():
             with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
                 file.write('')
     except Exception as e:
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Wystąpił błąd podczas kasowania Zapisy.txt\n"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -1375,17 +791,11 @@ def wykasuj_zapisy():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
 def wykres():
     try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Funkcja wykres() uruchomiona\n"
         filename = "Zapisy.txt"
         with open(filename, 'r', encoding='utf-8') as f:
             data = f.read()
@@ -1398,13 +808,7 @@ def wykres():
             print("Niewystarczająca liczba danych do wygenerowania wykresu")
             messagebox.showinfo(
                 "Brak danych o wykresie", 'Niewystarczająca ilośc danych do wygenerowania wykresu. Wykonaj więcej obliczeń :D')
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Nie stworzonao wykresu (brak danych do wygenerowania)\n"
         else:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Wystarczająca ilość danych do stworzenia wykresu\n"
             # Utwórz listy przechowujące dane dla wykresu
             liczba_pakietow = []
             liczba_magnesow = []
@@ -1478,12 +882,7 @@ def wykres():
             # Wyświetl wykres
             fig.set_size_inches(14, 8)
             plt.show()
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + "Pomyślnie utworzono wykres"
     except Exception as e:
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            "Wystąpił błąd podczas tworzenia wykresu"
         if messagebox.askyesno(
            'Zgłaszanie błędu', "Czy chcesz zgłosić błąd, kóry przed chwilą wystąpił? Prawdopodobną jego przyczyną jest brak danych do wytworzenia wykresu"):
             # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
@@ -1548,22 +947,13 @@ def wykres():
 
             messagebox.showinfo("Problem został zgłoszony",
                                 "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-            zapisz_telemetrie()
             exit()
         else:
-            data_telemetrii_f()
-            telemetria_zmienna = telemetria_zmienna + \
-                f"{data_telemetrii}: Brak donych do wytworzenia wykresu\n"
             return
 
 
 def rozwiaz_problemy():
     try:
-        global telemetria_zmienna
-        global data_telemetrii
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Zupełny restart programu\n"
         if not internet == 0:
             message = "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem."
             messagebox.showwarning("Ostrzeżenie", message)
@@ -1622,23 +1012,14 @@ def rozwiaz_problemy():
                 if os.path.exists(path):
                     os.remove(path)
                     sleep(3)
-                    data_telemetrii_f()
-                    telemetria_zmienna = telemetria_zmienna + "Restart zakończony"
-                    zapisz_telemetrie()
                     exit()
 
             else:
                 print(
                     'Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Anulowano restart"
         else:
             blad_poczatkowe()
     except Exception as e:
-        data_telemetrii_f()
-        telemetria_zmienna = telemetria_zmienna + \
-            f"{data_telemetrii}: Wystąpił błąd podczas resetowania programu"
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # Odczytaj zawartość pliku Develop.txt w twoim programie
@@ -1701,8 +1082,356 @@ def rozwiaz_problemy():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
+
+
+def ankieta():
+    try:
+
+        # Odczytaj zawartość pliku Ank.txt na komputerze
+        path = os.path.join(os.getcwd(), "Ank.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                ankieta_wykonana = f.read().strip()
+        else:
+            ankieta_wykonana = "Nie"
+
+        if ankieta_wykonana != "Tak":
+            if messagebox.askyesno(
+                    "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
+                okno_ankiety = tk.Toplevel()
+                okno_ankiety.title("Ankieta")
+                okno_ankiety.geometry("700x670")
+
+                frame_pyt1 = tk.Frame(okno_ankiety)
+                frame_pyt1.pack()
+
+                label_informacja = tk.Label(
+                    frame_pyt1, text='Jeżeli odpowiedź brzmi nie - Napisz \"Nie\"')
+                label_informacja.pack()
+
+                pustka = tk.Label()
+                pustka.pack()
+
+                label_pytanie = tk.Label(
+                    frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia?')
+                label_pytanie.pack()
+
+                pole_tekstowe_pyt1 = tk.Text(
+                    frame_pyt1, width=60, height=11)
+                pole_tekstowe_pyt1.pack()
+
+                # pyt1 = tk.IntVar()
+
+                # checkbox_pyt1_tak = tk.Radiobutton(
+                #    frame_pyt1, text="Tak", variable=pyt1, value=1)
+                # checkbox_pyt1_tak.pack()
+
+                # checkbox_pyt1_nie = tk.Radiobutton(
+                #    frame_pyt1, text="Nie", variable=pyt1, value=0)
+                # checkbox_pyt1_nie.pack()
+
+                frame_pyt2 = tk.Frame(okno_ankiety)
+                frame_pyt2.pack()
+
+                label_pytanie2 = tk.Label(
+                    frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu?')
+                label_pytanie2.pack()
+
+                pole_tekstowe_pyt2 = tk.Text(
+                    frame_pyt2, width=60, height=11)
+                pole_tekstowe_pyt2.pack()
+
+                frame_pyt3 = tk.Frame(okno_ankiety)
+                frame_pyt3.pack()
+
+                label_pytanie3 = tk.Label(
+                    frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia (w jaki sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
+                label_pytanie3.pack()
+
+                pole_tekstowe_pyt3 = tk.Text(
+                    frame_pyt3, width=60, height=11)
+                pole_tekstowe_pyt3.pack()
+
+                def wyslij():
+                    try:
+                        global odpowiedz_pytanie1
+                        global odpowiedz_pytanie2
+                        global odpowiedz_pytanie3
+
+                        odpowiedz_pytanie1 = ""
+                        odpowiedz_pytanie2 = ""
+                        odpowiedz_pytanie3 = ""
+
+                        odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
+                            "1.0", tk.END).strip()
+                        odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
+                            "1.0", tk.END).strip()
+                        odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
+                            "1.0", tk.END).strip()
+
+                        udzielone_odpowiedzi = 0
+
+                        if odpowiedz_pytanie1 != "":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+
+                        if odpowiedz_pytanie2 != "":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+
+                        if odpowiedz_pytanie3 != "":
+                            udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+
+                        liczba_nie = 0
+
+                        if odpowiedz_pytanie1 == "Nie" or odpowiedz_pytanie1 == "NIE" or odpowiedz_pytanie1 == "nie" or odpowiedz_pytanie1 == "nIE":
+                            liczba_nie = liczba_nie + 1
+
+                        if odpowiedz_pytanie2 == "Nie" or odpowiedz_pytanie2 == "NIE" or odpowiedz_pytanie2 == "nie" or odpowiedz_pytanie2 == "nIE":
+                            liczba_nie = liczba_nie + 1
+
+                        if odpowiedz_pytanie3 == "Nie" or odpowiedz_pytanie3 == "NIE" or odpowiedz_pytanie3 == "nie" or odpowiedz_pytanie3 == "nIE":
+                            liczba_nie = liczba_nie + 1
+
+                        if udzielone_odpowiedzi == 3 and liczba_nie != 3:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
+
+                        elif udzielone_odpowiedzi == 2 and liczba_nie != 2:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
+
+                        elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
+
+                        else:  # dla 0 i innych (nie itp.)
+                            messagebox.showinfo('Ta ankieta jest nieistotna',
+                                                'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
+                            path = os.path.join(os.getcwd(), "Ank.txt")
+                            # Usuń plik jeśli istnieje
+                            if os.path.exists(path):
+                                os.remove(path)
+
+                            with open("Ank.txt", "a", encoding='utf-8') as plik:
+                                plik.write('Tak')
+
+                            okno_ankiety.destroy()
+
+                        path = os.path.join(os.getcwd(), "Ank.txt")
+
+                        # Usuń plik jeśli istnieje
+                        if os.path.exists(path):
+                            os.remove(path)
+
+                        with open("Ank.txt", "a", encoding='utf-8') as plik:
+                            plik.write('Tak')
+
+                        # Odczytaj zawartość pliku Develop.txt w twoim programie
+                        path = os.path.join(os.getcwd(), "Develop.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                plik_od_dewelopera = f.read().strip()
+                        else:
+                            plik_od_dewelopera = "BRAK PLIKU D"
+                            messagebox.showerror(
+                                "Błąd", 'Poproś twórcę programu o informacje')
+
+                        if plik_od_dewelopera != "BRAK PLIKU D":
+                            informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                '\n')
+                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                            token_do_wpisania = informacje_do_zgloszenia[1]
+
+                            # pobierz datę wygaśnięcia
+                            wygasa_dnia = int(informacje_do_zgloszenia[2])
+                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                            # utwórz obiekt daty z daty wygaśnięcia
+                            wygasa_data = datetime.date(
+                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                            # pobierz dzisiejszą datę
+                            dzisiaj = datetime.date.today()
+                            # porównaj daty
+                            if dzisiaj > wygasa_data:
+                                messagebox.showerror(
+                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                return
+                            elif dzisiaj == wygasa_data:
+                                messagebox.showwarning(
+                                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego      przedłużenia.        ")
+                        else:
+                            messagebox.showwarning(
+                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                            return
+
+                        # ustawienia konta
+                        username = f'{nazwa_uzytkownika}'
+                        password = f'{token_do_wpisania}'
+                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                        issue_title = f'Ankieta od {nazwa_uzytkownika}'
+                        aktualna_data_czas = datetime.datetime.now()
+                        format_data_czas = aktualna_data_czas.strftime(
+                            "%d.%m.%Y %H:%M")
+                        issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
+                            "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
+                            "\n\nOstatnie błędy: " + odpowiedz_pytanie3
+
+                        # autentykacja
+                        g = Github(username, password)
+
+                        # pobierz repozytorium
+                        repo = g.get_repo(repository_name)
+
+                        # utwórz nowe zgłoszenie błędu
+                        repo.create_issue(title=issue_title, body=issue_body)
+                        okno_ankiety.destroy()
+                        return
+                    except Exception as e:
+                        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                        exc_type, exc_value, exc_traceback = sys.exc_info()
+                        # Odczytaj zawartość pliku Develop.txt w twoim programie
+                        path = os.path.join(os.getcwd(), "Develop.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                plik_od_dewelopera = f.read().strip()
+                        else:
+                            plik_od_dewelopera = "BRAK PLIKU D"
+                            messagebox.showerror(
+                                "Błąd", 'Poproś twórcę programu o informacje')
+
+                        if plik_od_dewelopera != "BRAK PLIKU D":
+
+                            informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                '\n')
+                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                            token_do_wpisania = informacje_do_zgloszenia[1]
+
+                            # pobierz datę wygaśnięcia
+                            wygasa_dnia = int(informacje_do_zgloszenia[2])
+                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                            # utwórz obiekt daty z daty wygaśnięcia
+                            wygasa_data = datetime.date(
+                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                            # pobierz dzisiejszą datę
+                            dzisiaj = datetime.date.today()
+                            # porównaj daty
+                            if dzisiaj > wygasa_data:
+                                messagebox.showerror(
+                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                return
+                            elif dzisiaj == wygasa_data:
+                                messagebox.showwarning(
+                                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.                      ")
+                        else:
+                            messagebox.showwarning(
+                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                            return
+
+                        # ustawienia konta
+                        username = f'{nazwa_uzytkownika}'
+                        password = f'{token_do_wpisania}'
+                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                        issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
+                        a = traceback.format_exc()
+                        aktualna_data_czas = datetime.datetime.now()
+                        format_data_czas = aktualna_data_czas.strftime(
+                            "%d.%m.%Y %H:%M")
+                        issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+                        # autentykacja
+                        g = Github(username, password)
+
+                        # pobierz repozytorium
+                        repo = g.get_repo(repository_name)
+
+                        # utwórz nowe zgłoszenie błędu
+                        repo.create_issue(title=issue_title, body=issue_body)
+
+                        messagebox.showinfo("Problem został zgłoszony",
+                                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+                        exit()
+                button_wyslij = tk.Button(
+                    okno_ankiety, text="Wyślij odpowiedzi", command=wyslij)
+                button_wyslij.pack()
+
+                okno_ankiety.mainloop()
+            else:
+                return
+        else:
+            return
+    except Exception as e:
+        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Poproś twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                messagebox.showerror(
+                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                return
+            elif dzisiaj == wygasa_data:
+                messagebox.showwarning(
+                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+        else:
+            messagebox.showwarning(
+                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
+        a = traceback.format_exc()
+        aktualna_data_czas = datetime.datetime.now()
+        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+        issue_body = f"Data: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+
+        messagebox.showinfo("Problem został zgłoszony",
+                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+        exit()
+
+        # if random.choices([True, False], [0.2, 0.8])[0]:
+        #     ankieta()
 
 
 def informacje_o_wersji_utworz_okno():
@@ -1843,7 +1572,6 @@ def informacje_o_wersji_utworz_okno():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
@@ -1875,11 +1603,6 @@ def edycja_kosztow():
             okno_zmiany.bind("<Map>", lambda event: otworz_okno())
 
             def edycja_kosztow_wczytaj():
-                global telemetria_zmienna
-                global data_telemetrii
-                data_telemetrii_f()
-                telemetria_zmienna = telemetria_zmienna + \
-                    f"{data_telemetrii}: Edycja kosztów\n"
                 ceny_tektura = str(entry_cena_tektura.get())
                 ceny_nadruk = str(entry_cena_nadruk.get())
                 ceny_foliamg = str(entry_cena_foliamg.get())
@@ -2082,7 +1805,6 @@ def edycja_kosztow():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
@@ -2245,7 +1967,6 @@ def oblicz_zyski():
 
             messagebox.showinfo("Problem został zgłoszony",
                                 "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-            zapisz_telemetrie()
             exit()
         else:
             messagebox.showinfo("Błąd leży po twojej stronie",
@@ -2319,9 +2040,6 @@ if internet == 1:
     root.geometry("410x350+250+200")
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
-
-    root.protocol("WM_DELETE_WINDOW", zamknij_okno_glowne)
-    # root.bind("<Map>", lambda event: otworz_okno())
 
 else:
     root = tk.Tk()
@@ -2415,7 +2133,6 @@ def otworz_okno_zapisy():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
@@ -2513,7 +2230,6 @@ def Gra_snake():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 
@@ -2659,7 +2375,6 @@ def otworz_okno_wybor():
 
         messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        zapisz_telemetrie()
         exit()
 
 

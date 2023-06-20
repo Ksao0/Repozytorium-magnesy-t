@@ -30,6 +30,8 @@ okno_edycja_kosztow_otwarte = 0
 okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
+
+
 def cofanie_bledow():
     # Ścieżka do pliku Zapisy.txt w bieżącym folderze
     path = os.path.join(os.getcwd(), "telemetria.txt")
@@ -38,7 +40,9 @@ def cofanie_bledow():
     if os.path.exists(path):
         os.remove(path)
 
+
 cofanie_bledow()
+
 
 def blad_poczatkowe():
     message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
@@ -264,7 +268,7 @@ def czynnosci_poczatkowe():
                 # print("Zastąpiono plik WEW.py")
             except:
                 messagebox.showerror(
-                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych')
+                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać czynności początkowych. Niektóre opcje będą niedostępne, inne mogą wywoływać błędy, których nie można zgłosić')
                 response = messagebox.askyesno(
                     "Aktualizacja", "Czy pomimo tego chcesz kontynuuować?")
                 if response == True:

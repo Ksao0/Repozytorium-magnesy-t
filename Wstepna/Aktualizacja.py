@@ -143,6 +143,32 @@ try:
 
         # KONIEC NOWYCH FUNKCJI
     elif wersja_programu == 2:
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
+        response = requests.get(url)
+        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+        lista_b_online = response.content.decode('utf-8').strip()
+
+        lista_b_online_lines = lista_b_online.split('\n')
+
+        # Odczytaj zawartość pliku lista_b.txt na komputerze
+        path = os.path.join(os.getcwd(), "lista_b.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                lista_b_local = f.read().strip()
+        else:
+            lista_b_local = "BRAK PLIKU"
+
+        lista_b_local_lines = lista_b_local.split('\n')
+
+        niepobrane_biblioteki = set(
+            lista_b_online_lines) - set(lista_b_local_lines)
+
+        if niepobrane_biblioteki:
+            print(
+                "\nZainstaluj biblioteki z tej listy, ich niepobranie grozi nieodwracalnym uszkodzeniem kodu.\nAby zainstalować: pip install NAZWA_BIBLIOTEKI:")
+            for biblioteka in niepobrane_biblioteki:
+                print(f"{biblioteka}")
+
         os.system('cls')
         print('Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n -     request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej nazwie)\n - subprocess\n')
         input("Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")

@@ -387,63 +387,9 @@ def taj():
             version_local_lines = version_local.split('\n')
             lista_b_online_lines = lista_b_online.split('\n')
             lista_b_local_lines = lista_b_local.split('\n')
-            # Trwające poprawki B7:
-            if version_online_lines[0] == version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
-                if (version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7") or (version_local_lines[1] == "Status: B7" and version_online_lines[1] == "Status: Poprawka wersji"):
-                    # Prowadzone są intensywne zmiany
-                    response = messagebox.askokcancel(
-                        "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
-                    if response == True:
-                        # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                        Aktualizacja = ["python", "WEW.py"]
-                        subprocess.run(Aktualizacja)
-                        print('Zaktualizowano!')
-                        message = "Zmiany będą widoczne po następnym uruchomieniu"
-                        messagebox.showinfo("Aktualizacja", message)
-                    else:
-                        exit()
-                        # Poprawki B7 zakończone:
-                elif version_online_lines[1] == "Status: B7 zakończone" and version_local_lines[1] == "Status: Poprawka wersji":
-                    if version_local_lines[1] == "Status: Poprawki B7":
-                        message = "Proces intensywnych zmian w kodzie został zakończony."
-                        messagebox.showinfo("Aktualizacja", message)
-                        Aktualizacja = ["python", "WEW.py"]
-                        subprocess.run(Aktualizacja)
 
-                    elif version_local_lines[1] == "Status: Poprawka wersji":
-                        message = "Dostępna szybka poprawka wersji"
-                        messagebox.showinfo("Aktualizacja", message)
-                        Aktualizacja = ["python", "WEW.py"]
-                        subprocess.run(Aktualizacja)
-                        # Zwykłe poprawki:
-                elif version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
-                    # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-                    message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
-                    response = messagebox.askyesno("Aktualizacja", message)
-                    if response == True:
-                        # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
-                        Aktualizacja = ["python", "WEW.py"]
-                        subprocess.run(Aktualizacja)
-                        print('Zaktualizowano!')
-                        message = "Uruchom program ponownie"
-                        if messagebox.showinfo("Aktualizacja", message):
-                            exit()
-                    else:
-                        return
-                # I tak aktualizacja main.py:
-                # ścieżka do pliku main.py w bieżącym folderze
-                path = os.path.join(os.getcwd(), "main.py")
-
-                # usuń plik main.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik main.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik main.py")
-
-            elif version_online_lines[0] != version_local_lines[0] and version_online_lines[4] == version_local_lines[4]:
+            # Nowa wersja (bez nowych bibliotek)
+            if version_online_lines[0] != version_local_lines[0] and (version_online_lines[4] == version_local_lines[4] and lista_b_online == lista_b_local):
                 # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
@@ -456,9 +402,10 @@ def taj():
                         exit()
                 else:
                     return
+            # Nowe biblioteki
             if version_online_lines[4] != version_local_lines[4] or lista_b_online != lista_b_local:
                 biblioteki_pobrane = False
-                messagebox.showerror(
+                messagebox.showwarning(
                     "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
 
                 print(f'{version_online}')
@@ -524,7 +471,7 @@ def taj():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania, jedynie informację o ich dodaniu\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
 
                             # autentykacja
                             g = Github(username, password)
@@ -537,13 +484,81 @@ def taj():
                                 title=issue_title, body=issue_body)
 
                             messagebox.showwarning("Problem został zgłoszony",
-                                                   "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. W oknie, które zostanie wyświetlone po naciśnięciu Ok naciśnij opcję Tak. Następnie naciśnij dwa razy enter w oknie terminala cmd.\nJeśli okno się nie wyświetli - Naciśnij kilka razy enter w oknie terminala cmd i naciskaj Tak lub Ok we wszystkich oknach, które się pojawią\n Jeśli program nie będzie działał prawidłowo - skontaktuj się z osobą odpowiedzialną za program")
+                                                   "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. Skontaktuj się z osobą odpowiedzialną za program jak najszybciej.")
+
+                        if version_online_lines[4] == version_local_lines[4] and lista_b_online != lista_b_local:
+                            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                            exc_type, exc_value, exc_traceback = sys.exc_info()
+                            # Odczytaj zawartość pliku Develop.txt w twoim programie
+                            path = os.path.join(os.getcwd(), "Develop.txt")
+                            if os.path.exists(path):
+                                with open(path, "r", encoding="utf-8") as f:
+                                    plik_od_dewelopera = f.read().strip()
+                            else:
+                                plik_od_dewelopera = "BRAK PLIKU D"
+                                messagebox.showerror(
+                                    "Błąd", 'Poproś twórcę programu o informacje')
+
+                            if plik_od_dewelopera != "BRAK PLIKU D":
+                                informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                    '\n')
+                                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                                # pobierz datę wygaśnięcia
+                                wygasa_dnia = int(
+                                    informacje_do_zgloszenia[2])
+                                wygasa_miesiaca = int(
+                                    informacje_do_zgloszenia[3])
+                                wygasa_roku = int(
+                                    informacje_do_zgloszenia[4])
+
+                                # utwórz obiekt daty z daty wygaśnięcia
+                                wygasa_data = datetime.date(
+                                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                                # pobierz dzisiejszą datę
+                                dzisiaj = datetime.date.today()
+                                # porównaj daty
+                                if dzisiaj > wygasa_data:
+                                    messagebox.showerror(
+                                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                    return
+                                elif dzisiaj == wygasa_data:
+                                    messagebox.showwarning(
+                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w    celu   jego przedłużenia.                ")
+                            else:
+                                messagebox.showwarning(
+                                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                                return
+
+                            # ustawienia konta
+                            username = f'{nazwa_uzytkownika}'
+                            password = f'{token_do_wpisania}'
+                            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                            issue_title = 'Automatyczne zgłoszenie błędu z taj()'
+                            a = traceback.format_exc()
+                            aktualna_data_czas = datetime.datetime.now()
+                            format_data_czas = aktualna_data_czas.strftime(
+                                "%d.%m.%Y %H:%M")
+                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+
+                            # autentykacja
+                            g = Github(username, password)
+
+                            # pobierz repozytorium
+                            repo = g.get_repo(repository_name)
+
+                            # utwórz nowe zgłoszenie błędu
+                            repo.create_issue(
+                                title=issue_title, body=issue_body)
+
                     else:
                         print(
                             "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
                 while biblioteki_pobrane == False:
                     input("Zainstaluj biblioteki, a następnie naciśnij enter...")
-                    if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?'):
+                    if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?\nJeśli lista bibliotek się nie pojawiła - TAK'):
                         messagebox.showinfo(
                             'Aktualizacja', "Uruchom program ponownie")
                         biblioteki_pobrane = True
@@ -554,6 +569,41 @@ def taj():
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 exit()
+            # Dostępna aktualizacja
+            if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
+                # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
+                message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
+                response = messagebox.askyesno("Aktualizacja", message)
+                if response == True:
+                    # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    print('Zaktualizowano!')
+                    message = "Uruchom program ponownie"
+                    if messagebox.showinfo("Aktualizacja", message):
+                        exit()
+                else:
+                    return
+            # Prowadzone są intensywne zmiany
+            if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
+                response = messagebox.askokcancel(
+                    "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
+                if response == True:
+                    # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    print('Zaktualizowano!')
+                    message = "Zmiany będą widoczne po następnym uruchomieniu"
+                    messagebox.showinfo("Aktualizacja", message)
+                else:
+                    exit()
+                    # Poprawki B7 nie zostały przyjęte:
+            # Intensywne zmiany zakończone
+            if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7":
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                messagebox.showinfo(
+                    'Aktualizacja', "Proces intensywnych zmian w programie został zakończony, a twój pogram nie był od tego czasu aktualizowany. Ta aktualizacja jest więc wymagana")
         else:
             messagebox.showerror(
                 "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji (kilka razy). Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane) - skontaktuj się z osobą odpowiedzialną za program.")

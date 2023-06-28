@@ -1,6 +1,6 @@
 1.5.2.2 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: 2
+Nazwa poprawki: 3
 Wydano: 28.06.2023
 Informacja o bibliotekach: C1
 

@@ -56,6 +56,7 @@ def blad_poczatkowe():
 def zglos_problem():
     try:
         if not internet == 0:
+            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak")
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
@@ -110,7 +111,7 @@ def zglos_problem():
                             return
                     else:
                         messagebox.showinfo(
-                            "Informacja", 'Operacja zakończona')
+                            "Informacja", 'Niestety nie masz dostępu do tej funkcji lub czas jej dostępności dla ciebie minął. Skontaktuj się z osobą odpowiedzialną za program')
                         return
 
                     # ustawienia konta
@@ -133,7 +134,8 @@ def zglos_problem():
                     # utwórz nowe zgłoszenie błędu
                     repo.create_issue(title=issue_title, body=issue_body)
 
-                    messagebox.showinfo("Informacja", 'Zgłoszenie wysłane!')
+                    messagebox.showinfo("Twoje zgłoszenie zostało wysłane!",
+                                        'Dziękujemy za twój wkład w rozwój programu! Postaramy się je rozpatrzyć jak najszybciej')
 
                 if not okno_edycja_kosztow_otwarte == 0:
                     okno_problemu = tk.Toplevel()

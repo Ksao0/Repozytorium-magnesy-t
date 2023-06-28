@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 import atexit
 import smtplib
 import random
+from PIL import Image, ImageTk
+from io import BytesIO
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -277,6 +279,7 @@ def czynnosci_poczatkowe():
                     internet = 0
                 else:
                     exit()
+
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -2031,6 +2034,17 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 if internet == 1:
+
+    # Pobieranie ikony z repozytorium GitHub
+    response = requests.get(
+        "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico")
+    icon_data = response.content
+
+    # Zapisywanie ikony na dysku
+    icon_path = "ikona.ico"
+    with open(icon_path, "wb") as icon_file:
+        icon_file.write(icon_data)
+
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
     response = requests.get(url)

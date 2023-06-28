@@ -2100,7 +2100,7 @@ if internet == 1:
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
     # Pobieranie i zapisywanie ikony
-    response = requests.get("https://raw.githubusercontent.com/Nazwa_Uzytkownika/Nazwa_Repozytorium/Nazwa_Branz/ikona.ico")
+    response = requests.get("https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico")
     icon_data = response.content
     icon_path = "ikona.ico"
     with open(icon_path, "wb") as icon_file:

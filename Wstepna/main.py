@@ -2034,17 +2034,6 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 if internet == 1:
-
-    # Pobieranie ikony z repozytorium GitHub
-    response = requests.get(
-        "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico")
-    icon_data = response.content
-
-    # Zapisywanie ikony na dysku
-    icon_path = "ikona.ico"
-    with open(icon_path, "wb") as icon_file:
-        icon_file.write(icon_data)
-
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
     response = requests.get(url)
@@ -2110,7 +2099,19 @@ if internet == 1:
     root.geometry("410x350+250+200")
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
-
+    # Pobieranie i zapisywanie ikony
+    response = requests.get("https://raw.githubusercontent.com/Nazwa_Uzytkownika/Nazwa_Repozytorium/Nazwa_Branz/ikona.ico")
+    icon_data = response.content
+    icon_path = "ikona.ico"
+    with open(icon_path, "wb") as icon_file:
+        icon_file.write(icon_data)
+    
+    # Przeskalowanie ikony do rozmiaru 32x32
+    icon = Image.open(icon_path)
+    icon = icon.resize((32, 32), Image.ANTIALIAS)
+    
+    # Przypisanie przeskalowanej ikony jako ikony aplikacji
+    root.iconphoto(True, ImageTk.PhotoImage(icon))
 else:
     root = tk.Tk()
     root.title(f"Kalkulator zysków")

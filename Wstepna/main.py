@@ -56,6 +56,7 @@ def blad_poczatkowe():
 
 def zglos_problem():
     try:
+        global file_path_ikonka
         if not internet == 0:
             messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak")
             global okno_edycja_kosztow_otwarte
@@ -142,10 +143,12 @@ def zglos_problem():
                     okno_problemu = tk.Toplevel()
                     okno_problemu.title("Zgłaszanie problemów lub propozycji")
                     okno_problemu.geometry("370x300+1170+510")
+                    okno_problemu.iconbitmap(file_path_ikonka)
                 else:
                     okno_problemu = tk.Toplevel()
                     okno_problemu.title("Zgłaszanie problemów lub propozycji")
                     okno_problemu.geometry("370x300+800+510")
+                    okno_problemu.iconbitmap(file_path_ikonka)
 
                 label_informacja = tk.Label(
                     okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
@@ -1145,6 +1148,7 @@ def rozwiaz_problemy():
 
 def ankieta():
     try:
+        global file_path_ikonka
 
         # Odczytaj zawartość pliku Ank.txt na komputerze
         path = os.path.join(os.getcwd(), "Ank.txt")
@@ -1160,6 +1164,7 @@ def ankieta():
                 okno_ankiety = tk.Toplevel()
                 okno_ankiety.title("Ankieta")
                 okno_ankiety.geometry("700x670")
+                okno_ankiety.iconbitmap(file_path_ikonka)
 
                 frame_pyt1 = tk.Frame(okno_ankiety)
                 frame_pyt1.pack()
@@ -1494,6 +1499,7 @@ def ankieta():
 
 def informacje_o_wersji_utworz_okno():
     try:
+        global file_path_ikonka
 
         if not internet == 0:
             def otworz_okno():
@@ -1530,6 +1536,7 @@ def informacje_o_wersji_utworz_okno():
 
                 informacje_wersji = tk.Toplevel()
                 informacje_wersji.title(f"Informacje o wersji")
+                informacje_wersji.iconbitmap(file_path_ikonka)
 
                 label_informacja = tk.Label(
                     informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
@@ -1635,6 +1642,8 @@ def informacje_o_wersji_utworz_okno():
 
 def edycja_kosztow():
     try:
+        global file_path_ikonka
+
         global okno_edycja_kosztow_otwarte
         global okno_problemu_otwarte
 
@@ -1652,10 +1661,12 @@ def edycja_kosztow():
                 okno_zmiany = tk.Toplevel()
                 okno_zmiany.title("Zmiana kosztów")
                 okno_zmiany.geometry("370x300+1170+510")
+                okno_zmiany.iconbitmap(file_path_ikonka)
             else:
                 okno_zmiany = tk.Toplevel()
                 okno_zmiany.title("Zmiana kosztów")
                 okno_zmiany.geometry("370x300+800+510")
+                okno_zmiany.iconbitmap(file_path_ikonka)
 
             okno_zmiany.protocol("WM_DELETE_WINDOW", zamknij_okno)
             okno_zmiany.bind("<Map>", lambda event: otworz_okno())
@@ -2109,13 +2120,15 @@ if internet == 1:
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
+    global file_path_ikonka
+
     # Pobranie ikony z repozytorium GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
-    file_path = os.path.join(folder_path, 'ikona_magnesy.ico')
-    urllib.request.urlretrieve(url, file_path)
+    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
+    urllib.request.urlretrieve(url, file_path_ikonka)
 
     # Ustawienie ikonki
-    root.iconbitmap(file_path)
+    root.iconbitmap(file_path_ikonka)
 
 # Przeskalowanie ikony do rozmiaru 32x32
 # icon = Image.open(icon_path)
@@ -2133,6 +2146,7 @@ else:
 
 
 def otworz_okno_zapisy():
+    global file_path_ikonka
     try:
         path = os.path.join(os.getcwd(), "Zapisy.txt")
         if os.path.exists(path):
@@ -2146,6 +2160,7 @@ def otworz_okno_zapisy():
         okno_zapisy.title("Historia")
         okno_zapisy.geometry("800x900")
         okno_zapisy.grab_set()
+        okno_zapisy.iconbitmap(file_path_ikonka)
 
         # Dodanie elementu ScrolledText
         pole_tekstowe = scrolledtext.ScrolledText(okno_zapisy, wrap=tk.WORD)
@@ -2318,6 +2333,7 @@ def Gra_snake():
 
 def otworz_okno_wybor():
     try:
+        global file_path_ikonka
         if random.choices([True, False], [0.3, 0.7])[0]:
             ankieta()
 
@@ -2333,6 +2349,7 @@ def otworz_okno_wybor():
             okno_wyborowe = tk.Toplevel()
             okno_wyborowe.title("Okno wyborowe")
             okno_wyborowe.geometry("370x480+800+0")
+            okno_wyborowe.iconbitmap(file_path_ikonka)
 
             # Dodanie przycisku do nowego okna
             button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",

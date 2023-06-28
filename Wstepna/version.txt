@@ -1,12 +1,12 @@
 1.5.2.2 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: 5
+Nazwa poprawki: 6
 Wydano: 28.06.2023
 Informacja o bibliotekach: C1
 
-Większe zmiany dodane w najbliższych aktualizacjach:
+Ciekawe zmiany dodane w najbliższych aktualizacjach:
+ - Teraz program ma ikonkę, możesz ją zobaczyć w lewym górnym rogu każdego okna
  - Poprawiono znaczące błędy związane z aktualizacją
- - Dodano szansę na pojawienie się ankiety (ta funkcja działą tylko u wybranych użytkowników)
  - Dodano szansę na pojawienie się ankiety, której celem jest dostosowanie programu do waszych wymagań
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
  - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)

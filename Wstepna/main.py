@@ -14,8 +14,7 @@ import matplotlib.pyplot as plt
 import atexit
 import smtplib
 import random
-from PIL import Image, ImageTk
-from io import BytesIO
+import shutil
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -2099,19 +2098,32 @@ if internet == 1:
     root.geometry("410x350+250+200")
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
-    # Pobieranie i zapisywanie ikony
-    response = requests.get("https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico")
-    icon_data = response.content
-    icon_path = "ikona.ico"
-    with open(icon_path, "wb") as icon_file:
-        icon_file.write(icon_data)
-    
-    # Przeskalowanie ikony do rozmiaru 32x32
-    icon = Image.open(icon_path)
-    icon = icon.resize((32, 32), Image.ANTIALIAS)
-    
-    # Przypisanie przeskalowanej ikony jako ikony aplikacji
-    root.iconphoto(True, ImageTk.PhotoImage(icon))
+
+    # Utworzenie folderu "rei", jeśli nie istnieje
+    folder_path = "rei"
+
+    # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    # Pobranie ikony z repozytorium GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
+    file_path = os.path.join(folder_path, 'ikona_magnesy.ico')
+    urllib.request.urlretrieve(url, file_path)
+
+    # Ustawienie ikonki
+    root.iconbitmap(file_path)
+
+# Przeskalowanie ikony do rozmiaru 32x32
+# icon = Image.open(icon_path)
+# icon = icon.resize((32, 32), Image.ANTIALIAS)
+
+# Przypisanie przeskalowanej ikony jako ikony aplikacji
+# root.iconphoto(True, ImageTk.PhotoImage(icon))
+
 else:
     root = tk.Tk()
     root.title(f"Kalkulator zysków")

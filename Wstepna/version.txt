@@ -11,4 +11,3 @@ Ciekawe zmiany dodane w najbliższych aktualizacjach (od najnowszych):
  - Poprawiono znaczące błędy związane z aktualizacją
  - Dodano szansę na pojawienie się ankiety, której celem jest dostosowanie programu do waszych wymagań
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń
- - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)

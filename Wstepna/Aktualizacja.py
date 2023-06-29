@@ -22,7 +22,7 @@ init()
 
 def blokada_dostepu():
     messagebox.showerror(
-        'Blokada dostępu', 'Na tę wersję nałożono blokadę dostępu, została ona nałożona przez wydawcę programu. Nie można więc jej zainstalować')
+        'Blokada dostępu', 'Ta wersja ma blokadę dostępu, została ona nałożona przez wydawcę programu. Nie można więc jej zainstalować. Pozostań w aktualnym nurcie')
 
 
 try:

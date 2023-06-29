@@ -5,7 +5,7 @@ Wydano: 05.06.2023
 Informacja o bibliotekach: B
 
 Niestety kod tej wersji zawiera błąd, przez który program odbiera dostęp do funkcji wymagających internetu
-bez względu na to czy internet jest dostępny. Z tego powodu proponujemy przełączenie się na wersję wstępną
+bez względu na to czy internet jest dostępny. Z tego powodu zalecamy przełączenie się na wersję wstępną
 do czasu, aż błąd zostanie naprawiony. Aby to zrobić należy wejść do plików programu, uruchomic plik
 Aktualizacja.py i wybrać wersję wstępną jako wersję do pobrania.
 

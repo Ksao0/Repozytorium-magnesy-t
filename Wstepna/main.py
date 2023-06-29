@@ -728,8 +728,8 @@ def aktul():
 
                 Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
                 subprocess.run(Aktualizacja)
-                print('Zakończono! ')
-                print('Uruchom program ponownie.')
+                print(Fore.GREEN + 'Zakończono! ')
+                print(Fore.GREEN + 'Uruchom program ponownie.' + Style.RESET_ALL)
         else:
             blad_poczatkowe()
     except Exception as e:

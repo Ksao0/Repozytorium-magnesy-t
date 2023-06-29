@@ -26,7 +26,6 @@ def blokada_dostepu():
     os.system('cls')
     print(Fore.YELLOW + "Rozpoczynanie aktualizacji II poziomu")
     print(Fore.GREEN + "Zakończono aktualizację II poziomu\n")
-    print()
     print(Fore.YELLOW + 'Rozpoczynanie aktualizacji I poziomu')
 
 

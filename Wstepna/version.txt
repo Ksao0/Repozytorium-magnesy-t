@@ -2,9 +2,9 @@
 Status: Poprawka wersji
 Nazwa poprawki: Kolory Cz. 3 P. 1
 Wydano: 29.06.2023
-Informacja o bibliotekach: C1
+Informacja o bibliotekach: C3
 
-Ciekawe zmiany dodane w najbliższych aktualizacjach:
+Ciekawe zmiany dodane w najbliższych aktualizacjach  (od najnowszych):
  - Rozpoczęliśmy dodawanie kolorów do naszego programu w celu zwiększenia czytelności
    następne elementy kolorystyczne będą dodawane wraz z nowymi aktualizacjami
  - Teraz program ma ikonkę, możesz ją zobaczyć w lewym górnym rogu każdego okna

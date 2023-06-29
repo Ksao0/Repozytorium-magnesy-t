@@ -25,7 +25,7 @@ try:
     # Usuń plik jeśli istnieje
     if os.path.exists(path):
         os.remove(path)
-    print(Fore.CYAN + 'Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n2: Wersja wstępna\n')
+    print(Fore.CYAN + 'Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n2: Wersja wstępna (zalecana)\n')
 
     wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
     if wersja_programu == 1:

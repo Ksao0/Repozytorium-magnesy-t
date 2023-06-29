@@ -1,6 +1,6 @@
 1.5.3.0 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: Kolory Cz. 3 P. 2 + zabezpieczenia
+Nazwa poprawki: Kolory Cz. 3 P. 3 + zabezpieczenia
 Wydano: 29.06.2023
 Informacja o bibliotekach: C3
 

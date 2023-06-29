@@ -145,7 +145,7 @@ try:
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
         urllib.request.urlretrieve(url, path)
         # print("Zastąpiono plik Aktualizator_aktualizatora.py")
-        print('Zakończono aktualizację I poziomu')
+        print(Fore.GREEN + 'Zakończono aktualizację I poziomu')
         # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
         # KONIEC NOWYCH FUNKCJI
@@ -294,12 +294,12 @@ try:
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
         urllib.request.urlretrieve(url, path)
         # print("Zastąpiono plik Aktualizator_aktualizatora.py")
-        print('Zakończono aktualizację I poziomu')
+        print(Fore.GREEN + 'Zakończono aktualizację I poziomu')
         # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
 
         # KONIEC NOWYCH FUNKCJI
     else:
-        print(Fore.YELLOW + 'Nie ma takiej opcji, anulowano')
+        print(Fore.MAGENTA + 'Nie ma takiej opcji, anulowano')
         exit()
 except Exception as e:
     messagebox.showerror('Nie można wykonać aktualizacji',

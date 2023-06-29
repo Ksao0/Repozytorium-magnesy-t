@@ -11,6 +11,14 @@ from github import Github
 import sys
 import traceback
 import matplotlib.pyplot as plt
+from colorama import init, Fore, Style
+
+# Inicjalizacja modułu colorama (do kolorowego tekstu)
+# Fore.RED
+# Style.BRIGHT
+# Style.RESET_ALL
+init()
+
 try:
     # Ścieżka do pliku Aktualizacja.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "Aktualizacja.py")
@@ -18,17 +26,17 @@ try:
     # Usuń plik Aktualizacja.py, jeśli istnieje
     if os.path.exists(path):
         os.remove(path)
-    print("Rozpoczynanie aktualizacji II poziomu")
+    print(Fore.YELLOW + "Rozpoczynanie aktualizacji II poziomu")
     # Pobierz plik Aktualizacja.py z repozytorium
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizacja.py"
     urllib.request.urlretrieve(url, path)
-    print("Zakończono aktualizację II poziomu\n")
-    print('Rozpoczynanie aktualizacji I poziomu')
+    print(Fore.GREEN + "Zakończono aktualizację II poziomu\n")
+    print(Fore.YELLOW + 'Rozpoczynanie aktualizacji I poziomu')
 
     Aktualizacja = ["python", "Aktualizacja.py"]
     subprocess.run(Aktualizacja)
 
-    input("Naciśnij klawisz Enter, aby zakończyć...")
+    input(Fore.CYAN + "Naciśnij klawisz Enter, aby zakończyć...")
 except Exception as e:
     # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
     exc_type, exc_value, exc_traceback = sys.exc_info()

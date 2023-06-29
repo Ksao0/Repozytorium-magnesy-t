@@ -6,11 +6,11 @@ Informacja o bibliotekach: C3
 
 Już po raz drugi zrównujemy ze sobą wersję stabilną i wstępną! Dzięki temu
 udało się nam usunąć krytyczny błąd, przez który program blokował funkcje dostępne
-tylko przy połączeniu z internetem. Dodaliśmy też kolorystykę, która znacząco poprawia czytelność.
+tylko przy połączeniu z internetem.
 
-Ciekawe zmiany dodane w najbliższych aktualizacjach (od najnowszych):
- - Rozpoczęliśmy dodawanie kolorów do naszego programu w celu zwiększenia czytelności
-   następne elementy kolorystyczne będą dodawane wraz z nowymi aktualizacjami
+Ciekawsze zmiany dodane w najbliższych aktualizacjach (od najnowszych):
+ - Usunięto znaczący błąd związany z aktualizacją
+ - Dodano kolorystykę czcionek w celu zwiększenia czytelności
  - Teraz program ma ikonkę, możesz ją zobaczyć w lewym górnym rogu każdego okna
  - Dodano szansę na pojawienie się ankiety, której celem jest dostosowanie programu do waszych wymagań
  - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń

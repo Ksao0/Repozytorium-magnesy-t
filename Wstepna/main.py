@@ -422,7 +422,7 @@ def taj():
                 messagebox.showwarning(
                     "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
 
-                print(f'{version_online}')
+                print(Fore.CYAN + f'{version_online}')
 
                 niepobrane_biblioteki = set(
                     lista_b_online_lines) - set(lista_b_local_lines)

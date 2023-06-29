@@ -23,6 +23,8 @@ init()
 def blokada_dostepu():
     messagebox.showerror(
         'Blokada dostępu', 'Ta wersja ma blokadę dostępu, została ona nałożona przez wydawcę programu. Nie można więc jej zainstalować. Pozostań w aktualnym nurcie')
+    os.system('cls')
+
 
 od_nowa = 1
 while od_nowa == 1:
@@ -204,7 +206,7 @@ while od_nowa == 1:
 
                 os.system('cls')
                 print(Fore.YELLOW + 'Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:' + Fore.CYAN +
-                      '\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n - request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o    podobnej   nazwie)\n - subprocess\n')
+                      '\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n - request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej   nazwie)\n - subprocess\n')
                 input(Fore.YELLOW + "Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")
                 # ścieżka do pliku main.py w bieżącym folderze
                 path = os.path.join(os.getcwd(), "main.py")

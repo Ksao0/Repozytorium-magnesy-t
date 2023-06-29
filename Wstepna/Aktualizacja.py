@@ -24,6 +24,10 @@ def blokada_dostepu():
     messagebox.showerror(
         'Blokada dostępu', 'Ta wersja ma blokadę dostępu, została ona nałożona przez wydawcę programu. Nie można więc jej zainstalować. Pozostań w aktualnym nurcie')
     os.system('cls')
+    print(Fore.YELLOW + "Rozpoczynanie aktualizacji II poziomu")
+    print(Fore.GREEN + "Zakończono aktualizację II poziomu\n")
+    print()
+    print(Fore.YELLOW + 'Rozpoczynanie aktualizacji I poziomu')
 
 
 od_nowa = 1

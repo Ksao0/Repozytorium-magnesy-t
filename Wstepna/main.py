@@ -19,6 +19,7 @@ from colorama import init, Fore, Style
 
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
+# Style.BRIGHT
 # Style.RESET_ALL
 init()
 
@@ -1038,15 +1039,17 @@ def rozwiaz_problemy():
             messagebox.showwarning("Ostrzeżenie", message)
 
             os.system('cls')
-            print('Nie zamykaj tego okna!')
-            print('Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych tej operacji nie   można cofnąć.\nAby zainstalować program ponownie: Uruchom plik WEW.py')
+            print(Fore.RED + 'Nie zamykaj tego okna!')
+            print(Fore.YELLOW + 'Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych ' +
+                  Style.BRIGHT + Fore.RED + 'tej operacji nie można cofnąć.' + Style.RESET_ALL + Fore.RED + '\nAby zainstalować program ponownie: Uruchom plik WEW.py')
 
-            input("Naciśnij klawisz Enter, aby kontynuuować...")
-            print('Aby anulować wpisz cokolwiek innego:')
+            input(Fore.YELLOW + "Naciśnij klawisz Enter, aby kontynuuować...")
+            print()
+            print(Fore.YELLOW + 'Aby anulować wpisz cokolwiek innego:')
             usuwanie_danych_potwierdzenie = str(
-                input('Napisz "USUN01" (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
+                input(Fore.RED + 'Napisz ' + Style.BRIGHT + '"USUN01"' + Style.RESET_ALL + Fore.RED + ' (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
             if usuwanie_danych_potwierdzenie == "USUN01":
-                print('Zaczekaj, aż to okno się zamknie.')
+                print(Fore.RED + '\nZaczekaj, aż to okno się zamknie, trwa kasowanie')
                 # Ścieżka do pliku w bieżącym folderze
                 path = os.path.join(os.getcwd(), "Ceny.txt")
 
@@ -1063,13 +1066,6 @@ def rozwiaz_problemy():
 
                     # Ścieżka do pliku w bieżącym folderze
                 path = os.path.join(os.getcwd(), "Aktualizacja.py")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(os.getcwd(), "main.py")
 
                 # Usuń plik jeśli istnieje
                 if os.path.exists(path):
@@ -1093,9 +1089,15 @@ def rozwiaz_problemy():
                     sleep(3)
                     exit()
 
+                # Ścieżka do pliku w bieżącym folderze
+                path = os.path.join(os.getcwd(), "main.py")
+
+                # Usuń plik jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
             else:
-                print(
-                    'Anulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu (zostaw to okno otwarte w tle)')
+                print(Fore.GREEN +
+                      '\nAnulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu')
         else:
             blad_poczatkowe()
     except Exception as e:

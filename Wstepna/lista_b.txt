@@ -19,3 +19,4 @@
  - atexit
  - random
  - Pilow
+ - colorama

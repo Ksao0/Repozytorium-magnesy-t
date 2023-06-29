@@ -15,10 +15,16 @@ import matplotlib.pyplot as plt
 import random
 import shutil
 from PIL import Image
+from colorama import init, Fore, Style
 
-print('Nie zamykaj tego okna!')
+# Inicjalizacja modułu colorama (do kolorowego tekstu)
+# Fore.RED
+# Style.RESET_ALL
+init()
+
+print(Fore.RED + 'Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
-print('Wykonywanie czynności początkowych...')
+print(Fore.YELLOW + 'Wykonywanie czynności początkowych...', Style.RESET_ALL)
 
 global okno_informacje_otwarte
 global okno_edycja_kosztow_otwarte
@@ -46,7 +52,7 @@ cofanie_bledow()
 
 
 def blad_poczatkowe():
-    message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe?"
+    message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe"
     response = messagebox.askokcancel("Błąd", message)
     if response == True:
         czynnosci_poczatkowe()
@@ -416,13 +422,24 @@ def taj():
                     "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
 
                 print(f'{version_online}')
+
                 niepobrane_biblioteki = set(
                     lista_b_online_lines) - set(lista_b_local_lines)
                 if niepobrane_biblioteki:
                     print(
-                        "\n\nLista aktualnie wymaganych bibliotek, które nie zostały pobrane:")
+                        Fore.YELLOW + "\n\nProgram wymaga większej ilości bibliotek, zainstaluj je:")
+                    print(Fore.LIGHTGREEN_EX +
+                          "Aby to zrobić otwórz terminal cmd i wpisz:")
+                    print("   pip install (nazwa biblioteki)")
+                    print("Przykład:")
+                    print("   pip install tkinter", Style.RESET_ALL)
+                    print()
+                    print(Fore.YELLOW + 'Lista wymaganych bibliotek:',
+                          Style.RESET_ALL)
+
                     for biblioteka in niepobrane_biblioteki:
-                        print(f"{biblioteka}")
+                        print(Fore.RED + biblioteka)
+
                 else:
                     if version_online_lines[4] == version_local_lines[4] or lista_b_online == lista_b_local:
                         if version_online_lines[4] != version_local_lines[4] and lista_b_online == lista_b_local:
@@ -564,7 +581,8 @@ def taj():
                         print(
                             "Brak różnic - wszystkie wymagane biblioteki zostały pobrane.")
                 while biblioteki_pobrane == False:
-                    input("Zainstaluj biblioteki, a następnie naciśnij enter...")
+                    input(
+                        Fore.YELLOW + 'Zainstaluj biblioteki, a następnie naciśnij enter...' + Style.RESET_ALL)
                     if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?\nJeśli lista bibliotek się nie pojawiła - TAK'):
                         messagebox.showinfo(
                             'Aktualizacja', "Uruchom program ponownie")
@@ -2066,26 +2084,27 @@ if internet == 1:
     version_online_pop_line = version_online.split('\n')[2]
 
     # porównaj wersje
-    print(
-        f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
-    print(
-        f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
-    print(f'\nOpis najnowszej wersji (repozytorium): {version_online}')
+    print(Fore.LIGHTMAGENTA_EX +
+          f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+    print(Fore.CYAN +
+          f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
+    print(Fore.CYAN +
+          f'\nOpis najnowszej wersji (repozytorium): {version_online}' + Style.RESET_ALL)
     if version_local != "BRAK DANYCH":
         if version_online.strip() == version_local.strip():
             if version_local_pop_line == version_online_pop_line:
-                print('Masz najnowszą wersję programu.')
+                print(Fore.GREEN + 'Masz najnowszą wersję programu.')
                 path = os.path.join(os.getcwd(), "version.txt")
                 if os.path.exists(path):
                     with open(path, "r", encoding="utf-8") as f:
                         version_local = f.readline().strip()
                 wersja = version_local
             else:
-                print('Dostępna jest poprawka wersji')
+                print(Fore.RED + 'Dostępna jest poprawka wersji')
                 wersja = 'DOSTĘPNA POPRAWKA'
         else:
             if version_local_first_line == version_online_first_line:
-                print('Masz najnowszą wersję programu.')
+                print(Fore.GREEN + 'Masz najnowszą wersję programu.')
                 wersja = version_local
                 # ścieżka do pliku version.txt w bieżącym folderze
                 path = os.path.join(os.getcwd(), "version.txt")
@@ -2129,7 +2148,7 @@ if internet == 1:
 
     # Przeskalowanie ikony na rozmiar 32x32
     img = Image.open(file_path_ikonka)
-    img = img.resize((32, 32), Image.ANTIALIAS)
+    img = img.resize((32, 32), Image.LANCZOS)
     resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
     img.save(resized_file_path)
 

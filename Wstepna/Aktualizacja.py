@@ -11,6 +11,13 @@ from github import Github
 import sys
 import traceback
 import matplotlib.pyplot as plt
+from colorama import init, Fore, Style
+
+# Inicjalizacja modułu colorama (do kolorowego tekstu)
+# Fore.RED
+# Style.BRIGHT
+# Style.RESET_ALL
+init()
 
 try:
     path = os.path.join(os.getcwd(), "Ank.txt")
@@ -18,9 +25,9 @@ try:
     # Usuń plik jeśli istnieje
     if os.path.exists(path):
         os.remove(path)
-    print('Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wstępna\n')
+    print(Fore.CYAN + 'Jaką wersję programu:\n1: Wersja stabilna\n2: Wersja wstępna\n')
 
-    wersja_programu = int(input("Podaj wersję programu: "))
+    wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
     if wersja_programu == 1:
         os.system('cls')
         # ścieżka do pliku main.py w bieżącym folderze
@@ -108,8 +115,8 @@ try:
             plik.write(f"           Nowa wersja: {nowa_version}\n\n")
             plik.write(stara_zapisy)
 
-        print(f"Stara wersja: {stara_version}\n")
-        print(f"Nowa wersja: {nowa_version}\n\n")
+        print(Fore.LIGHTMAGENTA_EX + f"Stara wersja: {stara_version}\n")
+        print(Fore.CYAN + f"Nowa wersja: {nowa_version}\n\n")
 
         # NOWE FUNKCJE
 
@@ -170,8 +177,8 @@ try:
                 print(f"{biblioteka}")
 
         os.system('cls')
-        print('Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n -     request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej nazwie)\n - subprocess\n')
-        input("Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")
+        print(Fore.YELLOW + 'Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n -     request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej nazwie)\n - subprocess\n')
+        input(Fore.YELLOW + "Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")
         # ścieżka do pliku main.py w bieżącym folderze
         path = os.path.join(os.getcwd(), "main.py")
 
@@ -257,8 +264,8 @@ try:
             plik.write(f"           Nowa wersja: {nowa_version}\n\n")
             plik.write(stara_zapisy)
 
-        print(f"Stara wersja: {stara_version}\n")
-        print(f"Nowa wersja: {nowa_version}\n\n")
+        print(Fore.LIGHTMAGENTA_EX + f"Stara wersja: {stara_version}\n")
+        print(Fore.CYAN + f"Nowa wersja: {nowa_version}\n\n")
 
         # NOWE FUNKCJE
 
@@ -292,7 +299,7 @@ try:
 
         # KONIEC NOWYCH FUNKCJI
     else:
-        print('Nie ma takiej opcji, anulowano')
+        print(Fore.YELLOW + 'Nie ma takiej opcji, anulowano')
         exit()
 except Exception as e:
     messagebox.showerror('Nie można wykonać aktualizacji',

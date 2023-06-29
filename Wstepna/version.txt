@@ -1,6 +1,6 @@
 1.5.1.0 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: Kolory Cz. 2
+Nazwa poprawki: Kolory Cz. 3
 Wydano: 29.06.2023
 Informacja o bibliotekach: C1
 

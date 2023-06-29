@@ -1089,12 +1089,51 @@ def rozwiaz_problemy():
                     sleep(3)
                     exit()
 
+                    # Ścieżka do pliku w bieżącym folderze
+                path = os.path.join(
+                    os.getcwd(), "ikona.ico")
+
+                # Usuń plik jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                    sleep(3)
+                    exit()
+
+                    # Ścieżka do pliku w bieżącym folderze
+                path = os.path.join(
+                    os.getcwd(), "lista_b.txt")
+
+                # Usuń plik jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                    sleep(3)
+                    exit()
+
+                    # Ścieżka do pliku w bieżącym folderze
+                path = os.path.join(
+                    os.getcwd(), "Zapisy.txt")
+
+                # Usuń plik jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                    sleep(3)
+                    exit()
+
+                folder_path = "rei"
+
+                # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+                if os.path.exists(folder_path):
+                    shutil.rmtree(folder_path)
+
                 # Ścieżka do pliku w bieżącym folderze
                 path = os.path.join(os.getcwd(), "main.py")
 
                 # Usuń plik jeśli istnieje
                 if os.path.exists(path):
                     os.remove(path)
+
+                print(Fore.CYAN + 'Kasowanie zakończone')
+                exit()
             else:
                 print(Fore.GREEN +
                       '\nAnulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu')

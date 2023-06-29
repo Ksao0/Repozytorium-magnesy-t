@@ -11,10 +11,10 @@ from github import Github
 import sys
 import traceback
 import matplotlib.pyplot as plt
-import atexit
-import smtplib
+# import smtplib
 import random
 import shutil
+from PIL import Image
 
 print('Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -2126,6 +2126,15 @@ if internet == 1:
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
     file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
     urllib.request.urlretrieve(url, file_path_ikonka)
+
+    # Przeskalowanie ikony na rozmiar 32x32
+    img = Image.open(file_path_ikonka)
+    img = img.resize((32, 32), Image.ANTIALIAS)
+    resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
+    img.save(resized_file_path)
+
+    # Zaktualizowanie globalnej zmiennej file_path_ikonka
+    file_path_ikonka = resized_file_path
 
     # Ustawienie ikonki
     root.iconbitmap(file_path_ikonka)

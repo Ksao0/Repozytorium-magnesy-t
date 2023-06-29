@@ -17,5 +17,5 @@
  - plt
  - pygame
  - atexit
- - smtplib
  - random
+ - Pilow

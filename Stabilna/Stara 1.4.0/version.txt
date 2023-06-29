@@ -1,0 +1,15 @@
+1.4.0 Stabilna (Na podstawie 1.4.0.0 Wstępna)
+Status: yN
+Poprawka: Stabilna 1
+Wydano: 05.06.2023
+Informacja o bibliotekach: B
+
+Niestety kod tej wersji zawiera błąd, przez który program odbiera dostęp do funkcji wymagających internetu
+bez względu na to czy internet jest dostępny. Z tego powodu proponujemy przełączenie się na wersję wstępną
+do czasu, aż błąd zostanie naprawiony. Aby to zrobić należy wejść do plików programu, uruchomic plik
+Aktualizacja.py i wybrać wersję wstępną jako wersję do pobrania.
+
+Niektóre zmiany względem poprzedniej wersji stabilnej:
+ - Ulepszony mechanizm aktualizacji (m.in informowanie o nowej wersji, nowej poprawce, nowych wymaganych bibliotekach)
+ - Możliwość zgłaszania błędów z poziomu programu (ta opcja jest dostępna tylko dla wybranych użytkowników)
+ - Program automatycznie zgłasza wykryte błędy (ta opcja jest dostępna tylko dla wybranych użytkowników)

@@ -22,8 +22,12 @@
 
     /* Dodaj czarne tło do górnego paska nawigacji */
     .topnav {
+      max-width: 1200px;
+      margin: auto;
       background-color: #444444;
       overflow: hidden;
+      border-top-right-radius: 30px;
+      border-top-left-radius: 30px;
     }
 
     /* Ostyluj linki wewnątrz paska nawigacji */
@@ -49,19 +53,80 @@
     }
 
     .container {
-      max-width: 1300px;
+      padding: 1px;
+      max-width: 1200px;
+      min-height: 300px;
       margin: auto;
+      background-color: rgb(236, 233, 233);
+      border-bottom-right-radius: 45px;
+      border-bottom-left-radius: 45px;
+    }
+
+    h3,
+    h4 {
+      text-align: center;
+    }
+
+    p,
+    h3 {
+      margin-left: 30px;
     }
   </style>
 </head>
 
 <body>
   <div class="topnav">
-    <a href="Instrukcja.html">Podstawowe informacje</a>
-    <a class="active" href="Aktualizowanie.html">Aktualizacja</a>
+    <a href="Instrukcja.html">Wersja wstępna</a>
+    <a class="active" href="Aktualizowanie.html">Wersja stabilna</a>
   </div>
-  <div class="container"></div>
-  <p>djahsuhaisuduh</p>
+  <div class="container">
+    <p>
+      1.0.0.0.2.17 Stabilna<br><br>
+
+      Wydano: 20.04.2023<br><br>
+    <p>
+      Jak najprawdopodobniej wiesz, pewien czas temu rozpoczęliśmy prace nad wersją wstępną naszego programu.<br>
+      Oznacza to, że to właśnie ona stała się wersją, do której dodawane są nowe funkcjonalności. Zakończyliśmy proces
+      intensywnych zmian i poprawek, uznając, że stała sie ona w pełni użytkowa i spełnia wymagania do tego,<br>
+      by to właśnie ją nazwać stabilną. Podjęliśmy więc decyzję o tym, aby zrównać ze sobą obie wersje.<br>
+      Stanie się to najwcześniej 10 maja 2023 roku. Będzie to też jedyna aktualizacja tej wersji do tego czasu,
+      która nie musi być identyczna z udostępnianą wcześniej wersją wstępną.<br>
+    </p>
+    <h3>Jeżeli chcesz móc dalej korzystać z tego programu, musisz pobrać następujące biblioteki<br>(instrukcja
+      znajdujesię dalej):</h3>
+    <p>
+      - tkinter<br>
+      - urllib<br>
+      - subprocess<br>
+      - requests<br>
+      - sleep<br>
+    </p>
+    <h3>Biblioteki, które prawdopodobnie posiadasz (jeżeli program nie będzie działał prawidłowo - zainstaluj je):</h3>
+    <p>
+      - os<br>
+      - time<br>
+      - datetime<br>
+      - messagebox<br>
+      - scrolledtext<br>
+      - request (dwie biblioteki o podobnej nazwie)<br>
+      - requests (dwie biblioteki o podobnej nazwie)<br>
+    </p>
+    <p>
+    <h4>Aby zainstalowac te biblioteki:</h4>
+    <p>
+      Wyłącz terminal dopiero wtedy, kiedy będzie to w następujących punktach:<br>
+    <ul>
+      <li>1. Otwórz terminal cmd</li>
+      <li>2. Wpisz polecenie, które zaktualizuje twoje środowisko i naciśnij enter: python -m pip install --upgrade pip
+        PO WYKONANIU TEGO PUNKTU (2) ODCZEKAJ CO NAJMNIEJ 10 SEKUND OD OSTATNIEGO POLECENIA WYŚWIETLONEGO W KONSOLI</li>
+      <li>3. Zainstaluj biblioteki:</li>
+      <li>pip install NAZWA_BIBLIOTEKI</li>
+      <li>Przykład: pip install tkinter</li>
+      <li>Kiedy zainstalujesz już wszystkie biblioteki, zamknij terminal cmd.</li>
+    </ul>
+    </p>
+    </p>
+  </div>
 </body>
 
 </html>

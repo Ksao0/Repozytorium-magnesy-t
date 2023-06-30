@@ -131,7 +131,7 @@ def zglos_problem():
                     aktualna_data_czas = datetime.datetime.now()
                     format_data_czas = aktualna_data_czas.strftime(
                         "%d.%m.%Y %H:%M")
-                    issue_body = f"Data: {format_data_czas}\n" + entry_opis_problemu.get(
+                    issue_body = f"Wersja: Stabilna\nData: {format_data_czas}\n" + entry_opis_problemu.get(
                         "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
                     # autentykacja
@@ -236,7 +236,7 @@ def zglos_problem():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -266,7 +266,7 @@ def czynnosci_poczatkowe():
         # print("Usunięto plik WEW.py")
         try:
             # pobierz plik main.py z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/WEW.py"
             urllib.request.urlretrieve(url, path)
             # print("Zastąpiono plik WEW.py")
         except:
@@ -276,7 +276,7 @@ def czynnosci_poczatkowe():
             internet = 0
             try:
                 # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/WEW.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik WEW.py")
             except:
@@ -339,7 +339,7 @@ def czynnosci_poczatkowe():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -362,7 +362,7 @@ def taj():
     try:
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             version_online = response.content.decode('utf-8').strip()
@@ -372,7 +372,7 @@ def taj():
             return
 
         try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             lista_b_online = response.content.decode('utf-8').strip()
@@ -496,7 +496,7 @@ def taj():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania, jedynie informację o ich dodaniu\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+                            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania, jedynie informację o ich dodaniu\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
 
                             # autentykacja
                             g = Github(username, password)
@@ -566,7 +566,7 @@ def taj():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+                            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
 
                             # autentykacja
                             g = Github(username, password)
@@ -689,7 +689,7 @@ def taj():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji taj():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji taj():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -723,7 +723,7 @@ def aktul():
                 if os.path.exists(path):
                     os.remove(path)
                 # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
                 urllib.request.urlretrieve(url, path)
 
                 Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
@@ -782,7 +782,7 @@ def aktul():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -858,7 +858,7 @@ def wykasuj_zapisy():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji wykasuj_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji wykasuj_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1014,7 +1014,7 @@ def wykres():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji wykres():\nPrawdodpodobna przyczyna: Brak danych do wygenerowania wykresu\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:    {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji wykres():\nPrawdodpodobna przyczyna: Brak danych do wygenerowania wykresu\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:    {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -1189,7 +1189,7 @@ def rozwiaz_problemy():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1396,7 +1396,7 @@ def ankieta():
                         aktualna_data_czas = datetime.datetime.now()
                         format_data_czas = aktualna_data_czas.strftime(
                             "%d.%m.%Y %H:%M")
-                        issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
+                        issue_body = f"Wersja: Stabilna\nAnkieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
                             "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
                             "\n\nOstatnie błędy: " + odpowiedz_pytanie3
 
@@ -1463,7 +1463,7 @@ def ankieta():
                         aktualna_data_czas = datetime.datetime.now()
                         format_data_czas = aktualna_data_czas.strftime(
                             "%d.%m.%Y %H:%M")
-                        issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+                        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
                         # autentykacja
                         g = Github(username, password)
@@ -1537,7 +1537,7 @@ def ankieta():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1574,22 +1574,10 @@ def informacje_o_wersji_utworz_okno():
                 version_online = "BRAK DANYCH"
                 # Pobierz zawartość pliku version.txt z repozytorium na GitHub
                 try:
-                    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+                    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt'
                     response = requests.get(url)
                     response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                     version_online = response.content.decode('utf-8').strip()
-                except:
-                    messagebox.showerror(
-                        "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
-
-                dziennik_b_online = "BRAK DANYCH"
-                # Pobierz zawartość pliku Dziennk_b.txt z repozytorium na GitHub
-                try:
-                    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Dziennik_b.txt'
-                    response = requests.get(url)
-                    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-                    dziennik_b_online = response.content.decode(
-                        'utf-8').strip()
                 except:
                     messagebox.showerror(
                         "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
@@ -1604,7 +1592,6 @@ def informacje_o_wersji_utworz_okno():
 
                 version_online_lines = version_online.split('\n')
                 version_local_lines = version_local.split('\n')
-                dziennik_b_online_lines = dziennik_b_online.split('\n')
 
                 informacje_wersji = tk.Toplevel()
                 informacje_wersji.title(f"Informacje o wersji")
@@ -1632,52 +1619,14 @@ def informacje_o_wersji_utworz_okno():
                     informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
                 label_informacja.pack()
 
-                def dziennik_bledow():
-                    if dziennik_b_online != "BRAK DANYCH":
-                        dziennik_bledow_okno = tk.Toplevel()
-                        dziennik_bledow_okno.title(f"Dziennik zmian")
-                        dziennik_bledow_okno.iconbitmap(file_path_ikonka)
-
-                        label_informacja = tk.Label(
-                            dziennik_bledow_okno, text=f"Ostatni wpis w wersji: {dziennik_b_online_lines[0]}")
-                        label_informacja.pack()
-
-                        label_informacja = tk.Label(
-                            dziennik_bledow_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (krótkie opisy)")
-                        label_informacja.pack()
-
-                        for line in dziennik_b_online_lines[1:25]:
-                            label_opis_wersji = tk.Label(
-                                dziennik_bledow_okno, text=f"{line}", justify="left", anchor="w")
-                            label_opis_wersji.pack(fill="x", padx=(20, 0))
-
-                        # Dopasowanie rozmiaru okna do zawartości
-                        dziennik_bledow_okno.update_idletasks()
-                        width = dziennik_bledow_okno.winfo_width() + 40
-                        height = dziennik_bledow_okno.winfo_height() + 35
-                        dziennik_bledow_okno.geometry(
-                            f"{width}x{height}+1170+0")
-                    else:
-                        messagebox.showerror(
-                            'Błąd', "Niestety nie można wczytać dziennika błędów. Spróbuj ponownie później")
-                for line in version_online_lines[7:]:
+                for line in version_online_lines[7:16]:
                     label_opis_wersji = tk.Label(
                         informacje_wersji, text=f"{line}", justify="left", anchor="w")
                     label_opis_wersji.pack(fill="x", padx=(20, 0))
-
-                # Dopasowanie rozmiaru okna do zawartości
-                informacje_wersji.update_idletasks()
-                width = informacje_wersji.winfo_width() + 40
-                height = informacje_wersji.winfo_height() + 35
-                informacje_wersji.geometry(f"{width}x{height}+1170+0")
                 informacje_wersji.geometry("+1170+0")
 
                 informacje_wersji.protocol("WM_DELETE_WINDOW", zamknij_okno)
                 informacje_wersji.bind("<Map>", lambda event: otworz_okno())
-
-                button_dziennik_b = tk.Button(
-                    informacje_wersji, text=f"Pełen dziennik (ostatni wpis: {dziennik_b_online_lines[0]})", command=dziennik_bledow)
-                button_dziennik_b.pack()
 
                 informacje_wersji.mainloop()
             else:
@@ -1734,7 +1683,7 @@ def informacje_o_wersji_utworz_okno():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1971,7 +1920,7 @@ def edycja_kosztow():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji edycja_kosztow():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji edycja_kosztow():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1996,7 +1945,7 @@ def oblicz_zyski():
         if os.path.exists(path):
             os.remove(path)
         # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
         urllib.request.urlretrieve(url, path)
 
         # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
@@ -2133,7 +2082,7 @@ def oblicz_zyski():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji oblicz_zyski():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji oblicz_zyski():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -2155,7 +2104,7 @@ def oblicz_zyski():
 # Tworzenie głównego okna
 if internet == 1:
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt'
     response = requests.get(url)
 
     version_online = response.content.decode('utf-8').strip()
@@ -2207,7 +2156,7 @@ if internet == 1:
                 # print("Usunięto plik version.txt")
 
                 # pobierz plik version.txt z repozytorium i utwórz go
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"
                 urllib.request.urlretrieve(url, path)
             else:
                 print('Dostępna jest nowa wersja programu.')
@@ -2234,7 +2183,7 @@ if internet == 1:
     global file_path_ikonka
 
     # Pobranie ikony z repozytorium GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/ikona_magnesy.ico'
     file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
     urllib.request.urlretrieve(url, file_path_ikonka)
 
@@ -2338,7 +2287,7 @@ def otworz_okno_zapisy():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji otworz_okno_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji otworz_okno_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -2367,7 +2316,7 @@ def Gra_snake():
             os.remove(path)
         try:
             # pobierz grę z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Snake.py"
             urllib.request.urlretrieve(url, path)
             Gra = ["python", "Snake.py"]
             subprocess.run(Gra)
@@ -2378,7 +2327,7 @@ def Gra_snake():
             internet = 0
             try:
                 # pobierz grę z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Snake.py"
                 urllib.request.urlretrieve(url, path)
                 Gra = ["python", "Snake.py"]
                 subprocess.run(Gra)
@@ -2435,7 +2384,7 @@ def Gra_snake():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji Gra_snake():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji Gra_snake():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -2582,7 +2531,7 @@ def otworz_okno_wybor():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)

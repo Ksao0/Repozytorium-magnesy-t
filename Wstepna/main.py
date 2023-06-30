@@ -65,7 +65,7 @@ def zglos_problem():
     try:
         global file_path_ikonka
         if not internet == 0:
-            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak")
+            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak.")
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
@@ -112,7 +112,7 @@ def zglos_problem():
                         # porównaj daty
                         if dzisiaj > wygasa_data:
                             messagebox.showerror(
-                                "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych.")
                             return
                         elif dzisiaj == wygasa_data:
                             messagebox.showwarning(
@@ -120,7 +120,7 @@ def zglos_problem():
                             return
                     else:
                         messagebox.showinfo(
-                            "Informacja", 'Niestety nie masz dostępu do tej funkcji lub czas jej dostępności dla ciebie minął. Skontaktuj się z osobą odpowiedzialną za program')
+                            "Informacja", 'Niestety nie masz dostępu do tej funkcji lub czas jej dostępności dla ciebie minął. Skontaktuj się z osobą odpowiedzialną za program.')
                         return
 
                     # ustawienia konta
@@ -144,7 +144,7 @@ def zglos_problem():
                     repo.create_issue(title=issue_title, body=issue_body)
 
                     messagebox.showinfo("Twoje zgłoszenie zostało wysłane!",
-                                        'Dziękujemy za twój wkład w rozwój programu! Postaramy się je rozpatrzyć jak najszybciej')
+                                        'Dziękujemy za twój wkład w rozwój programu! Postaramy się je rozpatrzyć jak najszybciej!')
 
                 if not okno_edycja_kosztow_otwarte == 0:
                     okno_problemu = tk.Toplevel()
@@ -411,8 +411,7 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    message = "Uruchom program ponownie"
-                    if messagebox.showinfo("Aktualizacja", message):
+                    if messagebox.showinfo("Aktualizacja", "Uruchom program ponownie"):
                         exit()
                 else:
                     return
@@ -626,10 +625,10 @@ def taj():
                     # Poprawki B7 nie zostały przyjęte:
             # Intensywne zmiany zakończone
             if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7":
+                messagebox.showinfo(
+                    'Aktualizacja', "Proces intensywnych zmian w programie został zakończony, a twój pogram nie był od tego czasu aktualizowany. Ta aktualizacja jest więc wymagana.")
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                messagebox.showinfo(
-                    'Aktualizacja', "Proces intensywnych zmian w programie został zakończony, a twój pogram nie był od tego czasu aktualizowany. Ta aktualizacja jest więc wymagana")
         else:
             messagebox.showerror(
                 "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji (kilka razy). Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane) - skontaktuj się z osobą odpowiedzialną za program.")
@@ -1582,13 +1581,13 @@ def informacje_o_wersji_utworz_okno():
                     messagebox.showerror(
                         "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
 
-                dziennik_b_online = "BRAK DANYCH"
+                dziennik_z_online = "BRAK DANYCH"
                 # Pobierz zawartość pliku Dziennk_b.txt z repozytorium na GitHub
                 try:
                     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Dziennik_b.txt'
                     response = requests.get(url)
                     response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-                    dziennik_b_online = response.content.decode(
+                    dziennik_z_online = response.content.decode(
                         'utf-8').strip()
                 except:
                     messagebox.showerror(
@@ -1604,7 +1603,7 @@ def informacje_o_wersji_utworz_okno():
 
                 version_online_lines = version_online.split('\n')
                 version_local_lines = version_local.split('\n')
-                dziennik_b_online_lines = dziennik_b_online.split('\n')
+                dziennik_z_online_lines = dziennik_z_online.split('\n')
 
                 informacje_wersji = tk.Toplevel()
                 informacje_wersji.title(f"Informacje o wersji")
@@ -1632,19 +1631,19 @@ def informacje_o_wersji_utworz_okno():
                     informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
                 label_informacja.pack()
 
-                def dziennik_bledow():
-                    if dziennik_b_online != "BRAK DANYCH":
-                        dziennik_bledow_okno = tk.Toplevel()
-                        dziennik_bledow_okno.title(f"Dziennik zmian")
-                        dziennik_bledow_okno.iconbitmap(file_path_ikonka)
+                def dziennik_zmian():
+                    if dziennik_z_online != "BRAK DANYCH":
+                        dziennik_zmian_okno = tk.Toplevel()
+                        dziennik_zmian_okno.title(f"Dziennik zmian")
+                        dziennik_zmian_okno.iconbitmap(file_path_ikonka)
 
                         label_informacja = tk.Label(
-                            dziennik_bledow_okno, text=f"Ostatni wpis w wersji: {dziennik_b_online_lines[0]}")
+                            dziennik_zmian_okno, text=f"Ostatni wpis w wersji: {dziennik_z_online_lines[0]}")
                         label_informacja.pack()
 
                         def co_znaczniki():
                             messagebox.showinfo(
-                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n'
+                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika zmian. Oto znaczenia niektórych z nich:\n'
                                 + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
                                 + '"/\\" - - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '
                                 + 'lub zakończenie dodawania funkcji\n'
@@ -1665,18 +1664,29 @@ def informacje_o_wersji_utworz_okno():
                         # "~" - Zmiana działania
                         # "#!" - Zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)
 
+                        # Dodanie kontenera typu Frame
+                        frame_przyciski = tk.Frame(dziennik_zmian_okno)
+                        frame_przyciski.pack()
+
                         button_dziennik_b = tk.Button(
-                            dziennik_bledow_okno, text=f"Czym są znaczniki?", command=co_znaczniki)
-                        button_dziennik_b.pack()
+                            frame_przyciski, text=f"Czym są znaczniki?", command=co_znaczniki)
+                        button_dziennik_b.pack(side=tk.LEFT)
+
+                        def nieuzupelnieene_zmiany():
+                            messagebox.showinfo('Dlaczego dziennik zmian nie jest uzupełniany?', 'Dziennik zmian nie jest uzupełniany jeżeli aktualizacja nie ma żadnego znaczenia dla użytkowania programu, np. jeśli usuniemy literówki, zmienimy formatowanie kodu lub nazwę zminnej. Takie wpisy byłyby zbyt częste\nJeśli uważasz, że zmiana powinna zostac wpisana - zgłoś nam to za pomocą opcji "Zgłoś problemy lub propozycje".')
+
+                        button_dziennik_b = tk.Button(
+                            frame_przyciski, text=f"Dziennik zmian nie jest uzupełniany", command=nieuzupelnieene_zmiany)
+                        button_dziennik_b.pack(side=tk.RIGHT)
 
                         label_informacja = tk.Label(
-                            dziennik_bledow_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (krótkie opisy)")
+                            dziennik_zmian_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (krótkie opisy)")
                         label_informacja.pack()
 
                         zmiany = []
                         zmiana = ""
                         # Pomijamy pierwszą linię z wersją
-                        for line in dziennik_b_online_lines[1:]:
+                        for line in dziennik_z_online_lines[1:]:
                             if line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" /// ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! ") or line.startswith(" /\\ "):
 
                                 if zmiana:
@@ -1691,15 +1701,15 @@ def informacje_o_wersji_utworz_okno():
                         numer_zmiany = 1
                         for zmiana in zmiany[-25:]:
                             label_opis_wersji = tk.Label(
-                                dziennik_bledow_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
+                                dziennik_zmian_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
                             label_opis_wersji.pack(fill="x", padx=(20, 0))
                             numer_zmiany += 1
 
                         # Dopasowanie rozmiaru okna do zawartości
-                        dziennik_bledow_okno.update_idletasks()
-                        width = dziennik_bledow_okno.winfo_width() + 40
-                        height = dziennik_bledow_okno.winfo_height() + 35
-                        dziennik_bledow_okno.geometry(
+                        dziennik_zmian_okno.update_idletasks()
+                        width = dziennik_zmian_okno.winfo_width() + 40
+                        height = dziennik_zmian_okno.winfo_height() + 35
+                        dziennik_zmian_okno.geometry(
                             f"{width}x{height}+1170+0")
                     else:
                         messagebox.showerror(
@@ -1721,7 +1731,7 @@ def informacje_o_wersji_utworz_okno():
                 informacje_wersji.bind("<Map>", lambda event: otworz_okno())
 
                 button_dziennik_b = tk.Button(
-                    informacje_wersji, text=f"Pełen dziennik (ostatni wpis: {dziennik_b_online_lines[0]})", command=dziennik_bledow)
+                    informacje_wersji, text=f"Pełen dziennik (ostatni wpis: {dziennik_z_online_lines[0]})", command=dziennik_zmian)
                 button_dziennik_b.pack()
 
                 informacje_wersji.mainloop()

@@ -32,11 +32,6 @@ def blokada_dostepu():
 od_nowa = 1
 while od_nowa == 1:
     try:
-        path = os.path.join(os.getcwd(), "Ank.txt")
-
-        # Usuń plik jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
         print(Fore.CYAN + 'Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n2: Wersja wstępna (zalecana)\n')
 
         wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
@@ -94,6 +89,9 @@ while od_nowa == 1:
                             print(Fore.RED + biblioteka)
                 else:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
+
+                input(
+                    Fore.YELLOW + 'Naciśnij enter, aby kontynuuować...' + Style.RESET_ALL)
 
                 # ścieżka do pliku main.py w bieżącym folderze
                 path = os.path.join(os.getcwd(), "main.py")

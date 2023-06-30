@@ -17,6 +17,5 @@
  - plt
  - pygame
  - atexit
- - random
  - Pilow
  - colorama

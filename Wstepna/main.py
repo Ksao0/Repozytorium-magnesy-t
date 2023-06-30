@@ -1707,8 +1707,8 @@ def informacje_o_wersji_utworz_okno():
 
                         # Dopasowanie rozmiaru okna do zawartości
                         dziennik_zmian_okno.update_idletasks()
-                        width = dziennik_zmian_okno.winfo_width() + 40
-                        height = dziennik_zmian_okno.winfo_height() + 35
+                        width = dziennik_zmian_okno.winfo_width() + 30
+                        height = dziennik_zmian_okno.winfo_height() + 10
                         dziennik_zmian_okno.geometry(
                             f"{width}x{height}+1170+0")
                     else:

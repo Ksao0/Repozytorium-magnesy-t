@@ -1,6 +1,6 @@
 1.6.1.0 Wstępna
  / Usunięto błąd, przez który dziennik zmian był wyświetlany od końca
-   Zamiast "najnowszy(wpis3). Najnowszy(wpis3)" wyświetlano "najnowszy(wpis3). najstarszy(wpis1)"
+     Zamiast "najnowszy(wpis3). Najnowszy(wpis3)" wyświetlano "najnowszy(wpis3). najstarszy(wpis1)"
  / Usunięto błąd, przez który znacznik "/\" był niepoprawnie odczytywany
  + Przycisk w dzienniku zmian: wytłumaczenie znaczników
  ~ Dziennik zmian będzie teraz wyświetlać i numerować 25 najnowszych wpisów

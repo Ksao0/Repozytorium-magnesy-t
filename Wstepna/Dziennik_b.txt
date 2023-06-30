@@ -1,3 +1,5 @@
 1.5.3.1 Wstępna
+ / Usunięto błąd związany z dziennikiem zmian
+ \/ Wykryto błąd, przez który dziennik nie zmian działa
  + Dodano dziennik zmian
- + Usunięto błąd przez który nieaktualizowano listy pobranych bibliotek podczas ręcznej aktualizacji
+ / Usunięto błąd przez który nieaktualizowano listy pobranych bibliotek podczas ręcznej aktualizacji

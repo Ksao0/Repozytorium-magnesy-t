@@ -265,7 +265,7 @@ while od_nowa == 1:
                     for biblioteka in lista_b_online_lines:
                         if biblioteka == "BRAK PLIKU":
                             continue
-                        if biblioteka in lista_b_local_lines:
+                        elif biblioteka in lista_b_local_lines:
                             print(Fore.LIGHTGREEN_EX + biblioteka)
                         else:
                             print(Fore.RED + biblioteka)

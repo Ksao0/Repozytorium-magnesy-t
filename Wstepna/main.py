@@ -1645,7 +1645,7 @@ def informacje_o_wersji_utworz_okno():
                             messagebox.showinfo(
                                 'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika zmian. Oto znaczenia niektórych z nich:\n'
                                 + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
-                                + '"/\\" - - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '
+                                + '"/\\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '  # Nowa linia kodu
                                 + 'lub zakończenie dodawania funkcji\n'
                                 + '"///" - Kolejny etap usuwania/szukania wcześniej wykrytego błędu lub dodawania funkcji\n'
                                 + '"\\/" - Wykrycie błędu lub rozpoczęcie procesu dodawania funkcji\n'
@@ -1653,16 +1653,16 @@ def informacje_o_wersji_utworz_okno():
                                 + '"-" - Usunięcie funkcjonalności\n'
                                 + '"!" - Próba usunięcia błędu (nieznany rezultat)\n'
                                 + '"~" - Zmiana działania\n'
-                                + '"#!" - Zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)\n')
+                                + '"#!" - Zablokowanie możliwości pobierania wersji (błąd krytyczny, wersja jest niedostępna dla nowych użytkowników)\n')
                         # "/" - Całkowite usunięcie błędu bez wieloetapowych napraw
                         # "/\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", lub zakończenie dodawania funkcji
                         # "///" - Kolejny etap usuwania/szukania wcześniej wykrytego błędu lub dodawania funkcji
                         # "\/" - Wykrycie błędu lub rozpoczęcie procesu dodawania funkcji
                         # "+" - Dodanie nowej funkcjonalności
                         # "-" - Usunięcie funkcjonalności
-                        # "!" - Próba usunięcia błędu (niezaawansowany błądnieznany rezultat)
+                        # "!" - Próba usunięcia błędu (niezaawansowany błąd, nieznany rezultat)
                         # "~" - Zmiana działania
-                        # "#!" - Zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)
+                        # "#!" - Zablokowanie możliwości pobierania wersji (błąd krytyczny, wersja jest niedostępna dla nowych użytkowników)
 
                         # Dodanie kontenera typu Frame
                         frame_przyciski = tk.Frame(dziennik_zmian_okno)

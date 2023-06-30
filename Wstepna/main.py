@@ -1644,7 +1644,24 @@ def informacje_o_wersji_utworz_okno():
 
                         def co_znaczniki():
                             messagebox.showinfo(
-                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n"/" - całkowite usunięcie błędu\n"\\/" - próba usunięcia błędu\n"+" - dodanie nowej funkcjonalności\n"-" - usunięcie funkcjonalności\n"!" - wykrycie błędu\n"~" - zmiana działania\n"#!"" - zablokowanie możliwości pobierania wersji (w celu uniknięcia rozprzestrzeniania błędu)')
+                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n'
+                                + '"/" - całkowite usunięcie błędu\n'
+                                + '"/\\" - usunięto wykryty wcześniej błąd\n'
+                                + '"\\/" - wykrycie błędu\n'
+                                + '"+" - dodanie nowej funkcjonalności\n'
+                                + '"-" - usunięcie funkcjonalności\n'
+                                + '"!" - próba usunięcia błędu (nieznany rezultat)\n'
+                                + '"~" - zmiana działania\n'
+                                + '"#!" - zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)\n')
+                        # "/" - całkowite usunięcie błędu
+                        # "/\" - wykryto i usunięto lub usunięto wykryty wcześniej błąd
+                        # "\/" - wykrycie błędu
+                        # "+" - dodanie nowej funkcjonalności
+                        # "-" - usunięcie funkcjonalności
+                        # "!" - próba usunięcia błędu (nieznany rezultat)
+                        # "~" - zmiana działania
+                        # "#!" - zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)
+
                         button_dziennik_b = tk.Button(
                             dziennik_bledow_okno, text=f"Czym są znaczniki?", command=co_znaczniki)
                         button_dziennik_b.pack()
@@ -1657,7 +1674,7 @@ def informacje_o_wersji_utworz_okno():
                         zmiana = ""
                         # Pomijamy pierwszą linię z wersją
                         for line in dziennik_b_online_lines[1:]:
-                            if line.startswith(" / ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! "):
+                            if line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! "):
                                 if zmiana:
                                     zmiany.append(zmiana)
                                 zmiana = line

@@ -1,5 +1,7 @@
 1.5.3.1 Wstępna
+ + Przycisk w dzienniku zmian: wytłumaczenie znaczników
+ ~ Dziennik zmian będzie teraz wyświetlać i numerować 25 najnowszych wpisów
  / Usunięto błąd związany z dziennikiem zmian
- \/ Wykryto błąd, przez który dziennik nie zmian działa
- + Dodano dziennik zmian
+ ! Wykryto błąd, przez który dziennik nie zmian działa
+ + Dziennik zmian
  / Usunięto błąd przez który nieaktualizowano listy pobranych bibliotek podczas ręcznej aktualizacji

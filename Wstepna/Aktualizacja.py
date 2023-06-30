@@ -49,6 +49,52 @@ while od_nowa == 1:
 
             if stabilna_version_online_lines[1] != "Status: yN":
                 os.system('cls')
+                try:
+                    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt'
+                    response = requests.get(url)
+                    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+                    lista_b_online = response.content.decode('utf-8').strip()
+                except requests.exceptions.RequestException as e:
+                    print(
+                        "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+                    exit()
+
+                # Odczytaj zawartość pliku lista_b.txt na komputerze
+                path = os.path.join(os.getcwd(), "lista_b.txt")
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        lista_b_local = f.read().strip()
+                else:
+                    lista_b_local = "BRAK PLIKU"
+
+                lista_b_online_lines = lista_b_online.split('\n')
+                lista_b_local_lines = lista_b_local.split('\n')
+
+                niepobrane_biblioteki = set(
+                    lista_b_online_lines) - set(lista_b_local_lines)
+
+                if niepobrane_biblioteki:
+                    print(
+                        Fore.YELLOW + "\n\nWykryliśmy, że nie posiadasz bibliotek z tej listy, które są wymagane:")
+                    print(Fore.LIGHTGREEN_EX +
+                          "Aby to zrobić otwórz terminal cmd i wpisz:")
+                    print("   pip install (nazwa biblioteki)")
+                    print("Przykład:")
+                    print("   pip install tkinter", Style.RESET_ALL)
+                    print()
+                    print(Fore.YELLOW + 'Lista wymaganych bibliotek:',
+                          Style.RESET_ALL)
+
+                    for biblioteka in lista_b_online_lines:
+                        if biblioteka == "BRAK PLIKU":
+                            continue
+                        if biblioteka in lista_b_local_lines:
+                            print(Fore.LIGHTGREEN_EX + biblioteka)
+                        else:
+                            print(Fore.RED + biblioteka)
+                else:
+                    print("Nie ma wymaganych bibliotek na liście.")
+
                 # ścieżka do pliku main.py w bieżącym folderze
                 path = os.path.join(os.getcwd(), "main.py")
 
@@ -181,12 +227,16 @@ while od_nowa == 1:
             wstepna_version_online = response.content.decode('utf-8').strip()
             wstepna_version_online_lines = wstepna_version_online.split('\n')
             if wstepna_version_online_lines[1] != "Status: yN":
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
-                response = requests.get(url)
-                response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-                lista_b_online = response.content.decode('utf-8').strip()
-
-                lista_b_online_lines = lista_b_online.split('\n')
+                os.system('cls')
+                try:
+                    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
+                    response = requests.get(url)
+                    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+                    lista_b_online = response.content.decode('utf-8').strip()
+                except requests.exceptions.RequestException as e:
+                    print(
+                        "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+                    exit()
 
                 # Odczytaj zawartość pliku lista_b.txt na komputerze
                 path = os.path.join(os.getcwd(), "lista_b.txt")
@@ -196,6 +246,7 @@ while od_nowa == 1:
                 else:
                     lista_b_local = "BRAK PLIKU"
 
+                lista_b_online_lines = lista_b_online.split('\n')
                 lista_b_local_lines = lista_b_local.split('\n')
 
                 niepobrane_biblioteki = set(
@@ -203,16 +254,25 @@ while od_nowa == 1:
 
                 if niepobrane_biblioteki:
                     print(
-                        "\nZainstaluj biblioteki z tej listy, ich niepobranie grozi nieodwracalnym uszkodzeniem kodu.\nAby zainstalować: pip install NAZWA_BIBLIOTEKI:")
-                    for biblioteka in niepobrane_biblioteki:
-                        print(f"{biblioteka}")
+                        Fore.YELLOW + "\n\nWykryliśmy, że nie posiadasz bibliotek z tej listy, które są wymagane:")
+                    print(Fore.LIGHTGREEN_EX +
+                          "Aby to zrobić otwórz terminal cmd i wpisz:")
+                    print("   pip install (nazwa biblioteki)")
+                    print("Przykład:")
+                    print("   pip install tkinter", Style.RESET_ALL)
+                    print()
+                    print(Fore.YELLOW + 'Lista wymaganych bibliotek:',
+                          Style.RESET_ALL)
 
-                os.system('cls')
-                print(Fore.YELLOW + 'Zainstaluj poniższe biblioteki komendą pip install NAZWA BIBLIOTEKI w terminalu cmd:' + Fore.CYAN +
-                      '\n - os\n - tkinter\n - messagebox\n - scrolledtext\n - time\n - datetime\n - urllib\n - request  (dwie biblioteki o podobnej nazwie)\n - requests (dwie biblioteki o podobnej   nazwie)\n - subprocess\n')
-                input(Fore.YELLOW + "Naciśnij klawisz Enter, aby potwierdzić, że masz zainstalowane powyższe biblioteki.\nNie odpowiadamy za błędy związane z ich nie pobraniem...")
-                # ścieżka do pliku main.py w bieżącym folderze
-                path = os.path.join(os.getcwd(), "main.py")
+                    for biblioteka in lista_b_online_lines:
+                        if biblioteka == "BRAK PLIKU":
+                            continue
+                        if biblioteka in lista_b_local_lines:
+                            print(Fore.LIGHTGREEN_EX + biblioteka)
+                        else:
+                            print(Fore.RED + biblioteka)
+                else:
+                    print("Nie ma wymaganych bibliotek na liście.")
 
                 # usuń plik main.py, jeśli istnieje
                 if os.path.exists(path):

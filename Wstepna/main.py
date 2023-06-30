@@ -1644,7 +1644,7 @@ def informacje_o_wersji_utworz_okno():
 
                         def co_znaczniki():
                             messagebox.showinfo(
-                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n"/" - całkowite usunięcie błędu\n"\\/" - próba usunięcia błędu\n"+" - dodanie nowej funkcjonalności\n"!" - wykrycie błędu\n"~" - zmiana działania\n"#!"" - zablokowanie możliwości pobierania wersji (w celu uniknięcia rozprzestrzeniania błędu)')
+                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n"/" - całkowite usunięcie błędu\n"\\/" - próba usunięcia błędu\n"+" - dodanie nowej funkcjonalności\n"-" - usunięcie funkcjonalności\n"!" - wykrycie błędu\n"~" - zmiana działania\n"#!"" - zablokowanie możliwości pobierania wersji (w celu uniknięcia rozprzestrzeniania błędu)')
                         button_dziennik_b = tk.Button(
                             dziennik_bledow_okno, text=f"Czym są znaczniki?", command=co_znaczniki)
                         button_dziennik_b.pack()

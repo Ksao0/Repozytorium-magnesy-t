@@ -4,11 +4,10 @@ Nazwa poprawki: Poprawka wersji
 Wydano: 30.06.2023
 Informacja o bibliotekach: C3
 
-Ciekawe zmiany dodane w najbliższych aktualizacjach (od najnowszych):
+Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
  - Dodano dziennik zmian - większa ilość informacji o zmianach w programie
    Aby zobaczyć dziennik: Więcej opcji --> Informacje o wersji --> Dziennik błędów
  - Dodano kolorystykę do okna terminala
  - Teraz program ma ikonkę, możesz ją zobaczyć w lewym górnym rogu każdego okna
  - Poprawiono znaczące błędy związane z aktualizacją
  - Dodano szansę na pojawienie się ankiety, której celem jest dostosowanie programu do waszych wymagań
- - Dodano opcję tworzenia wykresu na podstawie danych z poprzednich obliczeń

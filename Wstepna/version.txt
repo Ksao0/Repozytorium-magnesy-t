@@ -1,4 +1,4 @@
-1.6.1.0 Wstępna
+1.6.1.1 Wstępna
 Status: Poprawka wersji
 Nazwa poprawki: Poprawka wersji
 Wydano: 30.06.2023

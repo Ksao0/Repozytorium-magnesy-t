@@ -1645,22 +1645,25 @@ def informacje_o_wersji_utworz_okno():
                         def co_znaczniki():
                             messagebox.showinfo(
                                 'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n'
-                                + '"/" - całkowite usunięcie błędu\n'
-                                + '"/\\" - usunięto wykryty wcześniej błąd\n'
-                                + '"\\/" - wykrycie błędu\n'
-                                + '"+" - dodanie nowej funkcjonalności\n'
-                                + '"-" - usunięcie funkcjonalności\n'
-                                + '"!" - próba usunięcia błędu (nieznany rezultat)\n'
-                                + '"~" - zmiana działania\n'
-                                + '"#!" - zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)\n')
-                        # "/" - całkowite usunięcie błędu
-                        # "/\" - wykryto i usunięto lub usunięto wykryty wcześniej błąd
-                        # "\/" - wykrycie błędu
-                        # "+" - dodanie nowej funkcjonalności
-                        # "-" - usunięcie funkcjonalności
-                        # "!" - próba usunięcia błędu (nieznany rezultat)
-                        # "~" - zmiana działania
-                        # "#!" - zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)
+                                + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
+                                + '"/\\" - - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '
+                                + 'lub zakończenie dodawania funkcji\n'
+                                + '"///" - Kolejny etap usuwania/szukania wcześniej wykrytego błędu lub dodawania funkcji\n'
+                                + '"\\/" - Wykrycie błędu lub rozpoczęcie procesu dodawania funkcji\n'
+                                + '"+" - Dodanie nowej funkcjonalności\n'
+                                + '"-" - Usunięcie funkcjonalności\n'
+                                + '"!" - Próba usunięcia błędu (nieznany rezultat)\n'
+                                + '"~" - Zmiana działania\n'
+                                + '"#!" - Zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)\n')
+                        # "/" - Całkowite usunięcie błędu bez wieloetapowych napraw
+                        # "/\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", lub zakończenie dodawania funkcji
+                        # "///" - Kolejny etap usuwania/szukania wcześniej wykrytego błędu lub dodawania funkcji
+                        # "\/" - Wykrycie błędu lub rozpoczęcie procesu dodawania funkcji
+                        # "+" - Dodanie nowej funkcjonalności
+                        # "-" - Usunięcie funkcjonalności
+                        # "!" - Próba usunięcia błędu (niezaawansowany błądnieznany rezultat)
+                        # "~" - Zmiana działania
+                        # "#!" - Zablokowanie możliwości pobierania wersji (wersja jest niedostępna dla nowych użytkowników)
 
                         button_dziennik_b = tk.Button(
                             dziennik_bledow_okno, text=f"Czym są znaczniki?", command=co_znaczniki)
@@ -1674,7 +1677,8 @@ def informacje_o_wersji_utworz_okno():
                         zmiana = ""
                         # Pomijamy pierwszą linię z wersją
                         for line in dziennik_b_online_lines[1:]:
-                            if line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! "):
+                            if line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" /// ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! ") or line.startswith(" /\\ "):
+
                                 if zmiana:
                                     zmiany.append(zmiana)
                                 zmiana = line
@@ -1684,12 +1688,12 @@ def informacje_o_wersji_utworz_okno():
                         if zmiana:
                             zmiany.append(zmiana)
 
-                        numer_zmiany = len(zmiany)
-                        for zmiana in zmiany[-25:][::-1]:
+                        numer_zmiany = 1
+                        for zmiana in zmiany[-25:]:
                             label_opis_wersji = tk.Label(
                                 dziennik_bledow_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
                             label_opis_wersji.pack(fill="x", padx=(20, 0))
-                            numer_zmiany -= 1
+                            numer_zmiany += 1
 
                         # Dopasowanie rozmiaru okna do zawartości
                         dziennik_bledow_okno.update_idletasks()

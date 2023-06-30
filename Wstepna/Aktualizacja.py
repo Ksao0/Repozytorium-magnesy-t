@@ -272,12 +272,24 @@ while od_nowa == 1:
                 else:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
 
+
+                path = os.path.join(os.getcwd(), "main.py")
                 # usuń plik main.py, jeśli istnieje
                 if os.path.exists(path):
                     os.remove(path)
                 # print("Usunięto plik main.py")
                 # pobierz plik main.py z repozytorium
                 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
+                urllib.request.urlretrieve(url, path)
+                # print("Zastąpiono plik main.py")
+
+                path = os.path.join(os.getcwd(), "lista_b.txt")
+                # usuń plik main.py, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                # print("Usunięto plik main.py")
+                # pobierz plik main.py z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik main.py")
 

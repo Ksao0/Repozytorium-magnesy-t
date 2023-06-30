@@ -1,0 +1,3 @@
+1.5.3.1 Wstępna
+ + Dodano dziennik zmian
+ + Usunięto błąd przez który nieaktualizowano listy pobranych bibliotek podczas ręcznej aktualizacji

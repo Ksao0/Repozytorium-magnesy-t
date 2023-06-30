@@ -1582,6 +1582,18 @@ def informacje_o_wersji_utworz_okno():
                     messagebox.showerror(
                         "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
 
+                dziennik_b_online = "BRAK DANYCH"
+                # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+                try:
+                    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Dziennk_b.txt'
+                    response = requests.get(url)
+                    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+                    dziennik_b_online = response.content.decode(
+                        'utf-8').strip()
+                except:
+                    messagebox.showerror(
+                        "Błąd", f'Wystąpił błąd połączenia z internetem. Nie można pobrać informacji o najnowszej wersji.')
+
                 # Odczytaj zawartość pliku version.txt w twoim programie
                 path = os.path.join(os.getcwd(), "version.txt")
                 if os.path.exists(path):
@@ -1592,6 +1604,7 @@ def informacje_o_wersji_utworz_okno():
 
                 version_online_lines = version_online.split('\n')
                 version_local_lines = version_local.split('\n')
+                dziennik_b_online_lines = dziennik_b_online.split('\n')
 
                 informacje_wersji = tk.Toplevel()
                 informacje_wersji.title(f"Informacje o wersji")
@@ -1619,14 +1632,48 @@ def informacje_o_wersji_utworz_okno():
                     informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
                 label_informacja.pack()
 
-                for line in version_online_lines[7:16]:
+                def dziennik_bledow():
+                    dziennik_bledow_okno = tk.Toplevel()
+                    dziennik_bledow_okno.title(f"Dziennik zmian")
+                    dziennik_bledow_okno.iconbitmap(file_path_ikonka)
+
+                    label_informacja = tk.Label(
+                        dziennik_bledow_okno, text=f"Ostatni wpis w wersji: {dziennik_b_online_lines[0]}")
+                    label_informacja.pack()
+
+                    label_informacja = tk.Label(
+                        dziennik_bledow_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (krótkie opisy)")
+                    label_informacja.pack()
+
+                    for line in dziennik_b_online_lines[1:25]:
+                        label_opis_wersji = tk.Label(
+                            dziennik_bledow_okno, text=f"{line}", justify="left", anchor="w")
+                        label_opis_wersji.pack(fill="x", padx=(20, 0))
+
+                    # Dopasowanie rozmiaru okna do zawartości
+                    dziennik_bledow_okno.update_idletasks()
+                    width = dziennik_bledow_okno.winfo_width() + 40
+                    height = dziennik_bledow_okno.winfo_height() + 35
+                    dziennik_bledow_okno.geometry(f"{width}x{height}+1170+0")
+
+                for line in version_online_lines[7:]:
                     label_opis_wersji = tk.Label(
                         informacje_wersji, text=f"{line}", justify="left", anchor="w")
                     label_opis_wersji.pack(fill="x", padx=(20, 0))
+
+                # Dopasowanie rozmiaru okna do zawartości
+                informacje_wersji.update_idletasks()
+                width = informacje_wersji.winfo_width() + 40
+                height = informacje_wersji.winfo_height() + 35
+                informacje_wersji.geometry(f"{width}x{height}+1170+0")
                 informacje_wersji.geometry("+1170+0")
 
                 informacje_wersji.protocol("WM_DELETE_WINDOW", zamknij_okno)
                 informacje_wersji.bind("<Map>", lambda event: otworz_okno())
+
+                button_dziennik_b = tk.Button(
+                    informacje_wersji, text=f"Pełen dziennik (ostatni wpis: {dziennik_b_online_lines[0]})", command=dziennik_bledow)
+                button_dziennik_b.pack()
 
                 informacje_wersji.mainloop()
             else:

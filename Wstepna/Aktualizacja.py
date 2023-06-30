@@ -93,7 +93,7 @@ while od_nowa == 1:
                         else:
                             print(Fore.RED + biblioteka)
                 else:
-                    print("Nie ma wymaganych bibliotek na liście.")
+                    print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
 
                 # ścieżka do pliku main.py w bieżącym folderze
                 path = os.path.join(os.getcwd(), "main.py")
@@ -272,7 +272,7 @@ while od_nowa == 1:
                         else:
                             print(Fore.RED + biblioteka)
                 else:
-                    print("Nie ma wymaganych bibliotek na liście.")
+                    print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
 
                 # usuń plik main.py, jeśli istnieje
                 if os.path.exists(path):

@@ -1642,14 +1642,37 @@ def informacje_o_wersji_utworz_okno():
                             dziennik_bledow_okno, text=f"Ostatni wpis w wersji: {dziennik_b_online_lines[0]}")
                         label_informacja.pack()
 
+                        def co_znaczniki():
+                            messagebox.showinfo(
+                                'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika błędów. Oto znaczenia niektórych z nich:\n"/" - całkowite usunięcie błędu\n"\\/" - próba usunięcia błędu\n"+" - dodanie nowej funkcjonalności\n"!" - wykrycie błędu\n"~" - zmiana działania\n"#!"" - zablokowanie możliwości pobierania wersji (w celu uniknięcia rozprzestrzeniania błędu)')
+                        button_dziennik_b = tk.Button(
+                            dziennik_bledow_okno, text=f"Czym są znaczniki?", command=co_znaczniki)
+                        button_dziennik_b.pack()
+
                         label_informacja = tk.Label(
                             dziennik_bledow_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (krótkie opisy)")
                         label_informacja.pack()
 
-                        for line in dziennik_b_online_lines[1:25]:
+                        zmiany = []
+                        zmiana = ""
+                        # Pomijamy pierwszą linię z wersją
+                        for line in dziennik_b_online_lines[1:]:
+                            if line.startswith(" / ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! "):
+                                if zmiana:
+                                    zmiany.append(zmiana)
+                                zmiana = line
+                            else:
+                                zmiana += f"\n{line}"
+
+                        if zmiana:
+                            zmiany.append(zmiana)
+
+                        numer_zmiany = len(zmiany)
+                        for zmiana in zmiany[-25:][::-1]:
                             label_opis_wersji = tk.Label(
-                                dziennik_bledow_okno, text=f"{line}", justify="left", anchor="w")
+                                dziennik_bledow_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
                             label_opis_wersji.pack(fill="x", padx=(20, 0))
+                            numer_zmiany -= 1
 
                         # Dopasowanie rozmiaru okna do zawartości
                         dziennik_bledow_okno.update_idletasks()
@@ -1660,6 +1683,7 @@ def informacje_o_wersji_utworz_okno():
                     else:
                         messagebox.showerror(
                             'Błąd', "Niestety nie można wczytać dziennika błędów. Spróbuj ponownie później")
+
                 for line in version_online_lines[7:]:
                     label_opis_wersji = tk.Label(
                         informacje_wersji, text=f"{line}", justify="left", anchor="w")

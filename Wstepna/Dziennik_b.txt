@@ -1,4 +1,5 @@
 1.6.1.0 Wstępna
+ + Szansa na pojawienie się ankiety po uruchomieniu programu (10%)
  / Usunięto błąd, przez który wpisy w dzienniku zmian były wyświetlane w złej kolejności
  / Usunięto błąd, przez który znacznik "/\" był niepoprawnie odczytywany
  + Przycisk w dzienniku zmian: wytłumaczenie znaczników

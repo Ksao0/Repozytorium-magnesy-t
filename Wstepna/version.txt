@@ -1,6 +1,6 @@
 1.6.1.1 Wstępna
 Status: Poprawka wersji
-Nazwa poprawki: Poprawka wersji
+Nazwa poprawki: 1
 Wydano: 30.06.2023
 Informacja o bibliotekach: C3
 

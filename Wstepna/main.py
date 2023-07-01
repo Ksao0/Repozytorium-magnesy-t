@@ -1555,6 +1555,11 @@ def ankieta():
         #     ankieta()
 
 
+if internet == 1:
+    if random.choices([True, False], [0.1, 0.9])[0]:
+        ankieta()
+
+
 def informacje_o_wersji_utworz_okno():
     try:
         global file_path_ikonka

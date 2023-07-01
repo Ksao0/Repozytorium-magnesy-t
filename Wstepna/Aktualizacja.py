@@ -105,7 +105,6 @@ while od_nowa == 1:
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik main.py")
 
-
                 path = os.path.join(os.getcwd(), "lista_b.txt")
                 # usuń plik main.py, jeśli istnieje
                 if os.path.exists(path):
@@ -282,7 +281,6 @@ while od_nowa == 1:
                             print(Fore.RED + biblioteka)
                 else:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
-
 
                 path = os.path.join(os.getcwd(), "main.py")
                 # usuń plik main.py, jeśli istnieje

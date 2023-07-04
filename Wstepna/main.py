@@ -1649,6 +1649,7 @@ def informacje_o_wersji_utworz_okno():
                         def co_znaczniki():
                             messagebox.showinfo(
                                 'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika zmian. Oto znaczenia niektórych z nich:\n'
+                                + '"[]" - Notatka'
                                 + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
                                 + '"/\\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '  # Nowa linia kodu
                                 + 'lub zakończenie dodawania funkcji\n'
@@ -1659,6 +1660,7 @@ def informacje_o_wersji_utworz_okno():
                                 + '"!" - Próba usunięcia błędu (nieznany rezultat)\n'
                                 + '"~" - Zmiana działania\n'
                                 + '"#!" - Zablokowanie możliwości pobierania wersji (błąd krytyczny, wersja jest niedostępna dla nowych użytkowników)\n')
+                        # "[]" - Notatka
                         # "/" - Całkowite usunięcie błędu bez wieloetapowych napraw
                         # "/\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", lub zakończenie dodawania funkcji
                         # "///" - Kolejny etap usuwania/szukania wcześniej wykrytego błędu lub dodawania funkcji
@@ -1692,7 +1694,7 @@ def informacje_o_wersji_utworz_okno():
                         zmiana = ""
                         # Pomijamy pierwszą linię z wersją
                         for line in dziennik_z_online_lines[1:]:
-                            if line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" /// ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! ") or line.startswith(" /\\ "):
+                            if line.startswith(" [] ") or line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" /// ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! ") or line.startswith(" /\\ "):
 
                                 if zmiana:
                                     zmiany.append(zmiana)

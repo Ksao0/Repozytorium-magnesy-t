@@ -4,12 +4,15 @@ Nazwa poprawki: Poprawka wersji
 Wydano: 04.07.2023
 Informacja o bibliotekach: C3
 
+Niestety to najprawdopodobniej ostatnia aktualizacja naszego programu, wszystkie zabezpieczenia i funkcje,
+które mogliśmy stworzyć zostały już dodane. Ankiety i inne opcje, które pozwalały wam na kontakt z nami
+pozostaną tutaj dalejz a każde zgłoszenie, propozycja i opinia na pewno zostanie sprawdzona i rozpatrzona.
 Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
  - Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
    nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.
  - Dodano dziennik zmian - większa ilość informacji o zmianach w programie
    Aby zobaczyć dziennik: Więcej opcji --> Informacje o wersji --> Dziennik błędów
+ - Teraz ankieta może pojawić się po uruchomieniu programu
  - Dodano kolorystykę do okna terminala
  - Teraz program ma ikonkę, możesz ją zobaczyć w lewym górnym rogu każdego okna
- - Poprawiono znaczące błędy związane z aktualizacją
  - Dodano szansę na pojawienie się ankiety, której celem jest dostosowanie programu do waszych wymagań

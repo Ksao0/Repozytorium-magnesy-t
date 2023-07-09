@@ -1,5 +1,5 @@
 1.6.1.0 Wstępna
- 1. [] Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
+ [] Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
     nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.
  + Szansa na pojawienie się ankiety po uruchomieniu programu (10%)
  / Usunięto błąd, przez który wpisy w dzienniku zmian były wyświetlane w złej kolejności

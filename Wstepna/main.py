@@ -1649,7 +1649,7 @@ def informacje_o_wersji_utworz_okno():
                         def co_znaczniki():
                             messagebox.showinfo(
                                 'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika zmian. Oto znaczenia niektórych z nich:\n'
-                                + '"[]" - Notatka'
+                                + '"[]" - Notatka\n'
                                 + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
                                 + '"/\\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '  # Nowa linia kodu
                                 + 'lub zakończenie dodawania funkcji\n'

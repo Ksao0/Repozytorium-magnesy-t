@@ -1722,7 +1722,7 @@ def informacje_o_wersji_utworz_okno():
                         messagebox.showerror(
                             'Błąd', "Niestety nie można wczytać dziennika błędów. Spróbuj ponownie później")
 
-                for line in version_online_lines[7:]:
+                for line in version_online_lines[6:]:
                     label_opis_wersji = tk.Label(
                         informacje_wersji, text=f"{line}", justify="left", anchor="w")
                     label_opis_wersji.pack(fill="x", padx=(20, 0))

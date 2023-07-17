@@ -360,6 +360,21 @@ czynnosci_poczatkowe()
 
 def taj():
     try:
+        # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            prefvers = response.content.decode('utf-8').strip()
+            prefvers_lines = prefvers.split('\n')
+            
+            for line in prefvers_lines:
+                if line.strip() == version_local_first_line.strip():
+                    return
+        
+        except requests.exceptions.RequestException as e:
+            pass
+
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
@@ -638,6 +653,25 @@ def taj():
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
             exit()
+
+        # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/nprefvers.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            nprefvers = response.content.decode('utf-8').strip()
+            nprefvers_lines = nprefvers.split('\n')
+
+            for line in nprefvers_lines:
+                if line.strip() == version_local_first_line.strip():
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    exit()
+
+        except requests.exceptions.RequestException as e:
+            pass
+        
+
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -1313,11 +1347,23 @@ def ankieta():
                         if odpowiedz_pytanie3 == "Nie" or odpowiedz_pytanie3 == "NIE" or odpowiedz_pytanie3 == "nie" or odpowiedz_pytanie3 == "nIE":
                             liczba_nie = liczba_nie + 1
 
-                        if udzielone_odpowiedzi == 3 and liczba_nie != 3:
+                        if udzielone_odpowiedzi == 3 and liczba_nie == 0:
                             messagebox.showinfo('Ankieta zostałą wysłana',
-                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3')
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(a)')
 
-                        elif udzielone_odpowiedzi == 2 and liczba_nie != 2:
+                        elif udzielone_odpowiedzi == 3 and liczba_nie == 1:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(b)')
+
+                        elif udzielone_odpowiedzi == 3 and liczba_nie == 2:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(c)')
+
+                        elif udzielone_odpowiedzi == 2 and liczba_nie == 0:
+                            messagebox.showinfo('Ankieta zostałą wysłana',
+                                                'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2(a)')
+
+                        elif udzielone_odpowiedzi == 2 and liczba_nie == 1:
                             messagebox.showinfo('Ankieta zostałą wysłana',
                                                 'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
 
@@ -1556,7 +1602,7 @@ def ankieta():
 
 
 if internet == 1:
-    if random.choices([True, False], [0.1, 0.9])[0]:
+    if random.choices([True, False], [0.05, 0.95])[0]:
         ankieta()
 
 
@@ -2516,7 +2562,7 @@ def Gra_snake():
 def otworz_okno_wybor():
     try:
         global file_path_ikonka
-        if random.choices([True, False], [0.3, 0.7])[0]:
+        if random.choices([True, False], [0.15, 0.85])[0]:
             ankieta()
 
         def otworz_okno():

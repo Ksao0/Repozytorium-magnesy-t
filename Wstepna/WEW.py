@@ -13,12 +13,6 @@ import traceback
 import matplotlib.pyplot as plt
 
 try:
-    path = os.path.join(os.getcwd(), "Ank.txt")
-
-    # Usuń plik jeśli istnieje
-    if os.path.exists(path):
-        os.remove(path)
-
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 
@@ -78,7 +72,7 @@ try:
     if not os.path.isfile("Zapisy.txt"):
         open("Zapisy.txt", "w", encoding='utf-8').close()
 
-    # Aktualizacja pliku Aktualizator_aktualizatora
+    # Ponowna aktualizacja pliku Aktualizator_aktualizatora
 
     # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")

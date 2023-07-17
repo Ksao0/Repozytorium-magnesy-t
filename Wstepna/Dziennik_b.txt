@@ -1,6 +1,10 @@
 1.6.1.0 Wstępna
+ ~ Zmieniono mechanizm wstępnego sprawdzania ważności ankiet
+ ~ Zmniejszono częstotliwość pojawiania się ankiet
+     Szansa na pojawienie się ankiety po uruchomieniu programu została zmniejszona do 5% (wcześniej 10)
+     Szansa na pojawienie się ankiety po wybraniu "Więcej opcji" została zmniejszona do 15% (wcześniej 30)
  [] Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
-    nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.
+     nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.
  + Szansa na pojawienie się ankiety po uruchomieniu programu (10%)
  / Usunięto błąd, przez który wpisy w dzienniku zmian były wyświetlane w złej kolejności
  / Usunięto błąd, przez który znacznik "/\" był niepoprawnie odczytywany

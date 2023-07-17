@@ -1293,7 +1293,7 @@ def ankieta():
                 pustka.pack()
 
                 label_pytanie = tk.Label(
-                    frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia?')
+                    frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia, jakie?')
                 label_pytanie.pack()
 
                 pole_tekstowe_pyt1 = tk.Text(
@@ -1314,7 +1314,7 @@ def ankieta():
                 frame_pyt2.pack()
 
                 label_pytanie2 = tk.Label(
-                    frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu?')
+                    frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu, opisz je?')
                 label_pytanie2.pack()
 
                 pole_tekstowe_pyt2 = tk.Text(

@@ -1817,15 +1817,11 @@ def informacje_o_wersji_utworz_okno():
 
                         limit = 15  # Maksymalna liczba zmian do wyświetlenia
                         numer_zmiany = 1
-                        zmiany.reverse()  # Odwrócenie kolejności zmian, aby nowe zmiany były na początku
-                        for zmiana in zmiany:
-                            if numer_zmiany > limit:
-                                break
+                        for zmiana in zmiany[:limit][::-1]:
                             label_opis_wersji = tk.Label(
                                 dziennik_zmian_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
                             label_opis_wersji.pack(fill="x", padx=(20, 0))
                             numer_zmiany += 1
-                        
 
                         # Dopasowanie rozmiaru okna do zawartości
                         dziennik_zmian_okno.update_idletasks()

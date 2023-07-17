@@ -45,6 +45,7 @@ def klamstwo_fun():
             'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
         exit()
 
+klamstwo_fun()
 
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED

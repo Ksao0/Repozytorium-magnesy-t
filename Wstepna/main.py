@@ -16,7 +16,6 @@ import random
 import shutil
 from PIL import Image
 from colorama import init, Fore, Style
-
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
 # Style.BRIGHT
@@ -360,36 +359,24 @@ czynnosci_poczatkowe()
 
 def taj():
     try:
-        try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
-            response = requests.get(url)
-            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-            prefvers = response.content.decode('utf-8').strip()
-            prefvers_lines = prefvers.split('\n')
+        # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+        response = requests.get(url)
+        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+        prefvers = response.content.decode('utf-8').strip()
+        prefvers_lines = prefvers.split('\n')
 
-            # pobierz zawartość pliku version.txt z repozytorium na GitHub
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-            response = requests.get(url)
+        # Odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
+        else:
+            version_local = "BRAK DANYCH"
 
-            version_online = response.content.decode('utf-8').strip()
-
-            # odczytaj zawartość pliku version.txt w twoim programie
-            path = os.path.join(os.getcwd(), "version.txt")
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    version_local = f.read().strip()
-            else:
-                version_local = "BRAK DANYCH"
-
-            # wyświetl tylko pierwszą linijkę wersji
-            version_local_first_line = version_local.split('\n')[0]
-
-            for line in prefvers_lines:
-                if line.strip() == version_local_first_line.strip():
-                    return
-
-        except requests.exceptions.RequestException as e:
-            pass
+        # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
+        if version_local in prefvers_lines:
+            return
 
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
@@ -670,40 +657,39 @@ def taj():
             subprocess.run(Aktualizacja)
             exit()
 
-        # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
         try:
+            # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/nprefvers.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             nprefvers = response.content.decode('utf-8').strip()
             nprefvers_lines = nprefvers.split('\n')
-
-            # pobierz zawartość pliku version.txt z repozytorium na GitHub
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-            response = requests.get(url)
-
-            version_online = response.content.decode('utf-8').strip()
-
-            # odczytaj zawartość pliku version.txt w twoim programie
+        
+            # Odczytaj zawartość pliku version.txt w twoim programie
             path = os.path.join(os.getcwd(), "version.txt")
             if os.path.exists(path):
                 with open(path, "r", encoding="utf-8") as f:
                     version_local = f.read().strip()
             else:
                 version_local = "BRAK DANYCH"
-
-            # wyświetl tylko pierwszą linijkę wersji
-            version_local_first_line = version_local.split('\n')[0]
-
+        
+            version_local_lines = version_local.split('\n')
+        
             for line in nprefvers_lines:
-                if line.strip() == version_local_first_line.strip():
+                if line.strip() == version_local_lines[0].strip():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    exit()
-
+                    return
+        
+            # Porównaj każdą linijkę w nprefvers z pierwszą linijką version_local
+            if version_local in nprefvers_lines:
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                return
+        
         except requests.exceptions.RequestException as e:
             pass
-
+        
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()

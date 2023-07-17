@@ -1199,6 +1199,20 @@ def rozwiaz_problemy():
                         shutil.rmtree(folder_path)
 
                     # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "ikona_magnesy.ico")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                    # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "Zapisy.txt")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                    # Ścieżka do pliku w bieżącym folderze
                     path = os.path.join(os.getcwd(), "main.py")
 
                     # Usuń plik jeśli istnieje
@@ -2716,7 +2730,7 @@ def otworz_okno_wybor():
                 okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
             button_rozwiaz_problemy.pack()
             label_informacja = tk.Label(
-                okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte")
+                okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte (funkcja przestarzała)")
             label_informacja.pack()
 
             button_informacje_o_wersji = tk.Button(

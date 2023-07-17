@@ -312,7 +312,7 @@ while od_nowa == 1:
                             print(Fore.LIGHTGREEN_EX + biblioteka)
                         else:
                             print(Fore.RED + biblioteka)
-                    
+
                     input(Fore.YELLOW + "Naciśnij klawisz Enter, aby zakończyć...")
                 else:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")

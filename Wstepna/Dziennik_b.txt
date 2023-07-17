@@ -11,7 +11,7 @@
  + Przycisk w dzienniku zmian: wytłumaczenie znaczników
  ~ Dziennik zmian będzie teraz wyświetlać i numerować 25 najnowszych wpisów
  / Usunięto błąd związany z dziennikiem zmian
- /\ Usunięto błąd, przez który dziennik nie zmian działał
- \/ Wykryto błąd, przez który dziennik nie zmian działał
+ /\ Usunięto błąd, przez który dziennik zmian nie działał
+ \/ Wykryto błąd, przez który dziennik zmian nie działał
  + Dziennik zmian
  / Usunięto błąd przez który nieaktualizowano listy pobranych bibliotek podczas ręcznej aktualizacji

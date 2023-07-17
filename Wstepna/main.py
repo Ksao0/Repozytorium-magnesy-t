@@ -1797,7 +1797,7 @@ def informacje_o_wersji_utworz_okno():
                         button_dziennik_b.pack(side=tk.RIGHT)
 
                         label_informacja = tk.Label(
-                            dziennik_zmian_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (krótkie opisy)")
+                            dziennik_zmian_okno, text=f"Odkryj najnowsze zmiany i uaktualnienia, które wprowadziliśmy do programu! (od najnowszych)")
                         label_informacja.pack()
 
                         zmiany = []
@@ -1815,7 +1815,7 @@ def informacje_o_wersji_utworz_okno():
                         if zmiana:
                             zmiany.append(zmiana)
 
-                        limit = 10  # Maksymalna liczba zmian do wyświetlenia
+                        limit = 15  # Maksymalna liczba zmian do wyświetlenia
                         ilosc_zmian = 0
                         numer_zmiany = len(zmiany)
                         for zmiana in zmiany:

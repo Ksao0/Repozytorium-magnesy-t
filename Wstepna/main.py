@@ -41,6 +41,11 @@ okno_wyborowe_otwarte = 0
 internet = 1
 
 
+def blokada_klamstwa():
+    messagebox.showerror(
+        'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
+
+
 def cofanie_bledow():
     # Ścieżka do pliku Zapisy.txt w bieżącym folderze
     path = os.path.join(os.getcwd(), "telemetria.txt")
@@ -381,7 +386,7 @@ def taj():
         # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
         if version_local_first_line in prefvers_lines:
             global klamstwo
-            klamstwo = 1
+            klamstwo = True
             return
 
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
@@ -767,92 +772,97 @@ if internet == 1:
 
 
 def aktul():
-    try:
-        if not internet == 0:
-            czynnosci_poczatkowe()
+    global klamstwo
+    if klamstwo == True:
+        blokada_klamstwa()
+        return
+    else:
+        try:
             if not internet == 0:
-                os.system('cls')
-                # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Aktualizator_aktualizatora.py")
+                czynnosci_poczatkowe()
+                if not internet == 0:
+                    os.system('cls')
+                    # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
+                    path = os.path.join(
+                        os.getcwd(), "Aktualizator_aktualizatora.py")
 
-                # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
-                urllib.request.urlretrieve(url, path)
+                    # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                    # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                    urllib.request.urlretrieve(url, path)
 
-                Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
-                subprocess.run(Aktualizacja)
-                print(Fore.GREEN + 'Zakończono! ')
-                print(Fore.GREEN + 'Uruchom program ponownie.' + Style.RESET_ALL)
-        else:
-            blad_poczatkowe()
-    except Exception as e:
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
+                    Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
+                    subprocess.run(Aktualizacja)
+                    print(Fore.GREEN + 'Zakończono! ')
+                    print(Fore.GREEN + 'Uruchom program ponownie.' + Style.RESET_ALL)
+            else:
+                blad_poczatkowe()
+        except Exception as e:
+            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                return
-            elif dzisiaj == wygasa_data:
+                    "Błąd", 'Poproś twórcę programu o informacje')
+
+            if plik_od_dewelopera != "BRAK PLIKU D":
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+                # porównaj daty
+                if dzisiaj > wygasa_data:
+                    messagebox.showerror(
+                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    return
+                elif dzisiaj == wygasa_data:
+                    messagebox.showwarning(
+                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+            else:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
-        else:
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
+                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                return
 
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z aktul()'
-        a = traceback.format_exc()
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = 'Automatyczne zgłoszenie błędu z aktul()'
+            a = traceback.format_exc()
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
-        # autentykacja
-        g = Github(username, password)
+            # autentykacja
+            g = Github(username, password)
 
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
 
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
 
-        messagebox.showinfo("Problem został zgłoszony",
-                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        exit()
+            messagebox.showinfo("Problem został zgłoszony",
+                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            exit()
 
 
 def wykasuj_zapisy():
@@ -1090,176 +1100,182 @@ def wykres():
 
 
 def rozwiaz_problemy():
-    try:
-        if not internet == 0:
-            message = "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem."
-            messagebox.showwarning("Ostrzeżenie", message)
+    global klamstwo
+    if klamstwo == True:
+        blokada_klamstwa()
+        return
+    else:
+        try:
+            if not internet == 0:
+                message = "Przeczytaj uważnie wszystkie informacje w terminalu (czarne okno w tle). Upewnij się, że nie utracisz połączenia z internetem."
+                messagebox.showwarning("Ostrzeżenie", message)
 
-            os.system('cls')
-            print(Fore.RED + 'Nie zamykaj tego okna!')
-            print(Fore.YELLOW + 'Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych ' +
-                  Style.BRIGHT + Fore.RED + 'tej operacji nie można cofnąć.' + Style.RESET_ALL + Fore.RED + '\nAby zainstalować program ponownie: Uruchom plik WEW.py')
+                os.system('cls')
+                print(Fore.RED + 'Nie zamykaj tego okna!')
+                print(Fore.YELLOW + 'Wszystkie dane (ceny, poprzednie obliczenia, informacje o wersji, niektóre pliki aktualizacyjne, oraz sam program)\nzostaną usunięte. Po usunięciu danych ' +
+                      Style.BRIGHT + Fore.RED + 'tej operacji nie można cofnąć.' + Style.RESET_ALL + Fore.RED + '\nAby zainstalować program ponownie: Uruchom plik WEW.py')
 
-            input(Fore.YELLOW + "Naciśnij klawisz Enter, aby kontynuuować...")
-            print()
-            print(Fore.YELLOW + 'Aby anulować wpisz cokolwiek innego:')
-            usuwanie_danych_potwierdzenie = str(
-                input(Fore.RED + 'Napisz ' + Style.BRIGHT + '"USUN01"' + Style.RESET_ALL + Fore.RED + ' (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
-            if usuwanie_danych_potwierdzenie == "USUN01":
-                print(Fore.RED + '\nZaczekaj, aż to okno się zamknie, trwa kasowanie')
-                # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(os.getcwd(), "Ceny.txt")
+                input(Fore.YELLOW + "Naciśnij klawisz Enter, aby kontynuuować...")
+                print()
+                print(Fore.YELLOW + 'Aby anulować wpisz cokolwiek innego:')
+                usuwanie_danych_potwierdzenie = str(
+                    input(Fore.RED + 'Napisz ' + Style.BRIGHT + '"USUN01"' + Style.RESET_ALL + Fore.RED + ' (pamiętaj o dużych literach i braku polskich znaków), aby potwierdzić: '))
+                if usuwanie_danych_potwierdzenie == "USUN01":
+                    print(
+                        Fore.RED + '\nZaczekaj, aż to okno się zamknie, trwa kasowanie')
+                    # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "Ceny.txt")
 
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "version.txt")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "Aktualizacja.py")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(
+                        os.getcwd(), "Aktualizator_aktualizatora.py")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(
+                        os.getcwd(), "Snake.py")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                        sleep(3)
+                        exit()
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(
+                        os.getcwd(), "ikona.ico")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                        sleep(3)
+                        exit()
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(
+                        os.getcwd(), "lista_b.txt")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                        sleep(3)
+                        exit()
+
+                        # Ścieżka do pliku w bieżącym folderze
+                    path = os.path.join(
+                        os.getcwd(), "Zapisy.txt")
+
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                        sleep(3)
+                        exit()
+
+                    folder_path = "rei"
+
+                    # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+                    if os.path.exists(folder_path):
+                        shutil.rmtree(folder_path)
 
                     # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(os.getcwd(), "version.txt")
+                    path = os.path.join(os.getcwd(), "main.py")
 
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
+                    # Usuń plik jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
 
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(os.getcwd(), "Aktualizacja.py")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Aktualizator_aktualizatora.py")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Snake.py")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                    sleep(3)
+                    print(Fore.CYAN + 'Kasowanie zakończone')
                     exit()
-
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "ikona.ico")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                    sleep(3)
-                    exit()
-
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "lista_b.txt")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                    sleep(3)
-                    exit()
-
-                    # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Zapisy.txt")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                    sleep(3)
-                    exit()
-
-                folder_path = "rei"
-
-                # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
-                if os.path.exists(folder_path):
-                    shutil.rmtree(folder_path)
-
-                # Ścieżka do pliku w bieżącym folderze
-                path = os.path.join(os.getcwd(), "main.py")
-
-                # Usuń plik jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-
-                print(Fore.CYAN + 'Kasowanie zakończone')
-                exit()
+                else:
+                    print(Fore.GREEN +
+                          '\nAnulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu')
             else:
-                print(Fore.GREEN +
-                      '\nAnulowano wszystkie czynności. Możesz kontynuuować korzystanie z programu')
-        else:
-            blad_poczatkowe()
-    except Exception as e:
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
+                blad_poczatkowe()
+        except Exception as e:
+            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                return
-            elif dzisiaj == wygasa_data:
+                    "Błąd", 'Poproś twórcę programu o informacje')
+
+            if plik_od_dewelopera != "BRAK PLIKU D":
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+                # porównaj daty
+                if dzisiaj > wygasa_data:
+                    messagebox.showerror(
+                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    return
+                elif dzisiaj == wygasa_data:
+                    messagebox.showwarning(
+                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+            else:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
-        else:
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
+                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                return
 
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z rozwiaz_problemy()'
-        a = traceback.format_exc()
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = 'Automatyczne zgłoszenie błędu z rozwiaz_problemy()'
+            a = traceback.format_exc()
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}  "
 
-        # autentykacja
-        g = Github(username, password)
+            # autentykacja
+            g = Github(username, password)
 
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
 
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
 
-        messagebox.showinfo("Problem został zgłoszony",
-                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        exit()
+            messagebox.showinfo("Problem został zgłoszony",
+                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            exit()
 
 
 def ankieta():
@@ -1684,27 +1700,51 @@ def informacje_o_wersji_utworz_okno():
                 informacje_wersji.title(f"Informacje o wersji")
                 informacje_wersji.iconbitmap(file_path_ikonka)
 
-                label_informacja = tk.Label(
-                    informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
-                label_informacja.pack()
-                label_informacja = tk.Label(
-                    informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
-                label_informacja.pack()
-                label_informacja = tk.Label(
-                    informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
-                label_informacja.pack()
-                pustka = tk.Label()
-                pustka.pack()
+                global klamstwo
+                if klamstwo == True:
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
+                    label_informacja.pack()
+                    pustka = tk.Label()
+                    pustka.pack()
 
-                label_informacja = tk.Label(
-                    informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
-                label_informacja.pack()
-                label_informacja = tk.Label(
-                    informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
-                label_informacja.pack()
-                label_informacja = tk.Label(
-                    informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
-                label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"Najnowsza wersja: {version_local_lines[0]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
+                    label_informacja.pack()
+                else:
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"Wersja na komputerze: {version_local_lines[0]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_local_lines[1]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_local_lines[2]}", justify="left")
+                    label_informacja.pack()
+                    pustka = tk.Label()
+                    pustka.pack()
+
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"Najnowsza wersja: {version_online_lines[0]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_online_lines[1]}", justify="left")
+                    label_informacja.pack()
+                    label_informacja = tk.Label(
+                        informacje_wersji, text=f"{version_online_lines[2]}", justify="left")
+                    label_informacja.pack()
 
                 def dziennik_zmian():
                     if dziennik_z_online != "BRAK DANYCH":

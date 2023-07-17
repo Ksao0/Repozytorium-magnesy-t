@@ -13,6 +13,39 @@ import traceback
 import matplotlib.pyplot as plt
 from colorama import init, Fore, Style
 
+global klamstwo
+klamstwo = False
+
+
+def klamstwo_fun():
+    # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+    response = requests.get(url)
+    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+    prefvers = response.content.decode('utf-8').strip()
+    prefvers_lines = prefvers.split('\n')
+
+    # Odczytaj zawartość pliku version.txt w twoim programie
+    path = os.path.join(os.getcwd(), "version.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            version_local = f.read().strip()
+    else:
+        version_local = "BRAK DANYCH"
+
+    version_local_first_line = version_local.split('\n')[0]
+
+    # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
+    if version_local_first_line in prefvers_lines:
+        global klamstwo
+        klamstwo = True
+        return
+    if klamstwo == True:
+        messagebox.showerror(
+            'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
+        exit()
+
+
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
 # Style.BRIGHT

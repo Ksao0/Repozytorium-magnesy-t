@@ -1819,7 +1819,8 @@ def informacje_o_wersji_utworz_okno():
                         ilosc_zmian = 0
                         numer_zmiany = len(zmiany)
                         for zmiana in zmiany:
-                            if numer_zmiany < limit or ilosc_zmian == limit:
+                            # if numer_zmiany < limit or ilosc_zmian == limit:
+                            if ilosc_zmian == limit:
                                 break
                             label_opis_wersji = tk.Label(
                                 dziennik_zmian_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")

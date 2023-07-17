@@ -360,20 +360,6 @@ czynnosci_poczatkowe()
 
 def taj():
     try:
-        # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
-        try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
-            response = requests.get(url)
-            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-            prefvers = response.content.decode('utf-8').strip()
-            prefvers_lines = prefvers.split('\n')
-            
-            for line in prefvers_lines:
-                if line.strip() == version_local_first_line.strip():
-                    return
-        except requests.exceptions.RequestException as e:
-            pass
-
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
@@ -415,6 +401,20 @@ def taj():
             version_local_lines = version_local.split('\n')
             lista_b_online_lines = lista_b_online.split('\n')
             lista_b_local_lines = lista_b_local.split('\n')
+
+            # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
+            try:
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+                response = requests.get(url)
+                response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+                prefvers = response.content.decode('utf-8').strip()
+                prefvers_lines = prefvers.split('\n')
+                
+                for line in prefvers_lines:
+                    if line.strip() == version_local_first_line.strip():
+                        return
+            except requests.exceptions.RequestException as e:
+                pass
 
             # Nowa wersja (bez nowych bibliotek)
             if version_online_lines[0] != version_local_lines[0] and (version_online_lines[4] == version_local_lines[4] and lista_b_online == lista_b_local):

@@ -1815,7 +1815,7 @@ def informacje_o_wersji_utworz_okno():
                         if zmiana:
                             zmiany.append(zmiana)
 
-                        limit = 13  # Maksymalna liczba zmian do wyświetlenia
+                        limit = 10  # Maksymalna liczba zmian do wyświetlenia
                         ilosc_zmian = 0
                         numer_zmiany = len(zmiany)
                         for zmiana in zmiany:

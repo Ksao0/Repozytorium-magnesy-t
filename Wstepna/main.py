@@ -1816,14 +1816,16 @@ def informacje_o_wersji_utworz_okno():
                             zmiany.append(zmiana)
 
                         limit = 15  # Maksymalna liczba zmian do wyświetlenia
-                        numer_zmiany = len(zmiany)
-                        for index, zmiana in enumerate(reversed(zmiany)):
-                            if index >= limit:
+                        numer_zmiany = 1
+                        zmiany.reverse()  # Odwrócenie kolejności zmian, aby nowe zmiany były na początku
+                        for zmiana in zmiany:
+                            if numer_zmiany > limit:
                                 break
                             label_opis_wersji = tk.Label(
                                 dziennik_zmian_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
                             label_opis_wersji.pack(fill="x", padx=(20, 0))
-                            numer_zmiany -= 1
+                            numer_zmiany += 1
+                        
 
                         # Dopasowanie rozmiaru okna do zawartości
                         dziennik_zmian_okno.update_idletasks()

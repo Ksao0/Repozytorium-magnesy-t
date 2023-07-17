@@ -670,7 +670,7 @@ def taj():
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             nprefvers = response.content.decode('utf-8').strip()
             nprefvers_lines = nprefvers.split('\n')
-        
+
             # Odczytaj zawartość pliku version.txt w twoim programie
             path = os.path.join(os.getcwd(), "version.txt")
             if os.path.exists(path):
@@ -678,24 +678,24 @@ def taj():
                     version_local = f.read().strip()
             else:
                 version_local = "BRAK DANYCH"
-        
+
             version_local_lines = version_local.split('\n')
-        
+
             for line in nprefvers_lines:
                 if line.strip() == version_local_lines[0].strip():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     return
-        
+
             # Porównaj każdą linijkę w nprefvers z pierwszą linijką version_local
             if version_local in nprefvers_lines:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 return
-        
+
         except requests.exceptions.RequestException as e:
             pass
-        
+
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -2286,84 +2286,108 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 if internet == 1:
-    # pobierz zawartość pliku version.txt z repozytorium na GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-    response = requests.get(url)
-
-    version_online = response.content.decode('utf-8').strip()
-
-    # odczytaj zawartość pliku version.txt w twoim programie
-    path = os.path.join(os.getcwd(), "version.txt")
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            version_local = f.read().strip()
-    else:
-        version_local = "BRAK DANYCH"
-
-    # wyświetl tylko pierwszą linijkę wersji
-    version_local_first_line = version_local.split('\n')[0]
-    version_online_first_line = version_online.split('\n')[0]
-
-    version_local_pop_line = version_local.split('\n')[2]
-    version_online_pop_line = version_online.split('\n')[2]
-
-    # porównaj wersje
-    print(Fore.LIGHTMAGENTA_EX +
-          f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
-    print(Fore.CYAN +
-          f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
-    print(Fore.CYAN +
-          f'\nOpis najnowszej wersji (repozytorium): {version_online}' + Style.RESET_ALL)
-    if version_local != "BRAK DANYCH":
-        if version_online.strip() == version_local.strip():
-            if version_local_pop_line == version_online_pop_line:
-                print(Fore.GREEN + 'Masz najnowszą wersję programu.')
-                path = os.path.join(os.getcwd(), "version.txt")
-                if os.path.exists(path):
-                    with open(path, "r", encoding="utf-8") as f:
-                        version_local = f.readline().strip()
-                wersja = version_local
-            else:
-                if klamstwo == False:
-                    print(Fore.RED + 'Dostępna jest poprawka wersji')
-                    wersja = 'DOSTĘPNA POPRAWKA'
-                else:
-                    print(Fore.GREEN + 'Masz najnowszą wersję programu.')
-                    path = os.path.join(os.getcwd(), "version.txt")
-                    if os.path.exists(path):
-                        with open(path, "r", encoding="utf-8") as f:
-                            version_local = f.readline().strip()
-                    wersja = version_local
+    if klamstwo == True:
+        # odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
         else:
-            if version_local_first_line == version_online_first_line:
-                print(Fore.GREEN + 'Masz najnowszą wersję programu.')
-                wersja = version_local
-                # ścieżka do pliku version.txt w bieżącym folderze
-                path = os.path.join(os.getcwd(), "version.txt")
+            version_local = "BRAK DANYCH"
+        wersja = version_local
 
-                # usuń plik version.txt, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik version.txt")
+        # wyświetl tylko pierwszą linijkę wersji kłamstwo
+        version_local_first_line = version_local.split('\n')[0]
 
-                # pobierz plik version.txt z repozytorium i utwórz go
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
-                urllib.request.urlretrieve(url, path)
-            else:
-                if klamstwo == False:
-                    print(Fore.RED + 'Dostępna jest poprawka wersji')
-                    wersja = 'DOSTĘPNA POPRAWKA'
-                else:
+        version_local_pop_line = version_local.split('\n')[2]
+
+        # porównaj wersje kłamstwo
+        print(Fore.LIGHTMAGENTA_EX +
+              f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+        print(Fore.CYAN +
+              f'Wersja w repozytorium: {version_local_first_line}\n{version_local_pop_line}')
+        print(Fore.CYAN +
+              f'\nOpis najnowszej wersji (repozytorium): {version_local}' + Style.RESET_ALL)
+    else:
+        # pobierz zawartość pliku version.txt z repozytorium na GitHub
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+        response = requests.get(url)
+
+        version_online = response.content.decode('utf-8').strip()
+
+        # odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
+        else:
+            version_local = "BRAK DANYCH"
+
+        # wyświetl tylko pierwszą linijkę wersji
+        version_local_first_line = version_local.split('\n')[0]
+        version_online_first_line = version_online.split('\n')[0]
+
+        version_local_pop_line = version_local.split('\n')[2]
+        version_online_pop_line = version_online.split('\n')[2]
+
+        # porównaj wersje
+        print(Fore.LIGHTMAGENTA_EX +
+              f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+        print(Fore.CYAN +
+              f'Wersja w repozytorium: {version_online_first_line}\n{version_online_pop_line}')
+        print(Fore.CYAN +
+              f'\nOpis najnowszej wersji (repozytorium): {version_online}' + Style.RESET_ALL)
+        if version_local != "BRAK DANYCH":
+            if version_online.strip() == version_local.strip():
+                if version_local_pop_line == version_online_pop_line:
                     print(Fore.GREEN + 'Masz najnowszą wersję programu.')
                     path = os.path.join(os.getcwd(), "version.txt")
                     if os.path.exists(path):
                         with open(path, "r", encoding="utf-8") as f:
                             version_local = f.readline().strip()
                     wersja = version_local
+                else:
+                    if klamstwo == False:
+                        print(Fore.RED + 'Dostępna jest poprawka wersji')
+                        wersja = 'DOSTĘPNA POPRAWKA'
+                    else:
+                        print(Fore.GREEN + 'Masz najnowszą wersję programu.')
+                        path = os.path.join(os.getcwd(), "version.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                version_local = f.readline().strip()
+                        wersja = version_local
+            else:
+                if version_local_first_line == version_online_first_line:
+                    print(Fore.GREEN + 'Masz najnowszą wersję programu.')
+                    wersja = version_local
+                    # ścieżka do pliku version.txt w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "version.txt")
 
-    else:
-        print('\n\nWykryto brak niektórych plików. Zaktualizuj program, aby działał prawidłowo')
-        wersja = "ZAKTUALIZUJ PROGRAM"
+                    # usuń plik version.txt, jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                    # print("Usunięto plik version.txt")
+
+                    # pobierz plik version.txt z repozytorium i utwórz go
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
+                    urllib.request.urlretrieve(url, path)
+                else:
+                    if klamstwo == False:
+                        print(Fore.RED + 'Dostępna jest poprawka wersji')
+                        wersja = 'DOSTĘPNA POPRAWKA'
+                    else:
+                        print(Fore.GREEN + 'Masz najnowszą wersję programu.')
+                        path = os.path.join(os.getcwd(), "version.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                version_local = f.readline().strip()
+                        wersja = version_local
+
+        else:
+            print(
+                '\n\nWykryto brak niektórych plików. Zaktualizuj program, aby działał prawidłowo')
+            wersja = "ZAKTUALIZUJ PROGRAM"
     root = tk.Tk()
     root.title(f"Kalkulator zysków ver. {wersja}")
     root.geometry("410x350+250+200")

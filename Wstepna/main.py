@@ -71,7 +71,7 @@ def zglos_problem():
     try:
         global file_path_ikonka
         if not internet == 0:
-            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak.")
+            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak.\nW tym oknie możesz też po prostu zadać nam pytanie na dowolny temat związany z naszym programem")
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
@@ -2741,7 +2741,7 @@ def otworz_okno_wybor():
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Zgłoś problemy lub propozycje", command=zglos_problem)
+                okno_wyborowe, text="Zgłoś problemy, propozycje lub zadaj pytania", command=zglos_problem)
             button_zglos_problem.pack()
             label_informacja = tk.Label(
                 okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")

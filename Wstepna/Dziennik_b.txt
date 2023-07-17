@@ -1,5 +1,5 @@
-1.6.1.0 Wstępna
- ~ Zmieniono mechanizm wstępnego sprawdzania ważności ankiet
+1.6.1.2 Wstępna (ost)
+ ~ Ulepszono mechanizm wstępnego sprawdzania ważności ankiet
  ~ Zmniejszono częstotliwość pojawiania się ankiet
      Szansa na pojawienie się ankiety po uruchomieniu programu została zmniejszona do 5% (wcześniej 10)
      Szansa na pojawienie się ankiety po wybraniu "Więcej opcji" została zmniejszona do 15% (wcześniej 30)

@@ -371,7 +371,6 @@ def taj():
             for line in prefvers_lines:
                 if line.strip() == version_local_first_line.strip():
                     return
-        
         except requests.exceptions.RequestException as e:
             pass
 

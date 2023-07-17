@@ -1,17 +1,17 @@
 1.6.1.2 Wstępna (ost)
-15. ~ Ulepszono mechanizm wstępnego sprawdzania ważności ankiet
-14. ~ Zmniejszono częstotliwość pojawiania się ankiet
-13.     Szansa na pojawienie się ankiety po uruchomieniu programu została zmniejszona do 5% (wcześniej 10)
-12.     Szansa na pojawienie się ankiety po wybraniu "Więcej opcji" została zmniejszona do 15% (wcześniej 30)
-11. [] Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
-10.     nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.
-9. + Szansa na pojawienie się ankiety po uruchomieniu programu (10%)
-8. / Usunięto błąd, przez który wpisy w dzienniku zmian były wyświetlane w złej kolejności
-7. / Usunięto błąd, przez który znacznik "/\" był niepoprawnie odczytywany
-6. + Przycisk w dzienniku zmian: wytłumaczenie znaczników
-5. ~ Dziennik zmian będzie teraz wyświetlać i numerować 25 najnowszych wpisów
-4. / Usunięto błąd związany z dziennikiem zmian
-3. /\ Usunięto błąd, przez który dziennik zmian nie działał
-2. \/ Wykryto błąd, przez który dziennik zmian nie działał
-1. + Dziennik zmian
+ ~ Ulepszono mechanizm wstępnego sprawdzania ważności ankiet
+ ~ Zmniejszono częstotliwość pojawiania się ankiet
+     Szansa na pojawienie się ankiety po uruchomieniu programu została zmniejszona do 5% (wcześniej 10)
+     Szansa na pojawienie się ankiety po wybraniu "Więcej opcji" została zmniejszona do 15% (wcześniej 30)
+ [] Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
+     nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.
+ + Szansa na pojawienie się ankiety po uruchomieniu programu (10%)
+ / Usunięto błąd, przez który wpisy w dzienniku zmian były wyświetlane w złej kolejności
+ / Usunięto błąd, przez który znacznik "/\" był niepoprawnie odczytywany
+ + Przycisk w dzienniku zmian: wytłumaczenie znaczników
+ ~ Dziennik zmian będzie teraz wyświetlać i numerować 25 najnowszych wpisów
+ / Usunięto błąd związany z dziennikiem zmian
+ /\ Usunięto błąd, przez który dziennik zmian nie działał
+ \/ Wykryto błąd, przez który dziennik zmian nie działał
+ + Dziennik zmian
  / Usunięto błąd przez który nieaktualizowano listy pobranych bibliotek podczas ręcznej aktualizacji

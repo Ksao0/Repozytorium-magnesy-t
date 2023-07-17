@@ -1649,7 +1649,7 @@ if internet == 1:
 def informacje_o_wersji_utworz_okno():
     try:
         global file_path_ikonka
-
+        global dziennik_z_online
         if not internet == 0:
             def otworz_okno():
                 global okno_informacje_otwarte
@@ -1747,6 +1747,7 @@ def informacje_o_wersji_utworz_okno():
                     label_informacja.pack()
 
                 def dziennik_zmian():
+                    global dziennik_z_online
                     if dziennik_z_online != "BRAK DANYCH":
                         dziennik_zmian_okno = tk.Toplevel()
                         dziennik_zmian_okno.title(f"Dziennik zmian")
@@ -1784,16 +1785,15 @@ def informacje_o_wersji_utworz_okno():
                         # Dodanie kontenera typu Frame
                         frame_przyciski = tk.Frame(dziennik_zmian_okno)
                         frame_przyciski.pack()
-
                         button_dziennik_b = tk.Button(
                             frame_przyciski, text=f"Czym są znaczniki?", command=co_znaczniki)
                         button_dziennik_b.pack(side=tk.LEFT)
 
-                        def nieuzupelnieene_zmiany():
+                        def nieuzupelnione_zmiany():
                             messagebox.showinfo('Dlaczego dziennik zmian nie jest uzupełniany?', 'Dziennik zmian nie jest uzupełniany jeżeli aktualizacja nie ma żadnego znaczenia dla użytkowania programu, np. jeśli usuniemy literówki, zmienimy formatowanie kodu lub nazwę zminnej. Takie wpisy byłyby zbyt częste\nJeśli uważasz, że zmiana powinna zostac wpisana - zgłoś nam to za pomocą opcji "Zgłoś problemy lub propozycje".')
 
                         button_dziennik_b = tk.Button(
-                            frame_przyciski, text=f"Dziennik zmian nie jest uzupełniany", command=nieuzupelnieene_zmiany)
+                            frame_przyciski, text=f"Dziennik zmian nie jest uzupełniany", command=nieuzupelnione_zmiany)
                         button_dziennik_b.pack(side=tk.RIGHT)
 
                         label_informacja = tk.Label(
@@ -1815,7 +1815,7 @@ def informacje_o_wersji_utworz_okno():
                         if zmiana:
                             zmiany.append(zmiana)
 
-                        limit = 15  # Maksymalna liczba zmian do wyświetlenia
+                        limit = 13  # Maksymalna liczba zmian do wyświetlenia
                         ilosc_zmian = 0
                         numer_zmiany = len(zmiany)
                         for zmiana in zmiany:

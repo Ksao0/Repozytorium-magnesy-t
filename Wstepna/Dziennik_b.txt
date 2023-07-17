@@ -1,4 +1,5 @@
 1.6.1.2 Wstępna (ost)
+ / Usunięto wszystkie błędy wyświetlania w dzienniku zmian
  ~ Ulepszono mechanizm wstępnego sprawdzania ważności ankiet
  ~ Zmniejszono częstotliwość pojawiania się ankiet
      Szansa na pojawienie się ankiety po uruchomieniu programu została zmniejszona do 5% (wcześniej 10)

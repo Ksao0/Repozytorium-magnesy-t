@@ -1,6 +1,6 @@
 1.6.1.2 Wstępna (ost)
  [] Małe poprawki związane z usunięciem literówki lub błędu w pisowni będą teraz pobierane automatycznie
-     Nie zostanie wyświetlona żadna informacja o aktualizacji
+      Nie zostanie wyświetlona żadna informacja o aktualizacji
  / Usunięto wszystkie błędy wyświetlania w dzienniku zmian
  ~ Ulepszono mechanizm wstępnego sprawdzania ważności ankiet
  ~ Zmniejszono częstotliwość pojawiania się ankiet

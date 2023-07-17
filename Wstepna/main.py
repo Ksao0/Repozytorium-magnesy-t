@@ -31,7 +31,9 @@ global okno_edycja_kosztow_otwarte
 global okno_problemu_otwarte
 global okno_wyborowe_otwarte
 global internet
+global klamstwo
 
+klamstwo = False
 okno_informacje_otwarte = 0
 okno_edycja_kosztow_otwarte = 0
 okno_problemu_otwarte = 0
@@ -378,6 +380,8 @@ def taj():
 
         # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
         if version_local_first_line in prefvers_lines:
+            global klamstwo
+            klamstwo = 1
             return
 
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
@@ -2320,8 +2324,16 @@ if internet == 1:
                         version_local = f.readline().strip()
                 wersja = version_local
             else:
-                print(Fore.RED + 'Dostępna jest poprawka wersji')
-                wersja = 'DOSTĘPNA POPRAWKA'
+                if klamstwo == False:
+                    print(Fore.RED + 'Dostępna jest poprawka wersji')
+                    wersja = 'DOSTĘPNA POPRAWKA'
+                else:
+                    print(Fore.GREEN + 'Masz najnowszą wersję programu.')
+                    path = os.path.join(os.getcwd(), "version.txt")
+                    if os.path.exists(path):
+                        with open(path, "r", encoding="utf-8") as f:
+                            version_local = f.readline().strip()
+                    wersja = version_local
         else:
             if version_local_first_line == version_online_first_line:
                 print(Fore.GREEN + 'Masz najnowszą wersję programu.')
@@ -2338,8 +2350,17 @@ if internet == 1:
                 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
                 urllib.request.urlretrieve(url, path)
             else:
-                print('Dostępna jest nowa wersja programu.')
-                wersja = "DOSTĘPNA AKTUALIZACJA"
+                if klamstwo == False:
+                    print(Fore.RED + 'Dostępna jest poprawka wersji')
+                    wersja = 'DOSTĘPNA POPRAWKA'
+                else:
+                    print(Fore.GREEN + 'Masz najnowszą wersję programu.')
+                    path = os.path.join(os.getcwd(), "version.txt")
+                    if os.path.exists(path):
+                        with open(path, "r", encoding="utf-8") as f:
+                            version_local = f.readline().strip()
+                    wersja = version_local
+
     else:
         print('\n\nWykryto brak niektórych plików. Zaktualizuj program, aby działał prawidłowo')
         wersja = "ZAKTUALIZUJ PROGRAM"

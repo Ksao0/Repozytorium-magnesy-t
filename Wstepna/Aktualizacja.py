@@ -39,11 +39,10 @@ def klamstwo_fun():
     if version_local_first_line in prefvers_lines:
         global klamstwo
         klamstwo = True
-        return
-    if klamstwo == True:
         messagebox.showerror(
             'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
         exit()
+
 
 klamstwo_fun()
 

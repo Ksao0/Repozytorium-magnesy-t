@@ -1815,13 +1815,17 @@ def informacje_o_wersji_utworz_okno():
                         if zmiana:
                             zmiany.append(zmiana)
 
-                        limit = 15  # Maksymalna liczba zmian do wyświetlenia
-                        numer_zmiany = 1
-                        for zmiana in zmiany[:limit][::-1]:
+                        limit = 5  # Maksymalna liczba zmian do wyświetlenia
+                        ilosc_zmian = 0
+                        numer_zmiany = len(zmiany)
+                        for zmiana in zmiany:
+                            if numer_zmiany < limit or ilosc_zmian == limit:
+                                break
                             label_opis_wersji = tk.Label(
                                 dziennik_zmian_okno, text=f"{numer_zmiany}. {zmiana}", justify="left", anchor="w")
                             label_opis_wersji.pack(fill="x", padx=(20, 0))
-                            numer_zmiany += 1
+                            numer_zmiany -= 1
+                            ilosc_zmian += 1
 
                         # Dopasowanie rozmiaru okna do zawartości
                         dziennik_zmian_okno.update_idletasks()

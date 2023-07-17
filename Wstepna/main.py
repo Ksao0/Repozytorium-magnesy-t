@@ -374,8 +374,10 @@ def taj():
         else:
             version_local = "BRAK DANYCH"
 
+        version_local_first_line = version_local.split('\n')[0]
+
         # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
-        if version_local in prefvers_lines:
+        if version_local_first_line in prefvers_lines:
             return
 
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub

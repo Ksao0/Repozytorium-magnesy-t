@@ -43,7 +43,7 @@ internet = 1
 
 def blokada_klamstwa():
     messagebox.showerror(
-        'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
+        'Odmowa dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
 
 
 def blad_poczatkowe():

@@ -3,10 +3,9 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 import requests
-import shutil
 from PIL import Image
 import urllib.request
-
+from tqdm import tqdm
 
 def pobierz_apk():
     url = "https://github.com/Ksao0/Aplikacja_ma_telefon-Magnesy/raw/main/app-debug.apk"
@@ -16,27 +15,48 @@ def pobierz_apk():
         response = requests.get(url, stream=True)
         response.raise_for_status()
 
-        with open(save_as, "wb") as file:
-            for chunk in response.iter_content(chunk_size=8192):
-                file.write(chunk)
+        total_size = int(response.headers.get('content-length', 0))
+        block_size = 8192  # Rozmiar bloku pobierania
 
-        messagebox.showinfo("Pobieranie zakończone",
-                            "Plik APK został pobrany.")
+        progress_bar = tqdm(total=total_size, unit='B', unit_scale=True)
+
+        with open(save_as, "wb") as file:
+            for data in response.iter_content(block_size):
+                progress_bar.update(len(data))
+                file.write(data)
+
+        progress_bar.close()
+
+        messagebox.showinfo("Pobieranie zakończone", "Plik APK został pobrany.")
 
     except requests.exceptions.RequestException as e:
-        messagebox.showerror(
-            "Błąd pobierania", f"Wystąpił błąd podczas pobierania pliku: {str(e)}")
+        messagebox.showerror("Błąd pobierania", f"Wystąpił błąd podczas pobierania pliku: {str(e)}")
 
 
 def zmien_zawartosc_pola_tekstowego():
-    zawartosc = "To okno będzie rozwijane, aktualna oprawa graficzna oraz inne funkcje ulegną zmianie\n" \
-    + "Wymagana jest wersja oprogramowania systemu android powyżej 9\n\n" \
-    + "Oto krótka instrukcja sposobu instalowania i aktualizowania aplikacji do liczenia magnesów w wersji na telefon:\n" \
-    + '1. Naciśnij przycisk "Pobierz plik APK", poczekaj, aż plik zostanie pobrany.\n' \
-    + "2. Otwórz folder z plikami programu na komputerze.\n" \
-    + "3. Przenieś plik app-debug.apk na urządzenie z systemem Android" \
-    + "4. Uruchom plik app-debug.apk i zainstaluj aplikację"
-    
+    global instrukcja_button
+    if instrukcja_button["text"] == "Instrukcja":
+        instrukcja_button["text"] = "Powrót"
+        zawartosc = "To okno będzie rozwijane, aktualna oprawa graficzna oraz inne funkcje mogą ulec zmianie\n" \
+                    "Wymagana jest wersja oprogramowania systemu Android powyżej 9\n\n" \
+                    "Oto krótka instrukcja sposobu instalowania i aktualizowania aplikacji do liczenia magnesów w wersji na telefon:\n" \
+                    '1. Naciśnij przycisk "Pobierz plik APK", poczekaj, aż plik zostanie pobrany.\n' \
+                    "2. Otwórz folder z plikami programu na komputerze.\n" \
+                    "3. Podłącz telefon do komputera (pamiętaj o tym, aby włączyć transfer plików, w przeciwnym razie będziesz po prostu ładować telefon)" \
+                    "4. Przenieś plik app-debug.apk na urządzenie z systemem Android, np. na kartę SD do katalogu Download" \
+                    "5. Uruchom plik app-debug.apk na telefonie i zainstaluj lub zaktualizuj aplikację" \
+                    "Po wykonaniu tych czynności aplikacja na telefon zostanie zaktualizowana do najnowszej wersji!"
+    else:
+        instrukcja_button["text"] = "Instrukcja"
+        zawartosc = "Opis najnowszej aktualizacji aplikacji na telefon\n"
+        url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version.txt'
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            zawartosc += response.content.decode('utf-8').strip()
+        except requests.exceptions.RequestException as e:
+            zawartosc = f"Wystąpił błąd podczas pobierania zawartości pliku: {str(e)}"
+
     pole_tekstowe.config(state=tk.NORMAL)
     pole_tekstowe.delete("1.0", tk.END)
     pole_tekstowe.insert(tk.END, zawartosc)
@@ -65,13 +85,16 @@ img.save(resized_file_path)
 # Ustawienie ikonki
 root.iconbitmap(resized_file_path)
 
-button_pobierz_apk = tk.Button(
-    root, text="Pobierz plik APK", command=pobierz_apk)
-button_pobierz_apk.pack(side=tk.RIGHT)
+frame_buttons = tk.Frame(root)
+frame_buttons.pack(side=tk.TOP, padx=10, pady=10)
 
-button_instrukcja = tk.Button(
-    root, text="Instrukcja", command=zmien_zawartosc_pola_tekstowego)
-button_instrukcja.pack(side=tk.RIGHT)
+instrukcja_button = tk.Button(
+    frame_buttons, text="Instrukcja", command=zmien_zawartosc_pola_tekstowego)
+instrukcja_button.pack(side=tk.LEFT, padx=5)
+
+button_pobierz_apk = tk.Button(
+    frame_buttons, text="Pobierz plik APK", command=pobierz_apk)
+button_pobierz_apk.pack(side=tk.LEFT, padx=5)
 
 # Pobierz zawartość pliku version.txt z repozytorium na GitHub
 url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version.txt'
@@ -84,7 +107,7 @@ except requests.exceptions.RequestException as e:
     zawartosc = f"Wystąpił błąd podczas pobierania zawartości pliku: {str(e)}"
 
 pole_tekstowe = scrolledtext.ScrolledText(root, wrap=tk.WORD)
-pole_tekstowe.pack(expand=True, fill=tk.BOTH)
+pole_tekstowe.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
 pole_tekstowe.insert(tk.END, zawartosc)
 pole_tekstowe.config(state=tk.DISABLED)
 

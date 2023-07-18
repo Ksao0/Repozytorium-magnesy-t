@@ -40,7 +40,7 @@ def klamstwo_fun():
         global klamstwo
         klamstwo = True
         messagebox.showerror(
-            'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
+            'Odmowa dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
         exit()
 
 

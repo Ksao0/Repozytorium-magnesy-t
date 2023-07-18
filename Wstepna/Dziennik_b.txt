@@ -1,4 +1,5 @@
 1.6.1.3 Wstępna
+ /// Usprawniono oprogramowanie na komputer do pobierania aplikacji na telefon
  /// Udostępliśmy pierwszą wersję oprogramowania na komputer do pobierania aplikacji na telefon
  \/ Od pewnego czasu pracujemy nad aplikacją na telefon (również do obliczania danych związanych z magnesami).
         Planujemy zastąpić grę Snake w naszym programie funkcją, która będzie obsługiwała aplikacjię na telefon

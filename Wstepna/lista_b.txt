@@ -19,3 +19,4 @@
  - atexit
  - Pilow
  - colorama
+ - tqdm

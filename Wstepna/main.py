@@ -46,18 +46,6 @@ def blokada_klamstwa():
         'Brak dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
 
 
-def cofanie_bledow():
-    # Ścieżka do pliku Zapisy.txt w bieżącym folderze
-    path = os.path.join(os.getcwd(), "telemetria.txt")
-
-    # Usuń plik Zapisy.txt, jeśli istnieje
-    if os.path.exists(path):
-        os.remove(path)
-
-
-cofanie_bledow()
-
-
 def blad_poczatkowe():
     message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe"
     response = messagebox.askokcancel("Błąd", message)
@@ -96,7 +84,7 @@ def zglos_problem():
                     else:
                         plik_od_dewelopera = "BRAK PLIKU D"
                         messagebox.showerror(
-                            "Błąd", 'Poproś twórcę programu o informacje')
+                            "Błąd", 'Zapytaj twórcę programu o informacje')
 
                     if not plik_od_dewelopera == "BRAK PLIKU D":
                         informacje_do_zgloszenia = plik_od_dewelopera.split(
@@ -202,7 +190,7 @@ def zglos_problem():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
 
@@ -306,7 +294,7 @@ def czynnosci_poczatkowe():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -482,7 +470,7 @@ def taj():
                             else:
                                 plik_od_dewelopera = "BRAK PLIKU D"
                                 messagebox.showerror(
-                                    "Błąd", 'Poproś twórcę programu o informacje')
+                                    "Błąd", 'Zapytaj twórcę programu o informacje')
 
                             if plik_od_dewelopera != "BRAK PLIKU D":
                                 informacje_do_zgloszenia = plik_od_dewelopera.split(
@@ -550,7 +538,7 @@ def taj():
                             else:
                                 plik_od_dewelopera = "BRAK PLIKU D"
                                 messagebox.showerror(
-                                    "Błąd", 'Poproś twórcę programu o informacje')
+                                    "Błąd", 'Zapytaj twórcę programu o informacje')
 
                             if plik_od_dewelopera != "BRAK PLIKU D":
                                 informacje_do_zgloszenia = plik_od_dewelopera.split(
@@ -712,7 +700,7 @@ def taj():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -810,7 +798,7 @@ def aktul():
             else:
                 plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Błąd", 'Poproś twórcę programu o informacje')
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
 
             if plik_od_dewelopera != "BRAK PLIKU D":
                 informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -886,7 +874,7 @@ def wykasuj_zapisy():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -1042,7 +1030,7 @@ def wykres():
             else:
                 plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Błąd", 'Poproś twórcę programu o informacje')
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
 
             if plik_od_dewelopera != "BRAK PLIKU D":
                 informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -1237,7 +1225,7 @@ def rozwiaz_problemy():
             else:
                 plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Błąd", 'Poproś twórcę programu o informacje')
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
 
             if plik_od_dewelopera != "BRAK PLIKU D":
                 informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -1455,7 +1443,7 @@ def ankieta():
                         else:
                             plik_od_dewelopera = "BRAK PLIKU D"
                             messagebox.showerror(
-                                "Błąd", 'Poproś twórcę programu o informacje')
+                                "Błąd", 'Zapytaj twórcę programu o informacje')
 
                         if plik_od_dewelopera != "BRAK PLIKU D":
                             informacje_do_zgloszenia = plik_od_dewelopera.split(
@@ -1520,7 +1508,7 @@ def ankieta():
                         else:
                             plik_od_dewelopera = "BRAK PLIKU D"
                             messagebox.showerror(
-                                "Błąd", 'Poproś twórcę programu o informacje')
+                                "Błąd", 'Zapytaj twórcę programu o informacje')
 
                         if plik_od_dewelopera != "BRAK PLIKU D":
 
@@ -1596,7 +1584,7 @@ def ankieta():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
 
@@ -1774,7 +1762,7 @@ def informacje_o_wersji_utworz_okno():
                         def co_znaczniki():
                             messagebox.showinfo(
                                 'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika zmian. Oto znaczenia niektórych z nich:\n'
-                                + '"[]" - Notatka\n'
+                                + '"[]" - Notatka i/lub zapowiedź\n'
                                 + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
                                 + '"/\\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '  # Nowa linia kodu
                                 + 'lub zakończenie dodawania funkcji\n'
@@ -1785,7 +1773,7 @@ def informacje_o_wersji_utworz_okno():
                                 + '"!" - Próba usunięcia błędu (nieznany rezultat)\n'
                                 + '"~" - Zmiana działania\n'
                                 + '"#!" - Zablokowanie możliwości pobierania wersji (błąd krytyczny, wersja jest niedostępna dla nowych użytkowników)\n')
-                        # "[]" - Notatka
+                        # "[]" - Notatka i/lub zapowiedź
                         # "/" - Całkowite usunięcie błędu bez wieloetapowych napraw
                         # "/\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", lub zakończenie dodawania funkcji
                         # "///" - Kolejny etap usuwania/szukania wcześniej wykrytego błędu lub dodawania funkcji
@@ -1887,7 +1875,7 @@ def informacje_o_wersji_utworz_okno():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -2124,7 +2112,7 @@ def edycja_kosztow():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -2286,7 +2274,7 @@ def oblicz_zyski():
             else:
                 plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Błąd", 'Poproś twórcę programu o informacje')
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
 
             if plik_od_dewelopera != "BRAK PLIKU D":
                 informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -2532,7 +2520,7 @@ def otworz_okno_zapisy():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -2587,22 +2575,22 @@ def otworz_okno_zapisy():
         exit()
 
 
-def Gra_snake():
+def oprogramowanie_na_Androida():
     try:
         global internet
-        # Aktualizacja gry
+        # Aktualizacja
 
-        # ścieżka do gry w bieżącym folderze
-        path = os.path.join(os.getcwd(), "Snake.py")
+        # ścieżka do w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Androidow.py")
 
-        # usuń grę, jeśli istnieje
+        # usuń plik, jeśli istnieje
         if os.path.exists(path):
             os.remove(path)
         try:
             # pobierz grę z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
             urllib.request.urlretrieve(url, path)
-            Gra = ["python", "Snake.py"]
+            Gra = ["python", "Androidow.py"]
             subprocess.run(Gra)
         except:
             print('Wykryto brak połączenia z internetem')
@@ -2610,14 +2598,14 @@ def Gra_snake():
                 "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
             internet = 0
             try:
-                # pobierz grę z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Snake.py"
+                # pobierz plik z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
                 urllib.request.urlretrieve(url, path)
-                Gra = ["python", "Snake.py"]
+                Gra = ["python", "Androidow.py"]
                 subprocess.run(Gra)
             except:
                 messagebox.showerror(
-                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić gry.')
+                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
     except Exception as e:
         # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -2629,7 +2617,7 @@ def Gra_snake():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
@@ -2664,11 +2652,11 @@ def Gra_snake():
         username = f'{nazwa_uzytkownika}'
         password = f'{token_do_wpisania}'
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z Gra_snake()'
+        issue_title = 'Automatyczne zgłoszenie błędu z oprogramowanie_na_Androida()'
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji Gra_snake():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Data: {format_data_czas} Błąd funkcji oprogramowanie_na_Androida():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -2748,10 +2736,10 @@ def otworz_okno_wybor():
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Snake", command=Gra_snake)
+                okno_wyborowe, text="Aplikacja na telefon", command=oprogramowanie_na_Androida)
             button_zglos_problem.pack()
             label_informacja = tk.Label(
-                okno_wyborowe, text="Prosta gra pobierana dopiero po naciśnięciu przycisku")
+                okno_wyborowe, text="Wersja programu działająca na telefonach")
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(
@@ -2776,7 +2764,7 @@ def otworz_okno_wybor():
         else:
             plik_od_dewelopera = "BRAK PLIKU D"
             messagebox.showerror(
-                "Błąd", 'Poproś twórcę programu o informacje')
+                "Błąd", 'Zapytaj twórcę programu o informacje')
 
         if plik_od_dewelopera != "BRAK PLIKU D":
             informacje_do_zgloszenia = plik_od_dewelopera.split('\n')

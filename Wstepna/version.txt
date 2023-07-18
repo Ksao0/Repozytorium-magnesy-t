@@ -9,7 +9,7 @@ Postanowiliśmy usunąć grę Snake na rzecz dodania naszego autorskiego oprogra
 zarządzanie aplikacją na telefon
 
 Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
- - Wydano wersję programu na system Android!
+ - Wydano wersję programu na system Android, możesz ją pobrać oraz aktualizować z pomocą naszego programu!
  - Zmieniliśmy mechanizm oceniania ważności ankiet, zmniejszono rygorystyczność oceniania
  - Niestety prace nad programem zostały wstrzymane z powodu braku pomysłów na rozwijanie
    nowych i starych funkcji. Jest to najprawdopodobniej ostatnia aktualizacja poprawkowa w najbliższym czasie.

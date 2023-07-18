@@ -4,7 +4,7 @@ Nazwa poprawki: ZMOW
 Wydano: 17.07.2023
 Informacja o bibliotekach: C3
 
-Teraz nasz program będzie dostępny w ograniczoenj wersji na systemie Android!
+Teraz nasz program będzie dostępny w ograniczonej wersji na systemie Android!
 Postanowiliśmy usunąć grę Snake na rzecz dodania naszego autorskiego oprogramowania umożliwiającego
 zarządzanie aplikacją na telefon
 

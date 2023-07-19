@@ -2588,7 +2588,7 @@ def oprogramowanie_na_Androida():
         if os.path.exists(path):
             os.remove(path)
         try:
-            # pobierz grę z repozytorium
+            # pobierz plik z repozytorium
             url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
             urllib.request.urlretrieve(url, path)
             Gra = ["python", "Androidow.py"]

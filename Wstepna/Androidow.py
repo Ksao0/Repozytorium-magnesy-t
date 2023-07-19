@@ -322,12 +322,10 @@ try:
         frame_buttons, text="Pobierz plik APK", command=pobierz_apk)
     button_pobierz_apk.pack(side=tk.LEFT, padx=5)
 
-    # Dodajemy przycisk do otwierania eksploratora plików
     button_otworz_folder = tk.Button(
         frame_buttons, text="Otwórz folder z APK", command=otworz_folder)
     button_otworz_folder.pack(side=tk.LEFT, padx=5)
 
-    # Dodajemy przycisk do otwierania eksploratora plików
     button_wiadomosc = tk.Button(
         frame_buttons, text="Wiadomość", command=wiadomosc)
     button_wiadomosc.pack(side=tk.LEFT, padx=5)

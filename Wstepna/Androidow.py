@@ -18,7 +18,7 @@ pobrany_apk = False
 
 try:
     def pobierz_apk():
-        global pobrany_apk  # Dodajemy deklarację zmiennej globalnej
+        global pobrany_apk, save_as  # Deklarujemy zmienne globalne
         url = "https://github.com/Ksao0/Aplikacja_ma_telefon-Magnesy/raw/main/app-debug.apk"
         save_as = "app-debug.apk"
 
@@ -49,13 +49,14 @@ try:
                 "Błąd pobierania", f"Wystąpił błąd podczas pobierania pliku: {str(e)}")
 
     def otworz_folder():
-        # Sprawdzamy, czy plik APK został pobrany przed próbą otwarcia folderu
+        # Sprawdzamy, czy plik APK został pobrany przed próbą otwarcia  folderu
         if pobrany_apk:
-            folder = os.path.dirname(os.path.abspath("app-debug.apk"))
-            subprocess.Popen(["explorer", folder])
+            folder = os.path.dirname(os.path.abspath(save_as))
+            file_path = os.path.join(folder, "app-debug.apk")
+            subprocess.Popen(f'explorer /select,"{file_path}"')
         else:
             messagebox.showwarning(
-                "Brak pobranego pliku", "Plik APK nie został jeszcze pobrany w najnowszej wersji. Najpierw pobierz plik, a następnie otwórz folder.")
+                "Brak pobranego pliku", "Plik APK nie został jeszcze    pobrany w najnowszej wersji. Najpierw pobierz plik, a  następnie otwórz folder.")
 
     def zmien_zawartosc_pola_tekstowego():
         global instrukcja_button

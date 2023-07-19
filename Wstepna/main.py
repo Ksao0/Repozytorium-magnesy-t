@@ -941,7 +941,7 @@ def wykres():
         # Sprawdź, czy jest wystarczająca liczba obliczeń do wygenerowania wykresu
         if len(obliczenia) < 8:
             print(Fore.YELLOW +
-                  "Niewystarczająca liczba danych do wygenerowania wykresu")
+                  "Niewystarczająca liczba danych do wygenerowania wykresu" + Style.RESET_ALL)
             messagebox.showinfo(
                 "Brak danych o wykresie", 'Niewystarczająca ilośc danych do wygenerowania wykresu. Wykonaj więcej obliczeń :D')
         else:

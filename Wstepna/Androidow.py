@@ -34,7 +34,7 @@ try:
     def wiadomosc():
         try:
             global file_path_ikonka
-            messagebox.showinfo('Daj nam znać', "Nasza aplikacja jest tworzona dla was, naszych użytkowników, z tego powodu najcenniejsze co możemy dostać to wasza opinia. W tym oknie możesz dać nam swoją opinię czy np. propozycję. Na pewno ją sprawdzimy i uwzględnimy w następnej wersji programu ")
+            messagebox.showinfo('Daj nam znać', "Nasza aplikacja jest tworzona dla was, naszych użytkowników, z tego powodu najcenniejsze co możemy dostać to wasza opinia. To właśnie w tym oknie możesz nam ją dać. Na pewno ją sprawdzimy i uwzględnimy w następnej wersji programu")
             global wyslij_wiadomosc
 
             def otworz_okno():

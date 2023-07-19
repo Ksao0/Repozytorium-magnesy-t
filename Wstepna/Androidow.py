@@ -38,14 +38,14 @@ def zmien_zawartosc_pola_tekstowego():
     if instrukcja_button["text"] == "Instrukcja":
         instrukcja_button["text"] = "Powrót"
         zawartosc = "To okno będzie rozwijane, aktualna oprawa graficzna oraz inne funkcje mogą ulec zmianie\n" \
-                    "Wymagana jest wersja oprogramowania systemu Android powyżej 9\n\n" \
+                    "Wymagania: Wersja systemu android nowsza niż 9\n\n" \
                     "Oto krótka instrukcja sposobu instalowania i aktualizowania aplikacji do liczenia magnesów w wersji na telefon:\n" \
-                    '1. Naciśnij przycisk "Pobierz plik APK", poczekaj, aż plik zostanie pobrany.\n' \
+                    '1. Naciśnij przycisk "Pobierz plik APK" i poczekaj, aż plik zostanie pobrany.\n' \
                     "2. Otwórz folder z plikami programu na komputerze.\n" \
                     "3. Podłącz telefon do komputera (pamiętaj o tym, aby włączyć transfer plików, w przeciwnym razie będziesz po prostu ładować telefon)\n" \
                     "4. Przenieś plik app-debug.apk na urządzenie z systemem Android, np. na kartę SD do katalogu Download\n" \
                     "5. Uruchom plik app-debug.apk na telefonie i zainstaluj lub zaktualizuj aplikację\n" \
-                    "Po wykonaniu tych czynności aplikacja na telefon zostanie zaktualizowana do najnowszej wersji!\n"
+                    "Po wykonaniu tych czynności aplikacja na telefon zostanie zaktualizowana do najnowszej wersji!\n\n"
     else:
         instrukcja_button["text"] = "Instrukcja"
         zawartosc = "Opis najnowszej aktualizacji aplikacji na telefon\n"

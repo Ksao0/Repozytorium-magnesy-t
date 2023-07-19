@@ -257,7 +257,7 @@ def czynnosci_poczatkowe():
         # usuń plik WEW.py, jeśli istnieje
         if os.path.exists(path):
             os.remove(path)
-        # print("Usunięto plik WEW.py")
+            # print("Usunięto plik WEW.py")
         try:
             # pobierz plik main.py z repozytorium
             url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
@@ -2253,7 +2253,7 @@ def oblicz_zyski():
         # usuń plik Zapisy.txt, jeśli istnieje
         if os.path.exists(path):
             os.remove(path)
-        # print("Usunięto plik Zapisy.txt")
+            # print("Usunięto plik Zapisy.txt")
 
         if zapis_do_pliku.get():
             with open("Zapisy.txt", "a", encoding='utf-8') as plik:

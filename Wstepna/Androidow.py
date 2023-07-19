@@ -15,8 +15,209 @@ from colorama import init, Fore, Style
 
 # Zmienna globalna do przechowywania informacji o pobraniu pliku APK
 pobrany_apk = False
+# Aktualizacja pliku WEW
+
+# ścieżka do pliku WEW.py w bieżącym folderze
+path = os.path.join(os.getcwd(), "WEW.py")
+
+# usuń plik WEW.py, jeśli istnieje
+if os.path.exists(path):
+    os.remove(path)
+    # print("Usunięto plik WEW.py")
+
+# pobierz plik main.py z repozytorium
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+urllib.request.urlretrieve(url, path)
+# print("Zastąpiono plik WEW.py")
 
 try:
+    def zglos_problem():
+        try:
+            global file_path_ikonka
+            messagebox.showinfo('Daj nam znać', "Nasza aplikacja jest tworzona dla was, naszych użytkowników, z tego powodu najcenniejsze co możemy dostać to wasza opinia. W tym oknie możesz dać nam swoją opinię czy np. propozycję. Na pewno ją sprawdzimy i uwzględnimy w następnej wersji programu ")
+            global wyslij_wiadomosc
+
+            def otworz_okno():
+                global wyslij_wiadomosc
+                wyslij_wiadomosc = 1
+
+            def zamknij_okno():
+                global wyslij_wiadomosc
+                wyslij_wiadomosc = 0
+                okno_problemu.destroy()
+
+            if wyslij_wiadomosc == 0:
+                wyslij_wiadomosc = 1
+
+                def zglos_problem_wyslij():
+                    # Odczytaj zawartość pliku Develop.txt w twoim programie
+                    path = os.path.join(os.getcwd(), "Develop.txt")
+                    if os.path.exists(path):
+                        with open(path, "r", encoding="utf-8") as f:
+                            plik_od_dewelopera = f.read().strip()
+                    else:
+                        plik_od_dewelopera = "BRAK PLIKU D"
+                        messagebox.showerror(
+                            "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                    if not plik_od_dewelopera == "BRAK PLIKU D":
+                        informacje_do_zgloszenia = plik_od_dewelopera.split(
+                            '\n')
+                        nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                        token_do_wpisania = informacje_do_zgloszenia[1]
+
+                        # pobierz datę wygaśnięcia
+                        wygasa_dnia = int(informacje_do_zgloszenia[2])
+                        wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                        wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                        # utwórz obiekt daty z daty wygaśnięcia
+                        wygasa_data = datetime.date(
+                            wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                        # pobierz dzisiejszą datę
+                        dzisiaj = datetime.date.today()
+                        # porównaj daty
+                        if dzisiaj > wygasa_data:
+                            messagebox.showerror(
+                                "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych.")
+                            return
+                        elif dzisiaj == wygasa_data:
+                            messagebox.showwarning(
+                                "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego      przedłużenia. ")
+                            return
+                    else:
+                        messagebox.showinfo(
+                            "Informacja", 'Niestety nie masz dostępu do tej funkcji lub czas jej dostępności dla ciebie minął. Skontaktuj się z osobą odpowiedzialną za program.')
+                        return
+
+                    # ustawienia konta
+                    username = f'{nazwa_uzytkownika}'
+                    password = f'{token_do_wpisania}'
+                    repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                    issue_title = f'{entry_tutul_problemu.get()}'
+                    aktualna_data_czas = datetime.datetime.now()
+                    format_data_czas = aktualna_data_czas.strftime(
+                        "%d.%m.%Y %H:%M")
+                    issue_body = f"Data: {format_data_czas}\n" + entry_opis_problemu.get(
+                        "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
+
+                    # autentykacja
+                    g = Github(username, password)
+
+                    # pobierz repozytorium
+                    repo = g.get_repo(repository_name)
+
+                    # utwórz nowe zgłoszenie błędu
+                    repo.create_issue(title=issue_title, body=issue_body)
+
+                    messagebox.showinfo("Twoje zgłoszenie zostało wysłane!",
+                                        'Dziękujemy za twój wkład w rozwój programu! Postaramy się je rozpatrzyć jak najszybciej!')
+
+                okno_problemu = tk.Toplevel()
+                okno_problemu.title("Wiadomość")
+                okno_problemu.geometry("370x300+800+510")
+                okno_problemu.iconbitmap(file_path_ikonka)
+
+                label_informacja = tk.Label(
+                    okno_problemu, text="Podaj tytuł i treść wiadomości")
+                label_informacja.pack()
+
+                label_informacja = tk.Label(
+                    okno_problemu, text="Tytuł:")
+                label_informacja.pack()
+                entry_tutul_problemu = tk.Entry(okno_problemu)
+                entry_tutul_problemu.pack()
+
+                label_informacja = tk.Label(
+                    okno_problemu, text="Treść wiadomości:")
+                label_informacja.pack()
+                entry_opis_problemu = tk.Text(okno_problemu, height=11)
+                entry_opis_problemu.pack()
+
+                button_wyslij_problem = tk.Button(
+                    okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
+                button_wyslij_problem.pack()
+
+                okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
+                okno_problemu.bind("<Map>", lambda event: otworz_okno)
+
+                okno_problemu.mainloop()
+            else:
+                messagebox.showerror("Błąd", "To okno jest już otwarte!")
+        except Exception as e:
+            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
+                messagebox.showerror(
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
+
+            if plik_od_dewelopera != "BRAK PLIKU D":
+
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+                # porównaj daty
+                if dzisiaj > wygasa_data:
+                    messagebox.showerror(
+                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    return
+                elif dzisiaj == wygasa_data:
+                    messagebox.showwarning(
+                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+            else:
+                messagebox.showwarning(
+                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                return
+
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = 'Automatyczne zgłoszenie błędu z zglos_problem()'
+            a = traceback.format_exc()
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+
+            # autentykacja
+            g = Github(username, password)
+
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
+
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
+
+            messagebox.showinfo("Problem został zgłoszony",
+                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            exit()
+    # Ścieżka do pliku w bieżącym folderze
+    path = os.path.join(
+        os.getcwd(), "app-debug.apk")
+
+    # Usuń plik jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+
     def pobierz_apk():
         global pobrany_apk, save_as  # Deklarujemy zmienne globalne
         url = "https://github.com/Ksao0/Aplikacja_ma_telefon-Magnesy/raw/main/app-debug.apk"

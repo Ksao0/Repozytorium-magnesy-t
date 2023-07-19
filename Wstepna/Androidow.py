@@ -56,14 +56,14 @@ try:
             subprocess.Popen(f'explorer /select,"{file_path}"')
         else:
             messagebox.showwarning(
-                "Brak pobranego pliku", "Plik APK nie został jeszcze    pobrany w najnowszej wersji. Najpierw pobierz plik, a  następnie otwórz folder.")
+                "Brak pobranego pliku", "Plik APK nie został jeszcze pobrany w najnowszej wersji. Najpierw pobierz plik, a  następnie otwórz folder.")
 
     def zmien_zawartosc_pola_tekstowego():
         global instrukcja_button
         if instrukcja_button["text"] == "Instrukcja":
             instrukcja_button["text"] = "Powrót"
             zawartosc = "To okno będzie rozwijane, aktualna oprawa graficzna oraz inne funkcje mogą ulec zmianie\n" \
-                        "Wymagania: Wersja systemu android nowsza niż 9\n\n" \
+                        "Wymagania: Wersja systemu Android 9 lub nowsza\n\n" \
                         "Oto krótka instrukcja sposobu instalowania i aktualizowania aplikacji do liczenia magnesów w wersji na telefon:\n" \
                         '1. Naciśnij przycisk "Pobierz plik APK" i poczekaj, aż plik zostanie pobrany.\n' \
                         "2. Otwórz folder z pobranym plikiem APK (naciśnij przycisk).\n" \

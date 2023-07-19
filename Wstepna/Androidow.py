@@ -69,6 +69,7 @@ try:
                         "2. Otwórz folder z pobranym plikiem APK (naciśnij przycisk).\n" \
                         "3. Podłącz telefon do komputera (pamiętaj o tym, aby włączyć transfer plików, w przeciwnym razie będziesz po prostu ładować telefon)\n" \
                         "4. Przenieś plik app-debug.apk na urządzenie z systemem Android, np. na kartę SD do katalogu Download\n" \
+                        "   Możesz przenieść ten plik do dowolnego miejsca w pamięci, ważne, aby można go było potem znaleźć\n" \
                         "5. Uruchom plik app-debug.apk na telefonie i zainstaluj lub zaktualizuj aplikację\n" \
                         "Po wykonaniu tych czynności aplikacja na telefon zostanie zaktualizowana do najnowszej wersji!\n\n"
         else:

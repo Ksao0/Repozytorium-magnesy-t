@@ -31,7 +31,7 @@ urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik WEW.py")
 
 try:
-    def zglos_problem():
+    def wiadomosc():
         try:
             global file_path_ikonka
             messagebox.showinfo('Daj nam znać', "Nasza aplikacja jest tworzona dla was, naszych użytkowników, z tego powodu najcenniejsze co możemy dostać to wasza opinia. W tym oknie możesz dać nam swoją opinię czy np. propozycję. Na pewno ją sprawdzimy i uwzględnimy w następnej wersji programu ")
@@ -49,7 +49,7 @@ try:
             if wyslij_wiadomosc == 0:
                 wyslij_wiadomosc = 1
 
-                def zglos_problem_wyslij():
+                def wiadomosc_wyslij():
                     # Odczytaj zawartość pliku Develop.txt w twoim programie
                     path = os.path.join(os.getcwd(), "Develop.txt")
                     if os.path.exists(path):
@@ -136,7 +136,7 @@ try:
                 entry_opis_problemu.pack()
 
                 button_wyslij_problem = tk.Button(
-                    okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
+                    okno_problemu, text="Wyślij", command=wiadomosc_wyslij)
                 button_wyslij_problem.pack()
 
                 okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
@@ -192,11 +192,11 @@ try:
             username = f'{nazwa_uzytkownika}'
             password = f'{token_do_wpisania}'
             repository_name = 'Ksao0/Repozytorium-magnesy-t'
-            issue_title = 'Automatyczne zgłoszenie błędu z zglos_problem()'
+            issue_title = 'Automatyczne zgłoszenie błędu z Androidow.py'
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Data: {format_data_czas} Błąd funkcji wiadomosc():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -326,6 +326,11 @@ try:
     button_otworz_folder = tk.Button(
         frame_buttons, text="Otwórz folder z APK", command=otworz_folder)
     button_otworz_folder.pack(side=tk.LEFT, padx=5)
+
+    # Dodajemy przycisk do otwierania eksploratora plików
+    button_wiadomosc = tk.Button(
+        frame_buttons, text="Wiadomość", command=wiadomosc)
+    button_wiadomosc.pack(side=tk.LEFT, padx=5)
 
     # Pobierz zawartość pliku version.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version.txt'

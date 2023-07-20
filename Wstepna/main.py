@@ -43,7 +43,7 @@ internet = 1
 
 def blokada_klamstwa():
     messagebox.showerror(
-        'Odmowa dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
+        'Odmowa dostępu', "Niestety ta opcja jest tymczasowo zablokowana, spróbuj ponownie za kilka godzin lub dni\nTo nie jest błąd")
 
 
 def blad_poczatkowe():
@@ -59,7 +59,7 @@ def zglos_problem():
     try:
         global file_path_ikonka
         if not internet == 0:
-            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje, np. kiedy, gdzie, jak.\nW tym oknie możesz też po prostu zadać nam pytanie na dowolny temat związany z naszym programem")
+            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje (kiedy, gdzie, jak itp.)\nMożesz też po prostu zadać pytanie")
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
@@ -106,7 +106,7 @@ def zglos_problem():
                         # porównaj daty
                         if dzisiaj > wygasa_data:
                             messagebox.showerror(
-                                "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych.")
+                                "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych.")
                             return
                         elif dzisiaj == wygasa_data:
                             messagebox.showwarning(
@@ -156,13 +156,13 @@ def zglos_problem():
                 label_informacja.pack()
 
                 label_informacja = tk.Label(
-                    okno_problemu, text="Tytuł problemu lub propozycji:")
+                    okno_problemu, text="Tytuł:")
                 label_informacja.pack()
                 entry_tutul_problemu = tk.Entry(okno_problemu)
                 entry_tutul_problemu.pack()
 
                 label_informacja = tk.Label(
-                    okno_problemu, text="Opisz jak najdokładniej problem lub propozycję:")
+                    okno_problemu, text="Opis:")
                 label_informacja.pack()
                 entry_opis_problemu = tk.Text(okno_problemu, height=11)
                 entry_opis_problemu.pack()
@@ -212,7 +212,7 @@ def zglos_problem():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -315,7 +315,7 @@ def czynnosci_poczatkowe():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -493,11 +493,11 @@ def taj():
                                 # porównaj daty
                                 if dzisiaj > wygasa_data:
                                     messagebox.showerror(
-                                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                                     return
                                 elif dzisiaj == wygasa_data:
                                     messagebox.showwarning(
-                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu   jego przedłużenia.                ")
+                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.")
                             else:
                                 messagebox.showwarning(
                                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -563,7 +563,7 @@ def taj():
                                 # porównaj daty
                                 if dzisiaj > wygasa_data:
                                     messagebox.showerror(
-                                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                                     return
                                 elif dzisiaj == wygasa_data:
                                     messagebox.showwarning(
@@ -582,7 +582,7 @@ def taj():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie"
 
                             # autentykacja
                             g = Github(username, password)
@@ -648,7 +648,7 @@ def taj():
                 subprocess.run(Aktualizacja)
         else:
             messagebox.showerror(
-                "Niezdefiniowany błąd", "Najprawdopodobniej dopiero pobrałeś ten program lub plik zawierający informacje o wersji został usunięty lub uszkodzony. Program zostanie zaktualizowany do najnowszej wersji (kilka razy). Jeżeli wystąpią jakiekolwiek problemy z programem (które nie będą automatycznie zgłaszane) - skontaktuj się z osobą odpowiedzialną za program.")
+                "Niezdefiniowany błąd", "Najpewniej dopiero pobrałeś ten program, dodano nowe biblioteki lub po prostu wystąpił błąd. Naciśnij OK i uruchom program ponownie\nDo zobaczenia!")
             open("version.txt", "w", encoding='utf-8').close()
             with open("Zapisy.txt", "a", encoding='utf-8') as plik:
                 plik.write('BRAK DANYCH')
@@ -721,7 +721,7 @@ def taj():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -819,7 +819,7 @@ def aktul():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
@@ -895,7 +895,7 @@ def wykasuj_zapisy():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -1052,7 +1052,7 @@ def wykres():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
@@ -1247,7 +1247,7 @@ def rozwiaz_problemy():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
@@ -1466,7 +1466,7 @@ def ankieta():
                             # porównaj daty
                             if dzisiaj > wygasa_data:
                                 messagebox.showerror(
-                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                                 return
                             elif dzisiaj == wygasa_data:
                                 messagebox.showwarning(
@@ -1532,7 +1532,7 @@ def ankieta():
                             # porównaj daty
                             if dzisiaj > wygasa_data:
                                 messagebox.showerror(
-                                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                                 return
                             elif dzisiaj == wygasa_data:
                                 messagebox.showwarning(
@@ -1607,7 +1607,7 @@ def ankieta():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -1897,7 +1897,7 @@ def informacje_o_wersji_utworz_okno():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -2134,7 +2134,7 @@ def edycja_kosztow():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -2296,7 +2296,7 @@ def oblicz_zyski():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
@@ -2542,7 +2542,7 @@ def otworz_okno_zapisy():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -2639,7 +2639,7 @@ def oprogramowanie_na_Androida():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
@@ -2786,7 +2786,7 @@ def otworz_okno_wybor():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiadającej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(

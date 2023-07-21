@@ -30,6 +30,9 @@ url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstep
 urllib.request.urlretrieve(url, path)
 # print("Zastąpiono plik WEW.py")
 
+global wyslij_wiadomosc
+wyslij_wiadomosc = 0
+
 try:
     def wiadomosc():
         try:

@@ -1,4 +1,5 @@
 1.6.1.3 Wstępna
+ ~ Przycisk dedykowany aplikacji na telefon został zamieniony na przycisk funkcji eksperymentalnych
  ~ Dziennik zmian będzie teraz wyświetlać i numerować 15 ostatnich wpisów
  /\ Teraz możesz przenieść się do lokalizacji pobranego pliku APK
  /// Usprawniono oprogramowanie na komputer do pobierania aplikacji na telefon

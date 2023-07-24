@@ -2576,28 +2576,55 @@ def otworz_okno_zapisy():
         exit()
 
 
-def oprogramowanie_na_Androida():
-    try:
-        global internet
-        # Aktualizacja
+def Opcje_eksperymentalne(okno_wyborowe):
+    # Tworzenie nowego okna dialogowego
+    dialog = tk.Toplevel(okno_wyborowe)
+    dialog.title("Wybierz opcję")
 
-        # ścieżka do w bieżącym folderze
-        path = os.path.join(os.getcwd(), "Androidow.py")
+    # Ustawienie modality, aby wyłączyć możliwość używania innych okien
+    dialog.transient(okno_wyborowe)
+    dialog.grab_set()
 
-        # usuń plik, jeśli istnieje
-        if os.path.exists(path):
-            os.remove(path)
+    def opcja_1():
+        aplikacja_Android()
+        dialog.destroy()
+
+    def opcja_2():
+        moi_klienci()
+        dialog.destroy()
+
+    def opcja_anuluj():
+        print("Anulowano")
+        dialog.destroy()
+
+    label_info = tk.Label(
+        dialog, text="Opcje eksperymentalne to opcje, które dopiero powstały, są funkcjonalne, ale będą zmieniane")
+    label_info.pack()
+
+    button_opcja_1 = tk.Button(
+        dialog, text="Zainstaluj/aktualizuj aplkację na telefon", command=opcja_1)
+    button_opcja_2 = tk.Button(
+        dialog, text="Dane o klientach", command=opcja_2)
+    button_anuluj = tk.Button(dialog, text="Anuluj", command=opcja_anuluj)
+
+    button_opcja_1.pack()
+    button_opcja_2.pack()
+    button_anuluj.pack()
+
+    # Obsługa zamknięcia okna dialogowego
+    dialog.protocol("WM_DELETE_WINDOW", opcja_anuluj)
+
+    def aplikacja_Android():
         try:
-            # pobierz plik z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
-            urllib.request.urlretrieve(url, path)
-            Gra = ["python", "Androidow.py"]
-            subprocess.run(Gra)
-        except:
-            print('Wykryto brak połączenia z internetem')
-            messagebox.showerror(
-                "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
-            internet = 0
+            global internet
+            # Aktualizacja
+
+            # ścieżka do w bieżącym folderze
+            path = os.path.join(os.getcwd(), "Androidow.py")
+
+            # usuń plik, jeśli istnieje
+            if os.path.exists(path):
+                os.remove(path)
             try:
                 # pobierz plik z repozytorium
                 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
@@ -2605,72 +2632,294 @@ def oprogramowanie_na_Androida():
                 Gra = ["python", "Androidow.py"]
                 subprocess.run(Gra)
             except:
+                print('Wykryto brak połączenia z internetem')
                 messagebox.showerror(
-                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
-    except Exception as e:
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Zapytaj twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
+                    "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
+                internet = 0
+                try:
+                    # pobierz plik z repozytorium
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
+                    urllib.request.urlretrieve(url, path)
+                    Gra = ["python", "Androidow.py"]
+                    subprocess.run(Gra)
+                except:
+                    messagebox.showerror(
+                        "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
+        except Exception as e:
+            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                return
-            elif dzisiaj == wygasa_data:
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
+
+            if plik_od_dewelopera != "BRAK PLIKU D":
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+                # porównaj daty
+                if dzisiaj > wygasa_data:
+                    messagebox.showerror(
+                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    return
+                elif dzisiaj == wygasa_data:
+                    messagebox.showwarning(
+                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+            else:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
-        else:
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
+                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                return
 
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z oprogramowanie_na_Androida()'
-        a = traceback.format_exc()
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji oprogramowanie_na_Androida():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = 'Automatyczne zgłoszenie błędu z Opcje_eksperymentalne()'
+            a = traceback.format_exc()
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }\nTraceback:\n\n{a}"
 
-        # autentykacja
-        g = Github(username, password)
+            # autentykacja
+            g = Github(username, password)
 
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
 
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
 
-        messagebox.showinfo("Problem został zgłoszony",
-                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        exit()
+            messagebox.showinfo("Problem został zgłoszony",
+                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            exit()
+
+    def moi_klienci():
+        def create_client_file(name, city, phone, additional_info):
+            folder = "klienci"
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            file_path = os.path.join(folder, f"KLIENT.{name}.txt")
+            with open(file_path, "w") as file:
+                file.write(f"{name}\n{city}\n{phone}\n{additional_info}")
+
+        def delete_client_file(name):
+            client_file = f"klienci/KLIENT.{name}.txt"
+            history_file = f"klienci/KLIENT_HISTORIA.{name}.txt"
+            if os.path.exists(client_file):
+                os.remove(client_file)
+            if os.path.exists(history_file):
+                os.remove(history_file)
+
+        def load_clients_list():
+            folder = "klienci"
+            clients_list.delete(0, tk.END)
+            if not os.path.exists(folder):
+                return
+            for file in os.listdir(folder):
+                if file.startswith("KLIENT.") and file.endswith(".txt"):
+                    client_name = file.split(".")[1]
+                    client_file_path = os.path.join(folder, file)
+                    with open(client_file_path, "r") as client_file:
+                        client_data = client_file.read().splitlines()
+                    if len(client_data) >= 2:
+                        client_city = client_data[1]
+                    else:
+                        client_city = "Brak danych o miejscowości"
+                    clients_list.insert(
+                        tk.END, f"{client_name} - {client_city}")
+
+        def show_client_info():
+            selected_client = clients_list.get(tk.ACTIVE)
+            if selected_client:
+                top = tk.Toplevel(root)
+                top.title(selected_client)
+
+                label_pakietow = tk.Label(top, text="Liczba magnesów:")
+                label_pakietow.pack()
+                entry_pakietow = tk.Entry(top)
+                entry_pakietow.pack()
+
+                label_ceny = tk.Label(top, text="Cena za magnes:")
+                label_ceny.pack()
+                entry_ceny = tk.Entry(top)
+                entry_ceny.pack()
+
+                def dodaj_do_klienta():
+                    pakietow = entry_pakietow.get()
+                    cena = entry_ceny.get()
+                    with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
+                        history_file.write(f"{pakietow} magnesy {cena} zł\n")
+
+                def pokaz_historie_klienta():
+                    history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+                    if os.path.exists(history_file_path):
+                        with open(history_file_path, "r") as history_file:
+                            history_data = history_file.read()
+                        history_window = tk.Toplevel(root)
+                        history_window.title(
+                            f"Historia klienta: {selected_client}")
+                        history_label = tk.Label(
+                            history_window, text=history_data)
+                        history_label.pack()
+
+                def edytuj_dane_klienta():
+                    client_file_path = f"klienci/KLIENT.{selected_client}.txt"
+                    if os.path.exists(client_file_path):
+                        with open(client_file_path, "r") as client_file:
+                            client_data = client_file.read().splitlines()
+
+                        top_edit = tk.Toplevel(root)
+                        top_edit.title(
+                            f"Edytuj dane klienta: {selected_client}")
+
+                        label_name = tk.Label(top_edit, text="Nazwa klienta*:")
+                        label_name.pack()
+                        entry_name = tk.Entry(top_edit)
+                        entry_name.insert(tk.END, client_data[0])
+                        entry_name.pack()
+
+                        label_city = tk.Label(top_edit, text="Miejscowość:")
+                        label_city.pack()
+                        entry_city = tk.Entry(top_edit)
+                        entry_city.insert(tk.END, client_data[1])
+                        entry_city.pack()
+
+                        label_phone = tk.Label(top_edit, text="Telefon:")
+                        label_phone.pack()
+                        entry_phone = tk.Entry(top_edit)
+                        entry_phone.insert(tk.END, client_data[2])
+                        entry_phone.pack()
+
+                        label_additional_info = tk.Label(
+                            top_edit, text="Informacje dodatkowe:")
+                        label_additional_info.pack()
+                        entry_additional_info = tk.Entry(top_edit)
+                        entry_additional_info.insert(tk.END, client_data[3])
+                        entry_additional_info.pack()
+
+                        def save_changes():
+                            name = entry_name.get()
+                            if not name:
+                                messagebox.showerror(
+                                    "Błąd", "Nazwa klienta jest wymagana.")
+                                return
+                            city = entry_city.get()
+                            phone = entry_phone.get()
+                            additional_info = entry_additional_info.get()
+
+                            create_client_file(
+                                name, city, phone, additional_info)
+                            delete_client_file(selected_client)
+                            top_edit.destroy()
+                            load_clients_list()
+
+                        button_save = tk.Button(
+                            top_edit, text="Zapisz zmiany", command=save_changes)
+                        button_save.pack()
+
+                frame_przyciski = tk.Frame(top)
+                frame_przyciski.pack()
+
+                button_dodaj = tk.Button(
+                    frame_przyciski, text="Dodaj", command=dodaj_do_klienta)
+                button_dodaj.pack(side=tk.LEFT)
+
+                button_historia = tk.Button(
+                    frame_przyciski, text="Historia z klientem", command=pokaz_historie_klienta)
+                button_historia.pack(side=tk.LEFT)
+
+                button_edytuj = tk.Button(
+                    frame_przyciski, text="Edytuj dane", command=edytuj_dane_klienta)
+                button_edytuj.pack(side=tk.LEFT)
+
+        def new_client():
+            top = tk.Toplevel(root)
+            top.title("Nowy klient")
+
+            label_name = tk.Label(top, text="Nazwa klienta*:")
+            label_name.pack()
+            entry_name = tk.Entry(top)
+            entry_name.pack()
+
+            label_city = tk.Label(top, text="Miejscowość:")
+            label_city.pack()
+            entry_city = tk.Entry(top)
+            entry_city.pack()
+
+            label_phone = tk.Label(top, text="Telefon:")
+            label_phone.pack()
+            entry_phone = tk.Entry(top)
+            entry_phone.pack()
+
+            label_additional_info = tk.Label(top, text="Informacje dodatkowe:")
+            label_additional_info.pack()
+            entry_additional_info = tk.Entry(top)
+            entry_additional_info.pack()
+
+            def create_new_client():
+                name = entry_name.get()
+                if not name:
+                    messagebox.showerror(
+                        "Błąd", "Nazwa klienta jest wymagana.")
+                    return
+                city = entry_city.get()
+                phone = entry_phone.get()
+                additional_info = entry_additional_info.get()
+
+                create_client_file(name, city, phone, additional_info)
+                top.destroy()
+                load_clients_list()
+
+            button_create = tk.Button(
+                top, text="Utwórz", command=create_new_client)
+            button_create.pack()
+
+        def delete_client():
+            selected_client = clients_list.get(tk.ACTIVE)
+            if selected_client:
+                response = messagebox.askyesno(
+                    "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?")
+                if response == tk.YES:
+                    delete_client_file(selected_client)
+                    load_clients_list()
+
+        root = tk.Tk()
+        root.title("Lista klientów")
+
+        button_new_client = tk.Button(
+            root, text="Nowy klient", command=new_client)
+        button_new_client.pack(side=tk.LEFT)
+
+        button_delete_client = tk.Button(
+            root, text="Usuń klienta", command=delete_client)
+        button_delete_client.pack(side=tk.LEFT)
+
+        clients_list = tk.Listbox(root)
+        clients_list.pack()
+
+        clients_list.bind("<Double-Button-1>",
+                          lambda event: show_client_info())
+
+        load_clients_list()
+
+        root.mainloop()
 
 
 def otworz_okno_wybor():
@@ -2736,11 +2985,14 @@ def otworz_okno_wybor():
                 okno_wyborowe, text="Wygeneruj wykres na podstawie poprzednich obliczeń")
             label_informacja.pack()
 
+            def Opcje_eksperymentalne_podopcja():
+                Opcje_eksperymentalne(okno_wyborowe)
+
             button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Aplikacja na telefon", command=oprogramowanie_na_Androida)
+                okno_wyborowe, text="Opcje eksperymentalne", command=Opcje_eksperymentalne_podopcja)
             button_zglos_problem.pack()
             label_informacja = tk.Label(
-                okno_wyborowe, text="Wersja programu działająca na telefonach")
+                okno_wyborowe, text="Opcje, które nie są w pełni sprawdzone")
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(

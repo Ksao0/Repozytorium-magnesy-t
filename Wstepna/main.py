@@ -614,7 +614,7 @@ def taj():
             # Dostępna aktualizacja
             if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
-                message = f"Dostępna jest poprawka wersji programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
+                message = f"Dostępna jest nowa wersja programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
                 if response == True:
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
@@ -2423,7 +2423,7 @@ if internet == 1:
                     urllib.request.urlretrieve(url, path)
                 else:
                     if klamstwo == False:
-                        print(Fore.RED + 'Dostępna jest poprawka wersji')
+                        print(Fore.RED + 'Dostępna jest nowa wersja')
                         wersja = 'DOSTĘPNA POPRAWKA'
                     else:
                         print(Fore.GREEN + 'Masz najnowszą wersję programu.')

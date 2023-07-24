@@ -2593,10 +2593,6 @@ def Opcje_eksperymentalne(okno_wyborowe):
         moi_klienci()
         dialog.destroy()
 
-    def opcja_anuluj():
-        print("Anulowano")
-        dialog.destroy()
-
     label_info = tk.Label(
         dialog, text="Opcje eksperymentalne to opcje, które dopiero powstały, są funkcjonalne, ale będą zmieniane")
     label_info.pack()
@@ -2605,14 +2601,9 @@ def Opcje_eksperymentalne(okno_wyborowe):
         dialog, text="Zainstaluj/aktualizuj aplkację na telefon", command=opcja_1)
     button_opcja_2 = tk.Button(
         dialog, text="Dane o klientach", command=opcja_2)
-    button_anuluj = tk.Button(dialog, text="Anuluj", command=opcja_anuluj)
 
     button_opcja_1.pack()
     button_opcja_2.pack()
-    button_anuluj.pack()
-
-    # Obsługa zamknięcia okna dialogowego
-    dialog.protocol("WM_DELETE_WINDOW", opcja_anuluj)
 
     def aplikacja_Android():
         try:

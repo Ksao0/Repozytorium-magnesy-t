@@ -11,11 +11,11 @@ from github import Github
 import sys
 import traceback
 import matplotlib.pyplot as plt
-# import smtplib
 import random
 import shutil
 from PIL import Image
 from colorama import init, Fore, Style
+
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
 # Style.BRIGHT

@@ -31,6 +31,9 @@ def restart_program():
     # Tutaj można dodać kod przygotowujący stan programu do ponownego uruchomienia.
     # Na przykład czyść dane, resetuj zmienne itp.
 
+    Aktualizacja = ["python", "WEW.py"]
+    subprocess.run(Aktualizacja)
+
     sleep(1)
     # Ponowne uruchomienie programu.
     python = sys.executable
@@ -669,12 +672,6 @@ def taj():
                 subprocess.run(Aktualizacja)
                 messagebox.showinfo(
                     'Aktualizacja', "Program zostanie uruchomiony ponownie")
-                restart_program()
-            else:
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-                messagebox.showinfo(
-                    'Aktualizacja', "Wymagane ponowne uruchomienie")
                 restart_program()
         else:
             messagebox.showerror(

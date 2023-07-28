@@ -177,7 +177,7 @@ def zglos_problem():
                     okno_problemu.iconbitmap(file_path_ikonka)
 
                 label_informacja = tk.Label(
-                    okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
+                    okno_problemu, text="Pamiętaj o wybraniu kategorii")
                 label_informacja.pack()
 
                 # Zmienna do przechowywania wybranej opcji

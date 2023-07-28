@@ -883,9 +883,9 @@ def wykres():
         # Podziel dane na poszczególne obliczenia
         obliczenia = data.split("\n\n")
 
-        # Sprawdź, czy jest wystarczająca liczba obliczeń do wygenerowania wykresu
+        # Sprawdź, czy jest wystarczająca ilość obliczeń do wygenerowania wykresu
         if len(obliczenia) < 8:
-            print("Niewystarczająca liczba danych do wygenerowania wykresu")
+            print("Niewystarczająca ilość danych do wygenerowania wykresu")
             messagebox.showinfo(
                 "Brak danych o wykresie", 'Niewystarczająca ilośc danych do wygenerowania wykresu. Wykonaj więcej obliczeń :D')
         else:

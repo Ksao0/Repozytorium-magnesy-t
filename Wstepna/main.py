@@ -393,28 +393,31 @@ czynnosci_poczatkowe()
 
 def taj():
     try:
-        # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
-        response = requests.get(url)
-        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-        prefvers = response.content.decode('utf-8').strip()
-        prefvers_lines = prefvers.split('\n')
+        try:
+            # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            prefvers = response.content.decode('utf-8').strip()
+            prefvers_lines = prefvers.split('\n')
 
-        # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "version.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                version_local = f.read().strip()
-        else:
-            version_local = "BRAK DANYCH"
+            # Odczytaj zawartość pliku version.txt w twoim programie
+            path = os.path.join(os.getcwd(), "version.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    version_local = f.read().strip()
+            else:
+                version_local = "BRAK DANYCH"
 
-        version_local_first_line = version_local.split('\n')[0]
+            version_local_first_line = version_local.split('\n')[0]
 
-        # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
-        if version_local_first_line in prefvers_lines:
-            global klamstwo_lub_blokada
-            klamstwo_lub_blokada = True
-            return
+            # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
+            if version_local_first_line in prefvers_lines:
+                global klamstwo_lub_blokada
+                klamstwo_lub_blokada = True
+                return
+        except:
+            pass
 
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
@@ -734,7 +737,7 @@ def taj():
                 subprocess.run(Aktualizacja)
                 return
 
-        except requests.exceptions.RequestException as e:
+        except:
             pass
 
     except Exception as e:

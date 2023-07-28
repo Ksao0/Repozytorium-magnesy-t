@@ -1,4 +1,4 @@
-1.4.0 Stabilna (Na podstawie 1.4.0.0 Wstępna)
+1.4.0 (Na podstawie 1.4.0.0 Wstępna)
 Status: yN
 Poprawka: Stabilna 1
 Wydano: 05.06.2023

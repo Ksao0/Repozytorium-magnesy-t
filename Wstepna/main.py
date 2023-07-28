@@ -36,6 +36,7 @@ def restart_program():
     subprocess.run(Aktualizacja)
 
     sleep(1)
+    os.system('cls')
     # Ponowne uruchomienie programu.
     python = sys.executable
     os.execl(python, python, *sys.argv)

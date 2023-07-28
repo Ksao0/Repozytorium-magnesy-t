@@ -16,11 +16,26 @@ import shutil
 from PIL import Image
 from colorama import init, Fore, Style
 
+
+# Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
 # Style.BRIGHT
 # Style.RESET_ALL
 init()
+
+
+def restart_program():
+    os.system('cls')
+    print(Fore.YELLOW + "Ponowne uruchamianie...")
+    # Tutaj można dodać kod przygotowujący stan programu do ponownego uruchomienia.
+    # Na przykład czyść dane, resetuj zmienne itp.
+
+    sleep(1)
+    # Ponowne uruchomienie programu.
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
 
 print(Fore.RED + 'Nie zamykaj tego okna!')
 print('Nigdy nie kasuj pliku WEW.py')
@@ -435,8 +450,8 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    if messagebox.showinfo("Aktualizacja", "Uruchom program ponownie"):
-                        exit()
+                    if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
+                        restart_program()
                 else:
                     return
             # Nowe biblioteki
@@ -609,8 +624,9 @@ def taj():
                         Fore.YELLOW + 'Zainstaluj biblioteki, a następnie naciśnij enter...' + Style.RESET_ALL)
                     if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?\nJeśli lista bibliotek się nie pojawiła - TAK'):
                         messagebox.showinfo(
-                            'Aktualizacja', "Uruchom program ponownie")
+                            'Aktualizacja', "Program zostanie uruchomiony ponownie")
                         biblioteki_pobrane = True
+                        restart_program()
                     else:
                         messagebox.showwarning(
                             'Pobierz wszystkie biblioteki', "Instrukcja do pobrania bibliotek jest wyświelana w terminalu")
@@ -619,7 +635,7 @@ def taj():
                 subprocess.run(Aktualizacja)
                 exit()
             # Dostępna aktualizacja
-            if version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]:
+            if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]):
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
@@ -628,9 +644,9 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     print('Zaktualizowano!')
-                    message = "Uruchom program ponownie"
+                    message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
-                        exit()
+                        restart_program()
                 else:
                     return
             # Prowadzone są intensywne zmiany
@@ -649,19 +665,26 @@ def taj():
                     # Poprawki B7 nie zostały przyjęte:
             # Intensywne zmiany zakończone
             if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7":
-                messagebox.showinfo(
-                    'Aktualizacja', "Proces intensywnych zmian w programie został zakończony, a twój pogram nie był od tego czasu aktualizowany. Ta aktualizacja jest więc wymagana.")
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
+                messagebox.showinfo(
+                    'Aktualizacja', "Program zostanie uruchomiony ponownie")
+                restart_program()
+            else:
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                messagebox.showinfo(
+                    'Aktualizacja', "Wymagane ponowne uruchomienie")
+                restart_program()
         else:
             messagebox.showerror(
-                "Niezdefiniowany błąd", "Najpewniej dopiero pobrałeś ten program, dodano nowe biblioteki lub po prostu wystąpił błąd. Naciśnij OK i uruchom program ponownie\nDo zobaczenia!")
+                "Niezdefiniowany błąd", "Najpewniej dopiero pobrałeś ten program, dodano nowe biblioteki lub po prostu wystąpił błąd. Program zostanie uruchomiony ponownie\nDo zobaczenia!")
             open("version.txt", "w", encoding='utf-8').close()
             with open("Zapisy.txt", "a", encoding='utf-8') as plik:
                 plik.write('BRAK DANYCH')
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
-            exit()
+            restart_program()
 
         try:
             # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
@@ -791,7 +814,10 @@ def aktul():
                     Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
                     subprocess.run(Aktualizacja)
                     print(Fore.GREEN + 'Zakończono! ')
-                    print(Fore.GREEN + 'Uruchom program ponownie.' + Style.RESET_ALL)
+                    print(
+                        Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
+                    sleep(1)
+                    restart_program()
             else:
                 blad_poczatkowe()
         except Exception as e:
@@ -1156,7 +1182,6 @@ def rozwiaz_problemy():
                     if os.path.exists(path):
                         os.remove(path)
                         sleep(3)
-                        exit()
 
                         # Ścieżka do pliku w bieżącym folderze
                     path = os.path.join(
@@ -1166,7 +1191,6 @@ def rozwiaz_problemy():
                     if os.path.exists(path):
                         os.remove(path)
                         sleep(3)
-                        exit()
 
                         # Ścieżka do pliku w bieżącym folderze
                     path = os.path.join(
@@ -1176,7 +1200,6 @@ def rozwiaz_problemy():
                     if os.path.exists(path):
                         os.remove(path)
                         sleep(3)
-                        exit()
 
                         # Ścieżka do pliku w bieżącym folderze
                     path = os.path.join(
@@ -1186,7 +1209,6 @@ def rozwiaz_problemy():
                     if os.path.exists(path):
                         os.remove(path)
                         sleep(3)
-                        exit()
 
                     folder_path = "rei"
 

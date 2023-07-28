@@ -1,4 +1,5 @@
 1.7 Wstępna
+ ~ Od teraz program może się samodzielnie uruchomić ponownie
  [] Poprawki zabezpieczeń
  ~ Przycisk dedykowany aplikacji na telefon został zamieniony na przycisk funkcji eksperymentalnych
  ~ Dziennik zmian będzie teraz wyświetlać i numerować 15 ostatnich wpisów

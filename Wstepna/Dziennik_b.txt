@@ -1,4 +1,5 @@
 1.7 Wstępna
+ + Od teraz podczas wysyłania nam np. zgłoszenia trzeab wybrać jedną z kategorii
  ~ Od teraz program może się samodzielnie uruchomić ponownie
  [] Poprawki zabezpieczeń
  ~ Przycisk dedykowany aplikacji na telefon został zamieniony na przycisk funkcji eksperymentalnych

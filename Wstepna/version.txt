@@ -1,4 +1,4 @@
-1.7.1 Wstępna
+1.7.2 Wstępna
 Status: Nowa wersja
 Nazwa poprawki: 0
 Wydano: 17.07.2023

@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
+from tkinter import ttk
 import datetime
 import urllib.request
 import subprocess
@@ -77,7 +78,8 @@ def zglos_problem():
     try:
         global file_path_ikonka
         if not internet == 0:
-            messagebox.showinfo('Jak nas informować?', "W tym oknie możesz zgłosić swój problem, sugestię, a nawet zaproponować nam stworzenie zupełnie nowego programu (można to traktować jako wiadomość do nas)! W mniejszym polu wpisz krótki tytuł swojej wiadomości (nie ma ograniczenia ilości znaków). W większym polu napisz jej treść, podaj jak najdokładniejsze informacje (kiedy, gdzie, jak itp.)\nMożesz też po prostu zadać pytanie")
+            messagebox.showinfo(
+                'Błąd sugestia i pytanie', "Opisz problem lub sugestię zwięźle i zrozumiale, abyśmy mogli jeszcze skuteczniej pracować nad ulepszaniem programu. Dziękujemy za Twój wkład!")
             global okno_edycja_kosztow_otwarte
             global okno_problemu_otwarte
 
@@ -103,6 +105,10 @@ def zglos_problem():
                         plik_od_dewelopera = "BRAK PLIKU D"
                         messagebox.showerror(
                             "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                    if combo_var == "":
+                        messagebox.showwarning(
+                            "Brak kategorii", "Niewybrano kategorii zgłoszenia")
 
                     if not plik_od_dewelopera == "BRAK PLIKU D":
                         informacje_do_zgloszenia = plik_od_dewelopera.split(
@@ -143,7 +149,7 @@ def zglos_problem():
                     aktualna_data_czas = datetime.datetime.now()
                     format_data_czas = aktualna_data_czas.strftime(
                         "%d.%m.%Y %H:%M")
-                    issue_body = f"Data: {format_data_czas}\n" + entry_opis_problemu.get(
+                    issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {combo_var}\n" + entry_opis_problemu.get(
                         "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
                     # autentykacja
@@ -173,6 +179,20 @@ def zglos_problem():
                     okno_problemu, text="Opisz problem lub propozycję funkcji i naciśnij przycisk wyślij ")
                 label_informacja.pack()
 
+                # Zmienna do przechowywania wybranej opcji
+                combo_var = tk.StringVar()
+
+                combo_var.set("")
+
+                # Lista opcji w ComboBox-ie
+                lista_kategorii = ["Błąd", "Propozycja",
+                                   "Problem z wydajnością", "Interfejs programu", "Pytanie", "Inne"]
+
+                # Tworzenie ComboBox-a
+                combo_box = ttk.Combobox(
+                    okno_problemu, textvariable=combo_var, values=lista_kategorii, state="readonly")
+                combo_box.pack(pady=10)
+
                 label_informacja = tk.Label(
                     okno_problemu, text="Tytuł:")
                 label_informacja.pack()
@@ -182,7 +202,7 @@ def zglos_problem():
                 label_informacja = tk.Label(
                     okno_problemu, text="Opis:")
                 label_informacja.pack()
-                entry_opis_problemu = tk.Text(okno_problemu, height=11)
+                entry_opis_problemu = tk.Text(okno_problemu, height=9)
                 entry_opis_problemu.pack()
 
                 button_wyslij_problem = tk.Button(
@@ -3013,7 +3033,7 @@ def otworz_okno_wybor():
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Zgłoś problemy, propozycje lub zadaj pytania", command=zglos_problem)
+                okno_wyborowe, text="Pisz do nas!", command=zglos_problem)
             button_zglos_problem.pack()
             label_informacja = tk.Label(
                 okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")

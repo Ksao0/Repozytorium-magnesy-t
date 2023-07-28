@@ -13,8 +13,3 @@ Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
  - NOWE! Wydano wersję programu na system Android, możesz ją pobrać oraz aktualizować z pomocą naszego programu!
     Aby zobaczyć tę opcję: Więcej opcji --> Opcje eksperymentalne --> Zainstaluj/aktualizuj aplkację na telefon
  - Poprawki zabezpieczeń w wersji 1.7+
- - Zmieniliśmy mechanizm oceniania ważności ankiet, zmniejszono rygorystyczność oceniania
- - Dodano dziennik zmian - większa ilość informacji o zmianach w programie
-   Aby zobaczyć: Więcej opcji --> Informacje o wersji --> Dziennik błędów
- - Dodano kolorystykę do okna terminala
- - Teraz program ma ikonkę, możesz ją zobaczyć w lewym górnym rogu każdego okna

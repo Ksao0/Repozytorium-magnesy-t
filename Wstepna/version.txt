@@ -1,6 +1,6 @@
 1.7.1 Wstępna
 Status: Nowa wersja
-Nazwa poprawki: Nowa wersja
+Nazwa poprawki: 0
 Wydano: 17.07.2023
 Informacja o bibliotekach: C3
 

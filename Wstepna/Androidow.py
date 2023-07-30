@@ -13,6 +13,10 @@ from github import Github
 import traceback
 from colorama import init, Fore, Style
 
+
+global internet
+internet = 0
+
 # Zmienna globalna do przechowywania informacji o pobraniu pliku APK
 pobrany_apk = False
 # Aktualizacja pliku WEW
@@ -25,10 +29,36 @@ if os.path.exists(path):
     os.remove(path)
     # print("Usunięto plik WEW.py")
 
-# pobierz plik main.py z repozytorium
-url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
-urllib.request.urlretrieve(url, path)
-# print("Zastąpiono plik WEW.py")
+try:
+    # Odczytaj zawartość pliku version.txt w twoim programie
+    path = os.path.join(os.getcwd(), "version.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            version_A_local = f.read().strip()
+    else:
+        version_A_local = "BRAK DANYCH"
+
+    url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version_AA.txt'
+    response = requests.get(url)
+    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+    version_A_online = response.content.decode('utf-8').strip()
+
+    version_A_local_lines = version_A_local.split('\n')
+    version_A_online_lines = version_A_online.split('\n')
+
+    if version_A_local_lines[0] != version_A_online_lines[0]:
+        messagebox.showwarning('Dostępna aktualizacja',
+                               "Dostępna jest nowa wersja aplikacji na telefon!")
+    elif version_A_local_lines[0] == version_A_online_lines[0]:
+        messagebox.showinfo(
+            'Od ostatniego pobierania pliku APK nie wyszła żadna aktualizacja oprogramowania')
+    else:
+        pass
+except:
+    messagebox.showerror(
+        'Brak internetu', "Brak dostępu do internetu, ta opcja jest niedostępna")
+    internet = 0
+
 
 global wyslij_wiadomosc
 wyslij_wiadomosc = 0
@@ -245,6 +275,21 @@ try:
             # Ustawiamy zmienną na True po pomyślnym pobraniu pliku APK
             pobrany_apk = True
 
+            try:
+                # Ścieżka do pliku version_AA.txt.py w bieżącym folderze
+                path = os.path.join(
+                    os.getcwd(), "version_AA.txt.py")
+
+                # Usuń plik version_AA.txt.py, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+
+                # Pobierz plik version_AA.txt.py z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version_AA.txt"
+                urllib.request.urlretrieve(url, path)
+            except:
+                messagebox.showerror('Brak internetu', "Wystąpił błąd")
+
             messagebox.showinfo("Pobieranie zakończone",
                                 "Plik APK został pobrany.")
 
@@ -295,6 +340,9 @@ try:
     root = tk.Tk()
     root.title("Zarządzanie aplikacją na telefon (Eksperymentalne)")
     root.geometry("850x550+400+170")
+
+    if internet == 0:
+        root.destroy()
 
     # Utworzenie folderu "rei", jeśli nie istnieje
     folder_path = "rei"

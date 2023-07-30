@@ -828,6 +828,7 @@ def aktul():
                     # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
                     if os.path.exists(path):
                         os.remove(path)
+
                     # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
                     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
                     urllib.request.urlretrieve(url, path)
@@ -2977,6 +2978,7 @@ def otworz_okno_wybor():
             global okno_wyborowe_otwarte
             okno_wyborowe_otwarte = 0
             okno_wyborowe.destroy()
+
         if okno_wyborowe_otwarte == 0:
             okno_wyborowe = tk.Toplevel()
             okno_wyborowe.title("Okno wyborowe")

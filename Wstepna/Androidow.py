@@ -324,7 +324,7 @@ try:
         else:
             instrukcja_button["text"] = "Instrukcja"
             zawartosc = "Opis najnowszej aktualizacji aplikacji na telefon\n"
-            url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version_AA.txt'
             try:
                 response = requests.get(url)
                 response.raise_for_status()
@@ -382,7 +382,7 @@ try:
     button_wiadomosc.pack(side=tk.LEFT, padx=5)
 
     # Pobierz zawartość pliku version.txt z repozytorium na GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version.txt'
+    url = 'https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/main/version_AA.txt'
     try:
         response = requests.get(url)
         response.raise_for_status()

@@ -1,7 +1,7 @@
-1.7.2.1-Beta
+1.7.2.2-Beta
 Status: Nowa wersja
 Nazwa poprawki: 0
-Wydano: 28.07.2023
+Wydano: 31.07.2023
 Informacja o bibliotekach: C3
 
 Włączyliśmy możliwość korzystania z opcji eksperymentalnych (ich ilość będzie się zmieniać)

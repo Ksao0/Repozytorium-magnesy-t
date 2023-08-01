@@ -31,6 +31,7 @@ def restart_program():
     print(Fore.YELLOW + "Ponowne uruchamianie...")
 
     try:
+        path = os.path.join(os.getcwd(), "WEW.py")
         # pobierz plik WEW.py z repozytorium
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
         urllib.request.urlretrieve(url, path)

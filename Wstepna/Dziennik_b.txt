@@ -1,4 +1,5 @@
 1.7.2.1-Beta
+ / W njiektórych przypadkach ponowne uruchomienie zamykało program
  + Od teraz podczas wysyłania nam np. zgłoszenia trzeab wybrać jedną z kategorii
  ~ Od teraz program może się samodzielnie uruchomić ponownie
  [] Poprawki zabezpieczeń

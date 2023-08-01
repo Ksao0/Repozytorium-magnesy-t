@@ -37,7 +37,9 @@ def restart_program():
         urllib.request.urlretrieve(url, path)
         # print("Zastąpiono plik WEW.py")
     except:
-        pass
+        messagebox.showerror(
+            "Błąd", "Wystąpił błąd, uruchom program ponownie ręcznie")
+        exit(0)
 
     sleep(1)
 

@@ -30,10 +30,13 @@ def restart_program():
     os.system('cls')
     print(Fore.YELLOW + "Ponowne uruchamianie...")
 
-    # pobierz plik WEW.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
-    urllib.request.urlretrieve(url, path)
-    # print("Zastąpiono plik WEW.py")
+    try:
+        # pobierz plik WEW.py z repozytorium
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+        urllib.request.urlretrieve(url, path)
+        # print("Zastąpiono plik WEW.py")
+    except:
+        pass
 
     Aktualizacja = ["python", "WEW.py"]
     subprocess.run(Aktualizacja)

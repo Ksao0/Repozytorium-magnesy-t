@@ -29,8 +29,7 @@ init()
 def restart_program():
     os.system('cls')
     print(Fore.YELLOW + "Ponowne uruchamianie...")
-    # Tutaj można dodać kod przygotowujący stan programu do ponownego uruchomienia.
-    # Na przykład czyść dane, resetuj zmienne itp.
+
     try:
         # pobierz plik main.py z repozytorium
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
@@ -592,7 +591,7 @@ def taj():
                                 title=issue_title, body=issue_body)
 
                             messagebox.showwarning("Problem został zgłoszony",
-                                                   "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. Skontaktuj się z osobą odpowiedzialną za program jak najszybciej.")
+                                                   "Możliwe, że wystąpił błąd. Nie ma informacji o nowych bibliotekach, ale wykryto oznaczenie o nowych wymaganych. Jeśli wystąpią problemy - zgłoś błąd.")
 
                         if version_online_lines[4] == version_local_lines[4] and lista_b_online != lista_b_local:
                             # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
@@ -719,8 +718,7 @@ def taj():
             messagebox.showerror(
                 "Niezdefiniowany błąd", "Najpewniej dopiero pobrałeś ten program, dodano nowe biblioteki lub po prostu wystąpił błąd. Program zostanie uruchomiony ponownie\nDo zobaczenia!")
             open("version.txt", "w", encoding='utf-8').close()
-            with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-                plik.write('BRAK DANYCH')
+
             Aktualizacja = ["python", "WEW.py"]
             subprocess.run(Aktualizacja)
             restart_program()

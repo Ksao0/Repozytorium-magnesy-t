@@ -656,10 +656,10 @@ def taj():
                     input(
                         Fore.YELLOW + 'Zainstaluj biblioteki, a następnie naciśnij enter...' + Style.RESET_ALL)
                     if messagebox.askyesno('Tej operacji nie można cofnąć', 'Czy na pewno ręcznie pobrałeś wszystkie wymagane biblioteki?\nJeśli lista bibliotek się nie pojawiła - TAK'):
-                        messagebox.showinfo(
-                            'Aktualizacja', "Program zostanie uruchomiony ponownie")
-                        biblioteki_pobrane = True
-                        restart_program()
+                        if messagebox.showinfo(
+                                'Aktualizacja', "Program zostanie uruchomiony ponownie"):
+                            biblioteki_pobrane = True
+                            restart_program()
                     else:
                         messagebox.showwarning(
                             'Pobierz wszystkie biblioteki', "Instrukcja do pobrania bibliotek jest wyświelana w terminalu")
@@ -700,17 +700,17 @@ def taj():
             if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7":
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                messagebox.showinfo(
-                    'Aktualizacja', "Program zostanie uruchomiony ponownie")
-                restart_program()
+                if messagebox.showinfo(
+                        'Aktualizacja', "Program zostanie uruchomiony ponownie"):
+                    restart_program()
         else:
-            messagebox.showerror(
-                "Niezdefiniowany błąd", "Najpewniej dopiero pobrałeś ten program, dodano nowe biblioteki lub po prostu wystąpił błąd. Program zostanie uruchomiony ponownie\nDo zobaczenia!")
-            open("version.txt", "w", encoding='utf-8').close()
+            if messagebox.showerror(
+                    "Niezdefiniowany błąd", "Najpewniej dopiero pobrałeś ten program, dodano nowe biblioteki lub po prostu wystąpił błąd. Program zostanie uruchomiony ponownie\nDo zobaczenia!"):
+                open("version.txt", "w", encoding='utf-8').close()
 
-            Aktualizacja = ["python", "WEW.py"]
-            subprocess.run(Aktualizacja)
-            restart_program()
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                restart_program()
 
         try:
             # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
@@ -843,8 +843,9 @@ def aktul():
                     print(Fore.GREEN + 'Zakończono! ')
                     print(
                         Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
-                    sleep(1)
-                    restart_program()
+                    if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
+                        sleep(1)
+                        restart_program()
             else:
                 blad_poczatkowe()
         except Exception as e:

@@ -30,24 +30,10 @@ def restart_program():
     os.system('cls')
     print(Fore.YELLOW + "Ponowne uruchamianie...")
 
-    try:
-        # pobierz plik main.py z repozytorium
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
-        urllib.request.urlretrieve(url, path)
-        # print("Zastąpiono plik WEW.py")
-    except:
-        print('Wykryto brak połączenia z internetem')
-        messagebox.showerror(
-            "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
-        internet = 0
-        try:
-            # pobierz plik main.py z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
-            urllib.request.urlretrieve(url, path)
-            # print("Zastąpiono plik WEW.py")
-        except:
-            messagebox.showerror('Błąd', "Spróbuj ponownie póżniej")
-            exit()
+    # pobierz plik WEW.py z repozytorium
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+    urllib.request.urlretrieve(url, path)
+    # print("Zastąpiono plik WEW.py")
 
     Aktualizacja = ["python", "WEW.py"]
     subprocess.run(Aktualizacja)

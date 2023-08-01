@@ -1,4 +1,4 @@
-1.7.2.2-Beta
+1.7.2.3-Beta
 Status: Nowa wersja
 Nazwa poprawki: 0
 Wydano: 31.07.2023

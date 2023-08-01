@@ -38,6 +38,8 @@ def restart_program():
     except:
         pass
 
+    sleep(1)
+
     Aktualizacja = ["python", "WEW.py"]
     subprocess.run(Aktualizacja)
 

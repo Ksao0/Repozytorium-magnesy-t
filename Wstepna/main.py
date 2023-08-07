@@ -2451,7 +2451,7 @@ if internet == 1:
         response = requests.get(url)
 
         Komunikat_yN = response.content.decode('utf-8').strip()
-
+        Komunikat_yN_first_line = version_local.split('\n')[0]
         # porównaj wersje kłamstwo
         print(Fore.LIGHTMAGENTA_EX +
               f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
@@ -2461,7 +2461,8 @@ if internet == 1:
               f'\nPole informacyjne: ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych' + Style.RESET_ALL)
 
         print(Fore.RED +
-              f'\n\nKomunikat precyzyjny: {Komunikat_yN[0]}\n{Komunikat_yN[1:]}' + Style.RESET_ALL)
+              f'\n\nKomunikat precyzyjny: {Komunikat_yN_first_line}\n{Komunikat_yN[1:]}' + Style.RESET_ALL)
+
     elif blokada_klamstwa == True:
         # odczytaj zawartość pliku version.txt w twoim programie
         path = os.path.join(os.getcwd(), "version.txt")
@@ -2841,7 +2842,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                 issue_title = 'Automatyczne zgłoszenie błędu z Opcje_eksperymentalne()'
                 a = traceback.format_exc()
                 aktualna_data_czas = datetime.datetime.now()
-                format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+                format_data_czas = aktualna_data_czas.strftime(
+                    "%d.%m.%Y %H:%M")
                 issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }   \nTraceback:\n\n{a}"
 
                 # autentykacja
@@ -2912,7 +2914,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                         pakietow = entry_pakietow.get()
                         cena = entry_ceny.get()
                         with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
-                            history_file.write(f"{pakietow} magnesy {cena} zł\n")
+                            history_file.write(
+                                f"{pakietow} magnesy {cena} zł\n")
 
                     def pokaz_historie_klienta():
                         history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
@@ -2936,13 +2939,15 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             top_edit.title(
                                 f"Edytuj dane klienta: {selected_client}")
 
-                            label_name = tk.Label(top_edit, text="Nazwa klienta*:")
+                            label_name = tk.Label(
+                                top_edit, text="Nazwa klienta*:")
                             label_name.pack()
                             entry_name = tk.Entry(top_edit)
                             entry_name.insert(tk.END, client_data[0])
                             entry_name.pack()
 
-                            label_city = tk.Label(top_edit, text="Miejscowość:")
+                            label_city = tk.Label(
+                                top_edit, text="Miejscowość:")
                             label_city.pack()
                             entry_city = tk.Entry(top_edit)
                             entry_city.insert(tk.END, client_data[1])
@@ -2958,7 +2963,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                 top_edit, text="Informacje dodatkowe:")
                             label_additional_info.pack()
                             entry_additional_info = tk.Entry(top_edit)
-                            entry_additional_info.insert(tk.END, client_data[3])
+                            entry_additional_info.insert(
+                                tk.END, client_data[3])
                             entry_additional_info.pack()
 
                             def save_changes():
@@ -3015,7 +3021,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                 entry_phone = tk.Entry(top)
                 entry_phone.pack()
 
-                label_additional_info = tk.Label(top, text="Informacje dodatkowe:")
+                label_additional_info = tk.Label(
+                    top, text="Informacje dodatkowe:")
                 label_additional_info.pack()
                 entry_additional_info = tk.Entry(top)
                 entry_additional_info.pack()
@@ -3069,6 +3076,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
             root.mainloop()
     else:
         ukrywanie_bledu()
+
 
 def otworz_okno_wybor():
     try:

@@ -1,3 +1,3 @@
-Krytyczny
-To krytyczny błąd aktualizowania kodu. Prawie cała komunikacja z repozytorium jest niedostępna
-Korzystaj z programu tak jak na co dzień, niektóre funkcje będą niedostępne.
+Błąd Krytyczny
+Prawie cała komunikacja z repozytorium jest niedostępna, nie możemy wydać łatki zbyt szybko, aby nie wprowadzić większego błędu
+Korzystaj z programu tak jak na co dzień, niektóre funkcje będą niedostępne, ale zostaniesz o tym poinformowany

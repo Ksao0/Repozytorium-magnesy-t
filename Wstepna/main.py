@@ -2450,18 +2450,20 @@ if internet == 1:
         url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Komunikat_yN.txt'
         response = requests.get(url)
 
-        Komunikat_yN = response.content.decode('utf-8').strip()
-        Komunikat_yN_first_line = version_local.split('\n')[0]
+        Komunikat_yN = response.content.decode('utf-8').split('\n')
+        Komunikat_yN_first_line = response.content.decode('utf-8').split('\n')[0]
         # porównaj wersje kłamstwo
-        print(Fore.LIGHTMAGENTA_EX +
-              f'\nWersja na komputerze: {version_local_first_line}\n{version_local_pop_line}')
+        print(Fore.LIGHTMAGENTA_EX + f'\nWersja na komputerze: {version_local_first_line}\nStatus: ' + Fore.LIGHTBLACK_EX + 'yN')
         print(Fore.CYAN +
-              f'Wersja w repozytorium: {version_online_first_line}\n{version_local_pop_line}')
+              f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
         print(Fore.CYAN +
-              f'\nPole informacyjne: ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych' + Style.RESET_ALL)
+              f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.RESET_ALL)
 
         print(Fore.RED +
-              f'\n\nKomunikat precyzyjny: {Komunikat_yN_first_line}\n{Komunikat_yN[1:]}' + Style.RESET_ALL)
+              f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
+        for linia in Komunikat_yN[1:]:
+            print(Fore.RED + linia)
+        print(Style.RESET_ALL)
 
     elif blokada_klamstwa == True:
         # odczytaj zawartość pliku version.txt w twoim programie

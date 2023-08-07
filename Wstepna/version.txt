@@ -1,15 +1,16 @@
-1.7.2.6-Beta
+1.7.2.7-Beta
 Status: Nowa wersja
 Nazwa poprawki: 0
 Wydano: 31.07.2023
 Informacja o bibliotekach: C3
 
-Włączyliśmy możliwość korzystania z opcji eksperymentalnych (ich ilość będzie się zmieniać)
+Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
 
 Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
+ - NOWE! Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
  - NOWE! Testujemy funkcje eksperymentalne!
     Aby zobaczyć: Więcej opcji --> Opcje eksperymentalne
     *Te funkcje mogą byc niedopracowane i mogą zostać usunięte w następnych aktualizacjach*
- - NOWE! Wydano wersję programu na system Android, możesz ją pobrać oraz aktualizować z pomocą naszego programu!
+ - Wydano wersję programu na system Android, możesz ją pobrać oraz aktualizować z pomocą naszego programu!
     Aby zobaczyć tę opcję: Więcej opcji --> Opcje eksperymentalne --> Zainstaluj/aktualizuj aplkację na telefon
  - Poprawki zabezpieczeń w wersji 1.7+

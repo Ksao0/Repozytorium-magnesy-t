@@ -6,12 +6,15 @@ import datetime
 import urllib.request
 import subprocess
 import requests
+import time
 from time import sleep
 from github import Github
 import sys
 import traceback
 import matplotlib.pyplot as plt
 from colorama import init, Fore, Style
+from tqdm import tqdm
+
 
 global klamstwo
 klamstwo = False
@@ -126,136 +129,59 @@ while od_nowa == 1:
                 input(
                     Fore.YELLOW + 'Naciśnij enter, aby kontynuuować...' + Style.RESET_ALL)
 
-                # ścieżka do pliku main.py w bieżącym folderze
-                path = os.path.join(os.getcwd(), "main.py")
+                # Lista plików do pobrania
+                files_to_download = [
+                    {"dname": "main.py", "name": "main.py",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"},
+                    {"dname": "lista_b.txt", "name": "bib",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt"},
+                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (1/2)",
+                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"},
+                    {"dname": "version.txt", "name": "version.txt",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"},
+                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (2/2)",
+                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"}
+                ]
 
-                # usuń plik main.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik main.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik main.py")
+                # Usunięcie poprzednich wersji plików
+                for file_info in files_to_download:
+                    if os.path.exists(file_info["dname"]):
+                        os.remove(file_info["dname"])
 
-                path = os.path.join(os.getcwd(), "lista_b.txt")
-                # usuń plik main.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik main.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik main.py")
+                # Funkcja do śledzenia postępu pobierania
+                def show_progress(block_num, block_size, total_size):
+                    downloaded = block_num * block_size
+                    progress_bar.update(downloaded - progress_bar.n)
 
-                # Aktualizacja pliku Aktualizator_aktualizatora
+                # Funkcja do formatowania czasu w sekundach do formatu MM:SS
+                def format_time(seconds):
+                    return time.strftime("%M:%S", time.gmtime(seconds))
 
-                # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Aktualizator_aktualizatora.py")
+                # Pobierz rozmiary plików
+                file_sizes = [int(urllib.request.urlopen(file["url"]).info().get(
+                    "Content-Length", -1)) for file in files_to_download]
 
-                # usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik Aktualizator_aktualizatora.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik Aktualizator_aktualizatora.py")
+                # Inicjalizacja paska postępu
+                total_size = sum(file_sizes)
+                progress_bar = tqdm(
+                    total=total_size, unit="B", unit_scale=True)
 
-                # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
+                # Pobieranie plików
+                for file_info, file_size in zip(files_to_download, file_sizes):
+                    progress_bar.set_description(
+                        f"{file_info['name']} | {file_size / (1024 ** 1):.1f} KiB")
+                    urllib.request.urlretrieve(
+                        file_info["url"], file_info["name"], show_progress)
+                    progress_bar.set_postfix(
+                        speed=f"{progress_bar.format_dict['rate']:.0f} KiB/s",
+                        eta=format_time(progress_bar.format_dict['remaining'])
+                    )
+                    progress_bar.refresh()
 
-                # ścieżka do pliku version.txt w bieżącym folderze
-                path = os.path.join(os.getcwd(), "version.txt")
+                # Zakończenie paska postępu
+                progress_bar.close()
 
-                # zapisz zawartość pliku version.txt do zmiennej stara_version
-                if os.path.exists(path):
-                    with open(path, "r", encoding='utf-8') as f:
-                        stara_version = f.read()
-                else:
-                    stara_version = "BRAK DANYCH"
-
-                # usuń plik version.txt, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik version.txt")
-
-                # pobierz plik version.txt z repozytorium i utwórz go
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik version.txt")
-
-                # odczytaj zawartość pliku version.txt do zmiennej nowa_version
-                with open(path, "r", encoding='utf-8') as f:
-                    nowa_version = f.read()
-
-                now = datetime.datetime.now()
-                data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
-
-                # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-                if not os.path.isfile("Zapisy.txt"):
-                    open("Zapisy.txt", "w", encoding='utf-8').close()
-
-                # ścieżka do pliku Zapisy.txt w bieżącym folderze
-                path = os.path.join(os.getcwd(), "zapisy.txt")
-
-                # zapisz zawartość pliku zapisy.txt do zmiennej stara_zapisy
-                if os.path.exists(path):
-                    with open(path, "r", encoding='utf-8') as f:
-                        stara_zapisy = f.read()
-                else:
-                    stara_zapisy = ""
-
-                # usuń plik zapisy.txt, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik zapisy.txt")
-
-                # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-                if not os.path.isfile("Zapisy.txt"):
-                    open("Zapisy.txt", "w", encoding='utf-8').close()
-
-                with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-                    plik.write(
-                        f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
-                    plik.write(f"           Stara wersja: {stara_version}\n")
-                    plik.write(f"           Nowa wersja: {nowa_version}\n\n")
-                    plik.write(stara_zapisy)
-
-                print(Fore.LIGHTMAGENTA_EX +
-                      f"Stara wersja: {stara_version}\n")
-                print(Fore.CYAN + f"Nowa wersja: {nowa_version}\n\n")
-
-                # NOWE FUNKCJE
-
-                # Kasowanie Uruchamianie.py
-
-                # nazwa pliku
-                nazwa_pliku = 'Uruchamianie.py'
-
-                # usuń plik o nazwie 'Uruchamianie.py', jeśli taki istnieje
-                if os.path.exists(nazwa_pliku):
-                    os.remove(nazwa_pliku)
-                    print(f'Usunięto plik {nazwa_pliku}.')
-
-                # Koniec dla: Kasowanie Uruchamianie.py
-
-                # Aktualizacja pliku Aktualizator_aktualizatora
-
-                # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Aktualizator_aktualizatora.py")
-
-                # usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik Aktualizator_aktualizatora.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik Aktualizator_aktualizatora.py")
-                print(Fore.GREEN + 'Zakończono aktualizację I poziomu')
-                # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
+                print("Pobieranie zakończone!")
 
                 # KONIEC NOWYCH FUNKCJI
                 od_nowa = 0
@@ -317,134 +243,59 @@ while od_nowa == 1:
                 else:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
 
-                path = os.path.join(os.getcwd(), "main.py")
-                # usuń plik main.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik main.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik main.py")
+                # Lista plików do pobrania
+                files_to_download = [
+                    {"dname": "main.py", "name": "main.py",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"},
+                    {"dname": "lista_b.txt", "name": "bib",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt"},
+                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (1/2)",
+                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"},
+                    {"dname": "version.txt", "name": "version.txt",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"},
+                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (2/2)",
+                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"}
+                ]
 
-                path = os.path.join(os.getcwd(), "lista_b.txt")
-                # usuń plik main.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik main.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik main.py")
+                # Usunięcie poprzednich wersji plików
+                for file_info in files_to_download:
+                    if os.path.exists(file_info["dname"]):
+                        os.remove(file_info["dname"])
 
-                # Aktualizacja pliku Aktualizator_aktualizatora
+                # Funkcja do śledzenia postępu pobierania
+                def show_progress(block_num, block_size, total_size):
+                    downloaded = block_num * block_size
+                    progress_bar.update(downloaded - progress_bar.n)
 
-                # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Aktualizator_aktualizatora.py")
+                # Funkcja do formatowania czasu w sekundach do formatu MM:SS
+                def format_time(seconds):
+                    return time.strftime("%M:%S", time.gmtime(seconds))
 
-                # usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik Aktualizator_aktualizatora.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik Aktualizator_aktualizatora.py")
+                # Pobierz rozmiary plików
+                file_sizes = [int(urllib.request.urlopen(file["url"]).info().get(
+                    "Content-Length", -1)) for file in files_to_download]
 
-                # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
+                # Inicjalizacja paska postępu
+                total_size = sum(file_sizes)
+                progress_bar = tqdm(
+                    total=total_size, unit="B", unit_scale=True)
 
-                # ścieżka do pliku version.txt w bieżącym folderze
-                path = os.path.join(os.getcwd(), "version.txt")
+                # Pobieranie plików
+                for file_info, file_size in zip(files_to_download, file_sizes):
+                    progress_bar.set_description(
+                        f"{file_info['name']} | {file_size / (1024 ** 1):.1f} KiB")
+                    urllib.request.urlretrieve(
+                        file_info["url"], file_info["name"], show_progress)
+                    progress_bar.set_postfix(
+                        speed=f"{progress_bar.format_dict['rate']:.0f} KiB/s",
+                        eta=format_time(progress_bar.format_dict['remaining'])
+                    )
+                    progress_bar.refresh()
 
-                # zapisz zawartość pliku version.txt do zmiennej stara_version
-                if os.path.exists(path):
-                    with open(path, "r", encoding='utf-8') as f:
-                        stara_version = f.read()
-                else:
-                    stara_version = "BRAK DANYCH"
+                # Zakończenie paska postępu
+                progress_bar.close()
 
-                # usuń plik version.txt, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik version.txt")
-
-                # pobierz plik version.txt z repozytorium i utwórz go
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik version.txt")
-
-                # odczytaj zawartość pliku version.txt do zmiennej nowa_version
-                with open(path, "r", encoding='utf-8') as f:
-                    nowa_version = f.read()
-
-                now = datetime.datetime.now()
-                data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
-
-                # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-                if not os.path.isfile("Zapisy.txt"):
-                    open("Zapisy.txt", "w", encoding='utf-8').close()
-
-                # ścieżka do pliku Zapisy.txt w bieżącym folderze
-                path = os.path.join(os.getcwd(), "zapisy.txt")
-
-                # zapisz zawartość pliku zapisy.txt do zmiennej stara_zapisy
-                if os.path.exists(path):
-                    with open(path, "r", encoding='utf-8') as f:
-                        stara_zapisy = f.read()
-                else:
-                    stara_zapisy = ""
-
-                # usuń plik zapisy.txt, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik zapisy.txt")
-
-                # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-                if not os.path.isfile("Zapisy.txt"):
-                    open("Zapisy.txt", "w", encoding='utf-8').close()
-
-                with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-                    plik.write(
-                        f"\n          Zaktualizowano program do nowej wersji! data: {data_obliczenia}\n")
-                    plik.write(f"           Stara wersja: {stara_version}\n")
-                    plik.write(f"           Nowa wersja: {nowa_version}\n\n")
-                    plik.write(stara_zapisy)
-
-                print(Fore.LIGHTMAGENTA_EX +
-                      f"Stara wersja: {stara_version}\n")
-                print(Fore.CYAN + f"Nowa wersja: {nowa_version}\n\n")
-
-                # NOWE FUNKCJE
-
-                # Kasowanie Uruchamianie.py
-
-                # nazwa pliku
-                nazwa_pliku = 'Uruchamianie.py'
-
-                # usuń plik o nazwie 'Uruchamianie.py', jeśli taki istnieje
-                if os.path.exists(nazwa_pliku):
-                    os.remove(nazwa_pliku)
-                    print(f'Usunięto plik {nazwa_pliku}.')
-
-                # Koniec dla: Kasowanie Uruchamianie.py
-
-                # Aktualizacja pliku Aktualizator_aktualizatora
-
-                # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-                path = os.path.join(
-                    os.getcwd(), "Aktualizator_aktualizatora.py")
-
-                # usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
-                # print("Usunięto plik Aktualizator_aktualizatora.py")
-                # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
-                urllib.request.urlretrieve(url, path)
-                # print("Zastąpiono plik Aktualizator_aktualizatora.py")
-                print(Fore.GREEN + 'Zakończono aktualizację I poziomu')
-                # Koniec dla: Aktualizacja pliku Aktualizator_aktualizatora
+                print("Pobieranie zakończone!")
 
                 # KONIEC NOWYCH FUNKCJI
                 od_nowa = 0

@@ -1,4 +1,6 @@
 1.7.2.6-Beta
+ + Od teraz podczas ręcznej aktualizacji bedzie widoczny pasek postępu pobierania
+ / Usunięto błąd ikonki aplikacji
  /// W niektórych przypadkach ponowne uruchomienie zamykało program
  + Od teraz podczas wysyłania nam np. zgłoszenia trzeab wybrać jedną z kategorii
  ~ Od teraz program może się samodzielnie uruchomić ponownie

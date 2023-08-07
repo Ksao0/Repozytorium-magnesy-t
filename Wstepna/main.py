@@ -2562,8 +2562,6 @@ def otworz_okno_zapisy():
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-        global file_path_ikonka
-
         # Pobranie ikony z repozytorium GitHub
         url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
         file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')

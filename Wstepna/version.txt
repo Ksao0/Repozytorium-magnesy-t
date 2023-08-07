@@ -1,6 +1,6 @@
 1.7.2.7-Beta
-Status: Nowa wersja
-Nazwa poprawki: 0
+Status: yN
+Nazwa poprawki: yN
 Wydano: 31.07.2023
 Informacja o bibliotekach: C3
 

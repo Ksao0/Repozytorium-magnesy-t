@@ -1,2 +1,2 @@
 To krytyczny błąd aktualizowania kodu. Prawie cała komunikacja z repozytorium jest niedostępna
-Korzystaj z programu tak jak na co dzień
+Korzystaj z programu tak jak na co dzień, niektóre funkcje będą niedostępne

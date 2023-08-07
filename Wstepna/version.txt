@@ -1,7 +1,7 @@
-1.7.2.7-Beta
+1.7.3.0-Beta
 Status: yN
 Nazwa poprawki: yN
-Wydano: 31.07.2023
+Wydano: 08.08.2023
 Informacja o bibliotekach: C3
 
 Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej

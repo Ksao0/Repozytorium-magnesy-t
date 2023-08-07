@@ -482,7 +482,7 @@ def taj():
             lista_b_local_lines = lista_b_local.split('\n')
 
             # Nowa wersja (bez nowych bibliotek)
-            if version_online_lines[0] != version_local_lines[0] and (version_online_lines[4] == version_local_lines[4] and lista_b_online == lista_b_local):
+            if version_online_lines[0] != version_local_lines[0] and (version_online_lines[4] == version_local_lines[4] and lista_b_online == lista_b_local) and blokada_bledu == False:
                 # Jest dostępna nowa wersja programu, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu: {version_online_lines[0]}. Czy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)

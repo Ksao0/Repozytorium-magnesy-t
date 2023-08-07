@@ -2461,7 +2461,7 @@ if internet == 1:
               f'\nPole informacyjne: ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych' + Style.RESET_ALL)
 
         print(Fore.RED +
-              f'\n\nKomunikat precyzyjny:\n{Komunikat_yN}' + Style.RESET_ALL)
+              f'\n\nKomunikat precyzyjny: {Komunikat_yN[0]}\n{Komunikat_yN[1:]}' + Style.RESET_ALL)
     elif blokada_klamstwa == True:
         # odczytaj zawartość pliku version.txt w twoim programie
         path = os.path.join(os.getcwd(), "version.txt")

@@ -2620,7 +2620,7 @@ if internet == 1:
                 else:
                     if blokada_bledu == False:
                         print(Fore.RED + 'Dostępna jest poprawka wersji')
-                        wersja = 'DOSTĘPNA POPRAWKA'
+                        wersja = 'DOSTĘPNA NOWA WERSJA'
                     else:
                         print(Fore.GREEN + 'Masz najnowszą wersję programu.')
                         path = os.path.join(os.getcwd(), "version.txt")
@@ -2646,7 +2646,7 @@ if internet == 1:
                 else:
                     if blokada_bledu == False:
                         print(Fore.RED + 'Dostępna jest nowa wersja')
-                        wersja = 'DOSTĘPNA POPRAWKA'
+                        wersja = 'DOSTĘPNA NOWA WERSJA'
                     else:
                         print(Fore.GREEN + 'Masz najnowszą wersję programu.')
                         path = os.path.join(os.getcwd(), "version.txt")

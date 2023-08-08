@@ -61,6 +61,18 @@ while od_nowa == 1:
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik main.py")
 
+                # ścieżka do pliku WEW.py w bieżącym folderze
+                path = os.path.join(os.getcwd(), "WEW.py")
+
+                # usuń plik WEW.py, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                # print("Usunięto plik main.py")
+                # pobierz plik main.py z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/WEW.py"
+                urllib.request.urlretrieve(url, path)
+                # print("Zastąpiono plik WEW.py")
+
                 # Aktualizacja pliku Aktualizator_aktualizatora
 
                 # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
@@ -222,6 +234,18 @@ while od_nowa == 1:
                 url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik main.py")
+
+                # ścieżka do pliku WEW.py w bieżącym folderze
+                path = os.path.join(os.getcwd(), "WEW.py")
+
+                # usuń plik WEW.py, jeśli istnieje
+                if os.path.exists(path):
+                    os.remove(path)
+                # print("Usunięto plik main.py")
+                # pobierz plik main.py z repozytorium
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+                urllib.request.urlretrieve(url, path)
+                # print("Zastąpiono plik WEW.py")
 
                 # Aktualizacja pliku Aktualizator_aktualizatora
 

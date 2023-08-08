@@ -187,7 +187,7 @@ while od_nowa == 1:
                     # Pobieranie plików
                     for file_info, file_size in zip(files_to_download, file_sizes):
                         progress_bar.set_description(
-                            f"Aktualizowanie {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
+                            f"Aktualizowanie: {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
                         response = requests.get(file_info["url"], stream=True)
 
                         with open(file_info["name"], 'wb') as f:
@@ -334,7 +334,7 @@ while od_nowa == 1:
                     # Pobieranie plików
                     for file_info, file_size in zip(files_to_download, file_sizes):
                         progress_bar.set_description(
-                            f"Aktualizowanie {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
+                            f"Aktualizowanie: {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
                         response = requests.get(file_info["url"], stream=True)
 
                         with open(file_info["name"], 'wb') as f:

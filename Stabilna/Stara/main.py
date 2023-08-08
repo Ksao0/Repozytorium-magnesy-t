@@ -204,7 +204,7 @@ def zglos_problem():
                     aktualna_data_czas = datetime.datetime.now()
                     format_data_czas = aktualna_data_czas.strftime(
                         "%d.%m.%Y %H:%M")
-                    issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {selected_category}\n" + entry_opis_problemu.get(
+                    issue_body = f"Wersja: Stabilna\nData: {format_data_czas}\nProponowana kategoria: {selected_category}\n" + entry_opis_problemu.get(
                         "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
                     # autentykacja
@@ -323,7 +323,7 @@ def zglos_problem():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -426,7 +426,7 @@ def czynnosci_poczatkowe():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji czynnosci_poczatkowe():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -616,7 +616,7 @@ def taj():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania, jedynie informację o ich dodaniu\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
+                            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji taj(): Nie dodano bibliotek do pobrania, jedynie informację o ich dodaniu\n\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: Niedopatrzenie\nWartość błędu:     --\nTraceback:\n\n"
 
                             # autentykacja
                             g = Github(username, password)
@@ -686,7 +686,7 @@ def taj():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie"
+                            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji taj(): Dodano nowe biblioteki, ale nie dodano informacji o nich\n\nWystąpił u: {nazwa_uzytkownika}   \n\nTyp błędu: Niedopatrzenie"
 
                             # autentykacja
                             g = Github(username, password)
@@ -848,7 +848,7 @@ def taj():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji taj():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji taj():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -951,7 +951,7 @@ def aktul():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji aktul():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -1027,7 +1027,7 @@ def wykasuj_zapisy():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji wykasuj_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji wykasuj_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -1184,7 +1184,7 @@ def wykres():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji wykres():\nPrawdodpodobna przyczyna: Brak danych do wygenerowania wykresu\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:    {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji wykres():\nPrawdodpodobna przyczyna: Brak danych do wygenerowania wykresu\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:    {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -1383,7 +1383,7 @@ def rozwiaz_problemy():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}  "
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji rozwiaz_problemy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}  "
 
             # autentykacja
             g = Github(username, password)
@@ -1604,7 +1604,7 @@ def ankieta():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
+                            issue_body = f"Wersja: Stabilna\nAnkieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
                                 "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
                                 "\n\nOstatnie błędy: " + odpowiedz_pytanie3
 
@@ -1673,7 +1673,7 @@ def ankieta():
                             aktualna_data_czas = datetime.datetime.now()
                             format_data_czas = aktualna_data_czas.strftime(
                                 "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}   \nTraceback:\n\n{a}"
+                            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}   \nTraceback:\n\n{a}"
 
                             # autentykacja
                             g = Github(username, password)
@@ -1748,7 +1748,7 @@ def ankieta():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -2041,7 +2041,7 @@ def informacje_o_wersji_utworz_okno():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}  \nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji informacje_o_wersji_utworz_okno():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}  \nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -2280,7 +2280,7 @@ def edycja_kosztow():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji edycja_kosztow():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji edycja_kosztow():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -2442,7 +2442,7 @@ def oblicz_zyski():
             a = traceback.format_exc()
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji oblicz_zyski():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji oblicz_zyski():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
             # autentykacja
             g = Github(username, password)
@@ -2807,7 +2807,7 @@ def otworz_okno_zapisy():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji otworz_okno_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji otworz_okno_zapisy():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)
@@ -2908,7 +2908,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                 aktualna_data_czas = datetime.datetime.now()
                 format_data_czas = aktualna_data_czas.strftime(
                     "%d.%m.%Y %H:%M")
-                issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }   \nTraceback:\n\n{a}"
+                issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }   \nTraceback:\n\n{a}"
 
                 # autentykacja
                 g = Github(username, password)
@@ -3064,7 +3064,7 @@ def otworz_okno_wybor():
         a = traceback.format_exc()
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Wersja: Stabilna\nData: {format_data_czas} Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)

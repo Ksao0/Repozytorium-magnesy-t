@@ -118,7 +118,7 @@ except Exception as e:
     repository_name = 'Ksao0/Repozytorium-magnesy-t'
     issue_title = 'Automatyczne zgłoszenie błędu z Aktualizator_aktualizatora.py'
     a = traceback.format_exc()
-    issue_body = f"Błąd funkcji Aktualizator_aktualizatora.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+    issue_body = f"Wersja: Stabilna\nBłąd funkcji Aktualizator_aktualizatora.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
     # autentykacja
     g = Github(username, password)

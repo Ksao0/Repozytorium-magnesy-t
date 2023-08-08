@@ -2103,6 +2103,39 @@ def oblicz_zyski():
 
 # Tworzenie głównego okna
 if internet == 1:
+    global file_path_ikonka
+
+    # Utworzenie folderu "rei", jeśli nie istnieje
+    folder_path = "rei"
+
+    # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    # Pobranie ikony z repozytorium GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/ikona_magnesy.ico'
+    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
+    urllib.request.urlretrieve(url, file_path_ikonka)
+
+    # Przeskalowanie ikony na rozmiar 32x32
+    img = Image.open(file_path_ikonka)
+    img = img.resize((32, 32), Image.LANCZOS)
+    resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
+    img.save(resized_file_path)
+
+    # Zaktualizowanie globalnej zmiennej file_path_ikonka
+    file_path_ikonka = resized_file_path
+
+    # Przeskalowanie ikony do rozmiaru 32x32
+    # icon = Image.open(icon_path)
+    # icon = icon.resize((32, 32), Image.ANTIALIAS)
+
+    # Przypisanie przeskalowanej ikony jako ikony aplikacji
+    # root.iconphoto(True, ImageTk.PhotoImage(icon))
+
     # pobierz zawartość pliku version.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt'
     response = requests.get(url)
@@ -2170,41 +2203,6 @@ if internet == 1:
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
 
-    # Utworzenie folderu "rei", jeśli nie istnieje
-    folder_path = "rei"
-
-    # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
-    if os.path.exists(folder_path):
-        shutil.rmtree(folder_path)
-
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
-    global file_path_ikonka
-
-    # Pobranie ikony z repozytorium GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/ikona_magnesy.ico'
-    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
-    urllib.request.urlretrieve(url, file_path_ikonka)
-
-    # Przeskalowanie ikony na rozmiar 32x32
-    img = Image.open(file_path_ikonka)
-    img = img.resize((32, 32), Image.LANCZOS)
-    resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
-    img.save(resized_file_path)
-
-    # Zaktualizowanie globalnej zmiennej file_path_ikonka
-    file_path_ikonka = resized_file_path
-
-    # Ustawienie ikonki
-    root.iconbitmap(file_path_ikonka)
-
-# Przeskalowanie ikony do rozmiaru 32x32
-# icon = Image.open(icon_path)
-# icon = icon.resize((32, 32), Image.ANTIALIAS)
-
-# Przypisanie przeskalowanej ikony jako ikony aplikacji
-# root.iconphoto(True, ImageTk.PhotoImage(icon))
 
 else:
     root = tk.Tk()

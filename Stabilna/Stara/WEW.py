@@ -13,6 +13,12 @@ import traceback
 import matplotlib.pyplot as plt
 
 try:
+    path = os.path.join(os.getcwd(), "Ank.txt")
+
+    # Usuń plik jeśli istnieje
+    if os.path.exists(path):
+        os.remove(path)
+
     # ścieżka do pliku main.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "main.py")
 
@@ -72,7 +78,7 @@ try:
     if not os.path.isfile("Zapisy.txt"):
         open("Zapisy.txt", "w", encoding='utf-8').close()
 
-    # Ponowna aktualizacja pliku Aktualizator_aktualizatora
+    # Aktualizacja pliku Aktualizator_aktualizatora
 
     # ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
     path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
@@ -146,7 +152,7 @@ except Exception as e:
     repository_name = 'Ksao0/Repozytorium-magnesy-t'
     issue_title = 'Automatyczne zgłoszenie błędu z WEW.py'
     a = traceback.format_exc()
-    issue_body = f"Wersja: Stabilna\nBłąd funkcji WEW.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+    issue_body = f"Błąd funkcji WEW.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
     # autentykacja
     g = Github(username, password)

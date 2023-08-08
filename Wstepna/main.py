@@ -675,7 +675,7 @@ def taj():
                 subprocess.run(Aktualizacja)
                 exit()
             # Dostępna aktualizacja
-            if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]):
+            if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]) and blokada_bledu == False:
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
@@ -690,7 +690,7 @@ def taj():
                 else:
                     return
             # Prowadzone są intensywne zmiany
-            if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7":
+            if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7" and blokada_bledu == False:
                 response = messagebox.askokcancel(
                     "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
                 if response == True:
@@ -704,20 +704,24 @@ def taj():
                     exit()
                     # Poprawki B7 nie zostały przyjęte:
             # Intensywne zmiany zakończone
-            if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7":
+            if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7" and blokada_bledu == False:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 if messagebox.showinfo(
                         'Aktualizacja', "Program zostanie uruchomiony ponownie"):
                     restart_program()
         else:
-            if messagebox.showerror(
-                    "Niezdefiniowany błąd", "Wystąpił błąd krytyczny. Program zostanie uruchomiony ponownie\nDo zobaczenia!"):
-                open("version.txt", "w", encoding='utf-8').close()
+            if blokada_bledu == False:
+                if messagebox.showerror(
+                        "Niezdefiniowany błąd", "Wystąpił błąd krytyczny. Program zostanie uruchomiony ponownie\nDo zobaczenia!"):
+                    open("version.txt", "w", encoding='utf-8').close()
 
-                Aktualizacja = ["python", "WEW.py"]
-                subprocess.run(Aktualizacja)
-                restart_program()
+                    Aktualizacja = ["python", "WEW.py"]
+                    subprocess.run(Aktualizacja)
+                    restart_program()
+            else:
+                messagebox.showerror(
+                    "Błąd danych", "Wystąpił niezależny błąd danych spowodowany działaniem użytkownika. Ten błąd zostanie naprawiony po zaktualizowaniu programu")
 
         try:
             # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
@@ -2423,48 +2427,84 @@ if internet == 1:
                 version_local = f.read().strip()
         else:
             version_local = "BRAK DANYCH"
+        if version_local != "BRAK DANYCH":
+            # wyświetl tylko pierwszą linijkę wersji
+            version_local_first_line = version_local.split('\n')[0]
+            version_online_first_line = version_online.split('\n')[0]
+            version_local_pop_line = version_local.split('\n')[2]
+            version_online_pop_line = version_online.split('\n')[2]
 
-        # wyświetl tylko pierwszą linijkę wersji
-        version_local_first_line = version_local.split('\n')[0]
-        version_online_first_line = version_online.split('\n')[0]
-        version_local_pop_line = version_local.split('\n')[2]
-        version_online_pop_line = version_online.split('\n')[2]
+            # 100% Kł:
+            version_local_pop_line = version_local.split('\n')[2]
+            # odczytaj zawartość pliku version.txt w twoim programie
+            path = os.path.join(os.getcwd(), "version.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    version_local = f.read().strip()
+            else:
+                version_local = "BRAK DANYCH"
+            wersja = version_local_first_line
 
-        # 100% Kł:
-        version_local_pop_line = version_local.split('\n')[2]
-        # odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "version.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                version_local = f.read().strip()
+            # wyświetl tylko pierwszą linijkę wersji kłamstwo
+            version_local_first_line = version_local.split('\n')[0]
+
+            version_local_pop_line = version_local.split('\n')[2]
+
+            # pobierz zawartość pliku version.txt z repozytorium na GitHub
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Komunikat_yN.txt'
+            response = requests.get(url)
+
+            Komunikat_yN = response.content.decode('utf-8').split('\n')
+            Komunikat_yN_first_line = response.content.decode(
+                'utf-8').split('\n')[0]
+            # porównaj wersje kłamstwo
+            print(Fore.LIGHTMAGENTA_EX +
+                  f'\nWersja na komputerze: {version_local_first_line}\nStatus: ' + Fore.LIGHTBLACK_EX + 'yN')
+            print(Fore.CYAN +
+                  f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
+            print(Fore.CYAN +
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat    precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
+
+            print(Fore.RED +
+                  f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
+            for linia in Komunikat_yN[1:]:
+                print(Fore.RED + linia)
+            print(Style.RESET_ALL)
         else:
-            version_local = "BRAK DANYCH"
-        wersja = version_local_first_line
+            # wyświetl tylko pierwszą linijkę wersji
+            version_online_first_line = version_online.split('\n')[0]
+            version_online_pop_line = version_online.split('\n')[2]
 
-        # wyświetl tylko pierwszą linijkę wersji kłamstwo
-        version_local_first_line = version_local.split('\n')[0]
+            # 100% Kł:
+            # odczytaj zawartość pliku version.txt w twoim programie
+            path = os.path.join(os.getcwd(), "version.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    version_local = f.read().strip()
+            else:
+                version_local = "BRAK DANYCH"
+            wersja = "BRAK DANYCH"
 
-        version_local_pop_line = version_local.split('\n')[2]
+            # pobierz zawartość pliku version.txt z repozytorium na GitHub
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Komunikat_yN.txt'
+            response = requests.get(url)
 
-        # pobierz zawartość pliku version.txt z repozytorium na GitHub
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Komunikat_yN.txt'
-        response = requests.get(url)
+            Komunikat_yN = response.content.decode('utf-8').split('\n')
+            Komunikat_yN_first_line = response.content.decode(
+                'utf-8').split('\n')[0]
+            # porównaj wersje kłamstwo
+            print(Fore.LIGHTMAGENTA_EX +
+                  f'\nWersja na komputerze: ' + Fore.RED + 'Brak danych\n' + Fore.LIGHTMAGENTA_EX+'Status: ' + Fore.LIGHTBLACK_EX + 'yN')
+            print(Fore.CYAN +
+                  f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
+            print(Fore.CYAN +
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat    precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
 
-        Komunikat_yN = response.content.decode('utf-8').split('\n')
-        Komunikat_yN_first_line = response.content.decode('utf-8').split('\n')[0]
-        # porównaj wersje kłamstwo
-        print(Fore.LIGHTMAGENTA_EX + f'\nWersja na komputerze: {version_local_first_line}\nStatus: ' + Fore.LIGHTBLACK_EX + 'yN')
-        print(Fore.CYAN +
-              f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
-        print(Fore.CYAN +
-              f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.RESET_ALL)
-
-        print(Fore.RED +
-              f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
-        for linia in Komunikat_yN[1:]:
-            print(Fore.RED + linia)
-        print(Style.RESET_ALL)
-
+            print(Fore.RED +
+                  f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
+            for linia in Komunikat_yN[1:]:
+                print(Fore.RED + linia)
+            print(Style.RESET_ALL)
     elif blokada_klamstwa == True:
         # odczytaj zawartość pliku version.txt w twoim programie
         path = os.path.join(os.getcwd(), "version.txt")

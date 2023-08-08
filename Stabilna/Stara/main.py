@@ -2213,9 +2213,43 @@ else:
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
 
+folder_path = "rei"
+
+# Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+if os.path.exists(folder_path):
+    shutil.rmtree(folder_path)
+
+# Pobranie ikony z repozytorium GitHub
+url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/ikona_magnesy.ico'
+file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
+urllib.request.urlretrieve(url, file_path_ikonka)
+
+# Przeskalowanie ikony na rozmiar 32x32
+img = Image.open(file_path_ikonka)
+img = img.resize((32, 32), Image.LANCZOS)
+resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
+img.save(resized_file_path)
+
+# Zaktualizowanie globalnej zmiennej file_path_ikonka
+file_path_ikonka = resized_file_path
+
 
 def otworz_okno_zapisy():
     global file_path_ikonka
+
+    # Pobranie ikony z repozytorium GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/ikona_magnesy.ico'
+    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
+    urllib.request.urlretrieve(url, file_path_ikonka)
+
+    # Przeskalowanie ikony na rozmiar 32x32
+    img = Image.open(file_path_ikonka)
+    img = img.resize((32, 32), Image.LANCZOS)
+    resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
+    img.save(resized_file_path)
+
+    # Zaktualizowanie globalnej zmiennej file_path_ikonka
+    file_path_ikonka = resized_file_path
     try:
         path = os.path.join(os.getcwd(), "Zapisy.txt")
         if os.path.exists(path):

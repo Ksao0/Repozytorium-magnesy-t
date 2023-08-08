@@ -156,8 +156,8 @@ while od_nowa == 1:
                         "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
                     }
                 ]
-                # Funkcja do śledzenia postępu pobierania
 
+                # Funkcja do śledzenia postępu pobierania
                 def show_progress(chunk_size, total_size):
                     progress_bar.update(chunk_size)
 
@@ -178,8 +178,9 @@ while od_nowa == 1:
                     # Pobieranie plików
                     for file_info, file_size in zip(files_to_download, file_sizes):
                         progress_bar.set_description(
-                            f"Downloading {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
+                            f"Aktualizowanie {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
                         response = requests.get(file_info["url"], stream=True)
+
                         with open(file_info["name"], 'wb') as f:
                             for chunk in response.iter_content(chunk_size=8192):
                                 f.write(chunk)
@@ -193,16 +194,15 @@ while od_nowa == 1:
                                 speed=f"{speed:.0f} KiB/s", eta=format_time(remaining_time))
                         progress_bar.refresh()
 
-                    print("\nPobieranie zakończone!")
-                    sleep(10)
+                    print("\nPobieranie zakończone...")
+                    sleep(1.5)
                 except Exception as e:
-                    print(f"An error occurred: {e}")
+                    print(Fore.RED + f"Wystąpił błąd" + Style.RESET_ALL)
                 finally:
                     # Zakończenie paska postępu
                     progress_bar.close()
-                    pass
 
-                print("\nPobieranie zakończone!")
+                print("\nAktualizowanie zakończone!")
 
                 # KONIEC NOWYCH FUNKCJI
                 od_nowa = 0
@@ -316,8 +316,9 @@ while od_nowa == 1:
                     # Pobieranie plików
                     for file_info, file_size in zip(files_to_download, file_sizes):
                         progress_bar.set_description(
-                            f"Aktualizowane: {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
+                            f"Aktualizowanie {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
                         response = requests.get(file_info["url"], stream=True)
+
                         with open(file_info["name"], 'wb') as f:
                             for chunk in response.iter_content(chunk_size=8192):
                                 f.write(chunk)
@@ -331,14 +332,13 @@ while od_nowa == 1:
                                 speed=f"{speed:.0f} KiB/s", eta=format_time(remaining_time))
                         progress_bar.refresh()
 
-                    print("\nInstalowanie zakończone!")
-                    sleep(10)
+                    print("\nPobieranie zakończone...")
+                    sleep(1.5)
                 except Exception as e:
-                    print(f"An error occurred: {e}")
+                    print(Fore.RED + f"Wystąpił błąd" + Style.RESET_ALL)
                 finally:
                     # Zakończenie paska postępu
                     progress_bar.close()
-                    pass
 
                 print("\nAktualizowanie zakończone!")
 

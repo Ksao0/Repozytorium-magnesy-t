@@ -195,7 +195,7 @@ while od_nowa == 1:
                         progress_bar.refresh()
 
                     print("\nPobieranie zakończone...")
-                    sleep(1.5)
+                    sleep(1)
                 except Exception as e:
                     print(Fore.RED + f"Wystąpił błąd" + Style.RESET_ALL)
                 finally:
@@ -333,7 +333,7 @@ while od_nowa == 1:
                         progress_bar.refresh()
 
                     print("\nPobieranie zakończone...")
-                    sleep(1.5)
+                    sleep(1)
                 except Exception as e:
                     print(Fore.RED + f"Wystąpił błąd" + Style.RESET_ALL)
                 finally:

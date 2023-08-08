@@ -119,9 +119,51 @@ def zglos_problem():
                         messagebox.showerror(
                             "Błąd", 'Zapytaj twórcę programu o informacje')
 
-                    if combo_var == "":
+                    selected_category = combo_var.get()  # Pobierz wybraną kategorię z ComboBox-a
+
+                    issue_title = entry_tutul_problemu.get()
+                    issue_description = entry_opis_problemu.get("1.0", tk.END)
+
+                    if not issue_title and issue_description and selected_category:
+                        messagebox.showwarning(
+                            "To zgłoszenie jest puste", "Nie podano tytułu zgłoszenia")
+                        return
+
+                    if not selected_category:
                         messagebox.showwarning(
                             "Brak kategorii", "Niewybrano kategorii zgłoszenia")
+                        return
+
+                    if not issue_title:
+                        messagebox.showwarning(
+                            "Brak tytułu", "Nie podano tytułu zgłoszenia")
+                        return
+
+                    if not issue_description.strip():
+                        messagebox.showwarning(
+                            "Brak treści", "Nie podano treści zgłoszenia")
+                        return
+
+                    if len(issue_description.strip()) < 70:
+                        if selected_category == "Błąd":
+                            if len(issue_description.strip()) < 100:
+                                messagebox.showwarning(
+                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 100 znaków (około 17 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                return
+                        elif selected_category == "Propozycja":
+                            if len(issue_description.strip()) < 150:
+                                messagebox.showwarning(
+                                    "Opisz dokładniej", "Jeśli chcesz zaproponować nową funkcję, musisz mieć na nią szczegółowy plan. Opisz ją dokładniej (treść propozycji musi mieć co najmniej 150 znaków)")
+                                return
+                        elif selected_category == "Interfejs programu":
+                            if len(issue_description.strip()) < 70:
+                                messagebox.showwarning(
+                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (około 15 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                return
+                        else:
+                            messagebox.showwarning(
+                                "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (to około 13 słów, zalecamy bardziej opisowe zgłoszenia). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                            return
 
                     if not plik_od_dewelopera == "BRAK PLIKU D":
                         informacje_do_zgloszenia = plik_od_dewelopera.split(
@@ -162,7 +204,7 @@ def zglos_problem():
                     aktualna_data_czas = datetime.datetime.now()
                     format_data_czas = aktualna_data_czas.strftime(
                         "%d.%m.%Y %H:%M")
-                    issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {combo_var}\n" + entry_opis_problemu.get(
+                    issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {selected_category}\n" + entry_opis_problemu.get(
                         "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
                     # autentykacja

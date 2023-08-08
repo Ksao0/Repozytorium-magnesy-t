@@ -1,3 +1,2 @@
-Błąd Krytyczny
-Prawie cała komunikacja z repozytorium jest niedostępna, wypuszczenie łatki potrwa trochę czasu
-Korzystaj z programu tak jak na co dzień, niektóre funkcje będą niedostępne, ale zostaniesz o tym poinformowany
+Jeszcze nieudostępniono...
+Komunikat jest odświerzany po ponownym włączeniu programu

@@ -1,4 +1,4 @@
-1.7.3.3.1-Beta
+1.7.3.2-Beta
 Status: Nowa wersja
 Nazwa poprawki: Nowa wersja
 Wydano: 08.08.2023
@@ -8,6 +8,7 @@ Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
 
 Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
  - Ulepszyliśmy mechanizmy ochrony przed pobraniem wadliwej wersji!
+ - NOWE! Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
  - NOWE! Testujemy funkcje eksperymentalne!
     Aby zobaczyć: Więcej opcji --> Opcje eksperymentalne
     *Te funkcje mogą byc niedopracowane i mogą zostać usunięte w następnych aktualizacjach*

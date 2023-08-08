@@ -1,5 +1,5 @@
 1.7.3.0-Beta
-Status: yN
+Status: B7
 Nazwa poprawki: yN
 Wydano: 08.08.2023
 Informacja o bibliotekach: C3

@@ -72,13 +72,13 @@ while od_nowa == 1:
 
         wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
         if wersja_programu == 1:
+            os.system('cls')
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-            stabilna_version_online = response.content.decode('utf-8').strip()
-            stabilna_version_online_lines = stabilna_version_online.split('\n')
-
-            if stabilna_version_online_lines[1] != "Status: yN":
+            wstepna_version_online = response.content.decode('utf-8').strip()
+            wstepna_version_online_lines = wstepna_version_online.split('\n')
+            if wstepna_version_online_lines[1] != "Status: yN":
                 os.system('cls')
                 try:
                     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt'
@@ -119,75 +119,96 @@ while od_nowa == 1:
                     for biblioteka in lista_b_online_lines:
                         if biblioteka == "BRAK PLIKU":
                             continue
-                        if biblioteka in lista_b_local_lines:
+                        elif biblioteka in lista_b_local_lines:
                             print(Fore.LIGHTGREEN_EX + biblioteka)
                         else:
                             print(Fore.RED + biblioteka)
+
+                    input(Fore.YELLOW + "Naciśnij klawisz Enter, aby zakończyć...")
                 else:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
 
-                input(
-                    Fore.YELLOW + 'Naciśnij enter, aby kontynuuować...' + Style.RESET_ALL)
-
                 # Lista plików do pobrania
                 files_to_download = [
-                    {"dname": "main.py", "name": "main.py",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"},
-                    {"dname": "lista_b.txt", "name": "bib",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt"},
-                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (1/2)",
-                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"},
-                    {"dname": "version.txt", "name": "version.txt",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"},
-                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (2/2)",
-                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"}
+                    {
+                        "name": "main.py",
+                        "display_name": "Plik główny",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"
+                    },
+                    {
+                        "name": "lista_b.txt",
+                        "display_name": "Biblioteki",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt"
+                    },
+                    {
+                        "name": "Aktualizator_aktualizatora.py",
+                        "display_name": "Pliki aktualizacyjne (1/3)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
+                    },
+                    {
+                        "name": "version.txt",
+                        "display_name": "Pliki aktualizacyjne (2/3)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"
+                    },
+                    {
+                        "name": "Aktualizator_aktualizatora.py",
+                        "display_name": "Pliki aktualizacyjne (3/3)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
+                    }
                 ]
-
-                # Usunięcie poprzednich wersji plików
-                for file_info in files_to_download:
-                    if os.path.exists(file_info["dname"]):
-                        os.remove(file_info["dname"])
-
                 # Funkcja do śledzenia postępu pobierania
-                def show_progress(block_num, block_size, total_size):
-                    downloaded = block_num * block_size
-                    progress_bar.update(downloaded - progress_bar.n)
+
+                def show_progress(chunk_size, total_size):
+                    progress_bar.update(chunk_size)
 
                 # Funkcja do formatowania czasu w sekundach do formatu MM:SS
                 def format_time(seconds):
                     return time.strftime("%M:%S", time.gmtime(seconds))
 
                 # Pobierz rozmiary plików
-                file_sizes = [int(urllib.request.urlopen(file["url"]).info().get(
+                file_sizes = [int(requests.head(file["url"]).headers.get(
                     "Content-Length", -1)) for file in files_to_download]
 
                 # Inicjalizacja paska postępu
                 total_size = sum(file_sizes)
-                progress_bar = tqdm(
-                    total=total_size, unit="B", unit_scale=True)
+                progress_bar = tqdm(total=total_size, unit="B",
+                                    unit_scale=True, leave=False)
 
-                # Pobieranie plików
-                for file_info, file_size in zip(files_to_download, file_sizes):
-                    progress_bar.set_description(
-                        f"{file_info['name']} | {file_size / (1024 ** 1):.1f} KiB")
-                    urllib.request.urlretrieve(
-                        file_info["url"], file_info["name"], show_progress)
-                    progress_bar.set_postfix(
-                        speed=f"{progress_bar.format_dict['rate']:.0f} KiB/s",
-                        eta=format_time(progress_bar.format_dict['remaining'])
-                    )
-                    progress_bar.refresh()
+                try:
+                    # Pobieranie plików
+                    for file_info, file_size in zip(files_to_download, file_sizes):
+                        progress_bar.set_description(
+                            f"Downloading {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
+                        response = requests.get(file_info["url"], stream=True)
+                        with open(file_info["name"], 'wb') as f:
+                            for chunk in response.iter_content(chunk_size=8192):
+                                f.write(chunk)
+                                show_progress(len(chunk), total_size)
 
-                # Zakończenie paska postępu
-                progress_bar.close()
+                        speed = progress_bar.format_dict.get('rate', 0)
+                        remaining_time = progress_bar.format_dict.get(
+                            'remaining', 0)
+                        if speed is not None and remaining_time is not None:
+                            progress_bar.set_postfix(
+                                speed=f"{speed:.0f} KiB/s", eta=format_time(remaining_time))
+                        progress_bar.refresh()
 
-                print("Pobieranie zakończone!")
+                    print("\nPobieranie zakończone!")
+                    sleep(10)
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                finally:
+                    # Zakończenie paska postępu progress_bar.close()
+                    pass
+
+                print("\nPobieranie zakończone!")
 
                 # KONIEC NOWYCH FUNKCJI
                 od_nowa = 0
             else:
                 blokada_dostepu()
         elif wersja_programu == 2:
+            os.system('cls')
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
@@ -244,58 +265,80 @@ while od_nowa == 1:
                     print(Fore.GREEN + "Wszystkie biblioteki pobrane.")
 
                 # Lista plików do pobrania
+                # Lista plików do pobrania
                 files_to_download = [
-                    {"dname": "main.py", "name": "main.py",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"},
-                    {"dname": "lista_b.txt", "name": "bib",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/lista_b.txt"},
-                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (1/2)",
-                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"},
-                    {"dname": "version.txt", "name": "version.txt",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"},
-                    {"dname": "Aktualizator_aktualizatora.py", "name": "pliki aktualizacyjne (2/2)",
-                     "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"}
+                    {
+                        "name": "main.py",
+                        "display_name": "Plik główny",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
+                    },
+                    {
+                        "name": "lista_b.txt",
+                        "display_name": "Biblioteki",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt"
+                    },
+                    {
+                        "name": "Aktualizator_aktualizatora.py",
+                        "display_name": "Pliki aktualizacyjne (1/3)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                    },
+                    {
+                        "name": "version.txt",
+                        "display_name": "Pliki aktualizacyjne (2/3)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
+                    },
+                    {
+                        "name": "Aktualizator_aktualizatora.py",
+                        "display_name": "Pliki aktualizacyjne (3/3)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                    }
                 ]
-
-                # Usunięcie poprzednich wersji plików
-                for file_info in files_to_download:
-                    if os.path.exists(file_info["dname"]):
-                        os.remove(file_info["dname"])
-
                 # Funkcja do śledzenia postępu pobierania
-                def show_progress(block_num, block_size, total_size):
-                    downloaded = block_num * block_size
-                    progress_bar.update(downloaded - progress_bar.n)
+
+                def show_progress(chunk_size, total_size):
+                    progress_bar.update(chunk_size)
 
                 # Funkcja do formatowania czasu w sekundach do formatu MM:SS
                 def format_time(seconds):
                     return time.strftime("%M:%S", time.gmtime(seconds))
 
                 # Pobierz rozmiary plików
-                file_sizes = [int(urllib.request.urlopen(file["url"]).info().get(
+                file_sizes = [int(requests.head(file["url"]).headers.get(
                     "Content-Length", -1)) for file in files_to_download]
 
                 # Inicjalizacja paska postępu
                 total_size = sum(file_sizes)
-                progress_bar = tqdm(
-                    total=total_size, unit="B", unit_scale=True)
+                progress_bar = tqdm(total=total_size, unit="B",
+                                    unit_scale=True, leave=False)
 
-                # Pobieranie plików
-                for file_info, file_size in zip(files_to_download, file_sizes):
-                    progress_bar.set_description(
-                        f"{file_info['name']} | {file_size / (1024 ** 1):.1f} KiB")
-                    urllib.request.urlretrieve(
-                        file_info["url"], file_info["name"], show_progress)
-                    progress_bar.set_postfix(
-                        speed=f"{progress_bar.format_dict['rate']:.0f} KiB/s",
-                        eta=format_time(progress_bar.format_dict['remaining'])
-                    )
-                    progress_bar.refresh()
+                try:
+                    # Pobieranie plików
+                    for file_info, file_size in zip(files_to_download, file_sizes):
+                        progress_bar.set_description(
+                            f"Aktualizowane: {file_info['display_name']} | {file_size / (1024 ** 1):.1f} KiB")
+                        response = requests.get(file_info["url"], stream=True)
+                        with open(file_info["name"], 'wb') as f:
+                            for chunk in response.iter_content(chunk_size=8192):
+                                f.write(chunk)
+                                show_progress(len(chunk), total_size)
 
-                # Zakończenie paska postępu
-                progress_bar.close()
+                        speed = progress_bar.format_dict.get('rate', 0)
+                        remaining_time = progress_bar.format_dict.get(
+                            'remaining', 0)
+                        if speed is not None and remaining_time is not None:
+                            progress_bar.set_postfix(
+                                speed=f"{speed:.0f} KiB/s", eta=format_time(remaining_time))
+                        progress_bar.refresh()
 
-                print("Pobieranie zakończone!")
+                    print("\nInstalowanie zakończone!")
+                    sleep(10)
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                finally:
+                    # Zakończenie paska postępu progress_bar.close()
+                    pass
+
+                print("\nAktualizowanie zakończone!")
 
                 # KONIEC NOWYCH FUNKCJI
                 od_nowa = 0

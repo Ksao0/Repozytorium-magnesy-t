@@ -2463,7 +2463,7 @@ if internet == 1:
             print(Fore.CYAN +
                   f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
             print(Fore.CYAN +
-                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat    precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
 
             print(Fore.RED +
                   f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")

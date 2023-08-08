@@ -154,6 +154,15 @@ while od_nowa == 1:
                         "name": "Aktualizator_aktualizatora.py",
                         "display_name": "Pliki aktualizacyjne (3/3)",
                         "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
+                    },
+                    {
+                        "name": "main.py",
+                        "display_name": "Kończenie (1/2)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"
+                    },                    {
+                        "name": "version.txt",
+                        "display_name": "Kończenie (2/2)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"
                     }
                 ]
 
@@ -292,6 +301,15 @@ while od_nowa == 1:
                         "name": "Aktualizator_aktualizatora.py",
                         "display_name": "Pliki aktualizacyjne (3/3)",
                         "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                    },
+                    {
+                        "name": "main.py",
+                        "display_name": "Kończenie (1/2)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
+                    },                    {
+                        "name": "version.txt",
+                        "display_name": "Kończenie (2/2)",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
                     }
                 ]
                 # Funkcja do śledzenia postępu pobierania
@@ -399,7 +417,7 @@ while od_nowa == 1:
         repository_name = 'Ksao0/Repozytorium-magnesy-t'
         issue_title = 'Automatyczne zgłoszenie błędu z Aktualizacja.py'
         a = traceback.format_exc()
-        issue_body = f"Wersja: Stabilna\nBłąd funkcji Aktualizacja.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+        issue_body = f"Błąd funkcji Aktualizacja.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
         # autentykacja
         g = Github(username, password)

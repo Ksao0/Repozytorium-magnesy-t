@@ -1,5 +1,5 @@
 1.6.0.0
-Status: yN
+Status: Nowa wersja
 Nazwa poprawki: Nowa wersja
 Wydano: 08.08.2023
 Informacja o bibliotekach: C3

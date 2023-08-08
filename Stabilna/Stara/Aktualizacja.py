@@ -22,7 +22,7 @@ klamstwo = False
 
 def klamstwo_fun():
     # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/prefvers.txt'
     response = requests.get(url)
     response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
     prefvers = response.content.decode('utf-8').strip()

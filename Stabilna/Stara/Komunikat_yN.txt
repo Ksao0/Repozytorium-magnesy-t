@@ -1,2 +1,2 @@
-Blokada testowa
-To nie jest błąd, sprawdzamy, czy ta funkcja działa prawidłowo
+Jeszcze nieudostępniono...
+Komunikat jest odświerzany po ponownym włączeniu programu

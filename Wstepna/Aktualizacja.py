@@ -16,11 +16,11 @@ from colorama import init, Fore, Style
 from tqdm import tqdm
 
 
-global klamstwo
-klamstwo = False
+global klamstwo_wstepnej
+klamstwo_wstepnej = False
 
 
-def klamstwo_fun():
+def klamstwo_wstepnej_fun():
     # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
     response = requests.get(url)
@@ -40,14 +40,14 @@ def klamstwo_fun():
 
     # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
     if version_local_first_line in prefvers_lines:
-        global klamstwo
-        klamstwo = True
+        global klamstwo_wstepnej
+        klamstwo_wstepnej = True
         messagebox.showerror(
             'Odmowa dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
         exit()
 
 
-klamstwo_fun()
+klamstwo_wstepnej_fun()
 
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED

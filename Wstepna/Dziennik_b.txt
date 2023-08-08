@@ -1,5 +1,4 @@
 1.7.2.6-Beta
- 
  + Zainspirowani ostatnim błędem postanowiliśmy ulepszyć mechanizmy, które chronią przed pobraniem wadliwej wersji
  /// Usunięto błąd krytyczny aktualizacji programu
  #! Błąd krytyczny aktualizacji

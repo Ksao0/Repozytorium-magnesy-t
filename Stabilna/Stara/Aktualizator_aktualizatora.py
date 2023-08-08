@@ -13,39 +13,6 @@ import traceback
 import matplotlib.pyplot as plt
 from colorama import init, Fore, Style
 
-global klamstwo
-klamstwo = False
-
-
-def klamstwo_fun():
-    # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/prefvers.txt'
-    response = requests.get(url)
-    response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-    prefvers = response.content.decode('utf-8').strip()
-    prefvers_lines = prefvers.split('\n')
-
-    # Odczytaj zawartość pliku version.txt w twoim programie
-    path = os.path.join(os.getcwd(), "version.txt")
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            version_local = f.read().strip()
-    else:
-        version_local = "BRAK DANYCH"
-
-    version_local_first_line = version_local.split('\n')[0]
-
-    # Porównaj każdą linijkę w prefvers z pierwszą linijką version_local
-    if version_local_first_line in prefvers_lines:
-        global klamstwo
-        klamstwo = True
-        messagebox.showerror(
-            'Odmowa dostępu', "Ta opcja jest nadrzędnie zablokowana. Spróbuj ponownie za kilka godzin lub dni")
-        exit()
-
-
-klamstwo_fun()
-
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
 # Style.BRIGHT
@@ -61,7 +28,7 @@ try:
         os.remove(path)
     print(Fore.YELLOW + "Rozpoczynanie aktualizacji II poziomu")
     # Pobierz plik Aktualizacja.py z repozytorium
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizacja.py"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizacja.py"
     urllib.request.urlretrieve(url, path)
     print(Fore.GREEN + "Zakończono aktualizację II poziomu\n")
     print(Fore.YELLOW + 'Rozpoczynanie aktualizacji I poziomu')
@@ -118,7 +85,7 @@ except Exception as e:
     repository_name = 'Ksao0/Repozytorium-magnesy-t'
     issue_title = 'Automatyczne zgłoszenie błędu z Aktualizator_aktualizatora.py'
     a = traceback.format_exc()
-    issue_body = f"Wersja: Stabilna\nBłąd funkcji Aktualizator_aktualizatora.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+    issue_body = f"Błąd funkcji Aktualizator_aktualizatora.py:\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
     # autentykacja
     g = Github(username, password)

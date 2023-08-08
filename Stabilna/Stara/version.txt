@@ -11,4 +11,5 @@ Główne zmiany dodane w tej wersji (od najnowszych):
  - Ulepszyliśmy mechanizmy ochrony przed pobraniem wadliwej wersji!
  - NOWE! Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
  - Stworzyliśmy aplikację na telefony z systemem Android!
+    Wcześniej była dostępna tylko w wersji Beta
     Aby zobaczyć tę opcję: Więcej opcji --> Aplikacja na telefon

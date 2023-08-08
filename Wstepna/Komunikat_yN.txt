@@ -1,3 +1,3 @@
 Błąd Krytyczny
-Prawie cała komunikacja z repozytorium jest niedostępna, wypuszczenie łatki potraw trochę czasu
+Prawie cała komunikacja z repozytorium jest niedostępna, wypuszczenie łatki potrwa trochę czasu
 Korzystaj z programu tak jak na co dzień, niektóre funkcje będą niedostępne, ale zostaniesz o tym poinformowany

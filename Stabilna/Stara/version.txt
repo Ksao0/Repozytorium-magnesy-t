@@ -10,8 +10,5 @@ Główne zmiany dodane w tej wersji (od najnowszych):
  - Znaczące poprawki zabezpieczeń
  - Ulepszyliśmy mechanizmy ochrony przed pobraniem wadliwej wersji!
  - NOWE! Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
- - NOWE! Testujemy funkcje eksperymentalne!
-    Aby zobaczyć: Więcej opcji --> Opcje eksperymentalne
-    *Te funkcje mogą byc niedopracowane i mogą zostać usunięte w następnych aktualizacjach*
- - Wydano wersję programu na system Android, możesz ją pobrać oraz aktualizować z pomocą naszego programu!
-    Aby zobaczyć tę opcję: Więcej opcji --> Opcje eksperymentalne --> Zainstaluj/aktualizuj aplkację na telefon
+ - Stworzyliśmy aplikację na telefony z systemem Android!
+    Aby zobaczyć tę opcję: Więcej opcji --> Aplikacja na telefon

@@ -198,7 +198,8 @@ while od_nowa == 1:
                 except Exception as e:
                     print(f"An error occurred: {e}")
                 finally:
-                    # Zakończenie paska postępu progress_bar.close()
+                    # Zakończenie paska postępu
+                    progress_bar.close()
                     pass
 
                 print("\nPobieranie zakończone!")
@@ -335,7 +336,8 @@ while od_nowa == 1:
                 except Exception as e:
                     print(f"An error occurred: {e}")
                 finally:
-                    # Zakończenie paska postępu progress_bar.close()
+                    # Zakończenie paska postępu
+                    progress_bar.close()
                     pass
 
                 print("\nAktualizowanie zakończone!")

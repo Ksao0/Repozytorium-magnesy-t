@@ -1881,7 +1881,7 @@ def informacje_o_wersji_utworz_okno():
                             zmiana = ""
                             # Pomijamy pierwszą linię z wersją
                             for line in dziennik_z_online_lines[1:]:
-                                if line.startswith(" [] ") or line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" /// ") or line.startswith(" \\/ ") or line.startswith(" +     ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! ") or line.startswith(" /\\ "):
+                                if line.startswith(" [] ") or line.startswith(" / ") or line.startswith(" /\\ ") or line.startswith(" /// ") or line.startswith(" \\/ ") or line.startswith(" + ") or line.startswith(" - ") or line.startswith(" ! ") or line.startswith(" ~ ") or line.startswith(" #! ") or line.startswith(" /\\ "):
 
                                     if zmiana:
                                         zmiany.append(zmiana)

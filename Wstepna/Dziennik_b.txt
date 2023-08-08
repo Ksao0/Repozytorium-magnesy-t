@@ -1,4 +1,8 @@
 1.7.2.6-Beta
+ 
+ + Zainspirowani ostatnim błędem postanowiliśmy ulepszyć mechanizmy, które chronią przed pobraniem wadliwej wersji
+ /// Usunięto błąd krytyczny aktualizacji programu
+ #! Błąd krytyczny aktualizacji
  + Od teraz podczas ręcznej aktualizacji bedzie widoczny pasek postępu pobierania
  / Usunięto błąd ikonki aplikacji
  /// W niektórych przypadkach ponowne uruchomienie zamykało program

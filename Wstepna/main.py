@@ -24,7 +24,9 @@ global okno_wyborowe_otwarte
 global internet
 global blokada_bledu
 global blokada_klamstwa
+global token_zaufania
 
+token_zaufania = False
 blokada_bledu = False
 blokada_klamstwa = False
 okno_informacje_otwarte = 0
@@ -39,6 +41,11 @@ internet = 1
 # Style.BRIGHT
 # Style.RESET_ALL
 init()
+
+
+def token_zaufania_wygasl_f():
+    messagebox.showerror(
+        'Czas minął', 'Token zaufania wygasł. Ta funkcja jest niedostepna')
 
 
 def restart_program():
@@ -88,255 +95,262 @@ def blad_poczatkowe():
 
 
 def zglos_problem():
-    try:
-        global file_path_ikonka
-        if not internet == 0:
-            messagebox.showinfo(
-                'Błąd sugestia i pytanie', "Opisz problem lub sugestię zwięźle i zrozumiale, abyśmy mogli jeszcze skuteczniej pracować nad ulepszaniem programu. Dziękujemy za Twój wkład!")
-            global okno_edycja_kosztow_otwarte
-            global okno_problemu_otwarte
-
-            def otworz_okno():
+    global token_zaufania
+    if token_zaufania == True:
+        try:
+            global file_path_ikonka
+            if not internet == 0:
+                messagebox.showinfo(
+                    'Błąd sugestia i pytanie', "Opisz problem lub sugestię zwięźle i zrozumiale, abyśmy mogli jeszcze skuteczniej pracować nad ulepszaniem programu. Dziękujemy za Twój wkład!")
+                global okno_edycja_kosztow_otwarte
                 global okno_problemu_otwarte
-                okno_problemu_otwarte = 1
 
-            def zamknij_okno():
-                global okno_problemu_otwarte
-                okno_problemu_otwarte = 0
-                okno_problemu.destroy()
+                def otworz_okno():
+                    global okno_problemu_otwarte
+                    okno_problemu_otwarte = 1
 
-            if okno_problemu_otwarte == 0:
-                okno_problemu_otwarte = 1
+                def zamknij_okno():
+                    global okno_problemu_otwarte
+                    okno_problemu_otwarte = 0
+                    okno_problemu.destroy()
 
-                def zglos_problem_wyslij():
-                    # Odczytaj zawartość pliku Develop.txt w twoim programie
-                    path = os.path.join(os.getcwd(), "Develop.txt")
-                    if os.path.exists(path):
-                        with open(path, "r", encoding="utf-8") as f:
-                            plik_od_dewelopera = f.read().strip()
-                    else:
-                        plik_od_dewelopera = "BRAK PLIKU D"
-                        messagebox.showerror(
-                            "Błąd", 'Zapytaj twórcę programu o informacje')
+                if okno_problemu_otwarte == 0:
+                    okno_problemu_otwarte = 1
 
-                    selected_category = combo_var.get()  # Pobierz wybraną kategorię z ComboBox-a
+                    def zglos_problem_wyslij():
+                        # Odczytaj zawartość pliku Develop.txt w twoim programie
+                        path = os.path.join(os.getcwd(), "Develop.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                plik_od_dewelopera = f.read().strip()
+                        else:
+                            plik_od_dewelopera = "BRAK PLIKU D"
+                            messagebox.showerror(
+                                "Błąd", 'Zapytaj twórcę programu o informacje')
 
-                    issue_title = entry_tutul_problemu.get()
-                    issue_description = entry_opis_problemu.get("1.0", tk.END)
+                        selected_category = combo_var.get()  # Pobierz wybraną kategorię z ComboBox-a
 
-                    if not issue_title and issue_description and selected_category:
-                        messagebox.showwarning(
-                            "To zgłoszenie jest puste", "Nie podano tytułu zgłoszenia")
-                        return
+                        issue_title = entry_tutul_problemu.get()
+                        issue_description = entry_opis_problemu.get(
+                            "1.0", tk.END)
 
-                    if not selected_category:
-                        messagebox.showwarning(
-                            "Brak kategorii", "Niewybrano kategorii zgłoszenia")
-                        return
+                        if not issue_title and issue_description and selected_category:
+                            messagebox.showwarning(
+                                "To zgłoszenie jest puste", "Nie podano tytułu zgłoszenia")
+                            return
 
-                    if not issue_title:
-                        messagebox.showwarning(
-                            "Brak tytułu", "Nie podano tytułu zgłoszenia")
-                        return
+                        if not selected_category:
+                            messagebox.showwarning(
+                                "Brak kategorii", "Niewybrano kategorii zgłoszenia")
+                            return
 
-                    if not issue_description.strip():
-                        messagebox.showwarning(
-                            "Brak treści", "Nie podano treści zgłoszenia")
-                        return
+                        if not issue_title:
+                            messagebox.showwarning(
+                                "Brak tytułu", "Nie podano tytułu zgłoszenia")
+                            return
 
-                    if len(issue_description.strip()) < 70:
-                        if selected_category == "Błąd":
-                            if len(issue_description.strip()) < 100:
+                        if not issue_description.strip():
+                            messagebox.showwarning(
+                                "Brak treści", "Nie podano treści zgłoszenia")
+                            return
+
+                        if len(issue_description.strip()) < 70:
+                            if selected_category == "Błąd":
+                                if len(issue_description.strip()) < 100:
+                                    messagebox.showwarning(
+                                        "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 100 znaków (około 17 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie     zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                    return
+                            elif selected_category == "Propozycja":
+                                if len(issue_description.strip()) < 150:
+                                    messagebox.showwarning(
+                                        "Opisz dokładniej", "Jeśli chcesz zaproponować nową funkcję, musisz mieć na nią szczegółowy plan. Opisz ją dokładniej (treść propozycji musi mieć co    najmniej 150 znaków)")
+                                    return
+                            elif selected_category == "Interfejs programu":
+                                if len(issue_description.strip()) < 70:
+                                    messagebox.showwarning(
+                                        "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (około 15 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie  zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                    return
+                            else:
                                 messagebox.showwarning(
-                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 100 znaków (około 17 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (to około 13 słów, zalecamy bardziej opisowe zgłoszenia). Opisz wszystko jak  najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
                                 return
-                        elif selected_category == "Propozycja":
-                            if len(issue_description.strip()) < 150:
-                                messagebox.showwarning(
-                                    "Opisz dokładniej", "Jeśli chcesz zaproponować nową funkcję, musisz mieć na nią szczegółowy plan. Opisz ją dokładniej (treść propozycji musi mieć co najmniej 150 znaków)")
+
+                        if not plik_od_dewelopera == "BRAK PLIKU D":
+                            informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                '\n')
+                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                            token_do_wpisania = informacje_do_zgloszenia[1]
+
+                            # pobierz datę wygaśnięcia
+                            wygasa_dnia = int(informacje_do_zgloszenia[2])
+                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                            # utwórz obiekt daty z daty wygaśnięcia
+                            wygasa_data = datetime.date(
+                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                            # pobierz dzisiejszą datę
+                            dzisiaj = datetime.date.today()
+                            # porównaj daty
+                            if dzisiaj > wygasa_data:
+                                messagebox.showerror(
+                                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                                 return
-                        elif selected_category == "Interfejs programu":
-                            if len(issue_description.strip()) < 70:
+                            elif dzisiaj == wygasa_data:
                                 messagebox.showwarning(
-                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (około 15 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                                 return
                         else:
-                            messagebox.showwarning(
-                                "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (to około 13 słów, zalecamy bardziej opisowe zgłoszenia). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                            messagebox.showinfo(
+                                "Informacja", 'Niestety nie masz dostępu do tej funkcji lub czas jej dostępności dla ciebie minął. Skontaktuj się z osobą odpowiedzialną za program.')
                             return
 
-                    if not plik_od_dewelopera == "BRAK PLIKU D":
-                        informacje_do_zgloszenia = plik_od_dewelopera.split(
-                            '\n')
-                        nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                        token_do_wpisania = informacje_do_zgloszenia[1]
+                        # ustawienia konta
+                        username = f'{nazwa_uzytkownika}'
+                        password = f'{token_do_wpisania}'
+                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                        issue_title = f'{entry_tutul_problemu.get()}'
+                        aktualna_data_czas = datetime.datetime.now()
+                        format_data_czas = aktualna_data_czas.strftime(
+                            "%d.%m.%Y %H:%M")
+                        issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {selected_category}\n" + entry_opis_problemu.get(
+                            "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
 
-                        # pobierz datę wygaśnięcia
-                        wygasa_dnia = int(informacje_do_zgloszenia[2])
-                        wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                        wygasa_roku = int(informacje_do_zgloszenia[4])
+                        # autentykacja
+                        g = Github(username, password)
 
-                        # utwórz obiekt daty z daty wygaśnięcia
-                        wygasa_data = datetime.date(
-                            wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+                        # pobierz repozytorium
+                        repo = g.get_repo(repository_name)
 
-                        # pobierz dzisiejszą datę
-                        dzisiaj = datetime.date.today()
-                        # porównaj daty
-                        if dzisiaj > wygasa_data:
-                            messagebox.showerror(
-                                "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych.")
-                            return
-                        elif dzisiaj == wygasa_data:
-                            messagebox.showwarning(
-                                "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego  przedłużenia. ")
-                            return
+                        # utwórz nowe zgłoszenie błędu
+                        repo.create_issue(title=issue_title, body=issue_body)
+
+                        messagebox.showinfo("Twoje zgłoszenie zostało wysłane!",
+                                            'Dziękujemy za twój wkład w rozwój programu! Postaramy się je rozpatrzyć jak najszybciej!')
+
+                    if not okno_edycja_kosztow_otwarte == 0:
+                        okno_problemu = tk.Toplevel()
+                        okno_problemu.title(
+                            "Zgłaszanie problemów lub propozycji")
+                        okno_problemu.geometry("370x300+1170+510")
+                        okno_problemu.iconbitmap(file_path_ikonka)
                     else:
-                        messagebox.showinfo(
-                            "Informacja", 'Niestety nie masz dostępu do tej funkcji lub czas jej dostępności dla ciebie minął. Skontaktuj się z osobą odpowiedzialną za program.')
-                        return
+                        okno_problemu = tk.Toplevel()
+                        okno_problemu.title(
+                            "Zgłaszanie problemów lub propozycji")
+                        okno_problemu.geometry("370x300+800+510")
+                        okno_problemu.iconbitmap(file_path_ikonka)
 
-                    # ustawienia konta
-                    username = f'{nazwa_uzytkownika}'
-                    password = f'{token_do_wpisania}'
-                    repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                    issue_title = f'{entry_tutul_problemu.get()}'
-                    aktualna_data_czas = datetime.datetime.now()
-                    format_data_czas = aktualna_data_czas.strftime(
-                        "%d.%m.%Y %H:%M")
-                    issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {selected_category}\n" + entry_opis_problemu.get(
-                        "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
+                    label_informacja = tk.Label(
+                        okno_problemu, text="Pamiętaj o wybraniu kategorii")
+                    label_informacja.pack()
 
-                    # autentykacja
-                    g = Github(username, password)
+                    # Zmienna do przechowywania wybranej opcji
+                    combo_var = tk.StringVar()
 
-                    # pobierz repozytorium
-                    repo = g.get_repo(repository_name)
+                    combo_var.set("")
 
-                    # utwórz nowe zgłoszenie błędu
-                    repo.create_issue(title=issue_title, body=issue_body)
+                    # Lista opcji w ComboBox-ie
+                    lista_kategorii = ["Błąd", "Propozycja",
+                                       "Problem z wydajnością", "Interfejs programu", "Pytanie", "Inne"]
 
-                    messagebox.showinfo("Twoje zgłoszenie zostało wysłane!",
-                                        'Dziękujemy za twój wkład w rozwój programu! Postaramy się je rozpatrzyć jak najszybciej!')
+                    # Tworzenie ComboBox-a
+                    combo_box = ttk.Combobox(
+                        okno_problemu, textvariable=combo_var, values=lista_kategorii, state="readonly")
+                    combo_box.pack(pady=10)
 
-                if not okno_edycja_kosztow_otwarte == 0:
-                    okno_problemu = tk.Toplevel()
-                    okno_problemu.title("Zgłaszanie problemów lub propozycji")
-                    okno_problemu.geometry("370x300+1170+510")
-                    okno_problemu.iconbitmap(file_path_ikonka)
+                    label_informacja = tk.Label(
+                        okno_problemu, text="Tytuł:")
+                    label_informacja.pack()
+                    entry_tutul_problemu = tk.Entry(okno_problemu)
+                    entry_tutul_problemu.pack()
+
+                    label_informacja = tk.Label(
+                        okno_problemu, text="Opis:")
+                    label_informacja.pack()
+                    entry_opis_problemu = tk.Text(okno_problemu, height=9)
+                    entry_opis_problemu.pack()
+
+                    button_wyslij_problem = tk.Button(
+                        okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
+                    button_wyslij_problem.pack()
+
+                    okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
+                    okno_problemu.bind("<Map>", lambda event: otworz_okno)
+
+                    okno_problemu.mainloop()
                 else:
-                    okno_problemu = tk.Toplevel()
-                    okno_problemu.title("Zgłaszanie problemów lub propozycji")
-                    okno_problemu.geometry("370x300+800+510")
-                    okno_problemu.iconbitmap(file_path_ikonka)
-
-                label_informacja = tk.Label(
-                    okno_problemu, text="Pamiętaj o wybraniu kategorii")
-                label_informacja.pack()
-
-                # Zmienna do przechowywania wybranej opcji
-                combo_var = tk.StringVar()
-
-                combo_var.set("")
-
-                # Lista opcji w ComboBox-ie
-                lista_kategorii = ["Błąd", "Propozycja",
-                                   "Problem z wydajnością", "Interfejs programu", "Pytanie", "Inne"]
-
-                # Tworzenie ComboBox-a
-                combo_box = ttk.Combobox(
-                    okno_problemu, textvariable=combo_var, values=lista_kategorii, state="readonly")
-                combo_box.pack(pady=10)
-
-                label_informacja = tk.Label(
-                    okno_problemu, text="Tytuł:")
-                label_informacja.pack()
-                entry_tutul_problemu = tk.Entry(okno_problemu)
-                entry_tutul_problemu.pack()
-
-                label_informacja = tk.Label(
-                    okno_problemu, text="Opis:")
-                label_informacja.pack()
-                entry_opis_problemu = tk.Text(okno_problemu, height=9)
-                entry_opis_problemu.pack()
-
-                button_wyslij_problem = tk.Button(
-                    okno_problemu, text="Wyślij", command=zglos_problem_wyslij)
-                button_wyslij_problem.pack()
-
-                okno_problemu.protocol("WM_DELETE_WINDOW", zamknij_okno)
-                okno_problemu.bind("<Map>", lambda event: otworz_okno)
-
-                okno_problemu.mainloop()
+                    messagebox.showerror("Błąd", "To okno jest już otwarte!")
             else:
-                messagebox.showerror("Błąd", "To okno jest już otwarte!")
-        else:
-            blad_poczatkowe()
-    except Exception as e:
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Zapytaj twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
+                blad_poczatkowe()
+        except Exception as e:
+            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                return
-            elif dzisiaj == wygasa_data:
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
+
+            if plik_od_dewelopera != "BRAK PLIKU D":
+
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+                # porównaj daty
+                if dzisiaj > wygasa_data:
+                    messagebox.showerror(
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                    return
+                elif dzisiaj == wygasa_data:
+                    messagebox.showwarning(
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+            else:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
-        else:
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
+                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                return
 
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z zglos_problem()'
-        a = traceback.format_exc()
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = 'Automatyczne zgłoszenie błędu z zglos_problem()'
+            a = traceback.format_exc()
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Błąd funkcji zglos_problem():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
-        # autentykacja
-        g = Github(username, password)
+            # autentykacja
+            g = Github(username, password)
 
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
 
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
 
-        messagebox.showinfo("Problem został zgłoszony",
-                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        exit()
+            messagebox.showinfo("Problem został zgłoszony",
+                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+            exit()
+    else:
+        token_zaufania_wygasl_f()
 
 
 def czynnosci_poczatkowe():
@@ -408,11 +422,11 @@ def czynnosci_poczatkowe():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
         else:
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -472,6 +486,107 @@ def taj():
                 return
         except:
             pass
+
+        def informacja_o_wygasaniu_tokenu(pozostale_dni):
+            try:
+                # Odczytaj zawartość pliku Develop.txt w twoim programie
+                path = os.path.join(os.getcwd(), "Develop.txt")
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        plik_od_dewelopera = f.read().strip()
+                else:
+                    plik_od_dewelopera = "BRAK PLIKU D"
+                    messagebox.showerror(
+                        "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # ustawienia konta
+                username = f'{nazwa_uzytkownika}'
+                password = f'{token_do_wpisania}'
+                repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                issue_title = 'Automatyczne zgłoszenie: Token niedługo wygasa'
+                a = traceback.format_exc()
+                aktualna_data_czas = datetime.datetime.now()
+                format_data_czas = aktualna_data_czas.strftime(
+                    "%d.%m.%Y %H:%M")
+                issue_body = f"Data: {format_data_czas} Token niedługo wygasa\nWystąpił u: {nazwa_uzytkownika}\n\nOpis: Trzeba sworzyć nowy token (pozostało: {pozostale_dni} dni)"
+
+                # autentykacja
+                g = Github(username, password)
+
+                # pobierz repozytorium
+                repo = g.get_repo(repository_name)
+
+                # utwórz nowe zgłoszenie błędu
+                repo.create_issue(title=issue_title, body=issue_body)
+
+                return
+            except:
+                pass
+
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+
+                # porównaj daty
+                if int((wygasa_data - dzisiaj).days) >= 0:
+                    if (wygasa_data - dzisiaj).days >= 30:
+                        print(
+                            Fore.LIGHTGREEN_EX + f"Token zaufanego użytkownika wygasa za {(wygasa_data - dzisiaj).days} dni" + Style.RESET_ALL)
+                        token_zaufania = True
+                    elif (wygasa_data - dzisiaj).days >= 20:
+                        print(
+                            Fore.GREEN + f"Token zaufanego użytkownika wygasa za {(wygasa_data - dzisiaj).days} dni" + Style.RESET_ALL)
+                        token_zaufania = True
+                    elif (wygasa_data - dzisiaj).days >= 11:
+                        print(
+                            Fore.YELLOW + f"Token zaufanego użytkownika wygasa za {(wygasa_data - dzisiaj).days} dni" + Style.RESET_ALL)
+                        token_zaufania = True
+                    elif (wygasa_data - dzisiaj).days == 1:
+                        print(
+                            Fore.RED + f"Token zaufanego użytkownika wygasa jutro" + Style.RESET_ALL)
+                        messagebox.showerror(
+                            'Czas mija...', "Token zaufanego użytkownika wygasa jutro. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                        pozostale_dni = (wygasa_data - dzisiaj).days
+                        informacja_o_wygasaniu_tokenu(pozostale_dni)
+                        token_zaufania = True
+                    else:  # 10, 9 [...] 2
+                        print(
+                            Fore.RED + f"Token zaufanego użytkownika wygasa za {(wygasa_data - dzisiaj).days} dni" + Style.RESET_ALL)
+                        messagebox.showerror(
+                            'Czas mija...', "Token zaufanego użytkownika niedługo wygasa. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                        token_zaufania = True
+                else:
+                    print(
+                        Fore.RED + f"Token zaufanego użytkownika wygasł" + Style.RESET_ALL)
+                    messagebox.showerror(
+                        'Czas minął', "Token zaufanego użytkownika wygasł, jak najszybciej zgłoś się do osoby odpowiedzialnej za program.\nProgram może przestać działać prawidłowo")
+                    try:
+                        pozostale_dni = (wygasa_data - dzisiaj).days
+                        informacja_o_wygasaniu_tokenu(pozostale_dni)
+                    except:
+                        pass
 
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
@@ -597,11 +712,11 @@ def taj():
                                 # porównaj daty
                                 if dzisiaj > wygasa_data:
                                     messagebox.showerror(
-                                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                                     return
                                 elif dzisiaj == wygasa_data:
                                     messagebox.showwarning(
-                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.")
+                                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                             else:
                                 messagebox.showwarning(
                                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -667,11 +782,11 @@ def taj():
                                 # porównaj daty
                                 if dzisiaj > wygasa_data:
                                     messagebox.showerror(
-                                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                                     return
                                 elif dzisiaj == wygasa_data:
                                     messagebox.showwarning(
-                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w    celu   jego przedłużenia.                ")
+                                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za programenia.                ")
                             else:
                                 messagebox.showwarning(
                                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -830,11 +945,11 @@ def taj():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
         else:
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -933,11 +1048,11 @@ def aktul():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
-                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za program   ")
             else:
                 messagebox.showwarning(
                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -1009,11 +1124,11 @@ def wykasuj_zapisy():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
         else:
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -1166,11 +1281,11 @@ def wykres():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
-                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za program   ")
             else:
                 messagebox.showwarning(
                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -1365,11 +1480,11 @@ def rozwiaz_problemy():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
-                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za program   ")
             else:
                 messagebox.showwarning(
                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -1400,143 +1515,156 @@ def rozwiaz_problemy():
 
 
 def ankieta():
-    if blokada_bledu == 0:
-        try:
-            global file_path_ikonka
+    global token_zaufania
+    if token_zaufania == True:
+        if blokada_bledu == 0:
+            try:
+                global file_path_ikonka
 
-            # Odczytaj zawartość pliku Ank.txt na komputerze
-            path = os.path.join(os.getcwd(), "Ank.txt")
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    ankieta_wykonana = f.read().strip()
-            else:
-                ankieta_wykonana = "Nie"
+                # Odczytaj zawartość pliku Ank.txt na komputerze
+                path = os.path.join(os.getcwd(), "Ank.txt")
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        ankieta_wykonana = f.read().strip()
+                else:
+                    ankieta_wykonana = "Nie"
 
-            if ankieta_wykonana != "Tak":
-                if messagebox.askyesno(
-                        "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
-                    okno_ankiety = tk.Toplevel()
-                    okno_ankiety.title("Ankieta")
-                    okno_ankiety.geometry("700x670")
-                    okno_ankiety.iconbitmap(file_path_ikonka)
+                if ankieta_wykonana != "Tak":
+                    if messagebox.askyesno(
+                            "Jednorazowa ankieta", "Odpowiadając na te kilka pytań możesz wesprzeć rozwój naszego programu. Czy zgadzasz się na przeprowadzenie krótkiej ankiety?"):
+                        okno_ankiety = tk.Toplevel()
+                        okno_ankiety.title("Ankieta")
+                        okno_ankiety.geometry("700x670")
+                        okno_ankiety.iconbitmap(file_path_ikonka)
 
-                    frame_pyt1 = tk.Frame(okno_ankiety)
-                    frame_pyt1.pack()
+                        frame_pyt1 = tk.Frame(okno_ankiety)
+                        frame_pyt1.pack()
 
-                    label_informacja = tk.Label(
-                        frame_pyt1, text='Jeżeli odpowiedź brzmi nie - Napisz \"Nie\"')
-                    label_informacja.pack()
+                        label_informacja = tk.Label(
+                            frame_pyt1, text='Jeżeli odpowiedź brzmi nie - Napisz \"Nie\"')
+                        label_informacja.pack()
 
-                    pustka = tk.Label()
-                    pustka.pack()
+                        pustka = tk.Label()
+                        pustka.pack()
 
-                    label_pytanie = tk.Label(
-                        frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia, jakie?')
-                    label_pytanie.pack()
+                        label_pytanie = tk.Label(
+                            frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia, jakie?')
+                        label_pytanie.pack()
 
-                    pole_tekstowe_pyt1 = tk.Text(
-                        frame_pyt1, width=60, height=11)
-                    pole_tekstowe_pyt1.pack()
+                        pole_tekstowe_pyt1 = tk.Text(
+                            frame_pyt1, width=60, height=11)
+                        pole_tekstowe_pyt1.pack()
 
-                    # pyt1 = tk.IntVar()
+                        # pyt1 = tk.IntVar()
 
-                    # checkbox_pyt1_tak = tk.Radiobutton(
-                    #    frame_pyt1, text="Tak", variable=pyt1, value=1)
-                    # checkbox_pyt1_tak.pack()
+                        # checkbox_pyt1_tak = tk.Radiobutton(
+                        #    frame_pyt1, text="Tak", variable=pyt1, value=1)
+                        # checkbox_pyt1_tak.pack()
 
-                    # checkbox_pyt1_nie = tk.Radiobutton(
-                    #    frame_pyt1, text="Nie", variable=pyt1, value=0)
-                    # checkbox_pyt1_nie.pack()
+                        # checkbox_pyt1_nie = tk.Radiobutton(
+                        #    frame_pyt1, text="Nie", variable=pyt1, value=0)
+                        # checkbox_pyt1_nie.pack()
 
-                    frame_pyt2 = tk.Frame(okno_ankiety)
-                    frame_pyt2.pack()
+                        frame_pyt2 = tk.Frame(okno_ankiety)
+                        frame_pyt2.pack()
 
-                    label_pytanie2 = tk.Label(
-                        frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu, opisz je?')
-                    label_pytanie2.pack()
+                        label_pytanie2 = tk.Label(
+                            frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu, opisz je?')
+                        label_pytanie2.pack()
 
-                    pole_tekstowe_pyt2 = tk.Text(
-                        frame_pyt2, width=60, height=11)
-                    pole_tekstowe_pyt2.pack()
+                        pole_tekstowe_pyt2 = tk.Text(
+                            frame_pyt2, width=60, height=11)
+                        pole_tekstowe_pyt2.pack()
 
-                    frame_pyt3 = tk.Frame(okno_ankiety)
-                    frame_pyt3.pack()
+                        frame_pyt3 = tk.Frame(okno_ankiety)
+                        frame_pyt3.pack()
 
-                    label_pytanie3 = tk.Label(
-                        frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia (w  jaki sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
-                    label_pytanie3.pack()
+                        label_pytanie3 = tk.Label(
+                            frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia     (w  jaki sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
+                        label_pytanie3.pack()
 
-                    pole_tekstowe_pyt3 = tk.Text(
-                        frame_pyt3, width=60, height=11)
-                    pole_tekstowe_pyt3.pack()
+                        pole_tekstowe_pyt3 = tk.Text(
+                            frame_pyt3, width=60, height=11)
+                        pole_tekstowe_pyt3.pack()
 
-                    def wyslij():
-                        try:
-                            global odpowiedz_pytanie1
-                            global odpowiedz_pytanie2
-                            global odpowiedz_pytanie3
+                        def wyslij():
+                            try:
+                                global odpowiedz_pytanie1
+                                global odpowiedz_pytanie2
+                                global odpowiedz_pytanie3
 
-                            odpowiedz_pytanie1 = ""
-                            odpowiedz_pytanie2 = ""
-                            odpowiedz_pytanie3 = ""
+                                odpowiedz_pytanie1 = ""
+                                odpowiedz_pytanie2 = ""
+                                odpowiedz_pytanie3 = ""
 
-                            odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
-                                "1.0", tk.END).strip()
-                            odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
-                                "1.0", tk.END).strip()
-                            odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
-                                "1.0", tk.END).strip()
+                                odpowiedz_pytanie1 = pole_tekstowe_pyt1.get(
+                                    "1.0", tk.END).strip()
+                                odpowiedz_pytanie2 = pole_tekstowe_pyt2.get(
+                                    "1.0", tk.END).strip()
+                                odpowiedz_pytanie3 = pole_tekstowe_pyt3.get(
+                                    "1.0", tk.END).strip()
 
-                            udzielone_odpowiedzi = 0
+                                udzielone_odpowiedzi = 0
 
-                            if odpowiedz_pytanie1 != "":
-                                udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+                                if odpowiedz_pytanie1 != "":
+                                    udzielone_odpowiedzi = udzielone_odpowiedzi + 1
 
-                            if odpowiedz_pytanie2 != "":
-                                udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+                                if odpowiedz_pytanie2 != "":
+                                    udzielone_odpowiedzi = udzielone_odpowiedzi + 1
 
-                            if odpowiedz_pytanie3 != "":
-                                udzielone_odpowiedzi = udzielone_odpowiedzi + 1
+                                if odpowiedz_pytanie3 != "":
+                                    udzielone_odpowiedzi = udzielone_odpowiedzi + 1
 
-                            liczba_nie = 0
+                                liczba_nie = 0
 
-                            if odpowiedz_pytanie1 == "Nie" or odpowiedz_pytanie1 == "NIE" or odpowiedz_pytanie1 == "nie" or odpowiedz_pytanie1 == "nIE":
-                                liczba_nie = liczba_nie + 1
+                                if odpowiedz_pytanie1 == "Nie" or odpowiedz_pytanie1 == "NIE" or odpowiedz_pytanie1 == "nie" or odpowiedz_pytanie1 == "nIE":
+                                    liczba_nie = liczba_nie + 1
 
-                            if odpowiedz_pytanie2 == "Nie" or odpowiedz_pytanie2 == "NIE" or odpowiedz_pytanie2 == "nie" or odpowiedz_pytanie2 == "nIE":
-                                liczba_nie = liczba_nie + 1
+                                if odpowiedz_pytanie2 == "Nie" or odpowiedz_pytanie2 == "NIE" or odpowiedz_pytanie2 == "nie" or odpowiedz_pytanie2 == "nIE":
+                                    liczba_nie = liczba_nie + 1
 
-                            if odpowiedz_pytanie3 == "Nie" or odpowiedz_pytanie3 == "NIE" or odpowiedz_pytanie3 == "nie" or odpowiedz_pytanie3 == "nIE":
-                                liczba_nie = liczba_nie + 1
+                                if odpowiedz_pytanie3 == "Nie" or odpowiedz_pytanie3 == "NIE" or odpowiedz_pytanie3 == "nie" or odpowiedz_pytanie3 == "nIE":
+                                    liczba_nie = liczba_nie + 1
 
-                            if udzielone_odpowiedzi == 3 and liczba_nie == 0:
-                                messagebox.showinfo('Ankieta zostałą wysłana',
-                                                    'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(a)')
+                                if udzielone_odpowiedzi == 3 and liczba_nie == 0:
+                                    messagebox.showinfo('Ankieta zostałą wysłana',
+                                                        'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(a)')
 
-                            elif udzielone_odpowiedzi == 3 and liczba_nie == 1:
-                                messagebox.showinfo('Ankieta zostałą wysłana',
-                                                    'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(b)')
+                                elif udzielone_odpowiedzi == 3 and liczba_nie == 1:
+                                    messagebox.showinfo('Ankieta zostałą wysłana',
+                                                        'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(b)')
 
-                            elif udzielone_odpowiedzi == 3 and liczba_nie == 2:
-                                messagebox.showinfo('Ankieta zostałą wysłana',
-                                                    'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(c)')
+                                elif udzielone_odpowiedzi == 3 and liczba_nie == 2:
+                                    messagebox.showinfo('Ankieta zostałą wysłana',
+                                                        'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 3(c)')
 
-                            elif udzielone_odpowiedzi == 2 and liczba_nie == 0:
-                                messagebox.showinfo('Ankieta zostałą wysłana',
-                                                    'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2(a)')
+                                elif udzielone_odpowiedzi == 2 and liczba_nie == 0:
+                                    messagebox.showinfo('Ankieta zostałą wysłana',
+                                                        'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2(a)')
 
-                            elif udzielone_odpowiedzi == 2 and liczba_nie == 1:
-                                messagebox.showinfo('Ankieta zostałą wysłana',
-                                                    'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
+                                elif udzielone_odpowiedzi == 2 and liczba_nie == 1:
+                                    messagebox.showinfo('Ankieta zostałą wysłana',
+                                                        'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 2')
 
-                            elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
-                                messagebox.showinfo('Ankieta zostałą wysłana',
-                                                    'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
+                                elif udzielone_odpowiedzi == 1 and liczba_nie != 1:
+                                    messagebox.showinfo('Ankieta zostałą wysłana',
+                                                        'Dziękujemy za udzielenie odpowiedzi!\nKod odpowiedzi: 1')
 
-                            else:  # dla 0 i innych (nie itp.)
-                                messagebox.showinfo('Ta ankieta jest nieistotna',
-                                                    'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja ankieta   jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno nie powinno     się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
+                                else:  # dla 0 i innych (nie itp.)
+                                    messagebox.showinfo('Ta ankieta jest nieistotna',
+                                                        'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja   ankieta   jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno   nie powinno     się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
+                                    path = os.path.join(os.getcwd(), "Ank.txt")
+                                    # Usuń plik jeśli istnieje
+                                    if os.path.exists(path):
+                                        os.remove(path)
+
+                                    with open("Ank.txt", "a", encoding='utf-8') as plik:
+                                        plik.write('Tak')
+
+                                    okno_ankiety.destroy()
+
                                 path = os.path.join(os.getcwd(), "Ank.txt")
+
                                 # Usuń plik jeśli istnieje
                                 if os.path.exists(path):
                                     os.remove(path)
@@ -1544,227 +1672,223 @@ def ankieta():
                                 with open("Ank.txt", "a", encoding='utf-8') as plik:
                                     plik.write('Tak')
 
+                                # Odczytaj zawartość pliku Develop.txt w twoim programie
+                                path = os.path.join(os.getcwd(), "Develop.txt")
+                                if os.path.exists(path):
+                                    with open(path, "r", encoding="utf-8") as f:
+                                        plik_od_dewelopera = f.read().strip()
+                                else:
+                                    plik_od_dewelopera = "BRAK PLIKU D"
+                                    messagebox.showerror(
+                                        "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                                if plik_od_dewelopera != "BRAK PLIKU D":
+                                    informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                        '\n')
+                                    nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                                    token_do_wpisania = informacje_do_zgloszenia[1]
+
+                                    # pobierz datę wygaśnięcia
+                                    wygasa_dnia = int(
+                                        informacje_do_zgloszenia[2])
+                                    wygasa_miesiaca = int(
+                                        informacje_do_zgloszenia[3])
+                                    wygasa_roku = int(
+                                        informacje_do_zgloszenia[4])
+
+                                    # utwórz obiekt daty z daty wygaśnięcia
+                                    wygasa_data = datetime.date(
+                                        wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                                    # pobierz dzisiejszą datę
+                                    dzisiaj = datetime.date.today()
+                                    # porównaj daty
+                                    if dzisiaj > wygasa_data:
+                                        messagebox.showerror(
+                                            "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                                        return
+                                    elif dzisiaj == wygasa_data:
+                                        messagebox.showwarning(
+                                            "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za programużenia.        ")
+                                else:
+                                    messagebox.showwarning(
+                                        'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                                    return
+
+                                # ustawienia konta
+                                username = f'{nazwa_uzytkownika}'
+                                password = f'{token_do_wpisania}'
+                                repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                                issue_title = f'Ankieta od {nazwa_uzytkownika}'
+                                aktualna_data_czas = datetime.datetime.now()
+                                format_data_czas = aktualna_data_czas.strftime(
+                                    "%d.%m.%Y %H:%M")
+                                issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
+                                    "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
+                                    "\n\nOstatnie błędy: " + odpowiedz_pytanie3
+
+                                # autentykacja
+                                g = Github(username, password)
+
+                                # pobierz repozytorium
+                                repo = g.get_repo(repository_name)
+
+                                # utwórz nowe zgłoszenie błędu
+                                repo.create_issue(
+                                    title=issue_title, body=issue_body)
                                 okno_ankiety.destroy()
-
-                            path = os.path.join(os.getcwd(), "Ank.txt")
-
-                            # Usuń plik jeśli istnieje
-                            if os.path.exists(path):
-                                os.remove(path)
-
-                            with open("Ank.txt", "a", encoding='utf-8') as plik:
-                                plik.write('Tak')
-
-                            # Odczytaj zawartość pliku Develop.txt w twoim programie
-                            path = os.path.join(os.getcwd(), "Develop.txt")
-                            if os.path.exists(path):
-                                with open(path, "r", encoding="utf-8") as f:
-                                    plik_od_dewelopera = f.read().strip()
-                            else:
-                                plik_od_dewelopera = "BRAK PLIKU D"
-                                messagebox.showerror(
-                                    "Błąd", 'Zapytaj twórcę programu o informacje')
-
-                            if plik_od_dewelopera != "BRAK PLIKU D":
-                                informacje_do_zgloszenia = plik_od_dewelopera.split(
-                                    '\n')
-                                nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                                token_do_wpisania = informacje_do_zgloszenia[1]
-
-                                # pobierz datę wygaśnięcia
-                                wygasa_dnia = int(informacje_do_zgloszenia[2])
-                                wygasa_miesiaca = int(
-                                    informacje_do_zgloszenia[3])
-                                wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                                # utwórz obiekt daty z daty wygaśnięcia
-                                wygasa_data = datetime.date(
-                                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                                # pobierz dzisiejszą datę
-                                dzisiaj = datetime.date.today()
-                                # porównaj daty
-                                if dzisiaj > wygasa_data:
-                                    messagebox.showerror(
-                                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                                    return
-                                elif dzisiaj == wygasa_data:
-                                    messagebox.showwarning(
-                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu   jego      przedłużenia.        ")
-                            else:
-                                messagebox.showwarning(
-                                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
                                 return
-
-                            # ustawienia konta
-                            username = f'{nazwa_uzytkownika}'
-                            password = f'{token_do_wpisania}'
-                            repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                            issue_title = f'Ankieta od {nazwa_uzytkownika}'
-                            aktualna_data_czas = datetime.datetime.now()
-                            format_data_czas = aktualna_data_czas.strftime(
-                                "%d.%m.%Y %H:%M")
-                            issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
-                                "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
-                                "\n\nOstatnie błędy: " + odpowiedz_pytanie3
-
-                            # autentykacja
-                            g = Github(username, password)
-
-                            # pobierz repozytorium
-                            repo = g.get_repo(repository_name)
-
-                            # utwórz nowe zgłoszenie błędu
-                            repo.create_issue(
-                                title=issue_title, body=issue_body)
-                            okno_ankiety.destroy()
-                            return
-                        except Exception as e:
-                            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-                            exc_type, exc_value, exc_traceback = sys.exc_info()
-                            # Odczytaj zawartość pliku Develop.txt w twoim programie
-                            path = os.path.join(os.getcwd(), "Develop.txt")
-                            if os.path.exists(path):
-                                with open(path, "r", encoding="utf-8") as f:
-                                    plik_od_dewelopera = f.read().strip()
-                            else:
-                                plik_od_dewelopera = "BRAK PLIKU D"
-                                messagebox.showerror(
-                                    "Błąd", 'Zapytaj twórcę programu o informacje')
-
-                            if plik_od_dewelopera != "BRAK PLIKU D":
-
-                                informacje_do_zgloszenia = plik_od_dewelopera.split(
-                                    '\n')
-                                nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                                token_do_wpisania = informacje_do_zgloszenia[1]
-
-                                # pobierz datę wygaśnięcia
-                                wygasa_dnia = int(informacje_do_zgloszenia[2])
-                                wygasa_miesiaca = int(
-                                    informacje_do_zgloszenia[3])
-                                wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                                # utwórz obiekt daty z daty wygaśnięcia
-                                wygasa_data = datetime.date(
-                                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                                # pobierz dzisiejszą datę
-                                dzisiaj = datetime.date.today()
-                                # porównaj daty
-                                if dzisiaj > wygasa_data:
+                            except Exception as e:
+                                # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                                exc_type, exc_value, exc_traceback = sys.exc_info()
+                                # Odczytaj zawartość pliku Develop.txt w twoim programie
+                                path = os.path.join(os.getcwd(), "Develop.txt")
+                                if os.path.exists(path):
+                                    with open(path, "r", encoding="utf-8") as f:
+                                        plik_od_dewelopera = f.read().strip()
+                                else:
+                                    plik_od_dewelopera = "BRAK PLIKU D"
                                     messagebox.showerror(
-                                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                                    return
-                                elif dzisiaj == wygasa_data:
+                                        "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                                if plik_od_dewelopera != "BRAK PLIKU D":
+
+                                    informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                        '\n')
+                                    nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                                    token_do_wpisania = informacje_do_zgloszenia[1]
+
+                                    # pobierz datę wygaśnięcia
+                                    wygasa_dnia = int(
+                                        informacje_do_zgloszenia[2])
+                                    wygasa_miesiaca = int(
+                                        informacje_do_zgloszenia[3])
+                                    wygasa_roku = int(
+                                        informacje_do_zgloszenia[4])
+
+                                    # utwórz obiekt daty z daty wygaśnięcia
+                                    wygasa_data = datetime.date(
+                                        wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                                    # pobierz dzisiejszą datę
+                                    dzisiaj = datetime.date.today()
+                                    # porównaj daty
+                                    if dzisiaj > wygasa_data:
+                                        messagebox.showerror(
+                                            "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                                        return
+                                    elif dzisiaj == wygasa_data:
+                                        messagebox.showwarning(
+                                            "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za programa.                      ")
+                                else:
                                     messagebox.showwarning(
-                                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu   jego przedłużenia.                      ")
-                            else:
-                                messagebox.showwarning(
-                                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-                                return
+                                        'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                                    return
 
-                            # ustawienia konta
-                            username = f'{nazwa_uzytkownika}'
-                            password = f'{token_do_wpisania}'
-                            repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                            issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
-                            a = traceback.format_exc()
-                            aktualna_data_czas = datetime.datetime.now()
-                            format_data_czas = aktualna_data_czas.strftime(
-                                "%d.%m.%Y %H:%M")
-                            issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}   \nTraceback:\n\n{a}"
+                                # ustawienia konta
+                                username = f'{nazwa_uzytkownika}'
+                                password = f'{token_do_wpisania}'
+                                repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                                issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
+                                a = traceback.format_exc()
+                                aktualna_data_czas = datetime.datetime.now()
+                                format_data_czas = aktualna_data_czas.strftime(
+                                    "%d.%m.%Y %H:%M")
+                                issue_body = f"Data: {format_data_czas} Błąd funkcji wyslij() w ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:   {exc_value}   \nTraceback:\n\n{a}"
 
-                            # autentykacja
-                            g = Github(username, password)
+                                # autentykacja
+                                g = Github(username, password)
 
-                            # pobierz repozytorium
-                            repo = g.get_repo(repository_name)
+                                # pobierz repozytorium
+                                repo = g.get_repo(repository_name)
 
-                            # utwórz nowe zgłoszenie błędu
-                            repo.create_issue(
-                                title=issue_title, body=issue_body)
+                                # utwórz nowe zgłoszenie błędu
+                                repo.create_issue(
+                                    title=issue_title, body=issue_body)
 
-                            messagebox.showinfo("Problem został zgłoszony",
-                                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-                            exit()
-                    button_wyslij = tk.Button(
-                        okno_ankiety, text="Wyślij odpowiedzi", command=wyslij)
-                    button_wyslij.pack()
+                                messagebox.showinfo("Problem został zgłoszony",
+                                                    "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+                                exit()
+                        button_wyslij = tk.Button(
+                            okno_ankiety, text="Wyślij odpowiedzi", command=wyslij)
+                        button_wyslij.pack()
 
-                    okno_ankiety.mainloop()
+                        okno_ankiety.mainloop()
+                    else:
+                        return
                 else:
                     return
-            else:
-                return
-        except Exception as e:
-            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-            exc_type, exc_value, exc_traceback = sys.exc_info()
-            # Odczytaj zawartość pliku Develop.txt w twoim programie
-            path = os.path.join(os.getcwd(), "Develop.txt")
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    plik_od_dewelopera = f.read().strip()
-            else:
-                plik_od_dewelopera = "BRAK PLIKU D"
-                messagebox.showerror(
-                    "Błąd", 'Zapytaj twórcę programu o informacje')
-
-            if plik_od_dewelopera != "BRAK PLIKU D":
-
-                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-                nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                token_do_wpisania = informacje_do_zgloszenia[1]
-
-                # pobierz datę wygaśnięcia
-                wygasa_dnia = int(informacje_do_zgloszenia[2])
-                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                # utwórz obiekt daty z daty wygaśnięcia
-                wygasa_data = datetime.date(
-                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                # pobierz dzisiejszą datę
-                dzisiaj = datetime.date.today()
-                # porównaj daty
-                if dzisiaj > wygasa_data:
+            except Exception as e:
+                # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                # Odczytaj zawartość pliku Develop.txt w twoim programie
+                path = os.path.join(os.getcwd(), "Develop.txt")
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        plik_od_dewelopera = f.read().strip()
+                else:
+                    plik_od_dewelopera = "BRAK PLIKU D"
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                    return
-                elif dzisiaj == wygasa_data:
+                        "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                if plik_od_dewelopera != "BRAK PLIKU D":
+
+                    informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                    nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                    token_do_wpisania = informacje_do_zgloszenia[1]
+
+                    # pobierz datę wygaśnięcia
+                    wygasa_dnia = int(informacje_do_zgloszenia[2])
+                    wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                    wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                    # utwórz obiekt daty z daty wygaśnięcia
+                    wygasa_data = datetime.date(
+                        wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                    # pobierz dzisiejszą datę
+                    dzisiaj = datetime.date.today()
+                    # porównaj daty
+                    if dzisiaj > wygasa_data:
+                        messagebox.showerror(
+                            "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                        return
+                    elif dzisiaj == wygasa_data:
+                        messagebox.showwarning(
+                            "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za program   ")
+                else:
                     messagebox.showwarning(
-                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
-            else:
-                messagebox.showwarning(
-                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-                return
+                        'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                    return
 
-            # ustawienia konta
-            username = f'{nazwa_uzytkownika}'
-            password = f'{token_do_wpisania}'
-            repository_name = 'Ksao0/Repozytorium-magnesy-t'
-            issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
-            a = traceback.format_exc()
-            aktualna_data_czas = datetime.datetime.now()
-            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-            issue_body = f"Data: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+                # ustawienia konta
+                username = f'{nazwa_uzytkownika}'
+                password = f'{token_do_wpisania}'
+                repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                issue_title = 'Automatyczne zgłoszenie błędu z ankieta()'
+                a = traceback.format_exc()
+                aktualna_data_czas = datetime.datetime.now()
+                format_data_czas = aktualna_data_czas.strftime(
+                    "%d.%m.%Y %H:%M")
+                issue_body = f"Data: {format_data_czas} Błąd funkcji ankieta():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
-            # autentykacja
-            g = Github(username, password)
+                # autentykacja
+                g = Github(username, password)
 
-            # pobierz repozytorium
-            repo = g.get_repo(repository_name)
+                # pobierz repozytorium
+                repo = g.get_repo(repository_name)
 
-            # utwórz nowe zgłoszenie błędu
-            repo.create_issue(title=issue_title, body=issue_body)
+                # utwórz nowe zgłoszenie błędu
+                repo.create_issue(title=issue_title, body=issue_body)
 
-            messagebox.showinfo("Problem został zgłoszony",
-                                "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-            exit()
+                messagebox.showinfo("Problem został zgłoszony",
+                                    "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+                exit()
 
-            # if random.choices([True, False], [0.2, 0.8])[0]:
-            #     ankieta()
+                # if random.choices([True, False], [0.2, 0.8])[0]:
+                #     ankieta()
+    else:
+        pass
 
 
 if internet == 1 and blokada_bledu == 0:
@@ -2023,11 +2147,11 @@ def informacje_o_wersji_utworz_okno():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
-                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za program   ")
             else:
                 messagebox.showwarning(
                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -2262,11 +2386,11 @@ def edycja_kosztow():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
         else:
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -2424,11 +2548,11 @@ def oblicz_zyski():
                 # porównaj daty
                 if dzisiaj > wygasa_data:
                     messagebox.showerror(
-                        "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                     return
                 elif dzisiaj == wygasa_data:
                     messagebox.showwarning(
-                        "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia.    ")
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za program   ")
             else:
                 messagebox.showwarning(
                     'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -2789,11 +2913,11 @@ def otworz_okno_zapisy():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
         else:
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -2824,58 +2948,49 @@ def otworz_okno_zapisy():
 
 
 def Opcje_eksperymentalne(okno_wyborowe):
-    global blokada_bledu
-    if blokada_bledu == False:
-        # Tworzenie nowego okna dialogowego
-        dialog = tk.Toplevel(okno_wyborowe)
-        dialog.title("Wybierz opcję")
+    global token_zaufania
+    if token_zaufania == True:
+        global blokada_bledu
+        if blokada_bledu == False:
+            # Tworzenie nowego okna dialogowego
+            dialog = tk.Toplevel(okno_wyborowe)
+            dialog.title("Wybierz opcję")
 
-        # Ustawienie modality, aby wyłączyć możliwość używania innych okien
-        dialog.transient(okno_wyborowe)
-        dialog.grab_set()
+            # Ustawienie modality, aby wyłączyć możliwość używania innych okien
+            dialog.transient(okno_wyborowe)
+            dialog.grab_set()
 
-        def opcja_1():
-            aplikacja_Android()
-            dialog.destroy()
+            def opcja_1():
+                aplikacja_Android()
+                dialog.destroy()
 
-        def opcja_2():
-            moi_klienci()
-            dialog.destroy()
+            def opcja_2():
+                moi_klienci()
+                dialog.destroy()
 
-        label_info = tk.Label(
-            dialog, text="Opcje eksperymentalne to opcje, które dopiero powstały, są funkcjonalne, ale będą zmieniane")
-        label_info.pack()
+            label_info = tk.Label(
+                dialog, text="Opcje eksperymentalne to opcje, które dopiero powstały, są funkcjonalne, ale będą zmieniane")
+            label_info.pack()
 
-        button_opcja_1 = tk.Button(
-            dialog, text="Zainstaluj/aktualizuj aplkację na telefon", command=opcja_1)
-        button_opcja_2 = tk.Button(
-            dialog, text="Dane o klientach", command=opcja_2)
+            button_opcja_1 = tk.Button(
+                dialog, text="Zainstaluj/aktualizuj aplkację na telefon", command=opcja_1)
+            button_opcja_2 = tk.Button(
+                dialog, text="Dane o klientach", command=opcja_2)
 
-        button_opcja_1.pack()
-        button_opcja_2.pack()
+            button_opcja_1.pack()
+            button_opcja_2.pack()
 
-        def aplikacja_Android():
-            try:
-                global internet
-                # Aktualizacja
-
-                # ścieżka do w bieżącym folderze
-                path = os.path.join(os.getcwd(), "Androidow.py")
-
-                # usuń plik, jeśli istnieje
-                if os.path.exists(path):
-                    os.remove(path)
+            def aplikacja_Android():
                 try:
-                    # pobierz plik z repozytorium
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
-                    urllib.request.urlretrieve(url, path)
-                    Gra = ["python", "Androidow.py"]
-                    subprocess.run(Gra)
-                except:
-                    print('Wykryto brak połączenia z internetem')
-                    messagebox.showerror(
-                        "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
-                    internet = 0
+                    global internet
+                    # Aktualizacja
+
+                    # ścieżka do w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "Androidow.py")
+
+                    # usuń plik, jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
                     try:
                         # pobierz plik z repozytorium
                         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
@@ -2883,291 +2998,307 @@ def Opcje_eksperymentalne(okno_wyborowe):
                         Gra = ["python", "Androidow.py"]
                         subprocess.run(Gra)
                     except:
+                        print('Wykryto brak połączenia z internetem')
                         messagebox.showerror(
-                            "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
-            except Exception as e:
-                # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-                exc_type, exc_value, exc_traceback = sys.exc_info()
-                # Odczytaj zawartość pliku Develop.txt w twoim programie
-                path = os.path.join(os.getcwd(), "Develop.txt")
-                if os.path.exists(path):
-                    with open(path, "r", encoding="utf-8") as f:
-                        plik_od_dewelopera = f.read().strip()
-                else:
-                    plik_od_dewelopera = "BRAK PLIKU D"
-                    messagebox.showerror(
-                        "Błąd", 'Zapytaj twórcę programu o informacje')
-
-                if plik_od_dewelopera != "BRAK PLIKU D":
-                    informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-                    nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                    token_do_wpisania = informacje_do_zgloszenia[1]
-
-                    # pobierz datę wygaśnięcia
-                    wygasa_dnia = int(informacje_do_zgloszenia[2])
-                    wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                    wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                    # utwórz obiekt daty z daty wygaśnięcia
-                    wygasa_data = datetime.date(
-                        wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                    # pobierz dzisiejszą datę
-                    dzisiaj = datetime.date.today()
-                    # porównaj daty
-                    if dzisiaj > wygasa_data:
+                            "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
+                        internet = 0
+                        try:
+                            # pobierz plik z repozytorium
+                            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
+                            urllib.request.urlretrieve(url, path)
+                            Gra = ["python", "Androidow.py"]
+                            subprocess.run(Gra)
+                        except:
+                            messagebox.showerror(
+                                "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
+                except Exception as e:
+                    # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                    exc_type, exc_value, exc_traceback = sys.exc_info()
+                    # Odczytaj zawartość pliku Develop.txt w twoim programie
+                    path = os.path.join(os.getcwd(), "Develop.txt")
+                    if os.path.exists(path):
+                        with open(path, "r", encoding="utf-8") as f:
+                            plik_od_dewelopera = f.read().strip()
+                    else:
+                        plik_od_dewelopera = "BRAK PLIKU D"
                         messagebox.showerror(
-                            "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
-                        return
-                    elif dzisiaj == wygasa_data:
+                            "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                    if plik_od_dewelopera != "BRAK PLIKU D":
+                        informacje_do_zgloszenia = plik_od_dewelopera.split(
+                            '\n')
+                        nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                        token_do_wpisania = informacje_do_zgloszenia[1]
+
+                        # pobierz datę wygaśnięcia
+                        wygasa_dnia = int(informacje_do_zgloszenia[2])
+                        wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                        wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                        # utwórz obiekt daty z daty wygaśnięcia
+                        wygasa_data = datetime.date(
+                            wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                        # pobierz dzisiejszą datę
+                        dzisiaj = datetime.date.today()
+                        # porównaj daty
+                        if dzisiaj > wygasa_data:
+                            messagebox.showerror(
+                                "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                            return
+                        elif dzisiaj == wygasa_data:
+                            messagebox.showwarning(
+                                "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                    else:
                         messagebox.showwarning(
-                            "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego  przedłużenia. ")
-                else:
-                    messagebox.showwarning(
-                        'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-                    return
+                            'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                        return
 
-                # ustawienia konta
-                username = f'{nazwa_uzytkownika}'
-                password = f'{token_do_wpisania}'
-                repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                issue_title = 'Automatyczne zgłoszenie błędu z Opcje_eksperymentalne()'
-                a = traceback.format_exc()
-                aktualna_data_czas = datetime.datetime.now()
-                format_data_czas = aktualna_data_czas.strftime(
-                    "%d.%m.%Y %H:%M")
-                issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }   \nTraceback:\n\n{a}"
+                    # ustawienia konta
+                    username = f'{nazwa_uzytkownika}'
+                    password = f'{token_do_wpisania}'
+                    repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                    issue_title = 'Automatyczne zgłoszenie błędu z Opcje_eksperymentalne()'
+                    a = traceback.format_exc()
+                    aktualna_data_czas = datetime.datetime.now()
+                    format_data_czas = aktualna_data_czas.strftime(
+                        "%d.%m.%Y %H:%M")
+                    issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }   \nTraceback:\n\n{a}"
 
-                # autentykacja
-                g = Github(username, password)
+                    # autentykacja
+                    g = Github(username, password)
 
-                # pobierz repozytorium
-                repo = g.get_repo(repository_name)
+                    # pobierz repozytorium
+                    repo = g.get_repo(repository_name)
 
-                # utwórz nowe zgłoszenie błędu
-                repo.create_issue(title=issue_title, body=issue_body)
+                    # utwórz nowe zgłoszenie błędu
+                    repo.create_issue(title=issue_title, body=issue_body)
 
-                messagebox.showinfo("Problem został zgłoszony",
-                                    "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-                exit()
+                    messagebox.showinfo("Problem został zgłoszony",
+                                        "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+                    exit()
 
-        def moi_klienci():
-            def create_client_file(name, city, phone, additional_info):
-                folder = "klienci"
-                if not os.path.exists(folder):
-                    os.makedirs(folder)
-                file_path = os.path.join(folder, f"KLIENT.{name}.txt")
-                with open(file_path, "w") as file:
-                    file.write(f"{name}\n{city}\n{phone}\n{additional_info}")
+            def moi_klienci():
+                def create_client_file(name, city, phone, additional_info):
+                    folder = "klienci"
+                    if not os.path.exists(folder):
+                        os.makedirs(folder)
+                    file_path = os.path.join(folder, f"KLIENT.{name}.txt")
+                    with open(file_path, "w") as file:
+                        file.write(
+                            f"{name}\n{city}\n{phone}\n{additional_info}")
 
-            def delete_client_file(name):
-                client_file = f"klienci/KLIENT.{name}.txt"
-                history_file = f"klienci/KLIENT_HISTORIA.{name}.txt"
-                if os.path.exists(client_file):
-                    os.remove(client_file)
-                if os.path.exists(history_file):
-                    os.remove(history_file)
+                def delete_client_file(name):
+                    client_file = f"klienci/KLIENT.{name}.txt"
+                    history_file = f"klienci/KLIENT_HISTORIA.{name}.txt"
+                    if os.path.exists(client_file):
+                        os.remove(client_file)
+                    if os.path.exists(history_file):
+                        os.remove(history_file)
 
-            def load_clients_list():
-                folder = "klienci"
-                clients_list.delete(0, tk.END)
-                if not os.path.exists(folder):
-                    return
-                for file in os.listdir(folder):
-                    if file.startswith("KLIENT.") and file.endswith(".txt"):
-                        client_name = file.split(".")[1]
-                        client_file_path = os.path.join(folder, file)
-                        with open(client_file_path, "r") as client_file:
-                            client_data = client_file.read().splitlines()
-                        if len(client_data) >= 2:
-                            client_city = client_data[1]
-                        else:
-                            client_city = "Brak danych o miejscowości"
-                        clients_list.insert(
-                            tk.END, f"{client_name} - {client_city}")
-
-            def show_client_info():
-                selected_client = clients_list.get(tk.ACTIVE)
-                if selected_client:
-                    top = tk.Toplevel(root)
-                    top.title(selected_client)
-
-                    label_pakietow = tk.Label(top, text="Liczba magnesów:")
-                    label_pakietow.pack()
-                    entry_pakietow = tk.Entry(top)
-                    entry_pakietow.pack()
-
-                    label_ceny = tk.Label(top, text="Cena za magnes:")
-                    label_ceny.pack()
-                    entry_ceny = tk.Entry(top)
-                    entry_ceny.pack()
-
-                    def dodaj_do_klienta():
-                        pakietow = entry_pakietow.get()
-                        cena = entry_ceny.get()
-                        with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
-                            history_file.write(
-                                f"{pakietow} magnesy {cena} zł\n")
-
-                    def pokaz_historie_klienta():
-                        history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
-                        if os.path.exists(history_file_path):
-                            with open(history_file_path, "r") as history_file:
-                                history_data = history_file.read()
-                            history_window = tk.Toplevel(root)
-                            history_window.title(
-                                f"Historia klienta: {selected_client}")
-                            history_label = tk.Label(
-                                history_window, text=history_data)
-                            history_label.pack()
-
-                    def edytuj_dane_klienta():
-                        client_file_path = f"klienci/KLIENT.{selected_client}.txt"
-                        if os.path.exists(client_file_path):
+                def load_clients_list():
+                    folder = "klienci"
+                    clients_list.delete(0, tk.END)
+                    if not os.path.exists(folder):
+                        return
+                    for file in os.listdir(folder):
+                        if file.startswith("KLIENT.") and file.endswith(".txt"):
+                            client_name = file.split(".")[1]
+                            client_file_path = os.path.join(folder, file)
                             with open(client_file_path, "r") as client_file:
                                 client_data = client_file.read().splitlines()
+                            if len(client_data) >= 2:
+                                client_city = client_data[1]
+                            else:
+                                client_city = "Brak danych o miejscowości"
+                            clients_list.insert(
+                                tk.END, f"{client_name} - {client_city}")
 
-                            top_edit = tk.Toplevel(root)
-                            top_edit.title(
-                                f"Edytuj dane klienta: {selected_client}")
+                def show_client_info():
+                    selected_client = clients_list.get(tk.ACTIVE)
+                    if selected_client:
+                        top = tk.Toplevel(root)
+                        top.title(selected_client)
 
-                            label_name = tk.Label(
-                                top_edit, text="Nazwa klienta*:")
-                            label_name.pack()
-                            entry_name = tk.Entry(top_edit)
-                            entry_name.insert(tk.END, client_data[0])
-                            entry_name.pack()
+                        label_pakietow = tk.Label(top, text="Liczba magnesów:")
+                        label_pakietow.pack()
+                        entry_pakietow = tk.Entry(top)
+                        entry_pakietow.pack()
 
-                            label_city = tk.Label(
-                                top_edit, text="Miejscowość:")
-                            label_city.pack()
-                            entry_city = tk.Entry(top_edit)
-                            entry_city.insert(tk.END, client_data[1])
-                            entry_city.pack()
+                        label_ceny = tk.Label(top, text="Cena za magnes:")
+                        label_ceny.pack()
+                        entry_ceny = tk.Entry(top)
+                        entry_ceny.pack()
 
-                            label_phone = tk.Label(top_edit, text="Telefon:")
-                            label_phone.pack()
-                            entry_phone = tk.Entry(top_edit)
-                            entry_phone.insert(tk.END, client_data[2])
-                            entry_phone.pack()
+                        def dodaj_do_klienta():
+                            pakietow = entry_pakietow.get()
+                            cena = entry_ceny.get()
+                            with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
+                                history_file.write(
+                                    f"{pakietow} magnesy {cena} zł\n")
 
-                            label_additional_info = tk.Label(
-                                top_edit, text="Informacje dodatkowe:")
-                            label_additional_info.pack()
-                            entry_additional_info = tk.Entry(top_edit)
-                            entry_additional_info.insert(
-                                tk.END, client_data[3])
-                            entry_additional_info.pack()
+                        def pokaz_historie_klienta():
+                            history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+                            if os.path.exists(history_file_path):
+                                with open(history_file_path, "r") as history_file:
+                                    history_data = history_file.read()
+                                history_window = tk.Toplevel(root)
+                                history_window.title(
+                                    f"Historia klienta: {selected_client}")
+                                history_label = tk.Label(
+                                    history_window, text=history_data)
+                                history_label.pack()
 
-                            def save_changes():
-                                name = entry_name.get()
-                                if not name:
-                                    messagebox.showerror(
-                                        "Błąd", "Nazwa klienta jest wymagana.")
-                                    return
-                                city = entry_city.get()
-                                phone = entry_phone.get()
-                                additional_info = entry_additional_info.get()
+                        def edytuj_dane_klienta():
+                            client_file_path = f"klienci/KLIENT.{selected_client}.txt"
+                            if os.path.exists(client_file_path):
+                                with open(client_file_path, "r") as client_file:
+                                    client_data = client_file.read().splitlines()
 
-                                create_client_file(
-                                    name, city, phone, additional_info)
-                                delete_client_file(selected_client)
-                                top_edit.destroy()
-                                load_clients_list()
+                                top_edit = tk.Toplevel(root)
+                                top_edit.title(
+                                    f"Edytuj dane klienta: {selected_client}")
 
-                            button_save = tk.Button(
-                                top_edit, text="Zapisz zmiany", command=save_changes)
-                            button_save.pack()
+                                label_name = tk.Label(
+                                    top_edit, text="Nazwa klienta*:")
+                                label_name.pack()
+                                entry_name = tk.Entry(top_edit)
+                                entry_name.insert(tk.END, client_data[0])
+                                entry_name.pack()
 
-                    frame_przyciski = tk.Frame(top)
-                    frame_przyciski.pack()
+                                label_city = tk.Label(
+                                    top_edit, text="Miejscowość:")
+                                label_city.pack()
+                                entry_city = tk.Entry(top_edit)
+                                entry_city.insert(tk.END, client_data[1])
+                                entry_city.pack()
 
-                    button_dodaj = tk.Button(
-                        frame_przyciski, text="Dodaj", command=dodaj_do_klienta)
-                    button_dodaj.pack(side=tk.LEFT)
+                                label_phone = tk.Label(
+                                    top_edit, text="Telefon:")
+                                label_phone.pack()
+                                entry_phone = tk.Entry(top_edit)
+                                entry_phone.insert(tk.END, client_data[2])
+                                entry_phone.pack()
 
-                    button_historia = tk.Button(
-                        frame_przyciski, text="Historia z klientem", command=pokaz_historie_klienta)
-                    button_historia.pack(side=tk.LEFT)
+                                label_additional_info = tk.Label(
+                                    top_edit, text="Informacje dodatkowe:")
+                                label_additional_info.pack()
+                                entry_additional_info = tk.Entry(top_edit)
+                                entry_additional_info.insert(
+                                    tk.END, client_data[3])
+                                entry_additional_info.pack()
 
-                    button_edytuj = tk.Button(
-                        frame_przyciski, text="Edytuj dane", command=edytuj_dane_klienta)
-                    button_edytuj.pack(side=tk.LEFT)
+                                def save_changes():
+                                    name = entry_name.get()
+                                    if not name:
+                                        messagebox.showerror(
+                                            "Błąd", "Nazwa klienta jest wymagana.")
+                                        return
+                                    city = entry_city.get()
+                                    phone = entry_phone.get()
+                                    additional_info = entry_additional_info.get()
 
-            def new_client():
-                top = tk.Toplevel(root)
-                top.title("Nowy klient")
+                                    create_client_file(
+                                        name, city, phone, additional_info)
+                                    delete_client_file(selected_client)
+                                    top_edit.destroy()
+                                    load_clients_list()
 
-                label_name = tk.Label(top, text="Nazwa klienta*:")
-                label_name.pack()
-                entry_name = tk.Entry(top)
-                entry_name.pack()
+                                button_save = tk.Button(
+                                    top_edit, text="Zapisz zmiany", command=save_changes)
+                                button_save.pack()
 
-                label_city = tk.Label(top, text="Miejscowość:")
-                label_city.pack()
-                entry_city = tk.Entry(top)
-                entry_city.pack()
+                        frame_przyciski = tk.Frame(top)
+                        frame_przyciski.pack()
 
-                label_phone = tk.Label(top, text="Telefon:")
-                label_phone.pack()
-                entry_phone = tk.Entry(top)
-                entry_phone.pack()
+                        button_dodaj = tk.Button(
+                            frame_przyciski, text="Dodaj", command=dodaj_do_klienta)
+                        button_dodaj.pack(side=tk.LEFT)
 
-                label_additional_info = tk.Label(
-                    top, text="Informacje dodatkowe:")
-                label_additional_info.pack()
-                entry_additional_info = tk.Entry(top)
-                entry_additional_info.pack()
+                        button_historia = tk.Button(
+                            frame_przyciski, text="Historia z klientem", command=pokaz_historie_klienta)
+                        button_historia.pack(side=tk.LEFT)
 
-                def create_new_client():
-                    name = entry_name.get()
-                    if not name:
-                        messagebox.showerror(
-                            "Błąd", "Nazwa klienta jest wymagana.")
-                        return
-                    city = entry_city.get()
-                    phone = entry_phone.get()
-                    additional_info = entry_additional_info.get()
+                        button_edytuj = tk.Button(
+                            frame_przyciski, text="Edytuj dane", command=edytuj_dane_klienta)
+                        button_edytuj.pack(side=tk.LEFT)
 
-                    create_client_file(name, city, phone, additional_info)
-                    top.destroy()
-                    load_clients_list()
+                def new_client():
+                    top = tk.Toplevel(root)
+                    top.title("Nowy klient")
 
-                button_create = tk.Button(
-                    top, text="Utwórz", command=create_new_client)
-                button_create.pack()
+                    label_name = tk.Label(top, text="Nazwa klienta*:")
+                    label_name.pack()
+                    entry_name = tk.Entry(top)
+                    entry_name.pack()
 
-            def delete_client():
-                selected_client = clients_list.get(tk.ACTIVE)
-                if selected_client:
-                    response = messagebox.askyesno(
-                        "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?")
-                    if response == tk.YES:
-                        delete_client_file(selected_client)
+                    label_city = tk.Label(top, text="Miejscowość:")
+                    label_city.pack()
+                    entry_city = tk.Entry(top)
+                    entry_city.pack()
+
+                    label_phone = tk.Label(top, text="Telefon:")
+                    label_phone.pack()
+                    entry_phone = tk.Entry(top)
+                    entry_phone.pack()
+
+                    label_additional_info = tk.Label(
+                        top, text="Informacje dodatkowe:")
+                    label_additional_info.pack()
+                    entry_additional_info = tk.Entry(top)
+                    entry_additional_info.pack()
+
+                    def create_new_client():
+                        name = entry_name.get()
+                        if not name:
+                            messagebox.showerror(
+                                "Błąd", "Nazwa klienta jest wymagana.")
+                            return
+                        city = entry_city.get()
+                        phone = entry_phone.get()
+                        additional_info = entry_additional_info.get()
+
+                        create_client_file(name, city, phone, additional_info)
+                        top.destroy()
                         load_clients_list()
 
-            root = tk.Tk()
-            root.title("Lista klientów")
+                    button_create = tk.Button(
+                        top, text="Utwórz", command=create_new_client)
+                    button_create.pack()
 
-            button_new_client = tk.Button(
-                root, text="Nowy klient", command=new_client)
-            button_new_client.pack(side=tk.LEFT)
+                def delete_client():
+                    selected_client = clients_list.get(tk.ACTIVE)
+                    if selected_client:
+                        response = messagebox.askyesno(
+                            "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?")
+                        if response == tk.YES:
+                            delete_client_file(selected_client)
+                            load_clients_list()
 
-            button_delete_client = tk.Button(
-                root, text="Usuń klienta", command=delete_client)
-            button_delete_client.pack(side=tk.LEFT)
+                root = tk.Tk()
+                root.title("Lista klientów")
 
-            clients_list = tk.Listbox(root)
-            clients_list.pack()
+                button_new_client = tk.Button(
+                    root, text="Nowy klient", command=new_client)
+                button_new_client.pack(side=tk.LEFT)
 
-            clients_list.bind("<Double-Button-1>",
-                              lambda event: show_client_info())
+                button_delete_client = tk.Button(
+                    root, text="Usuń klienta", command=delete_client)
+                button_delete_client.pack(side=tk.LEFT)
 
-            load_clients_list()
+                clients_list = tk.Listbox(root)
+                clients_list.pack()
 
-            root.mainloop()
+                clients_list.bind("<Double-Button-1>",
+                                  lambda event: show_client_info())
+
+                load_clients_list()
+
+                root.mainloop()
+        else:
+            ukrywanie_bledu()
     else:
-        ukrywanie_bledu()
+        token_zaufania_wygasl_f()
 
 
 def otworz_okno_wybor():
@@ -3288,11 +3419,11 @@ def otworz_okno_wybor():
             # porównaj daty
             if dzisiaj > wygasa_data:
                 messagebox.showerror(
-                    "Czas minął", "Zgłoś się do osoby odpowiedzialnej za program w celu przedłużenia czasu przez który możesz korzystać z funkcji nieudostępnionych")
+                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                 return
             elif dzisiaj == wygasa_data:
                 messagebox.showwarning(
-                    "Czas mija...", "Dziś kończy się dzień możliwości korzystania przez ciebie z funkcji dodatkowych. Udaj się do osoby odpowiedzialnej za program w celu jego przedłużenia. ")
+                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
         else:
             messagebox.showwarning(
                 'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')

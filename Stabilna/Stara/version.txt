@@ -1,4 +1,4 @@
-1.6.0.1.1
+1.6.0.1.2
 Status: Nowa wersja
 Nazwa poprawki: Nowa wersja
 Wydano: 08.08.2023

@@ -156,13 +156,9 @@ while od_nowa == 1:
                         "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
                     },
                     {
-                        "name": "main.py",
-                        "display_name": "Kończenie (1/2)",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"
-                    },                    {
-                        "name": "version.txt",
-                        "display_name": "Kończenie (2/2)",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"
+                        "name": "WEW.py",
+                        "display_name": "Kończenie",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/WEW.py"
                     }
                 ]
 
@@ -303,13 +299,9 @@ while od_nowa == 1:
                         "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
                     },
                     {
-                        "name": "main.py",
-                        "display_name": "Kończenie (1/2)",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/main.py"
-                    },                    {
-                        "name": "version.txt",
-                        "display_name": "Kończenie (2/2)",
-                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
+                        "name": "WEW.py",
+                        "display_name": "Kończenie",
+                        "url": "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
                     }
                 ]
                 # Funkcja do śledzenia postępu pobierania

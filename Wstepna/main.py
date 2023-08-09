@@ -43,6 +43,123 @@ internet = 1
 init()
 
 
+def uruchomiono_program():
+    try:
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Zapytaj twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                return
+        else:
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = f'{nazwa_uzytkownika} uruchomił program'
+        aktualna_data_czas = datetime.datetime.now()
+        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+        issue_body = f"Data: {format_data_czas} {nazwa_uzytkownika} uruchomił program!:\n\nWystąpił u: {nazwa_uzytkownika}\n\n"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+        pass
+    except:
+        return
+
+
+uruchomiono_program()
+
+
+def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines):
+    try:
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Zapytaj twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            token_do_wpisania = informacje_do_zgloszenia[1]
+
+            # pobierz datę wygaśnięcia
+            wygasa_dnia = int(informacje_do_zgloszenia[2])
+            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+            # utwórz obiekt daty z daty wygaśnięcia
+            wygasa_data = datetime.date(
+                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+            # pobierz dzisiejszą datę
+            dzisiaj = datetime.date.today()
+            # porównaj daty
+            if dzisiaj > wygasa_data:
+                return
+        else:
+            return
+
+        # ustawienia konta
+        username = f'{nazwa_uzytkownika}'
+        password = f'{token_do_wpisania}'
+        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+        issue_title = f'Użytkownik {nazwa_uzytkownika} zaktualizował program'
+        aktualna_data_czas = datetime.datetime.now()
+        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+        issue_body = f"Data: {format_data_czas} Zaktualizowano program do wersji {version_online_first_line}:\nPoprzednia wersja: {version_local_lines}\n\nWystąpił u: {nazwa_uzytkownika}\n\n"
+
+        # autentykacja
+        g = Github(username, password)
+
+        # pobierz repozytorium
+        repo = g.get_repo(repository_name)
+
+        # utwórz nowe zgłoszenie błędu
+        repo.create_issue(title=issue_title, body=issue_body)
+        return
+    except:
+        return
+
+
 def token_zaufania_wygasl_f():
     messagebox.showerror(
         'Czas minął', 'Token zaufania wygasł. Ta funkcja jest niedostepna')
@@ -578,6 +695,8 @@ def taj():
                         messagebox.showerror(
                             'Czas mija...', "Token zaufanego użytkownika niedługo wygasa. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
                         token_zaufania = True
+                        pozostale_dni = (wygasa_data - dzisiaj).days
+                        informacja_o_wygasaniu_tokenu(pozostale_dni)
                 else:
                     print(
                         Fore.RED + f"Token zaufanego użytkownika wygasł" + Style.RESET_ALL)
@@ -648,6 +767,8 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                                version_local_lines[0])
                     if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
                         restart_program()
                 else:
@@ -831,6 +952,7 @@ def taj():
                         biblioteki_pobrane = False
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
+                zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines[0])
                 exit()
             # Dostępna aktualizacja
             if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]) and blokada_bledu == False:
@@ -841,6 +963,8 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                                version_local_lines[0])
                     print('Zaktualizowano!')
                     message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
@@ -855,6 +979,8 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                                version_local_lines[0])
                     print('Zaktualizowano!')
                     message = "Zmiany będą widoczne po następnym uruchomieniu"
                     messagebox.showinfo("Aktualizacja", message)
@@ -865,6 +991,7 @@ def taj():
             if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7" and blokada_bledu == False:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
+                zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines[0])
                 if messagebox.showinfo(
                         'Aktualizacja', "Program zostanie uruchomiony ponownie"):
                     restart_program()
@@ -876,6 +1003,7 @@ def taj():
 
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line, "Nieznana")
                     restart_program()
             else:
                 messagebox.showerror(
@@ -903,12 +1031,15 @@ def taj():
                 if line.strip() == version_local_lines[0].strip():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                                version_local_lines[0])
                     return
 
             # Porównaj każdą linijkę w nprefvers z pierwszą linijką version_local
             if version_local in nprefvers_lines:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
+                zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines[0])
                 return
 
         except:
@@ -1009,6 +1140,19 @@ def aktul():
 
                     Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
                     subprocess.run(Aktualizacja)
+
+                    # Odczytaj zawartość pliku version.txt w twoim programie
+                    path = os.path.join(os.getcwd(), "version.txt")
+                    if os.path.exists(path):
+                        with open(path, "r", encoding="utf-8") as f:
+                            version_local = f.read().strip()
+                    else:
+                        version_local = "BRAK DANYCH"
+
+                    version_local_lines = version_local.split('\n')
+
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                                version_local_lines[0])
                     print(Fore.GREEN + 'Zakończono! ')
                     print(
                         Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)

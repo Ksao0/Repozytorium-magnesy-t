@@ -332,7 +332,7 @@ def zglos_problem():
                         format_data_czas = aktualna_data_czas.strftime(
                             "%d.%m.%Y %H:%M")
                         issue_body = f"Data: {format_data_czas}\nProponowana kategoria: {selected_category}\n" + entry_opis_problemu.get(
-                            "1.0", tk.END) + " wysłano przez: " + nazwa_uzytkownika
+                            "1.0", tk.END) + " Wysłano przez: " + nazwa_uzytkownika
 
                         # autentykacja
                         g = Github(username, password)

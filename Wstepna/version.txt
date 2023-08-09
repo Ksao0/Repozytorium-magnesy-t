@@ -9,7 +9,6 @@ Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
 Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
  - Ulepszyliśmy mechanizmy związane z tokenem zaufania
  - Ulepszyliśmy mechanizmy ochrony przed pobraniem wadliwej wersji!
- - NOWE! Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
  - NOWE! Testujemy funkcje eksperymentalne!
     Aby zobaczyć: Więcej opcji --> Opcje eksperymentalne
     *Te funkcje mogą byc niedopracowane i mogą zostać usunięte w następnych aktualizacjach*

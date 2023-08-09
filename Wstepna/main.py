@@ -549,6 +549,7 @@ def taj():
                 # pobierz dzisiejszą datę
                 dzisiaj = datetime.date.today()
 
+                global token_zaufania
                 # porównaj daty
                 if int((wygasa_data - dzisiaj).days) >= 0:
                     if (wygasa_data - dzisiaj).days >= 30:

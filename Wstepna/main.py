@@ -767,7 +767,7 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                    zgloszenie_pobrania_nowej_wersji(version_local_lines[0],
                                 version_local_lines[0])
                     if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
                         restart_program()

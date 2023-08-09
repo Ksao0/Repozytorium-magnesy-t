@@ -2951,7 +2951,7 @@ if internet == 1:
     # Przeskalowanie ikony na rozmiar 32x32
     img = Image.open(file_path_ikonka)
     img = img.resize((32, 32), Image.LANCZOS)
-    resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
+    resized_file_path = os.path.join(folder_path, 'ikona_magnesy.ico')
     img.save(resized_file_path)
 
     # Zaktualizowanie globalnej zmiennej file_path_ikonka

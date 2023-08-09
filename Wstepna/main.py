@@ -85,7 +85,7 @@ def uruchomiono_program():
         issue_title = f'{nazwa_uzytkownika} uruchomił program'
         aktualna_data_czas = datetime.datetime.now()
         format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} {nazwa_uzytkownika} uruchomił program!:\n\nWystąpił u: {nazwa_uzytkownika}\n\n"
+        issue_body = f"Data: {format_data_czas} {nazwa_uzytkownika} uruchomił program!\n\nWystąpił u: {nazwa_uzytkownika}\n\n"
 
         # autentykacja
         g = Github(username, password)

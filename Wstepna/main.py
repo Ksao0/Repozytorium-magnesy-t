@@ -1664,8 +1664,6 @@ def ankieta():
     if token_zaufania == True:
         if blokada_bledu == 0:
             try:
-                global file_path_ikonka
-
                 # Odczytaj zawartość pliku Ank.txt na komputerze
                 path = os.path.join(os.getcwd(), "Ank.txt")
                 if os.path.exists(path):
@@ -1680,7 +1678,6 @@ def ankieta():
                         okno_ankiety = tk.Toplevel()
                         okno_ankiety.title("Ankieta")
                         okno_ankiety.geometry("700x670")
-                        okno_ankiety.iconbitmap(file_path_ikonka)
 
                         frame_pyt1 = tk.Frame(okno_ankiety)
                         frame_pyt1.pack()

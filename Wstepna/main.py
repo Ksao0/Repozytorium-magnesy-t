@@ -2948,6 +2948,11 @@ if internet == 1:
     file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
     urllib.request.urlretrieve(url, file_path_ikonka)
 
+    # Pobranie ikony z repozytorium GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico'
+    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy2.ico')
+    urllib.request.urlretrieve(url, file_path_ikonka)
+
     # Przeskalowanie ikony na rozmiar 32x32
     img = Image.open(file_path_ikonka)
     img = img.resize((32, 32), Image.LANCZOS)

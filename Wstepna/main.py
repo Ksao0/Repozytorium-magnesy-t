@@ -45,11 +45,11 @@ init()
 def download_icon():
     try:
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico"  # Zmień na właściwy adres URL pliku .ico
-        save_folder = "rei"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
+        save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
 
 
         # Utworzenie folderu "rei", jeśli nie istnieje
-        folder_path = "rei"
+        folder_path = "rei2"
 
         # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
         if os.path.exists(folder_path):

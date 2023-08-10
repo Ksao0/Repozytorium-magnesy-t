@@ -78,24 +78,27 @@ def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_li
         else:
             return
 
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = f'Użytkownik {nazwa_uzytkownika} zaktualizował program'
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Zaktualizowano program do wersji {version_online_first_line}:\nPoprzednia wersja: {version_local_lines}\n\nWystąpił u: {nazwa_uzytkownika}\n\n"
+        if nazwa_uzytkownika != "Admin":
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = f'Użytkownik {nazwa_uzytkownika} zaktualizował program do wersji {version_online_first_line}'
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Zaktualizowano program do wersji {version_online_first_line}:\nPoprzednia wersja: {version_local_lines}\n\nWystąpił u: {nazwa_uzytkownika}  \n\n"
 
-        # autentykacja
-        g = Github(username, password)
+            # autentykacja
+            g = Github(username, password)
 
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
 
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
-        return
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
+            return
+        else:
+            return
     except:
         return
 
@@ -920,7 +923,7 @@ def taj():
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    zgloszenie_pobrania_nowej_wersji(version_online_first_line,
+                    zgloszenie_pobrania_nowej_wersji(version_online_first_line + "B7",
                                                      version_local_lines[0])
                     print('Zaktualizowano!')
                     message = "Zmiany będą widoczne po następnym uruchomieniu"

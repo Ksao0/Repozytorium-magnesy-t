@@ -43,66 +43,6 @@ internet = 1
 init()
 
 
-def uruchomiono_program():
-    try:
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Zapytaj twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
-                return
-        else:
-            return
-
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = f'{nazwa_uzytkownika} uruchomił program'
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} {nazwa_uzytkownika} uruchomił program!\n\nWystąpił u: {nazwa_uzytkownika}\n\n"
-
-        # autentykacja
-        g = Github(username, password)
-
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
-
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
-        pass
-    except:
-        return
-
-
-uruchomiono_program()
-
-
 def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines):
     try:
         # Odczytaj zawartość pliku Develop.txt w twoim programie

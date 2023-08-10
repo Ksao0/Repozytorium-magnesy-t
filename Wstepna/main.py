@@ -768,7 +768,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_local_lines[0],
-                                version_local_lines[0])
+                                                     version_local_lines[0])
                     if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
                         restart_program()
                 else:
@@ -952,7 +952,8 @@ def taj():
                         biblioteki_pobrane = False
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines[0])
+                zgloszenie_pobrania_nowej_wersji(
+                    version_online_first_line, version_local_lines[0])
                 exit()
             # Dostępna aktualizacja
             if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]) and blokada_bledu == False:
@@ -964,7 +965,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                version_local_lines[0])
+                                                     version_local_lines[0])
                     print('Zaktualizowano!')
                     message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
@@ -980,7 +981,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                version_local_lines[0])
+                                                     version_local_lines[0])
                     print('Zaktualizowano!')
                     message = "Zmiany będą widoczne po następnym uruchomieniu"
                     messagebox.showinfo("Aktualizacja", message)
@@ -991,7 +992,8 @@ def taj():
             if (version_local_lines[1] == "Status: B7" or version_local_lines[1] == "Status: Poprawki B7") and version_online_lines[1] != "Status: B7" and blokada_bledu == False:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines[0])
+                zgloszenie_pobrania_nowej_wersji(
+                    version_online_first_line, version_local_lines[0])
                 if messagebox.showinfo(
                         'Aktualizacja', "Program zostanie uruchomiony ponownie"):
                     restart_program()
@@ -1003,7 +1005,8 @@ def taj():
 
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
-                    zgloszenie_pobrania_nowej_wersji(version_online_first_line, "Nieznana")
+                    zgloszenie_pobrania_nowej_wersji(
+                        version_online_first_line, "Nieznana")
                     restart_program()
             else:
                 messagebox.showerror(
@@ -1032,14 +1035,15 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                version_local_lines[0])
+                                                     version_local_lines[0])
                     return
 
             # Porównaj każdą linijkę w nprefvers z pierwszą linijką version_local
             if version_local in nprefvers_lines:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines[0])
+                zgloszenie_pobrania_nowej_wersji(
+                    version_online_first_line, version_local_lines[0])
                 return
 
         except:
@@ -1152,7 +1156,7 @@ def aktul():
                     version_local_lines = version_local.split('\n')
 
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                version_local_lines[0])
+                                                     version_local_lines[0])
                     print(Fore.GREEN + 'Zakończono! ')
                     print(
                         Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
@@ -1664,6 +1668,8 @@ def ankieta():
     if token_zaufania == True:
         if blokada_bledu == 0:
             try:
+                global file_path_ikonka
+
                 # Odczytaj zawartość pliku Ank.txt na komputerze
                 path = os.path.join(os.getcwd(), "Ank.txt")
                 if os.path.exists(path):
@@ -1678,6 +1684,7 @@ def ankieta():
                         okno_ankiety = tk.Toplevel()
                         okno_ankiety.title("Ankieta")
                         okno_ankiety.geometry("700x670")
+                        okno_ankiety.iconbitmap(file_path_ikonka)
 
                         frame_pyt1 = tk.Frame(okno_ankiety)
                         frame_pyt1.pack()
@@ -2943,22 +2950,19 @@ if internet == 1:
 
     global file_path_ikonka
 
-
-    # Pobranie ikony z repozytorium GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico'
-    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy2.ico')
-    urllib.request.urlretrieve(url, file_path_ikonka)
-    img = Image.open(file_path_ikonka)
-    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy2.ico')
-    img.save(file_path_ikonka)
-
     # Pobranie ikony z repozytorium GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
     file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
     urllib.request.urlretrieve(url, file_path_ikonka)
+
+    # Przeskalowanie ikony na rozmiar 32x32
     img = Image.open(file_path_ikonka)
-    file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
-    img.save(file_path_ikonka)
+    img = img.resize((32, 32), Image.LANCZOS)
+    resized_file_path = os.path.join(folder_path, 'resized_ikona_magnesy.ico')
+    img.save(resized_file_path)
+
+    # Zaktualizowanie globalnej zmiennej file_path_ikonka
+    file_path_ikonka = resized_file_path
 
     # Ustawienie ikonki
     root.iconbitmap(file_path_ikonka)
@@ -2995,16 +2999,6 @@ def otworz_okno_zapisy():
         url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
         file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
         urllib.request.urlretrieve(url, file_path_ikonka)
-
-        # Przeskalowanie ikony na rozmiar 32x32
-        img = Image.open(file_path_ikonka)
-        img = img.resize((32, 32), Image.LANCZOS)
-        resized_file_path = os.path.join(
-            folder_path, 'resized_ikona_magnesy.ico')
-        img.save(resized_file_path)
-
-        # Zaktualizowanie globalnej zmiennej file_path_ikonka
-        file_path_ikonka = resized_file_path
 
         path = os.path.join(os.getcwd(), "Zapisy.txt")
         if os.path.exists(path):

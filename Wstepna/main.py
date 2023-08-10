@@ -42,6 +42,39 @@ internet = 1
 # Style.RESET_ALL
 init()
 
+def download_icon():
+    try:
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico"  # Zmień na właściwy adres URL pliku .ico
+        save_folder = "rei"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
+
+
+        # Utworzenie folderu "rei", jeśli nie istnieje
+        folder_path = "rei"
+
+        # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+        if os.path.exists(folder_path):
+            shutil.rmtree(folder_path)
+
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
+        response = requests.get(url)
+        if response.status_code == 200:
+            icon_data = response.content
+            filename = os.path.basename(url)
+            save_path = os.path.join(save_folder, filename)
+            
+            with open(save_path, 'wb') as icon_file:
+                icon_file.write(icon_data)
+        else:
+            return
+    
+    except Exception as e:
+        return
+    
+
+download_icon()
+
 
 def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines):
     try:

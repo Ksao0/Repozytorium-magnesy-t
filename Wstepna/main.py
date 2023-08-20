@@ -2135,7 +2135,7 @@ def informacje_o_wersji_utworz_okno():
 
                             def co_znaczniki():
                                 messagebox.showinfo(
-                                    'Opisy znaczników', 'Używamy znaczników, aby ułatwić zrozumienie dziennika zmian. Oto znaczenia niektórych z nich:\n'
+                                    'Wyjaśnienia', 'Używamy ich, aby uprścić nasz dziennik, oto ich znaczenia:\n'
                                     + '"[]" - Notatka i/lub zapowiedź\n'
                                     + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
                                     + '"/\\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '  # Nowa linia kodu
@@ -2162,7 +2162,7 @@ def informacje_o_wersji_utworz_okno():
                             frame_przyciski = tk.Frame(dziennik_zmian_okno)
                             frame_przyciski.pack()
                             button_dziennik_b = tk.Button(
-                                frame_przyciski, text=f"Czym są znaczniki?", command=co_znaczniki)
+                                frame_przyciski, text=f"Co oznaczają te symbole?", command=co_znaczniki)
                             button_dziennik_b.pack(side=tk.LEFT)
 
                             def nieuzupelnione_zmiany():

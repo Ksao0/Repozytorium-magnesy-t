@@ -1,4 +1,4 @@
-1.7.4.2.3-Beta
+1.7.4.1-Beta
  + Eksperymentalna funkcja z klientami działa poprawnie
  ~ Nowe pytania ankiety!
  / Historia obliczeń działa prawidłowo

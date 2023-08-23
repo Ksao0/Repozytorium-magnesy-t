@@ -4,7 +4,5 @@ Nazwa poprawki: Nowa wersja
 Wydano: 11.08.2023
 Informacja o bibliotekach: C3
 
-Zmieniono działanie w przypadku błędów
-
 Główne zmiany dodane w wybranych aktualizacjach (od najnowszych):
  - Lepsza czytelność

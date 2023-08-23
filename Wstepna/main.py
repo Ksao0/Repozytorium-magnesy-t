@@ -1675,7 +1675,7 @@ def ankieta():
                         pustka.pack()
 
                         label_pytanie = tk.Label(
-                            frame_pyt1, text='Czy po (i/lub podczas) korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia, jakie?')
+                            frame_pyt1, text='Czy podczas korzystania z naszego programu musisz wykonywać jakieś dodatkowe obliczenia, jakie?')
                         label_pytanie.pack()
 
                         pole_tekstowe_pyt1 = tk.Text(
@@ -1696,7 +1696,7 @@ def ankieta():
                         frame_pyt2.pack()
 
                         label_pytanie2 = tk.Label(
-                            frame_pyt2, text='Czy masz jakieś sugestie lub uwagi dotyczące naszego programu, opisz je?')
+                            frame_pyt2, text='Czy nasz program zawiera funkcje, które twoim zdaniem są nieprzydatne, wymień je i podaj powód\nMożesz zminimalizować to okno i sprawdzić funkcje programu')
                         label_pytanie2.pack()
 
                         pole_tekstowe_pyt2 = tk.Text(
@@ -1707,7 +1707,7 @@ def ankieta():
                         frame_pyt3.pack()
 
                         label_pytanie3 = tk.Label(
-                            frame_pyt3, text='Czy podczas korzystania z programu w ostatnim czasie wystąpił jakikolwiek błąd lub informacja o zgłoszeniu błędu?\nOpisz szczegóły tego zdarzenia     (w  jaki sposób doszło do błędu) oraz to, czy informacja o nim była przystępna')
+                            frame_pyt3, text='Co chciałbyś dodać/usunąć/zmienić w aplikacji na telefon?')
                         label_pytanie3.pack()
 
                         pole_tekstowe_pyt3 = tk.Text(
@@ -1836,7 +1836,7 @@ def ankieta():
                                         return
                                     elif dzisiaj == wygasa_data:
                                         messagebox.showwarning(
-                                            "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za programużenia.        ")
+                                            "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj, jak najszybciej zgłoś się do osoby odpowiedzialnej za programużenia.")
                                 else:
                                     messagebox.showwarning(
                                         'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
@@ -1851,8 +1851,8 @@ def ankieta():
                                 format_data_czas = aktualna_data_czas.strftime(
                                     "%d.%m.%Y %H:%M")
                                 issue_body = f"Ankieta (data: {format_data_czas}):\nDodatkowe obliczenia: " + odpowiedz_pytanie1 + \
-                                    "\n\nSugestie i uwagi: " + odpowiedz_pytanie2 + \
-                                    "\n\nOstatnie błędy: " + odpowiedz_pytanie3
+                                    "\nNiepotrzebne funkcje: " + odpowiedz_pytanie2 + \
+                                    "\nAplikacja na telefon: " + odpowiedz_pytanie3
 
                                 # autentykacja
                                 g = Github(username, password)
@@ -2019,7 +2019,7 @@ def ankieta():
 
 
 if internet == 1 and blokada_bledu == 0:
-    if random.choices([True, False], [0.05, 0.95])[0]:
+    if random.choices([True, False], [0.1, 0.9])[0]:
         ankieta()
 
 

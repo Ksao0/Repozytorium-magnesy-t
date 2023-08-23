@@ -1,8 +1,9 @@
-1.7.4.2.3-Beta
+1.7.4.1-Beta
 Status: Nowa wersja
 Nazwa poprawki: Nowa wersja
 Wydano: 11.08.2023
 Informacja o bibliotekach: C3
 
 Główne zmiany dodane w wybranych aktualizacjach (od najnowszych):
+ - Zmiany w funkcjach eksperymentalnych
  - Lepsza czytelność

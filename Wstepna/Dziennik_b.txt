@@ -1,4 +1,5 @@
 1.7.4.2.3-Beta
+ + Eksperymentalna funkcja z klientami działa poprawnie
  ~ Nowe pytania ankiety!
  / Historia obliczeń działa prawidłowo
  ~ Nowa ikonka aplikacji!

@@ -35,6 +35,12 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
+dodatkowe = "Cześć, sprawdź w opcjach eksperymentalnych, czy któraś z tych funkcji jest w jakimś stopniu przydatna, a ja ją rozwinę\n" \
+    "Jak na razie wyglądają one bardzo prosto i roboczo (nie chciałem marnowac pamięci na coś, czego nie użyjesz)\n" \
+    "Przykładowo funkcja z zapisywaniem transakcji/danych o klientach mogłabybyć dodana do głównego okna (tego w którym liczysz)" \
+    "w podobny sposób, jak jest to zrobione w oknie do zgłasznia problemów" \
+    "Kiedy będziesz sprawdzać powyższą funkcję: Aby ''Zarządzać'' klientem musisz nacisnąć go dwa razy na liście"
+
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
 # Fore.RED
@@ -42,11 +48,12 @@ internet = 1
 # Style.RESET_ALL
 init()
 
+
 def download_icon():
     try:
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico"  # Zmień na właściwy adres URL pliku .ico
+        # Zmień na właściwy adres URL pliku .ico
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico"
         save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
-
 
         # Utworzenie folderu "rei", jeśli nie istnieje
         folder_path = "rei2"
@@ -63,15 +70,15 @@ def download_icon():
             icon_data = response.content
             filename = os.path.basename(url)
             save_path = os.path.join(save_folder, filename)
-            
+
             with open(save_path, 'wb') as icon_file:
                 icon_file.write(icon_data)
         else:
             return
-    
+
     except Exception as e:
         return
-    
+
 
 download_icon()
 
@@ -2960,6 +2967,11 @@ else:
     zapis_do_pliku.set(True)
 
 
+# Dodatkowe pytania itp. od twórcy programu będą wyświetlane tutaj, treść ustalaj na początku kodu
+if dodatkowe != None:
+    print(Fore.LIGHTBLUE_EX + f"{dodatkowe}")
+
+
 def otworz_okno_zapisy():
     global file_path_ikonka
     try:
@@ -3206,8 +3218,9 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             f"{name}\n{city}\n{phone}\n{additional_info}")
 
                 def delete_client_file(name):
-                    client_file = f"klienci/KLIENT.{name}.txt"
-                    history_file = f"klienci/KLIENT_HISTORIA.{name}.txt"
+                    client_name = name.split(" - ")[0]
+                    client_file = f"klienci/KLIENT.{client_name}.txt"
+                    history_file = f"klienci/KLIENT_HISTORIA.{client_name}.txt"
                     if os.path.exists(client_file):
                         os.remove(client_file)
                     if os.path.exists(history_file):
@@ -3277,7 +3290,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                     f"Edytuj dane klienta: {selected_client}")
 
                                 label_name = tk.Label(
-                                    top_edit, text="Nazwa klienta*:")
+                                    top_edit, text="Imię/Nazwa klienta*:")
                                 label_name.pack()
                                 entry_name = tk.Entry(top_edit)
                                 entry_name.insert(tk.END, client_data[0])
@@ -3309,7 +3322,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                     name = entry_name.get()
                                     if not name:
                                         messagebox.showerror(
-                                            "Błąd", "Nazwa klienta jest wymagana.")
+                                            "Błąd", "Imię lub nazwa klienta jest wymagana.")
                                         return
                                     city = entry_city.get()
                                     phone = entry_phone.get()
@@ -3390,7 +3403,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?")
                         if response == tk.YES:
                             delete_client_file(selected_client)
-                            load_clients_list()
+                            load_clients_list()  # Dodane wywołanie funkcji do odświeżenia listy
 
                 root = tk.Tk()
                 root.title("Lista klientów")
@@ -3404,7 +3417,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                 button_delete_client.pack(side=tk.LEFT)
 
                 clients_list = tk.Listbox(root)
-                clients_list.pack()
+                clients_list.pack(side=tk.RIGHT)
 
                 clients_list.bind("<Double-Button-1>",
                                   lambda event: show_client_info())

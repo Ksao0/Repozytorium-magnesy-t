@@ -76,7 +76,7 @@ def download_icon():
 download_icon()
 
 
-def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines):
+def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_lines, dodatkowe):
     try:
         # Odczytaj zawartość pliku Develop.txt w twoim programie
         path = os.path.join(os.getcwd(), "Develop.txt")
@@ -120,6 +120,8 @@ def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_li
             aktualna_data_czas = datetime.datetime.now()
             format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
             issue_body = f"Data: {format_data_czas} Zaktualizowano program do wersji {version_online_first_line}:\nPoprzednia wersja: {version_local_lines}\n\nWystąpił u: {nazwa_uzytkownika}  \n\n"
+            if dodatkowe:
+                issue_body += f"Sposób: {dodatkowe}"
 
             # autentykacja
             g = Github(username, password)
@@ -744,7 +746,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_lines[0],
-                                                     version_local_lines[0])
+                                                     version_local_lines[0], "Aktualizacja za zgodą (1)")
                     if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
                         restart_program()
                 else:
@@ -929,7 +931,7 @@ def taj():
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 zgloszenie_pobrania_nowej_wersji(
-                    version_online_first_line, version_local_lines[0])
+                    version_online_first_line, version_local_lines[0], "Aktualizacja z nowymi bibliotekami")
                 exit()
             # Dostępna aktualizacja
             if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]) and blokada_bledu == False:
@@ -941,7 +943,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                                     version_local_lines[0])
+                                                     version_local_lines[0], "Aktualizacja za zgodą (2)")
                     print('Zaktualizowano!')
                     message = "Program zostanie uruchomiony ponownie"
                     if messagebox.showinfo("Aktualizacja", message):
@@ -957,7 +959,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line + "B7",
-                                                     version_local_lines[0])
+                                                     version_local_lines[0], "Trwa B7")
                     print('Zaktualizowano!')
                     message = "Zmiany będą widoczne po następnym uruchomieniu"
                     messagebox.showinfo("Aktualizacja", message)
@@ -969,20 +971,20 @@ def taj():
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 zgloszenie_pobrania_nowej_wersji(
-                    version_online_first_line, version_local_lines[0])
+                    version_online_first_line, version_local_lines[0], "Koniec B7 dla tego użytkownika")
                 if messagebox.showinfo(
                         'Aktualizacja', "Program zostanie uruchomiony ponownie"):
                     restart_program()
         else:
             if blokada_bledu == False:
                 if messagebox.showerror(
-                        "Niezdefiniowany błąd", "Wystąpił błąd krytyczny. Program zostanie uruchomiony ponownie\nDo zobaczenia!"):
+                        "Niezdefiniowany błąd", "Wystąpił błąd, program zostanie uruchomiony ponownie\nDo zobaczenia!"):
                     open("version.txt", "w", encoding='utf-8').close()
 
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(
-                        version_online_first_line, "Nieznana")
+                        version_online_first_line, "Nieznana", "Brak pliku version.txt")
                     restart_program()
             else:
                 messagebox.showerror(
@@ -1011,7 +1013,7 @@ def taj():
                     Aktualizacja = ["python", "WEW.py"]
                     subprocess.run(Aktualizacja)
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                                     version_local_lines[0])
+                                                     version_local_lines[0], None)
                     return
 
             # Porównaj każdą linijkę w nprefvers z pierwszą linijką version_local
@@ -1019,7 +1021,7 @@ def taj():
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 zgloszenie_pobrania_nowej_wersji(
-                    version_online_first_line, version_local_lines[0])
+                    version_online_first_line, version_local_lines[0], None)
                 return
 
         except:
@@ -1132,7 +1134,7 @@ def aktul():
                     version_local_lines = version_local.split('\n')
 
                     zgloszenie_pobrania_nowej_wersji(version_online_first_line,
-                                                     version_local_lines[0])
+                                                     version_local_lines[0], "Aktualizacja ręczna")
                     print(Fore.GREEN + 'Zakończono! ')
                     print(
                         Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
@@ -2762,7 +2764,7 @@ if internet == 1:
             print(Fore.CYAN +
                   f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
             print(Fore.CYAN +
-                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu opis precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
 
             print(Fore.RED +
                   f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
@@ -2797,10 +2799,10 @@ if internet == 1:
             print(Fore.CYAN +
                   f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
             print(Fore.CYAN +
-                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w opisie precyzyjnym' + Style.    RESET_ALL)
 
             print(Fore.RED +
-                  f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
+                  f"\nOpis precyzyjny: {Komunikat_yN_first_line}")
             for linia in Komunikat_yN[1:]:
                 print(Fore.RED + linia)
             print(Style.RESET_ALL)

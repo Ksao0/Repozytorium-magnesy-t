@@ -1,17 +1,10 @@
-1.7.4.2.2.3-Beta
+1.7.4.2.3-Beta
 Status: Nowa wersja
 Nazwa poprawki: Nowa wersja
 Wydano: 11.08.2023
 Informacja o bibliotekach: C3
 
-Od teraz możesz sprawdzić pasek postępu przy aktualizacji ręcznej
+Zmieniono działanie w przypadku błędów
 
-Główne zmiany dodane w najbliższych aktualizacjach (od najnowszych):
- - Historia obliczeń działa prawidłowo
- - Ulepszyliśmy mechanizmy związane z tokenem zaufania
- - Ulepszyliśmy mechanizmy ochrony przed pobraniem wadliwej wersji!
- - NOWE! Testujemy funkcje eksperymentalne!
-    Aby zobaczyć: Więcej opcji --> Opcje eksperymentalne
-    *Te funkcje mogą byc niedopracowane i mogą zostać usunięte w następnych aktualizacjach*
- - Wydano wersję programu na system Android, możesz ją pobrać oraz aktualizować z pomocą naszego programu!
-    Aby zobaczyć tę opcję: Więcej opcji --> Opcje eksperymentalne --> Zainstaluj/aktualizuj aplkację na telefon
+Główne zmiany dodane w wybranych aktualizacjach (od najnowszych):
+ - Lepsza czytelność

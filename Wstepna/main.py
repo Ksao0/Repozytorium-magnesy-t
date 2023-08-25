@@ -3250,6 +3250,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             tk.END, f"{client_name} - {client_city}")
 
                 def obliczenia(liczba_pakietow, cena_za_magnes, selected_client):
+
                     # Zamiana na liczbę zmiennoprzecinkową
                     if not liczba_pakietow.is_integer():
                         messagebox.showerror(

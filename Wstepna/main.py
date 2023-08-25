@@ -3350,7 +3350,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                     "Błąd", "Niepoprawna wartość ceny za magnes.")
                                 return
 
-                            obliczenia(pakietow, cena, selected_client)
+                            obliczenia(liczba_pakietow, cena_za_magnes, selected_client)
 
                         def pokaz_historie_klienta():
                             history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"

@@ -35,7 +35,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = 'Opcje "eksperymentalne" będą miały symbol pióra w lewym górnym rogu swojego okna'
+dodatkowe_od_tworcy = None
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)

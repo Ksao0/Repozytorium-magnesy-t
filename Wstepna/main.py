@@ -1647,11 +1647,10 @@ def rozwiaz_problemy():
 
 def ankieta():
     global token_zaufania
+    global file_path_ikonka
     if token_zaufania == True:
         if blokada_bledu == 0:
             try:
-                global file_path_ikonka
-
                 # Odczytaj zawartość pliku Ank.txt na komputerze
                 path = os.path.join(os.getcwd(), "Ank.txt")
                 if os.path.exists(path):
@@ -2571,7 +2570,7 @@ def oblicz_zyski():
         liczba_pakietow = float(entry_pakietow.get())
         if not liczba_pakietow.is_integer():
             messagebox.showerror(
-                "Błąd", "Liczba pakietów nie może mieć wartości dziesiętnej")
+                "Błąd", "Liczba pakietów nie może być liczbą z przecinkiem")
         if liczba_pakietow <= 0:
             messagebox.showerror("Błąd", "Liczba pakietów musi być dodatnia")
             return
@@ -3204,6 +3203,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                     exit()
 
             def moi_klienci():
+
                 def create_client_file(name, city, phone, additional_info):
                     folder = "klienci"
                     if not os.path.exists(folder):
@@ -3227,18 +3227,85 @@ def Opcje_eksperymentalne(okno_wyborowe):
                     clients_list.delete(0, tk.END)
                     if not os.path.exists(folder):
                         return
+
+                    client_names = []
+
                     for file in os.listdir(folder):
                         if file.startswith("KLIENT.") and file.endswith(".txt"):
                             client_name = file.split(".")[1]
-                            client_file_path = os.path.join(folder, file)
-                            with open(client_file_path, "r") as client_file:
-                                client_data = client_file.read().splitlines()
-                            if len(client_data) >= 2:
-                                client_city = client_data[1]
-                            else:
-                                client_city = "Brak danych o miejscowości"
-                            clients_list.insert(
-                                tk.END, f"{client_name} - {client_city}")
+                            client_names.append(client_name)
+
+                    client_names.sort()  # Sortuj nazwy klientów alfabetycznie
+
+                    for client_name in client_names:
+                        client_file_path = os.path.join(
+                            folder, f"KLIENT.{client_name}.txt")
+                        with open(client_file_path, "r") as client_file:
+                            client_data = client_file.read().splitlines()
+                        if len(client_data) >= 2:
+                            client_city = client_data[1]
+                        else:
+                            client_city = "Brak danych o miejscowości"
+                        clients_list.insert(
+                            tk.END, f"{client_name} - {client_city}")
+
+                def obliczenia(liczba_pakietow, cena_za_magnes, selected_client):
+                    # Zamiana na liczbę zmiennoprzecinkową
+                    if not liczba_pakietow.is_integer():
+                        messagebox.showerror(
+                            "Błąd", "Liczba pakietów nie może być liczbą z przecinkiem")
+                    if liczba_pakietow <= 0:
+                        messagebox.showerror(
+                            "Błąd", "Liczba pakietów musi być dodatnia")
+                        return
+
+                    if cena_za_magnes <= 0:
+                        messagebox.showerror(
+                            "Błąd", "Cena za magnes musi być dodatnia")
+                        return
+
+                    now = datetime.datetime.now()
+
+                    data_obliczenia = now.strftime(
+                        "%d.%m.%Y %H:%M:%S")
+
+                    # Liczenie kosztów
+
+                    # # Pobieranie kosztów z pliku
+                    path = os.path.join(os.getcwd(), "Ceny.txt")
+
+                    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+                    if os.path.exists(path):
+                        with open(path, "r", encoding='utf-8') as f:
+                            teraz_ceny = f.read()
+                    else:
+                        teraz_ceny = "13\n35\n18\n11"
+
+                    ceny_tektura = round(
+                        float(teraz_ceny.split('\n')[0]), 2)
+                    ceny_nadruk = round(
+                        float(teraz_ceny.split('\n')[1]), 2)
+                    ceny_foliamg = round(
+                        float(teraz_ceny.split('\n')[2]), 2)
+                    ceny_woreczkipp = round(
+                        float(teraz_ceny.split('\n')[3]), 2)
+
+                    magnesy_w_pakiecie = liczba_pakietow * 224
+                    cena_za_pakiet = cena_za_magnes * 224
+                    razem = cena_za_pakiet * liczba_pakietow
+
+                    tektura = ceny_tektura * liczba_pakietow
+                    nadruk = ceny_nadruk * liczba_pakietow
+                    foliamg = ceny_foliamg * liczba_pakietow
+                    woreczkipp = ceny_woreczkipp * liczba_pakietow
+
+                    koszty = tektura + nadruk + foliamg + woreczkipp
+                    bilans = razem - koszty
+
+                    wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet                      to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+
+                    with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
+                        history_file.write(f"{wyniki_a}")
 
                 def show_client_info():
                     selected_client = clients_list.get(tk.ACTIVE)
@@ -3248,20 +3315,41 @@ def Opcje_eksperymentalne(okno_wyborowe):
 
                         label_pakietow = tk.Label(top, text="Liczba magnesów:")
                         label_pakietow.pack()
-                        entry_pakietow = tk.Entry(top)
-                        entry_pakietow.pack()
+                        entry_pakietow_klient = tk.Entry(top)
+                        entry_pakietow_klient.pack()
 
                         label_ceny = tk.Label(top, text="Cena za magnes:")
                         label_ceny.pack()
-                        entry_ceny = tk.Entry(top)
-                        entry_ceny.pack()
+                        entry_ceny_klient = tk.Entry(top)
+                        entry_ceny_klient.pack()
 
                         def dodaj_do_klienta():
-                            pakietow = entry_pakietow.get()
-                            cena = entry_ceny.get()
-                            with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
-                                history_file.write(
-                                    f"{pakietow} magnesy {cena} zł\n")
+                            pakietow = entry_pakietow_klient.get()
+                            cena = entry_ceny_klient.get()
+
+                            if not pakietow or not cena:
+                                messagebox.showerror(
+                                    "Błąd", "Wszystkie pola muszą być wypełnione.")
+                                return
+
+                            try:
+                                # Zamiana na liczbę zmiennoprzecinkową
+                                liczba_pakietow = float(pakietow)
+                                print(liczba_pakietow)
+                            except ValueError:
+                                messagebox.showerror(
+                                    "Błąd", "Niepoprawna wartość liczby pakietów.")
+                                return
+
+                            try:
+                                # Zamiana na liczbę zmiennoprzecinkową
+                                cena_za_magnes = float(cena.replace(",", "."))
+                            except ValueError:
+                                messagebox.showerror(
+                                    "Błąd", "Niepoprawna wartość ceny za magnes.")
+                                return
+
+                            obliczenia(pakietow, cena, selected_client)
 
                         def pokaz_historie_klienta():
                             history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
@@ -3318,14 +3406,18 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             label_phone.pack()
                             entry_phone = tk.Entry(top_edit)
                             entry_phone.pack()
-                            entry_phone.insert(0, client_data[2])
+
+                            if len(client_data) >= 3:
+                                entry_phone.insert(0, client_data[2])
 
                             label_additional_info = tk.Label(
                                 top_edit, text="Informacje dodatkowe:")
                             label_additional_info.pack()
                             entry_additional_info = tk.Entry(top_edit)
                             entry_additional_info.pack()
-                            entry_additional_info.insert(0, client_data[3])
+
+                            if len(client_data) >= 4:
+                                entry_additional_info.insert(0, client_data[3])
 
                             def save_edited_client():
                                 name = entry_name.get()

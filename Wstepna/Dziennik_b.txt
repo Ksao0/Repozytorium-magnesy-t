@@ -1,4 +1,6 @@
 1.7.4.1-Beta
+ / Usunięto błąd, przez który ankiety nie działały
+ ~ Odświerzone okno zarządzania klientami
  + Eksperymentalna funkcja z klientami działa poprawnie
  ~ Nowe pytania ankiety!
  / Historia obliczeń działa prawidłowo

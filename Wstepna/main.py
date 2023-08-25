@@ -25,6 +25,7 @@ global internet
 global blokada_bledu
 global blokada_klamstwa
 global token_zaufania
+global file_path_ikonka
 
 token_zaufania = False
 blokada_bledu = False
@@ -1699,7 +1700,7 @@ def ankieta():
                         frame_pyt2.pack()
 
                         label_pytanie2 = tk.Label(
-                            frame_pyt2, text='Czy nasz program zawiera funkcje, które twoim zdaniem są nieprzydatne, wymień je i podaj powód\nMożesz zminimalizować to okno i sprawdzić funkcje programu')
+                            frame_pyt2, text='Czy nasz program zawiera funkcje, które twoim zdaniem są nieprzydatne? Wymień je')
                         label_pytanie2.pack()
 
                         pole_tekstowe_pyt2 = tk.Text(
@@ -1782,7 +1783,7 @@ def ankieta():
 
                                 else:  # dla 0 i innych (nie itp.)
                                     messagebox.showinfo('Ta ankieta jest nieistotna',
-                                                        'Na podstawie twoich odpowiedzi stwierdzamy iż na ten moment nie chcesz wprowadzać żadnych zmian do programu. Z tego powodu twoja   ankieta   jest  nieistotna i nie zostanie wysłana. Następna ankieta zostanie udostępniona wraz z następną aktualizacją.\nJeżeli to okno   nie powinno     się  wyświetlić - zgłoś błąd do osoby odpowiedzialnej za program\nKod odpowiedzi: (p) 0')
+                                                        'Możliwość wykonania następnej ankiety pojawi się po aktualizacji po aktualizacji\nKod odpowiedzi: (p) 0')
                                     path = os.path.join(os.getcwd(), "Ank.txt")
                                     # Usuń plik jeśli istnieje
                                     if os.path.exists(path):
@@ -2930,8 +2931,6 @@ if internet == 1:
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-    global file_path_ikonka
-
     # Pobranie ikony z repozytorium GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
     file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
@@ -3211,7 +3210,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                         os.makedirs(folder)
                     file_path = os.path.join(folder, f"KLIENT.{name}.txt")
                     with open(file_path, "w") as file:
-                        file.write(f"{name}\n{city}\n{phone}\n{additional_info}")
+                        file.write(
+                            f"{name}\n{city}\n{phone}\n{additional_info}")
 
                 def delete_client_file(name):
                     client_name = name.split(" - ")[0]
@@ -3237,7 +3237,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                 client_city = client_data[1]
                             else:
                                 client_city = "Brak danych o miejscowości"
-                            clients_list.insert(tk.END, f"{client_name} - {client_city}")
+                            clients_list.insert(
+                                tk.END, f"{client_name} - {client_city}")
 
                 def show_client_info():
                     selected_client = clients_list.get(tk.ACTIVE)
@@ -3259,7 +3260,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             pakietow = entry_pakietow.get()
                             cena = entry_ceny.get()
                             with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
-                                history_file.write(f"{pakietow} magnesy {cena} zł\n")
+                                history_file.write(
+                                    f"{pakietow} magnesy {cena} zł\n")
 
                         def pokaz_historie_klienta():
                             history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
@@ -3267,8 +3269,10 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                 with open(history_file_path, "r") as history_file:
                                     history_data = history_file.read()
                                 history_window = tk.Toplevel(root)
-                                history_window.title(f"Historia klienta: {selected_client}")
-                                history_label = tk.Label(history_window, text=history_data)
+                                history_window.title(
+                                    f"Historia klienta: {selected_client}")
+                                history_label = tk.Label(
+                                    history_window, text=history_data)
                                 history_label.pack()
 
                         frame_przyciski = tk.Frame(top)
@@ -3287,21 +3291,24 @@ def Opcje_eksperymentalne(okno_wyborowe):
                     if selected_client:
                         client_name = selected_client.split(" - ")[0]
                         client_file_path = f"klienci/KLIENT.{client_name}.txt"
-                        
+
                         if os.path.exists(client_file_path):
                             with open(client_file_path, "r") as client_file:
                                 client_data = client_file.read().splitlines()
 
                             top_edit = tk.Toplevel(root)
-                            top_edit.title(f"Edycja danych klienta: {selected_client}")
+                            top_edit.title(
+                                f"Edycja danych klienta: {selected_client}")
 
-                            label_name = tk.Label(top_edit, text="Nazwa klienta*:")
+                            label_name = tk.Label(
+                                top_edit, text="Nazwa klienta*:")
                             label_name.pack()
                             entry_name = tk.Entry(top_edit)
                             entry_name.pack()
                             entry_name.insert(0, client_data[0])
 
-                            label_city = tk.Label(top_edit, text="Miejscowość*:")
+                            label_city = tk.Label(
+                                top_edit, text="Miejscowość*:")
                             label_city.pack()
                             entry_city = tk.Entry(top_edit)
                             entry_city.pack()
@@ -3323,24 +3330,26 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             def save_edited_client():
                                 name = entry_name.get()
                                 if not name:
-                                    messagebox.showerror("Błąd", "Nazwa klienta jest wymagana.")
+                                    messagebox.showerror(
+                                        "Błąd", "Nazwa klienta jest wymagana.")
                                     return
                                 city = entry_city.get()
                                 if not city:
-                                    messagebox.showerror("Błąd", "Miejscowość klienta jest wymagana.")
+                                    messagebox.showerror(
+                                        "Błąd", "Miejscowość klienta jest wymagana.")
                                     return
                                 phone = entry_phone.get()
                                 additional_info = entry_additional_info.get()
 
                                 with open(client_file_path, "w") as client_file:
-                                    client_file.write(f"{name}\n{city}\n{phone}\n{additional_info}")
+                                    client_file.write(
+                                        f"{name}\n{city}\n{phone}\n{additional_info}")
                                 top_edit.destroy()
                                 load_clients_list()
 
                             button_save = tk.Button(
                                 top_edit, text="Zapisz zmiany", command=save_edited_client)
                             button_save.pack()
-
 
                 def new_client():
                     top = tk.Toplevel(root)
@@ -3371,11 +3380,13 @@ def Opcje_eksperymentalne(okno_wyborowe):
                     def create_new_client():
                         name = entry_name.get()
                         if not name:
-                            messagebox.showerror("Błąd", "Nazwa klienta jest wymagana.")
+                            messagebox.showerror(
+                                "Błąd", "Nazwa klienta jest wymagana.")
                             return
                         city = entry_city.get()
                         if not city:
-                            messagebox.showerror("Błąd", "Miejscowość klienta jest wymagana.")
+                            messagebox.showerror(
+                                "Błąd", "Miejscowość klienta jest wymagana.")
                             return
                         phone = entry_phone.get()
                         additional_info = entry_additional_info.get()
@@ -3416,13 +3427,12 @@ def Opcje_eksperymentalne(okno_wyborowe):
                 clients_list = tk.Listbox(root)
                 clients_list.pack(side=tk.RIGHT)
 
-                clients_list.bind("<Double-Button-1>", lambda event: show_client_info())
+                clients_list.bind("<Double-Button-1>",
+                                  lambda event: show_client_info())
 
                 load_clients_list()
 
                 root.mainloop()
-
-
 
         else:
             ukrywanie_bledu()

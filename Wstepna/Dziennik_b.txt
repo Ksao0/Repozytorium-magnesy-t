@@ -1,4 +1,5 @@
-1.7.4.1-Beta
+1.7.4.2.1-Beta
+ ~ Okno zarządzania klientami jest teraz bardziej funkcjonalne
  / Usunięto błąd, przez który ankiety nie działały
  ~ Odświerzone okno zarządzania klientami
  + Eksperymentalna funkcja z klientami działa poprawnie

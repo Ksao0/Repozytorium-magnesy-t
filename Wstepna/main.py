@@ -36,7 +36,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = None
+dodatkowe_od_tworcy = "Jak spotkasz jakiś problem z tą funkcją z klientami to napisz mi o niej zgłoszenie z poziomu programu"
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
@@ -3303,7 +3303,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                     koszty = tektura + nadruk + foliamg + woreczkipp
                     bilans = razem - koszty
 
-                    wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet                      to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+                    wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
 
                     with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
                         history_file.write(f"{wyniki_a}")
@@ -3336,7 +3336,6 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             try:
                                 # Zamiana na liczbę zmiennoprzecinkową
                                 liczba_pakietow = float(pakietow)
-                                print(liczba_pakietow)
                             except ValueError:
                                 messagebox.showerror(
                                     "Błąd", "Niepoprawna wartość liczby pakietów.")
@@ -3350,19 +3349,29 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                     "Błąd", "Niepoprawna wartość ceny za magnes.")
                                 return
 
-                            obliczenia(liczba_pakietow, cena_za_magnes, selected_client)
+                            obliczenia(liczba_pakietow,
+                                       cena_za_magnes, selected_client)
 
                         def pokaz_historie_klienta():
                             history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
                             if os.path.exists(history_file_path):
                                 with open(history_file_path, "r") as history_file:
                                     history_data = history_file.read()
-                                history_window = tk.Toplevel(root)
-                                history_window.title(
+
+                                # Tworzenie nowego okna
+                                okno_historii = tk.Toplevel()
+                                okno_historii.title(
                                     f"Historia klienta: {selected_client}")
-                                history_label = tk.Label(
-                                    history_window, text=history_data)
-                                history_label.pack()
+                                okno_historii.geometry("800x900")
+                                okno_historii.iconbitmap(file_path_ikonka)
+
+                                # Dodanie elementu ScrolledText
+                                pole_tekstowe = scrolledtext.ScrolledText(
+                                    okno_historii, wrap=tk.WORD)
+                                pole_tekstowe.pack(expand=True, fill=tk.BOTH)
+
+                                # Wstawienie zawartości historii do elementu ScrolledText
+                                pole_tekstowe.insert(tk.END, history_data)
 
                         frame_przyciski = tk.Frame(top)
                         frame_przyciski.pack()

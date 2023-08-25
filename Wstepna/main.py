@@ -35,11 +35,12 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe = "Cześć, sprawdź w opcjach eksperymentalnych, czy któraś z tych funkcji jest w jakimś stopniu przydatna, a ja ją rozwinę\n" \
+dodatkowe_od_tworcy = "Cześć, sprawdź w opcjach eksperymentalnych, czy któraś z tych funkcji jest w jakimś stopniu przydatna, a ja ją rozwinę\n" \
     "Jak na razie wyglądają one bardzo prosto i roboczo (nie chciałem marnowac pamięci na coś, czego nie użyjesz)\n" \
-    "Przykładowo funkcja z zapisywaniem transakcji/danych o klientach mogłabybyć dodana do głównego okna (tego w którym liczysz)" \
-    "w podobny sposób, jak jest to zrobione w oknie do zgłasznia problemów" \
-    "Kiedy będziesz sprawdzać powyższą funkcję: Aby ''Zarządzać'' klientem musisz nacisnąć go dwa razy na liście"
+    "Przykładowo funkcja z zapisywaniem transakcji/danych o klientach mogłaby być dodana do głównego okna (tego w którym\n" \
+    "liczysz) w podobny sposób, jak jest to zrobione w oknie do zgłasznia problemów\n" \
+    'Kiedy będziesz sprawdzać powyższą funkcję: Aby "Zarządzać" klientem musisz nacisnąć go dwa razy na liście\n' \
+    'Oceń też, które funkcje programu są według ciebie niepotrzebne i które mogę usunąć'
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
@@ -2968,8 +2969,8 @@ else:
 
 
 # Dodatkowe pytania itp. od twórcy programu będą wyświetlane tutaj, treść ustalaj na początku kodu
-if dodatkowe != None:
-    print(Fore.LIGHTBLUE_EX + f"{dodatkowe}")
+if dodatkowe_od_tworcy != None:
+    print(Fore.LIGHTBLUE_EX + f"{dodatkowe_od_tworcy}")
 
 
 def otworz_okno_zapisy():

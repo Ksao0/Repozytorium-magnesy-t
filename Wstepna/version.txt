@@ -5,6 +5,8 @@ Wydano: 11.08.2023
 Informacja o bibliotekach: C3
 
 Główne zmiany dodane w wybranych aktualizacjach (od najnowszych):
+ - Główne okno programu służy do sprawdzania danych  itp. (tak jak wcześniej),
+     a okna klientów służą do zapisywania faktycznych transakcji w historii
  - Zmiany w funkcjach eksperymentalnych (dane o klientach)
-       Więcej opcji --> Opcje eksperymentalne --> Dane o klientach
+     Więcej opcji --> Opcje eksperymentalne --> Dane o klientach
  - Lepsza czytelność

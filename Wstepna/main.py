@@ -3210,13 +3210,21 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             f"{name}\n{city}\n{phone}\n{additional_info}")
 
                 def delete_client_file(name):
-                    client_name = name.split(" - ")[0]
-                    client_file = f"klienci/KLIENT.{client_name}.txt"
-                    history_file = f"klienci/KLIENT_HISTORIA.{client_name}.txt"
-                    if os.path.exists(client_file):
-                        os.remove(client_file)
-                    if os.path.exists(history_file):
-                        os.remove(history_file)
+                    client_name, client_city = name.split(" - ")
+                    client_file_prefix = f"KLIENT.{client_name}"
+
+                    # Usuń pliki klienta
+                    folder = "klienci"
+                    for file in os.listdir(folder):
+                        if file.startswith(client_file_prefix):
+                            file_path = os.path.join(folder, file)
+                            if os.path.exists(file_path):
+                                os.remove(file_path)
+
+                    # Usuń plik historii klienta, jeśli istnieje
+                    history_file_path = f"klienci/KLIENT_HISTORIA.{client_name} - {client_city}.txt"
+                    if os.path.exists(history_file_path):
+                        os.remove(history_file_path)
 
                 def load_clients_list():
                     folder = "klienci"
@@ -3301,8 +3309,17 @@ def Opcje_eksperymentalne(okno_wyborowe):
 
                     wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
 
-                    with open(f"klienci/KLIENT_HISTORIA.{selected_client}.txt", "a") as history_file:
-                        history_file.write(f"{wyniki_a}")
+                    history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+
+                    # Pobranie starej zawartości pliku historii
+                    old_history = ""
+                    if os.path.exists(history_file_path):
+                        with open(history_file_path, "r") as history_file:
+                            old_history = history_file.read()
+
+                    # Zapis nowego wpisu do pliku historii
+                    with open(history_file_path, "w") as history_file:
+                        history_file.write(f"{wyniki_a}\n{old_history}")
 
                 def show_client_info():
                     selected_client = clients_list.get(tk.ACTIVE)

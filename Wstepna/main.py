@@ -3336,7 +3336,6 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             try:
                                 # Zamiana na liczbę zmiennoprzecinkową
                                 liczba_pakietow = float(pakietow)
-                                print(liczba_pakietow)
                             except ValueError:
                                 messagebox.showerror(
                                     "Błąd", "Niepoprawna wartość liczby pakietów.")

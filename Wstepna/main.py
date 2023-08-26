@@ -3080,10 +3080,6 @@ def Opcje_eksperymentalne(okno_wyborowe):
             dialog = tk.Toplevel(okno_wyborowe)
             dialog.title("Wybierz opcję")
 
-            # Ustawienie modality, aby wyłączyć możliwość używania innych okien
-            dialog.transient(okno_wyborowe)
-            dialog.grab_set()
-
             def opcja_1():
                 aplikacja_Android()
                 dialog.destroy()
@@ -3311,17 +3307,23 @@ def Opcje_eksperymentalne(okno_wyborowe):
                 def show_client_info():
                     selected_client = clients_list.get(tk.ACTIVE)
                     if selected_client:
-                        top = tk.Toplevel(root)
-                        top.title(selected_client)
+                        okno_rozwin_klienta = tk.Toplevel(okno_glowne_klientow)
+                        okno_rozwin_klienta.title(selected_client)
 
-                        label_pakietow = tk.Label(top, text="Liczba magnesów:")
+                        # Ustawienie modality, aby wyłączyć możliwość używania innych okien
+                        okno_rozwin_klienta.transient(okno_glowne_klientow)
+                        # okno_rozwin_klienta.grab_set()
+
+                        label_pakietow = tk.Label(
+                            okno_rozwin_klienta, text="Liczba magnesów:")
                         label_pakietow.pack()
-                        entry_pakietow_klient = tk.Entry(top)
+                        entry_pakietow_klient = tk.Entry(okno_rozwin_klienta)
                         entry_pakietow_klient.pack()
 
-                        label_ceny = tk.Label(top, text="Cena za magnes:")
+                        label_ceny = tk.Label(
+                            okno_rozwin_klienta, text="Cena za magnes:")
                         label_ceny.pack()
-                        entry_ceny_klient = tk.Entry(top)
+                        entry_ceny_klient = tk.Entry(okno_rozwin_klienta)
                         entry_ceny_klient.pack()
 
                         def dodaj_do_klienta():
@@ -3373,7 +3375,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                 # Wstawienie zawartości historii do elementu ScrolledText
                                 pole_tekstowe.insert(tk.END, history_data)
 
-                        frame_przyciski = tk.Frame(top)
+                        frame_przyciski = tk.Frame(okno_rozwin_klienta)
                         frame_przyciski.pack()
 
                         button_dodaj = tk.Button(
@@ -3394,36 +3396,41 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             with open(client_file_path, "r") as client_file:
                                 client_data = client_file.read().splitlines()
 
-                            top_edit = tk.Toplevel(root)
-                            top_edit.title(
+                            okno_edytuj_klienta = tk.Toplevel(
+                                okno_glowne_klientow)
+                            okno_edytuj_klienta.title(
                                 f"Edycja danych klienta: {selected_client}")
 
+                            okno_edytuj_klienta.transient(okno_glowne_klientow)
+
                             label_name = tk.Label(
-                                top_edit, text="Nazwa klienta*:")
+                                okno_edytuj_klienta, text="Nazwa klienta*:")
                             label_name.pack()
-                            entry_name = tk.Entry(top_edit)
+                            entry_name = tk.Entry(okno_edytuj_klienta)
                             entry_name.pack()
                             entry_name.insert(0, client_data[0])
 
                             label_city = tk.Label(
-                                top_edit, text="Miejscowość*:")
+                                okno_edytuj_klienta, text="Miejscowość*:")
                             label_city.pack()
-                            entry_city = tk.Entry(top_edit)
+                            entry_city = tk.Entry(okno_edytuj_klienta)
                             entry_city.pack()
                             entry_city.insert(0, client_data[1])
 
-                            label_phone = tk.Label(top_edit, text="Telefon:")
+                            label_phone = tk.Label(
+                                okno_edytuj_klienta, text="Telefon:")
                             label_phone.pack()
-                            entry_phone = tk.Entry(top_edit)
+                            entry_phone = tk.Entry(okno_edytuj_klienta)
                             entry_phone.pack()
 
                             if len(client_data) >= 3:
                                 entry_phone.insert(0, client_data[2])
 
                             label_additional_info = tk.Label(
-                                top_edit, text="Informacje dodatkowe:")
+                                okno_edytuj_klienta, text="Informacje dodatkowe:")
                             label_additional_info.pack()
-                            entry_additional_info = tk.Entry(top_edit)
+                            entry_additional_info = tk.Entry(
+                                okno_edytuj_klienta)
                             entry_additional_info.pack()
 
                             if len(client_data) >= 4:
@@ -3446,17 +3453,19 @@ def Opcje_eksperymentalne(okno_wyborowe):
                                 with open(client_file_path, "w") as client_file:
                                     client_file.write(
                                         f"{name}\n{city}\n{phone}\n{additional_info}")
-                                top_edit.destroy()
+                                okno_edytuj_klienta.destroy()
                                 load_clients_list()
 
                             button_save = tk.Button(
-                                top_edit, text="Zapisz zmiany", command=save_edited_client)
+                                okno_edytuj_klienta, text="Zapisz zmiany", command=save_edited_client)
                             button_save.pack()
 
                 def new_client():
-                    top = tk.Toplevel(root)
+                    top = tk.Toplevel(okno_glowne_klientow)
                     top.title("Nowy klient")
                     top.geometry("210x250+250+200")
+
+                    top.transient(okno_glowne_klientow)
 
                     label_name = tk.Label(top, text="Nazwa klienta*:")
                     label_name.pack()
@@ -3510,23 +3519,23 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             delete_client_file(selected_client)
                             load_clients_list()
 
-                root = tk.Tk()
-                root.title("Lista klientów")
-                root.geometry("410x250+250+200")
+                okno_glowne_klientow = tk.Tk()
+                okno_glowne_klientow.title("Lista klientów")
+                okno_glowne_klientow.geometry("410x250+250+200")
 
                 button_new_client = tk.Button(
-                    root, text="Nowy klient", command=new_client)
+                    okno_glowne_klientow, text="Nowy klient", command=new_client)
                 button_new_client.pack(side=tk.LEFT)
 
                 button_edit_client = tk.Button(
-                    root, text="Edytuj klienta", command=edit_client_info)
+                    okno_glowne_klientow, text="Edytuj klienta", command=edit_client_info)
                 button_edit_client.pack(side=tk.LEFT)
 
                 button_delete_client = tk.Button(
-                    root, text="Usuń klienta", command=delete_client)
+                    okno_glowne_klientow, text="Usuń klienta", command=delete_client)
                 button_delete_client.pack(side=tk.LEFT)
 
-                clients_list = tk.Listbox(root)
+                clients_list = tk.Listbox(okno_glowne_klientow)
                 clients_list.pack(side=tk.RIGHT)
 
                 clients_list.bind("<Double-Button-1>",
@@ -3534,7 +3543,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
 
                 load_clients_list()
 
-                root.mainloop()
+                okno_glowne_klientow.mainloop()
 
         else:
             ukrywanie_bledu()

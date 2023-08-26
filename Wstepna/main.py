@@ -1668,7 +1668,6 @@ def ankieta():
                         okno_ankiety = tk.Toplevel()
                         okno_ankiety.title("Ankieta")
                         okno_ankiety.geometry("700x670")
-                        okno_ankiety.iconbitmap(file_path_ikonka)
 
                         frame_pyt1 = tk.Frame(okno_ankiety)
                         frame_pyt1.pack()
@@ -2021,13 +2020,9 @@ def ankieta():
 
                 # if random.choices([True, False], [0.2, 0.8])[0]:
                 #     ankieta()
+        return
     else:
         pass
-
-
-if internet == 1 and blokada_bledu == 0:
-    if random.choices([True, False], [0.1, 0.9])[0]:
-        ankieta()
 
 
 def informacje_o_wersji_utworz_okno():
@@ -2964,7 +2959,6 @@ else:
     zapis_do_pliku = tk.BooleanVar()
     zapis_do_pliku.set(True)
 
-
 # Dodatkowe pytania itp. od twórcy programu będą wyświetlane tutaj, treść ustalaj na początku kodu
 if dodatkowe_od_tworcy != None:
     print(Fore.LIGHTBLUE_EX + f"{dodatkowe_od_tworcy}")
@@ -3764,5 +3758,9 @@ button_wiecej.pack(side=tk.LEFT)
 # Dodanie pola tekstowego na wyniki
 label_wyniki = tk.Label(root, text="", justify="left")
 label_wyniki.pack()
+
+if internet == 1 and blokada_bledu == 0:
+    if random.choices([True, False], [0.1, 0.9])[0]:
+        ankieta()
 
 root.mainloop()

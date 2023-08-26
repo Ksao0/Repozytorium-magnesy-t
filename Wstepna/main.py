@@ -36,7 +36,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = "Jak spotkasz jakiś problem z tą funkcją z klientami to napisz mi o niej zgłoszenie z poziomu programu"
+dodatkowe_od_tworcy = None
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
@@ -3336,6 +3336,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             try:
                                 # Zamiana na liczbę zmiennoprzecinkową
                                 liczba_pakietow = float(pakietow)
+                                print(liczba_pakietow)
                             except ValueError:
                                 messagebox.showerror(
                                     "Błąd", "Niepoprawna wartość liczby pakietów.")

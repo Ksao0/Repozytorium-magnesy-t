@@ -36,10 +36,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = "Chcę dodac możliwość stworzenia wykresu przedstawiającego dane o klientach, ale nie mam pomysłu jakie dane ma ten wykres\n" \
-                      "przedstawiać i czy wykres ma uwzględniać wszystkie dane, czy jedynie ich część.\n" \
-                      "Jeśli będzie wyświetlać zbyt wiele danych to stanie się nieczytelny przy więksej liczbie klientów\n" \
-                      "Co sądzisz na ten temat?"
+dodatkowe_od_tworcy = "Zobacz, czy funkcja z klientami ci pasuje (mogę ją zmienić w razie czego)"
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)

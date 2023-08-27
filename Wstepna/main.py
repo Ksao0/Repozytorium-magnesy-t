@@ -1781,7 +1781,7 @@ def ankieta():
 
                                 else:  # dla 0 i innych (nie itp.)
                                     messagebox.showinfo('Ta ankieta jest nieistotna',
-                                                        'Możliwość wykonania następnej ankiety pojawi się po aktualizacji po aktualizacji\nKod odpowiedzi: (p) 0')
+                                                        'Możliwość wykonania następnej ankiety pojawi się po aktualizacji\nKod odpowiedzi: (p) 0')
                                     path = os.path.join(os.getcwd(), "Ank.txt")
                                     # Usuń plik jeśli istnieje
                                     if os.path.exists(path):

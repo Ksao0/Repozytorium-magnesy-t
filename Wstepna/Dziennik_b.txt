@@ -1,4 +1,5 @@
-1.7.4.2.1-Beta
+1.7.5.1-Beta p. 1
+ ~ Wyłączono ankiety
  ~ Zależności okien klientów
  ~ Okno zarządzania klientami jest teraz bardziej funkcjonalne
  / Usunięto błąd, przez który ankiety nie działały

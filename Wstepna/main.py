@@ -28,7 +28,7 @@ global token_zaufania
 global file_path_ikonka
 global ankieta_aktywna
 
-ankieta_aktywna = True
+ankieta_aktywna = False
 token_zaufania = False
 blokada_bledu = False
 blokada_klamstwa = False

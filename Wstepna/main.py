@@ -26,9 +26,13 @@ global blokada_bledu
 global blokada_klamstwa
 global token_zaufania
 global file_path_ikonka
+
+global dane_reia
+
 global ankieta_aktywna
 
-ankieta_aktywna = False
+
+ankieta_aktywna = False  # Domyślnie wyłączona, zmiana w pliku reia
 token_zaufania = False
 blokada_bledu = False
 blokada_klamstwa = False
@@ -457,6 +461,21 @@ def zglos_problem():
 def czynnosci_poczatkowe():
     try:
         global internet
+        global dane_reia
+
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/reia.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            dane_reia = response.content.decode('utf-8').strip()
+
+            if dane_reia[1] == "T":
+                global ankieta_aktywna
+                ankieta_aktywna = True
+
+        except:
+            blad_poczatkowe()
+
         # Aktualizacja pliku WEW
 
         # ścieżka do pliku WEW.py w bieżącym folderze
@@ -1784,7 +1803,8 @@ def ankieta():
                                     else:  # dla 0 i innych (nie itp.)
                                         messagebox.showinfo('Ta ankieta jest nieistotna',
                                                             'Możliwość wykonania następnej ankiety pojawi się po aktualizacji\nKod odpowiedzi: (p) 0')
-                                        path = os.path.join(os.getcwd(), "Ank.txt")
+                                        path = os.path.join(
+                                            os.getcwd(), "Ank.txt")
                                         # Usuń plik jeśli istnieje
                                         if os.path.exists(path):
                                             os.remove(path)
@@ -1805,7 +1825,8 @@ def ankieta():
                                         plik.write('Tak')
 
                                     # Odczytaj zawartość pliku Develop.txt w twoim programie
-                                    path = os.path.join(os.getcwd(), "Develop.txt")
+                                    path = os.path.join(
+                                        os.getcwd(), "Develop.txt")
                                     if os.path.exists(path):
                                         with open(path, "r", encoding="utf-8") as f:
                                             plik_od_dewelopera = f.read().strip()
@@ -1874,7 +1895,8 @@ def ankieta():
                                     # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
                                     exc_type, exc_value, exc_traceback = sys.exc_info()
                                     # Odczytaj zawartość pliku Develop.txt w twoim programie
-                                    path = os.path.join(os.getcwd(), "Develop.txt")
+                                    path = os.path.join(
+                                        os.getcwd(), "Develop.txt")
                                     if os.path.exists(path):
                                         with open(path, "r", encoding="utf-8") as f:
                                             plik_od_dewelopera = f.read().strip()
@@ -1965,7 +1987,8 @@ def ankieta():
 
                     if plik_od_dewelopera != "BRAK PLIKU D":
 
-                        informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                        informacje_do_zgloszenia = plik_od_dewelopera.split(
+                            '\n')
                         nazwa_uzytkownika = informacje_do_zgloszenia[0]
                         token_do_wpisania = informacje_do_zgloszenia[1]
 

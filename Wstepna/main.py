@@ -3663,7 +3663,7 @@ def otworz_okno_wybor():
             label_informacja.pack()
 
             button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Pisz do nas!", command=zglos_problem)
+                okno_wyborowe, text="Opinie", command=zglos_problem)
             button_zglos_problem.pack()
             label_informacja = tk.Label(
                 okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")

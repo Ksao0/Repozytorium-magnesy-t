@@ -42,7 +42,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = "Zobacz, czy funkcja z klientami ci pasuje (mogę ją zmienić w razie czego)"
+dodatkowe_od_tworcy = None
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)
@@ -149,8 +149,27 @@ def zgloszenie_pobrania_nowej_wersji(version_online_first_line, version_local_li
 
 
 def token_zaufania_wygasl_f():
-    messagebox.showerror(
-        'Czas minął', 'Token zaufania wygasł. Ta funkcja jest niedostepna')
+    try:
+        # Odczytaj zawartość pliku Develop.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Develop.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                plik_od_dewelopera = f.read().strip()
+        else:
+            plik_od_dewelopera = "BRAK PLIKU D"
+            messagebox.showerror(
+                "Błąd", 'Zapytaj twórcę programu o informacje')
+
+        if plik_od_dewelopera != "BRAK PLIKU D":
+
+            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+            if nazwa_uzytkownika != "Admin":
+                messagebox.showerror(
+                    'Czas minął', 'Token zaufania wygasł. Ta funkcja jest niedostepna')
+    except:
+        messagebox.showerror(
+            'Czas minął', 'Token zaufania wygasł. Ta funkcja jest niedostepna')
 
 
 def restart_program():

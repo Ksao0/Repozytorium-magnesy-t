@@ -31,6 +31,8 @@ global dane_reia
 
 global ankieta_aktywna
 
+funkcja_eksperyment_1 = "Nie" #Aplikacja na telefon
+funkcja_eksperyment_2 = "Tak" #Klienci
 
 ankieta_aktywna = False  # Domyślnie wyłączona, zmiana w pliku reia
 token_zaufania = False
@@ -3139,27 +3141,17 @@ def Opcje_eksperymentalne(okno_wyborowe):
             button_opcja_2.pack()
 
             def aplikacja_Android():
-                try:
-                    global internet
-                    # Aktualizacja
-
-                    # ścieżka do w bieżącym folderze
-                    path = os.path.join(os.getcwd(), "Androidow.py")
-
-                    # usuń plik, jeśli istnieje
-                    if os.path.exists(path):
-                        os.remove(path)
+                if funkcja_eksperyment_1 != "Nie":
                     try:
-                        # pobierz plik z repozytorium
-                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
-                        urllib.request.urlretrieve(url, path)
-                        Gra = ["python", "Androidow.py"]
-                        subprocess.run(Gra)
-                    except:
-                        print('Wykryto brak połączenia z internetem')
-                        messagebox.showerror(
-                            "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
-                        internet = 0
+                        global internet
+                        # Aktualizacja
+
+                        # ścieżka do w bieżącym folderze
+                        path = os.path.join(os.getcwd(), "Androidow.py")
+
+                        # usuń plik, jeśli istnieje
+                        if os.path.exists(path):
+                            os.remove(path)
                         try:
                             # pobierz plik z repozytorium
                             url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
@@ -3167,438 +3159,449 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             Gra = ["python", "Androidow.py"]
                             subprocess.run(Gra)
                         except:
+                            print('Wykryto brak połączenia z internetem')
                             messagebox.showerror(
-                                "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
-                except Exception as e:
-                    # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-                    exc_type, exc_value, exc_traceback = sys.exc_info()
-                    # Odczytaj zawartość pliku Develop.txt w twoim programie
-                    path = os.path.join(os.getcwd(), "Develop.txt")
-                    if os.path.exists(path):
-                        with open(path, "r", encoding="utf-8") as f:
-                            plik_od_dewelopera = f.read().strip()
-                    else:
-                        plik_od_dewelopera = "BRAK PLIKU D"
-                        messagebox.showerror(
-                            "Błąd", 'Zapytaj twórcę programu o informacje')
-
-                    if plik_od_dewelopera != "BRAK PLIKU D":
-                        informacje_do_zgloszenia = plik_od_dewelopera.split(
-                            '\n')
-                        nazwa_uzytkownika = informacje_do_zgloszenia[0]
-                        token_do_wpisania = informacje_do_zgloszenia[1]
-
-                        # pobierz datę wygaśnięcia
-                        wygasa_dnia = int(informacje_do_zgloszenia[2])
-                        wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-                        wygasa_roku = int(informacje_do_zgloszenia[4])
-
-                        # utwórz obiekt daty z daty wygaśnięcia
-                        wygasa_data = datetime.date(
-                            wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-                        # pobierz dzisiejszą datę
-                        dzisiaj = datetime.date.today()
-                        # porównaj daty
-                        if dzisiaj > wygasa_data:
+                                "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
+                            internet = 0
+                            try:
+                                # pobierz plik z repozytorium
+                                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
+                                urllib.request.urlretrieve(url, path)
+                                Gra = ["python", "Androidow.py"]
+                                subprocess.run(Gra)
+                            except:
+                                messagebox.showerror(
+                                    "Błąd", f'Ponownie wystąpił błąd połączenia z internetem. Nie można wykonać uruchomić.')
+                    except Exception as e:
+                        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+                        exc_type, exc_value, exc_traceback = sys.exc_info()
+                        # Odczytaj zawartość pliku Develop.txt w twoim programie
+                        path = os.path.join(os.getcwd(), "Develop.txt")
+                        if os.path.exists(path):
+                            with open(path, "r", encoding="utf-8") as f:
+                                plik_od_dewelopera = f.read().strip()
+                        else:
+                            plik_od_dewelopera = "BRAK PLIKU D"
                             messagebox.showerror(
-                                "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
-                            return
-                        elif dzisiaj == wygasa_data:
+                                "Błąd", 'Zapytaj twórcę programu o informacje')
+
+                        if plik_od_dewelopera != "BRAK PLIKU D":
+                            informacje_do_zgloszenia = plik_od_dewelopera.split(
+                                '\n')
+                            nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                            token_do_wpisania = informacje_do_zgloszenia[1]
+
+                            # pobierz datę wygaśnięcia
+                            wygasa_dnia = int(informacje_do_zgloszenia[2])
+                            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                            wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                            # utwórz obiekt daty z daty wygaśnięcia
+                            wygasa_data = datetime.date(
+                                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                            # pobierz dzisiejszą datę
+                            dzisiaj = datetime.date.today()
+                            # porównaj daty
+                            if dzisiaj > wygasa_data:
+                                messagebox.showerror(
+                                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                                return
+                            elif dzisiaj == wygasa_data:
+                                messagebox.showwarning(
+                                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                        else:
                             messagebox.showwarning(
-                                "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
-                    else:
-                        messagebox.showwarning(
-                            'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-                        return
+                                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                            return
 
-                    # ustawienia konta
-                    username = f'{nazwa_uzytkownika}'
-                    password = f'{token_do_wpisania}'
-                    repository_name = 'Ksao0/Repozytorium-magnesy-t'
-                    issue_title = 'Automatyczne zgłoszenie błędu z Opcje_eksperymentalne()'
-                    a = traceback.format_exc()
-                    aktualna_data_czas = datetime.datetime.now()
-                    format_data_czas = aktualna_data_czas.strftime(
-                        "%d.%m.%Y %H:%M")
-                    issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value }   \nTraceback:\n\n{a}"
+                        # ustawienia konta
+                        username = f'{nazwa_uzytkownika}'
+                        password = f'{token_do_wpisania}'
+                        repository_name = 'Ksao0/Repozytorium-magnesy-t'
+                        issue_title = 'Automatyczne zgłoszenie błędu z Opcje_eksperymentalne()'
+                        a = traceback.format_exc()
+                        aktualna_data_czas = datetime.datetime.now()
+                        format_data_czas = aktualna_data_czas.strftime(
+                            "%d.%m.%Y %H:%M")
+                        issue_body = f"Data: {format_data_czas} Błąd funkcji Opcje_eksperymentalne():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu:     {exc_value }   \nTraceback:\n\n{a}"
 
-                    # autentykacja
-                    g = Github(username, password)
+                        # autentykacja
+                        g = Github(username, password)
 
-                    # pobierz repozytorium
-                    repo = g.get_repo(repository_name)
+                        # pobierz repozytorium
+                        repo = g.get_repo(repository_name)
 
-                    # utwórz nowe zgłoszenie błędu
-                    repo.create_issue(title=issue_title, body=issue_body)
+                        # utwórz nowe zgłoszenie błędu
+                        repo.create_issue(title=issue_title, body=issue_body)
 
-                    messagebox.showinfo("Problem został zgłoszony",
-                                        "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-                    exit()
+                        messagebox.showinfo("Problem został zgłoszony",
+                                            "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
+                        exit()
 
             def moi_klienci():
+                if funkcja_eksperyment_2 != "Nie":
+                    def create_client_file(name, city, phone, additional_info):
+                        folder = "klienci"
+                        if not os.path.exists(folder):
+                            os.makedirs(folder)
+                        file_path = os.path.join(folder, f"KLIENT.{name}.txt")
+                        with open(file_path, "w") as file:
+                            file.write(
+                                f"{name}\n{city}\n{phone}\n{additional_info}")
 
-                def create_client_file(name, city, phone, additional_info):
-                    folder = "klienci"
-                    if not os.path.exists(folder):
-                        os.makedirs(folder)
-                    file_path = os.path.join(folder, f"KLIENT.{name}.txt")
-                    with open(file_path, "w") as file:
-                        file.write(
-                            f"{name}\n{city}\n{phone}\n{additional_info}")
+                    def delete_client_file(name):
+                        client_name, client_city = name.split(" - ")
+                        client_file_prefix = f"KLIENT.{client_name}"
 
-                def delete_client_file(name):
-                    client_name, client_city = name.split(" - ")
-                    client_file_prefix = f"KLIENT.{client_name}"
+                        # Usuń pliki klienta
+                        folder = "klienci"
+                        for file in os.listdir(folder):
+                            if file.startswith(client_file_prefix):
+                                file_path = os.path.join(folder, file)
+                                if os.path.exists(file_path):
+                                    os.remove(file_path)
 
-                    # Usuń pliki klienta
-                    folder = "klienci"
-                    for file in os.listdir(folder):
-                        if file.startswith(client_file_prefix):
-                            file_path = os.path.join(folder, file)
-                            if os.path.exists(file_path):
-                                os.remove(file_path)
+                        # Usuń plik historii klienta, jeśli istnieje
+                        history_file_path = f"klienci/KLIENT_HISTORIA.{client_name} - {client_city}.txt"
+                        if os.path.exists(history_file_path):
+                            os.remove(history_file_path)
 
-                    # Usuń plik historii klienta, jeśli istnieje
-                    history_file_path = f"klienci/KLIENT_HISTORIA.{client_name} - {client_city}.txt"
-                    if os.path.exists(history_file_path):
-                        os.remove(history_file_path)
+                    def load_clients_list():
+                        folder = "klienci"
+                        clients_list.delete(0, tk.END)
+                        if not os.path.exists(folder):
+                            return
 
-                def load_clients_list():
-                    folder = "klienci"
-                    clients_list.delete(0, tk.END)
-                    if not os.path.exists(folder):
-                        return
+                        client_names = []
 
-                    client_names = []
+                        for file in os.listdir(folder):
+                            if file.startswith("KLIENT.") and file.endswith(".txt"):
+                                client_name = file.split(".")[1]
+                                client_names.append(client_name)
 
-                    for file in os.listdir(folder):
-                        if file.startswith("KLIENT.") and file.endswith(".txt"):
-                            client_name = file.split(".")[1]
-                            client_names.append(client_name)
+                        client_names.sort()  # Sortuj nazwy klientów alfabetycznie
 
-                    client_names.sort()  # Sortuj nazwy klientów alfabetycznie
-
-                    for client_name in client_names:
-                        client_file_path = os.path.join(
-                            folder, f"KLIENT.{client_name}.txt")
-                        with open(client_file_path, "r") as client_file:
-                            client_data = client_file.read().splitlines()
-                        if len(client_data) >= 2:
-                            client_city = client_data[1]
-                        else:
-                            client_city = "Brak danych o miejscowości"
-                        clients_list.insert(
-                            tk.END, f"{client_name} - {client_city}")
-
-                def obliczenia(liczba_pakietow, cena_za_magnes, selected_client):
-
-                    # Zamiana na liczbę zmiennoprzecinkową
-                    if not liczba_pakietow.is_integer():
-                        messagebox.showerror(
-                            "Błąd", "Liczba pakietów nie może być liczbą z przecinkiem")
-                    if liczba_pakietow <= 0:
-                        messagebox.showerror(
-                            "Błąd", "Liczba pakietów musi być dodatnia")
-                        return
-
-                    if cena_za_magnes <= 0:
-                        messagebox.showerror(
-                            "Błąd", "Cena za magnes musi być dodatnia")
-                        return
-
-                    now = datetime.datetime.now()
-
-                    data_obliczenia = now.strftime(
-                        "%d.%m.%Y %H:%M:%S")
-
-                    # Liczenie kosztów
-
-                    # # Pobieranie kosztów z pliku
-                    path = os.path.join(os.getcwd(), "Ceny.txt")
-
-                    # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
-                    if os.path.exists(path):
-                        with open(path, "r", encoding='utf-8') as f:
-                            teraz_ceny = f.read()
-                    else:
-                        teraz_ceny = "13\n35\n18\n11"
-
-                    ceny_tektura = round(
-                        float(teraz_ceny.split('\n')[0]), 2)
-                    ceny_nadruk = round(
-                        float(teraz_ceny.split('\n')[1]), 2)
-                    ceny_foliamg = round(
-                        float(teraz_ceny.split('\n')[2]), 2)
-                    ceny_woreczkipp = round(
-                        float(teraz_ceny.split('\n')[3]), 2)
-
-                    magnesy_w_pakiecie = liczba_pakietow * 224
-                    cena_za_pakiet = cena_za_magnes * 224
-                    razem = cena_za_pakiet * liczba_pakietow
-
-                    tektura = ceny_tektura * liczba_pakietow
-                    nadruk = ceny_nadruk * liczba_pakietow
-                    foliamg = ceny_foliamg * liczba_pakietow
-                    woreczkipp = ceny_woreczkipp * liczba_pakietow
-
-                    koszty = tektura + nadruk + foliamg + woreczkipp
-                    bilans = razem - koszty
-
-                    wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
-
-                    history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
-
-                    # Pobranie starej zawartości pliku historii
-                    old_history = ""
-                    if os.path.exists(history_file_path):
-                        with open(history_file_path, "r") as history_file:
-                            old_history = history_file.read()
-
-                    # Zapis nowego wpisu do pliku historii
-                    with open(history_file_path, "w") as history_file:
-                        history_file.write(f"{wyniki_a}\n{old_history}")
-
-                def show_client_info():
-                    selected_client = clients_list.get(tk.ACTIVE)
-                    if selected_client:
-                        okno_rozwin_klienta = tk.Toplevel(okno_glowne_klientow)
-                        okno_rozwin_klienta.title(selected_client)
-
-                        # Ustawienie modality, aby wyłączyć możliwość używania innych okien
-                        okno_rozwin_klienta.transient(okno_glowne_klientow)
-                        # okno_rozwin_klienta.grab_set()
-
-                        label_pakietow = tk.Label(
-                            okno_rozwin_klienta, text="Liczba magnesów:")
-                        label_pakietow.pack()
-                        entry_pakietow_klient = tk.Entry(okno_rozwin_klienta)
-                        entry_pakietow_klient.pack()
-
-                        label_ceny = tk.Label(
-                            okno_rozwin_klienta, text="Cena za magnes:")
-                        label_ceny.pack()
-                        entry_ceny_klient = tk.Entry(okno_rozwin_klienta)
-                        entry_ceny_klient.pack()
-
-                        def dodaj_do_klienta():
-                            pakietow = entry_pakietow_klient.get()
-                            cena = entry_ceny_klient.get()
-
-                            if not pakietow or not cena:
-                                messagebox.showerror(
-                                    "Błąd", "Wszystkie pola muszą być wypełnione.")
-                                return
-
-                            try:
-                                # Zamiana na liczbę zmiennoprzecinkową
-                                liczba_pakietow = float(pakietow)
-                            except ValueError:
-                                messagebox.showerror(
-                                    "Błąd", "Niepoprawna wartość liczby pakietów.")
-                                return
-
-                            try:
-                                # Zamiana na liczbę zmiennoprzecinkową
-                                cena_za_magnes = float(cena.replace(",", "."))
-                            except ValueError:
-                                messagebox.showerror(
-                                    "Błąd", "Niepoprawna wartość ceny za magnes.")
-                                return
-
-                            obliczenia(liczba_pakietow,
-                                       cena_za_magnes, selected_client)
-
-                        def pokaz_historie_klienta():
-                            history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
-                            if os.path.exists(history_file_path):
-                                with open(history_file_path, "r") as history_file:
-                                    history_data = history_file.read()
-
-                                # Tworzenie nowego okna
-                                okno_historii = tk.Toplevel()
-                                okno_historii.title(
-                                    f"Historia klienta: {selected_client}")
-                                okno_historii.geometry("800x900")
-                                okno_historii.iconbitmap(file_path_ikonka)
-
-                                # Dodanie elementu ScrolledText
-                                pole_tekstowe = scrolledtext.ScrolledText(
-                                    okno_historii, wrap=tk.WORD)
-                                pole_tekstowe.pack(expand=True, fill=tk.BOTH)
-
-                                # Wstawienie zawartości historii do elementu ScrolledText
-                                pole_tekstowe.insert(tk.END, history_data)
-
-                        frame_przyciski = tk.Frame(okno_rozwin_klienta)
-                        frame_przyciski.pack()
-
-                        button_dodaj = tk.Button(
-                            frame_przyciski, text="Dodaj", command=dodaj_do_klienta)
-                        button_dodaj.pack(side=tk.LEFT)
-
-                        button_historia = tk.Button(
-                            frame_przyciski, text="Historia z klientem", command=pokaz_historie_klienta)
-                        button_historia.pack(side=tk.LEFT)
-
-                def edit_client_info():
-                    selected_client = clients_list.get(tk.ACTIVE)
-                    if selected_client:
-                        client_name = selected_client.split(" - ")[0]
-                        client_file_path = f"klienci/KLIENT.{client_name}.txt"
-
-                        if os.path.exists(client_file_path):
+                        for client_name in client_names:
+                            client_file_path = os.path.join(
+                                folder, f"KLIENT.{client_name}.txt")
                             with open(client_file_path, "r") as client_file:
                                 client_data = client_file.read().splitlines()
+                            if len(client_data) >= 2:
+                                client_city = client_data[1]
+                            else:
+                                client_city = "Brak danych o miejscowości"
+                            clients_list.insert(
+                                tk.END, f"{client_name} - {client_city}")
 
-                            okno_edytuj_klienta = tk.Toplevel(
-                                okno_glowne_klientow)
-                            okno_edytuj_klienta.title(
-                                f"Edycja danych klienta: {selected_client}")
+                    def obliczenia(liczba_pakietow, cena_za_magnes, selected_client):
 
-                            okno_edytuj_klienta.transient(okno_glowne_klientow)
-
-                            label_name = tk.Label(
-                                okno_edytuj_klienta, text="Nazwa klienta*:")
-                            label_name.pack()
-                            entry_name = tk.Entry(okno_edytuj_klienta)
-                            entry_name.pack()
-                            entry_name.insert(0, client_data[0])
-
-                            label_city = tk.Label(
-                                okno_edytuj_klienta, text="Miejscowość*:")
-                            label_city.pack()
-                            entry_city = tk.Entry(okno_edytuj_klienta)
-                            entry_city.pack()
-                            entry_city.insert(0, client_data[1])
-
-                            label_phone = tk.Label(
-                                okno_edytuj_klienta, text="Telefon:")
-                            label_phone.pack()
-                            entry_phone = tk.Entry(okno_edytuj_klienta)
-                            entry_phone.pack()
-
-                            if len(client_data) >= 3:
-                                entry_phone.insert(0, client_data[2])
-
-                            label_additional_info = tk.Label(
-                                okno_edytuj_klienta, text="Informacje dodatkowe:")
-                            label_additional_info.pack()
-                            entry_additional_info = tk.Entry(
-                                okno_edytuj_klienta)
-                            entry_additional_info.pack()
-
-                            if len(client_data) >= 4:
-                                entry_additional_info.insert(0, client_data[3])
-
-                            def save_edited_client():
-                                name = entry_name.get()
-                                if not name:
-                                    messagebox.showerror(
-                                        "Błąd", "Nazwa klienta jest wymagana.")
-                                    return
-                                city = entry_city.get()
-                                if not city:
-                                    messagebox.showerror(
-                                        "Błąd", "Miejscowość klienta jest wymagana.")
-                                    return
-                                phone = entry_phone.get()
-                                additional_info = entry_additional_info.get()
-
-                                with open(client_file_path, "w") as client_file:
-                                    client_file.write(
-                                        f"{name}\n{city}\n{phone}\n{additional_info}")
-                                okno_edytuj_klienta.destroy()
-                                load_clients_list()
-
-                            button_save = tk.Button(
-                                okno_edytuj_klienta, text="Zapisz zmiany", command=save_edited_client)
-                            button_save.pack()
-
-                def new_client():
-                    top = tk.Toplevel(okno_glowne_klientow)
-                    top.title("Nowy klient")
-                    top.geometry("210x250+250+200")
-
-                    top.transient(okno_glowne_klientow)
-
-                    label_name = tk.Label(top, text="Nazwa klienta*:")
-                    label_name.pack()
-                    entry_name = tk.Entry(top)
-                    entry_name.pack()
-
-                    label_city = tk.Label(top, text="Miejscowość*:")
-                    label_city.pack()
-                    entry_city = tk.Entry(top)
-                    entry_city.pack()
-
-                    label_phone = tk.Label(top, text="Telefon:")
-                    label_phone.pack()
-                    entry_phone = tk.Entry(top)
-                    entry_phone.pack()
-
-                    label_additional_info = tk.Label(
-                        top, text="Informacje dodatkowe:")
-                    label_additional_info.pack()
-                    entry_additional_info = tk.Entry(top)
-                    entry_additional_info.pack()
-
-                    def create_new_client():
-                        name = entry_name.get()
-                        if not name:
+                        # Zamiana na liczbę zmiennoprzecinkową
+                        if not liczba_pakietow.is_integer():
                             messagebox.showerror(
-                                "Błąd", "Nazwa klienta jest wymagana.")
-                            return
-                        city = entry_city.get()
-                        if not city:
+                                "Błąd", "Liczba pakietów nie może być liczbą z przecinkiem")
+                        if liczba_pakietow <= 0:
                             messagebox.showerror(
-                                "Błąd", "Miejscowość klienta jest wymagana.")
+                                "Błąd", "Liczba pakietów musi być dodatnia")
                             return
-                        phone = entry_phone.get()
-                        additional_info = entry_additional_info.get()
 
-                        create_client_file(name, city, phone, additional_info)
-                        top.destroy()
-                        load_clients_list()
+                        if cena_za_magnes <= 0:
+                            messagebox.showerror(
+                                "Błąd", "Cena za magnes musi być dodatnia")
+                            return
 
-                    button_create = tk.Button(
-                        top, text="Utwórz", command=create_new_client)
-                    button_create.pack()
+                        now = datetime.datetime.now()
 
-                def delete_client():
-                    selected_client = clients_list.get(tk.ACTIVE)
-                    if selected_client:
-                        response = messagebox.askyesno(
-                            "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?")
-                        if response == tk.YES:
-                            delete_client_file(selected_client)
+                        data_obliczenia = now.strftime(
+                            "%d.%m.%Y %H:%M:%S")
+
+                        # Liczenie kosztów
+
+                        # # Pobieranie kosztów z pliku
+                        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+                        # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+                        if os.path.exists(path):
+                            with open(path, "r", encoding='utf-8') as f:
+                                teraz_ceny = f.read()
+                        else:
+                            teraz_ceny = "13\n35\n18\n11"
+
+                        ceny_tektura = round(
+                            float(teraz_ceny.split('\n')[0]), 2)
+                        ceny_nadruk = round(
+                            float(teraz_ceny.split('\n')[1]), 2)
+                        ceny_foliamg = round(
+                            float(teraz_ceny.split('\n')[2]), 2)
+                        ceny_woreczkipp = round(
+                            float(teraz_ceny.split('\n')[3]), 2)
+
+                        magnesy_w_pakiecie = liczba_pakietow * 224
+                        cena_za_pakiet = cena_za_magnes * 224
+                        razem = cena_za_pakiet * liczba_pakietow
+
+                        tektura = ceny_tektura * liczba_pakietow
+                        nadruk = ceny_nadruk * liczba_pakietow
+                        foliamg = ceny_foliamg * liczba_pakietow
+                        woreczkipp = ceny_woreczkipp * liczba_pakietow
+
+                        koszty = tektura + nadruk + foliamg + woreczkipp
+                        bilans = razem - koszty
+
+                        wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f}     zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+
+                        history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+
+                        # Pobranie starej zawartości pliku historii
+                        old_history = ""
+                        if os.path.exists(history_file_path):
+                            with open(history_file_path, "r") as history_file:
+                                old_history = history_file.read()
+
+                        # Zapis nowego wpisu do pliku historii
+                        with open(history_file_path, "w") as history_file:
+                            history_file.write(f"{wyniki_a}\n{old_history}")
+
+                    def show_client_info():
+                        selected_client = clients_list.get(tk.ACTIVE)
+                        if selected_client:
+                            okno_rozwin_klienta = tk.Toplevel(okno_glowne_klientow)
+                            okno_rozwin_klienta.title(selected_client)
+
+                            # Ustawienie modality, aby wyłączyć możliwość używania innych okien
+                            okno_rozwin_klienta.transient(okno_glowne_klientow)
+                            # okno_rozwin_klienta.grab_set()
+
+                            label_pakietow = tk.Label(
+                                okno_rozwin_klienta, text="Liczba magnesów:")
+                            label_pakietow.pack()
+                            entry_pakietow_klient = tk.Entry(okno_rozwin_klienta)
+                            entry_pakietow_klient.pack()
+
+                            label_ceny = tk.Label(
+                                okno_rozwin_klienta, text="Cena za magnes:")
+                            label_ceny.pack()
+                            entry_ceny_klient = tk.Entry(okno_rozwin_klienta)
+                            entry_ceny_klient.pack()
+
+                            def dodaj_do_klienta():
+                                pakietow = entry_pakietow_klient.get()
+                                cena = entry_ceny_klient.get()
+
+                                if not pakietow or not cena:
+                                    messagebox.showerror(
+                                        "Błąd", "Wszystkie pola muszą być wypełnione.")
+                                    return
+
+                                try:
+                                    # Zamiana na liczbę zmiennoprzecinkową
+                                    liczba_pakietow = float(pakietow)
+                                except ValueError:
+                                    messagebox.showerror(
+                                        "Błąd", "Niepoprawna wartość liczby pakietów.")
+                                    return
+
+                                try:
+                                    # Zamiana na liczbę zmiennoprzecinkową
+                                    cena_za_magnes = float(cena.replace(",", "."))
+                                except ValueError:
+                                    messagebox.showerror(
+                                        "Błąd", "Niepoprawna wartość ceny za magnes.")
+                                    return
+
+                                obliczenia(liczba_pakietow,
+                                           cena_za_magnes, selected_client)
+
+                            def pokaz_historie_klienta():
+                                history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+                                if os.path.exists(history_file_path):
+                                    with open(history_file_path, "r") as history_file:
+                                        history_data = history_file.read()
+
+                                    # Tworzenie nowego okna
+                                    okno_historii = tk.Toplevel()
+                                    okno_historii.title(
+                                        f"Historia klienta: {selected_client}")
+                                    okno_historii.geometry("800x900")
+                                    okno_historii.iconbitmap(file_path_ikonka)
+
+                                    # Dodanie elementu ScrolledText
+                                    pole_tekstowe = scrolledtext.ScrolledText(
+                                        okno_historii, wrap=tk.WORD)
+                                    pole_tekstowe.pack(expand=True, fill=tk.BOTH)
+
+                                    # Wstawienie zawartości historii do elementu ScrolledText
+                                    pole_tekstowe.insert(tk.END, history_data)
+
+                            frame_przyciski = tk.Frame(okno_rozwin_klienta)
+                            frame_przyciski.pack()
+
+                            button_dodaj = tk.Button(
+                                frame_przyciski, text="Dodaj", command=dodaj_do_klienta)
+                            button_dodaj.pack(side=tk.LEFT)
+
+                            button_historia = tk.Button(
+                                frame_przyciski, text="Historia z klientem", command=pokaz_historie_klienta)
+                            button_historia.pack(side=tk.LEFT)
+
+                    def edit_client_info():
+                        selected_client = clients_list.get(tk.ACTIVE)
+                        if selected_client:
+                            client_name = selected_client.split(" - ")[0]
+                            client_file_path = f"klienci/KLIENT.{client_name}.txt"
+
+                            if os.path.exists(client_file_path):
+                                with open(client_file_path, "r") as client_file:
+                                    client_data = client_file.read().splitlines()
+
+                                okno_edytuj_klienta = tk.Toplevel(
+                                    okno_glowne_klientow)
+                                okno_edytuj_klienta.title(
+                                    f"Edycja danych klienta: {selected_client}")
+
+                                okno_edytuj_klienta.transient(okno_glowne_klientow)
+
+                                label_name = tk.Label(
+                                    okno_edytuj_klienta, text="Nazwa klienta*:")
+                                label_name.pack()
+                                entry_name = tk.Entry(okno_edytuj_klienta)
+                                entry_name.pack()
+                                entry_name.insert(0, client_data[0])
+
+                                label_city = tk.Label(
+                                    okno_edytuj_klienta, text="Miejscowość*:")
+                                label_city.pack()
+                                entry_city = tk.Entry(okno_edytuj_klienta)
+                                entry_city.pack()
+                                entry_city.insert(0, client_data[1])
+
+                                label_phone = tk.Label(
+                                    okno_edytuj_klienta, text="Telefon:")
+                                label_phone.pack()
+                                entry_phone = tk.Entry(okno_edytuj_klienta)
+                                entry_phone.pack()
+
+                                if len(client_data) >= 3:
+                                    entry_phone.insert(0, client_data[2])
+
+                                label_additional_info = tk.Label(
+                                    okno_edytuj_klienta, text="Informacje dodatkowe:")
+                                label_additional_info.pack()
+                                entry_additional_info = tk.Entry(
+                                    okno_edytuj_klienta)
+                                entry_additional_info.pack()
+
+                                if len(client_data) >= 4:
+                                    entry_additional_info.insert(0, client_data[3])
+
+                                def save_edited_client():
+                                    name = entry_name.get()
+                                    if not name:
+                                        messagebox.showerror(
+                                            "Błąd", "Nazwa klienta jest wymagana.")
+                                        return
+                                    city = entry_city.get()
+                                    if not city:
+                                        messagebox.showerror(
+                                            "Błąd", "Miejscowość klienta jest wymagana.")
+                                        return
+                                    phone = entry_phone.get()
+                                    additional_info = entry_additional_info.get()
+
+                                    with open(client_file_path, "w") as client_file:
+                                        client_file.write(
+                                            f"{name}\n{city}\n{phone}\n{additional_info}")
+                                    okno_edytuj_klienta.destroy()
+                                    load_clients_list()
+
+                                button_save = tk.Button(
+                                    okno_edytuj_klienta, text="Zapisz zmiany", command=save_edited_client)
+                                button_save.pack()
+
+                    def new_client():
+                        top = tk.Toplevel(okno_glowne_klientow)
+                        top.title("Nowy klient")
+                        top.geometry("210x250+250+200")
+
+                        top.transient(okno_glowne_klientow)
+
+                        label_name = tk.Label(top, text="Nazwa klienta*:")
+                        label_name.pack()
+                        entry_name = tk.Entry(top)
+                        entry_name.pack()
+
+                        label_city = tk.Label(top, text="Miejscowość*:")
+                        label_city.pack()
+                        entry_city = tk.Entry(top)
+                        entry_city.pack()
+
+                        label_phone = tk.Label(top, text="Telefon:")
+                        label_phone.pack()
+                        entry_phone = tk.Entry(top)
+                        entry_phone.pack()
+
+                        label_additional_info = tk.Label(
+                            top, text="Informacje dodatkowe:")
+                        label_additional_info.pack()
+                        entry_additional_info = tk.Entry(top)
+                        entry_additional_info.pack()
+
+                        def create_new_client():
+                            name = entry_name.get()
+                            if not name:
+                                messagebox.showerror(
+                                    "Błąd", "Nazwa klienta jest wymagana.")
+                                return
+                            city = entry_city.get()
+                            if not city:
+                                messagebox.showerror(
+                                    "Błąd", "Miejscowość klienta jest wymagana.")
+                                return
+                            phone = entry_phone.get()
+                            additional_info = entry_additional_info.get()
+
+                            create_client_file(name, city, phone, additional_info)
+                            top.destroy()
                             load_clients_list()
 
-                okno_glowne_klientow = tk.Tk()
-                okno_glowne_klientow.title("Lista klientów")
-                okno_glowne_klientow.geometry("410x250+250+200")
+                        button_create = tk.Button(
+                            top, text="Utwórz", command=create_new_client)
+                        button_create.pack()
 
-                button_new_client = tk.Button(
-                    okno_glowne_klientow, text="Nowy klient", command=new_client)
-                button_new_client.pack(side=tk.LEFT)
+                    def delete_client():
+                        selected_client = clients_list.get(tk.ACTIVE)
+                        if selected_client:
+                            response = messagebox.askyesno(
+                                "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?")
+                            if response == tk.YES:
+                                delete_client_file(selected_client)
+                                load_clients_list()
 
-                button_edit_client = tk.Button(
-                    okno_glowne_klientow, text="Edytuj klienta", command=edit_client_info)
-                button_edit_client.pack(side=tk.LEFT)
+                    okno_glowne_klientow = tk.Tk()
+                    okno_glowne_klientow.title("Lista klientów")
+                    okno_glowne_klientow.geometry("410x250+250+200")
 
-                button_delete_client = tk.Button(
-                    okno_glowne_klientow, text="Usuń klienta", command=delete_client)
-                button_delete_client.pack(side=tk.LEFT)
+                    button_new_client = tk.Button(
+                        okno_glowne_klientow, text="Nowy klient", command=new_client)
+                    button_new_client.pack(side=tk.LEFT)
 
-                clients_list = tk.Listbox(okno_glowne_klientow)
-                clients_list.pack(side=tk.RIGHT)
+                    button_edit_client = tk.Button(
+                        okno_glowne_klientow, text="Edytuj klienta", command=edit_client_info)
+                    button_edit_client.pack(side=tk.LEFT)
 
-                clients_list.bind("<Double-Button-1>",
-                                  lambda event: show_client_info())
+                    button_delete_client = tk.Button(
+                        okno_glowne_klientow, text="Usuń klienta", command=delete_client)
+                    button_delete_client.pack(side=tk.LEFT)
 
-                load_clients_list()
+                    clients_list = tk.Listbox(okno_glowne_klientow)
+                    clients_list.pack(side=tk.RIGHT)
 
-                okno_glowne_klientow.mainloop()
+                    clients_list.bind("<Double-Button-1>",
+                                      lambda event: show_client_info())
+
+                    load_clients_list()
+
+                    okno_glowne_klientow.mainloop()
 
         else:
             ukrywanie_bledu()

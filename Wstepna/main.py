@@ -3238,7 +3238,9 @@ def Opcje_eksperymentalne(okno_wyborowe):
                         messagebox.showinfo("Problem został zgłoszony",
                                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
                         exit()
-
+                else:
+                    messagebox.showerror("Odmowa dostępu", "Niestety, ta funkcja została tymczasowo zdalnie zablokowana")
+                    
             def moi_klienci():
                 if funkcja_eksperyment_2 != "Nie":
                     def create_client_file(name, city, phone, additional_info):
@@ -3602,6 +3604,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
                     load_clients_list()
 
                     okno_glowne_klientow.mainloop()
+                else:
+                    messagebox.showerror("Odmowa dostępu", "Niestety, ta funkcja została tymczasowo zdalnie zablokowana")
 
         else:
             ukrywanie_bledu()

@@ -208,7 +208,7 @@ print(Fore.YELLOW + 'Wykonywanie czynności początkowych...', Style.RESET_ALL)
 
 def ukrywanie_bledu():
     messagebox.showerror(
-        'Odmowa dostępu', "Niestety ta opcja jest tymczasowo zablokowana, spróbuj ponownie za kilka godzin lub dni\nTo nie jest błąd")
+        'Odmowa dostępu', "Niestety ta opcja jest tymczasowo zablokowana, spróbuj ponownie za kilka godzin lub dni")
 
 
 def blad_poczatkowe():
@@ -2809,10 +2809,10 @@ if internet == 1:
             print(Fore.CYAN +
                   f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
             print(Fore.CYAN +
-                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu opis precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w komunikacie precyzyjnym' + Style.    RESET_ALL)
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz poniżej.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych' + Style.    RESET_ALL)
 
             print(Fore.RED +
-                  f"\nKomunikat precyzyjny: {Komunikat_yN_first_line}")
+                  f"\nInformacje: {Komunikat_yN_first_line}")
             for linia in Komunikat_yN[1:]:
                 print(Fore.RED + linia)
             print(Style.RESET_ALL)
@@ -2844,10 +2844,10 @@ if internet == 1:
             print(Fore.CYAN +
                   f'Wersja w repozytorium: {version_online_first_line}\nStatus: ' + Fore.RED + 'yN')
             print(Fore.CYAN +
-                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz w polu komunikat precyzyjny.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych\nDokładne informacje w opisie precyzyjnym' + Style.    RESET_ALL)
+                  f'\nPole informacyjne (automatyczne): ' + Fore.RED + 'Błąd prawdopodobnie krytyczny\nPrace nad naprawą błędu wciąż trwają. Dokładne informacje znajdziesz poniżej.\nZalecamy, abyś nie korzystał z opcji dodatkowych (przycisk "Więcej opcji") oraz eksperymentalnych' + Style.    RESET_ALL)
 
             print(Fore.RED +
-                  f"\nOpis precyzyjny: {Komunikat_yN_first_line}")
+                  f"\nInformacje: {Komunikat_yN_first_line}")
             for linia in Komunikat_yN[1:]:
                 print(Fore.RED + linia)
             print(Style.RESET_ALL)

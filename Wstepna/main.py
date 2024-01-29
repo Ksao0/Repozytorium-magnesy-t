@@ -1002,7 +1002,7 @@ def taj():
             if version_online_lines[1] == "Status: B6" or version_online_lines[1] == "Status: Poprawki B6" and blokada_bledu == False:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
-                print(Fore.CYAN + 'Kod: B6')
+                print(Fore.BLUE + 'Kod: B6')
                 return
 
             # Prowadzone są intensywne zmiany

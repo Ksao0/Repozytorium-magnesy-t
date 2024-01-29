@@ -196,8 +196,12 @@ def restart_program():
 
     sleep(1)
     os.system('cls')
+    print(Fore.YELLOW + "Ponowne uruchamianie...")
     # Ponowne uruchomienie programu.
     python = sys.executable
+    python = sys.executable
+    python = sys.executable
+    sleep(1)
     os.execl(python, python, *sys.argv)
 
 

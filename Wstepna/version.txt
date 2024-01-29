@@ -1,12 +1,8 @@
-1.7.5.1.3-Beta
+1.7.5.1.4-Beta
 Status: Poprawka wersji
 Nazwa poprawki: Zabezpieczenia
 Wydano: 29.01.2024
 Informacja o bibliotekach: C3
 
-Główne zmiany dodane w wybranych aktualizacjach (od najnowszych):
- - Główne okno programu służy do sprawdzania danych  itp. (tak jak wcześniej),
-     okna klientów służą do zapisywania faktycznych transakcji w historii
- - Zmiany w funkcjach eksperymentalnych (dane o klientach)
-     Więcej opcji --> Opcje eksperymentalne --> Dane o klientach
- - Lepsza czytelność
+Informacje:
+Poprawki procesu aktualizacji i plików instalacyjnych

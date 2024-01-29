@@ -980,7 +980,7 @@ def taj():
                     version_online_first_line, version_local_lines[0], "Aktualizacja z nowymi bibliotekami")
                 exit()
             # Dostępna aktualizacja
-            if (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Poprawka wersji" and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]) and blokada_bledu == False:
+            if (version_online_lines[0] == version_local_lines[0] and (version_online_lines[1] == "Status: Poprawka wersji" or version_online_lines[1] == "Status: Poprawka") and version_online_lines[2] != version_local_lines[2]) or (version_online_lines[0] == version_local_lines[0] and version_online_lines[1] == "Status: Nowa wersja" and version_online_lines[2] != version_local_lines[2]) and blokada_bledu == False:
                 # Jest dostępna poprawka wersji, więc należy poinformować użytkownika o konieczności aktualizacji
                 message = f"Dostępna jest nowa wersja programu.\n   {version_online_lines[2]}\nCzy chcesz ją teraz zainstalować?"
                 response = messagebox.askyesno("Aktualizacja", message)
@@ -995,10 +995,11 @@ def taj():
                 else:
                     return
             # Prowadzone są intensywne zmiany
-            if version_online_lines[1] == "Status: B6" or version_online_lines[1] == "Status: Poprawki B7" and blokada_bledu == False:
+            if version_online_lines[1] == "Status: B6" or version_online_lines[1] == "Status: Poprawki B6" and blokada_bledu == False:
                 Aktualizacja = ["python", "WEW.py"]
                 subprocess.run(Aktualizacja)
                 print('Kod: B6')
+                return
 
             # Prowadzone są intensywne zmiany
             if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7" and blokada_bledu == False:
@@ -1013,6 +1014,7 @@ def taj():
                     print('Zaktualizowano!')
                     message = "Zmiany będą widoczne po następnym uruchomieniu"
                     messagebox.showinfo("Aktualizacja", message)
+                    return
                 else:
                     exit()
                     # Poprawki B7 nie zostały przyjęte:

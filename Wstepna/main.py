@@ -995,6 +995,12 @@ def taj():
                 else:
                     return
             # Prowadzone są intensywne zmiany
+            if version_online_lines[1] == "Status: B6" or version_online_lines[1] == "Status: Poprawki B7" and blokada_bledu == False:
+                Aktualizacja = ["python", "WEW.py"]
+                subprocess.run(Aktualizacja)
+                print('Kod: B6')
+
+            # Prowadzone są intensywne zmiany
             if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7" and blokada_bledu == False:
                 response = messagebox.askokcancel(
                     "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")

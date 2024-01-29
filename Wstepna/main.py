@@ -3387,7 +3387,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                             # okno_rozwin_klienta.grab_set()
 
                             label_pakietow = tk.Label(
-                                okno_rozwin_klienta, text="Liczba magnesów:")
+                                okno_rozwin_klienta, text="Liczba pakietów:")
                             label_pakietow.pack()
                             entry_pakietow_klient = tk.Entry(okno_rozwin_klienta)
                             entry_pakietow_klient.pack()

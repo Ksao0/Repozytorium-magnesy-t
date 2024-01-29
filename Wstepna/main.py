@@ -1182,7 +1182,7 @@ def aktul():
                     print(Fore.GREEN + 'Zakończono! ')
                     print(
                         Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
-                    if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie"):
+                    if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie.\nJeśli okno terminala się zamknie - uruchom program ponownie samodzielnie"):
                         sleep(1)
                         restart_program()
             else:

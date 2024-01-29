@@ -3614,156 +3614,158 @@ def Opcje_eksperymentalne(okno_wyborowe):
 
 
 def otworz_okno_wybor():
-    try:
-        global file_path_ikonka
-        if blokada_bledu == 0:
-            if random.choices([True, False], [0.15, 0.85])[0]:
-                ankieta()
+    if blokada_bledu == False:
+        try:
+            global file_path_ikonka
+            if blokada_bledu == 0:
+                if random.choices([True, False], [0.15, 0.85])[0]:
+                    ankieta()
 
-        def otworz_okno():
-            global okno_wyborowe_otwarte
-            okno_wyborowe_otwarte = 1
+            def otworz_okno():
+                global okno_wyborowe_otwarte
+                okno_wyborowe_otwarte = 1
 
-        def zamknij_okno():
-            global okno_wyborowe_otwarte
-            okno_wyborowe_otwarte = 0
-            okno_wyborowe.destroy()
+            def zamknij_okno():
+                global okno_wyborowe_otwarte
+                okno_wyborowe_otwarte = 0
+                okno_wyborowe.destroy()
 
-        if okno_wyborowe_otwarte == 0:
-            okno_wyborowe = tk.Toplevel()
-            okno_wyborowe.title("Okno wyborowe")
-            okno_wyborowe.geometry("370x480+800+0")
-            okno_wyborowe.iconbitmap(file_path_ikonka)
+            if okno_wyborowe_otwarte == 0:
+                okno_wyborowe = tk.Toplevel()
+                okno_wyborowe.title("Okno wyborowe")
+                okno_wyborowe.geometry("370x480+800+0")
+                okno_wyborowe.iconbitmap(file_path_ikonka)
 
-            # Dodanie przycisku do nowego okna
-            button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
+                # Dodanie przycisku do nowego okna
+                button = tk.Button(okno_wyborowe, text="Aktualizacja (terminal)",
                                command=aktul)
-            button.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Zaktualizuj program ręcznie i zapisz tę informację do historii.\nMożesz też zmienić wersję programu")
-            label_informacja.pack()
-            button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
-                                              command=wykasuj_zapisy)
-            button_wykasuj_zapisy.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
-            label_informacja.pack()
+                button.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Zaktualizuj program ręcznie i zapisz tę informację do historii.\nMożesz też zmienić wersję programu")
+                label_informacja.pack()
+                button_wykasuj_zapisy = tk.Button(okno_wyborowe, text="Wykasuj informacje o zapisach",
+                                                  command=wykasuj_zapisy)
+                button_wykasuj_zapisy.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Zostaną usunięte informacje o poprzednich oblczeniach.\nTej operacji nie można cofnąć.")
+                label_informacja.pack()
 
-            button_zmiana_danych = tk.Button(
-                okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
-            button_zmiana_danych.pack()
+                button_zmiana_danych = tk.Button(
+                    okno_wyborowe, text="Edytuj dane", command=edycja_kosztow)
+                button_zmiana_danych.pack()
 
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr, każda w nowej linii")
-            label_informacja.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Zmień przyjęte przez program parametry.\nJeśli wystąpią problemy z funkcją: Stwórz plik Ceny.txt\nz zawartością czterech dowolnych cyfr, każda w nowej linii")
+                label_informacja.pack()
 
-            button_rozwiaz_problemy = tk.Button(
-                okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
-            button_rozwiaz_problemy.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte (funkcja przestarzała)")
-            label_informacja.pack()
+                button_rozwiaz_problemy = tk.Button(
+                    okno_wyborowe, text="Rozwiąż problemy (terminal)", command=rozwiaz_problemy)
+                button_rozwiaz_problemy.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Program wykona czynność podobną do resetu.\nWszystkie dane zostaną usunięte (funkcja przestarzała)")
+                label_informacja.pack()
 
-            button_informacje_o_wersji = tk.Button(
-                okno_wyborowe, text="Informacje o wersji", command=informacje_o_wersji_utworz_okno)
-            button_informacje_o_wersji.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
-            label_informacja.pack()
+                button_informacje_o_wersji = tk.Button(
+                    okno_wyborowe, text="Informacje o wersji", command=informacje_o_wersji_utworz_okno)
+                button_informacje_o_wersji.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Wyświetl wszystkie informacje o wersji")
+                label_informacja.pack()
 
-            button_wykres = tk.Button(
-                okno_wyborowe, text="Stwórz wykres", command=wykres)
-            button_wykres.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Wygeneruj wykres na podstawie poprzednich obliczeń")
-            label_informacja.pack()
+                button_wykres = tk.Button(
+                    okno_wyborowe, text="Stwórz wykres", command=wykres)
+                button_wykres.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Wygeneruj wykres na podstawie poprzednich obliczeń")
+                label_informacja.pack()
 
-            def Opcje_eksperymentalne_podopcja():
-                Opcje_eksperymentalne(okno_wyborowe)
+                def Opcje_eksperymentalne_podopcja():
+                    Opcje_eksperymentalne(okno_wyborowe)
 
-            button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Opcje eksperymentalne", command=Opcje_eksperymentalne_podopcja)
-            button_zglos_problem.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Opcje, które nie są w pełni sprawdzone")
-            label_informacja.pack()
+                button_zglos_problem = tk.Button(
+                    okno_wyborowe, text="Opcje eksperymentalne", command=Opcje_eksperymentalne_podopcja)
+                button_zglos_problem.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Opcje, które nie są w pełni sprawdzone")
+                label_informacja.pack()
 
-            button_zglos_problem = tk.Button(
-                okno_wyborowe, text="Opinie", command=zglos_problem)
-            button_zglos_problem.pack()
-            label_informacja = tk.Label(
-                okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")
-            label_informacja.pack()
-            okno_wyborowe.protocol("WM_DELETE_WINDOW", zamknij_okno)
-            okno_wyborowe.bind("<Map>", lambda event: otworz_okno())
-            okno_wyborowe.mainloop()
-        else:
-            messagebox.showerror("Błąd", "To okno jest już otwarte!")
-    except Exception as e:
-        # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        # Odczytaj zawartość pliku Develop.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Develop.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                plik_od_dewelopera = f.read().strip()
-        else:
-            plik_od_dewelopera = "BRAK PLIKU D"
-            messagebox.showerror(
-                "Błąd", 'Zapytaj twórcę programu o informacje')
-
-        if plik_od_dewelopera != "BRAK PLIKU D":
-            informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
-            nazwa_uzytkownika = informacje_do_zgloszenia[0]
-            token_do_wpisania = informacje_do_zgloszenia[1]
-
-            # pobierz datę wygaśnięcia
-            wygasa_dnia = int(informacje_do_zgloszenia[2])
-            wygasa_miesiaca = int(informacje_do_zgloszenia[3])
-            wygasa_roku = int(informacje_do_zgloszenia[4])
-
-            # utwórz obiekt daty z daty wygaśnięcia
-            wygasa_data = datetime.date(
-                wygasa_roku, wygasa_miesiaca, wygasa_dnia)
-
-            # pobierz dzisiejszą datę
-            dzisiaj = datetime.date.today()
-            # porównaj daty
-            if dzisiaj > wygasa_data:
+                button_zglos_problem = tk.Button(
+                    okno_wyborowe, text="Opinie", command=zglos_problem)
+                button_zglos_problem.pack()
+                label_informacja = tk.Label(
+                    okno_wyborowe, text="Ta opcja jest dostępna tylka dla wybranych użytkowników.\nPoproś osobę odpowiedzialną za program o odpowiedni kod")
+                label_informacja.pack()
+                okno_wyborowe.protocol("WM_DELETE_WINDOW", zamknij_okno)
+                okno_wyborowe.bind("<Map>", lambda event: otworz_okno())
+                okno_wyborowe.mainloop()
+            else:
+                messagebox.showerror("Błąd", "To okno jest już otwarte!")
+        except Exception as e:
+            # obsługa błędu i wyświetlenie dokładniejszych informacji o błędzie
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            # Odczytaj zawartość pliku Develop.txt w twoim programie
+            path = os.path.join(os.getcwd(), "Develop.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    plik_od_dewelopera = f.read().strip()
+            else:
+                plik_od_dewelopera = "BRAK PLIKU D"
                 messagebox.showerror(
-                    "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
-                return
-            elif dzisiaj == wygasa_data:
+                    "Błąd", 'Zapytaj twórcę programu o informacje')
+
+            if plik_od_dewelopera != "BRAK PLIKU D":
+                informacje_do_zgloszenia = plik_od_dewelopera.split('\n')
+                nazwa_uzytkownika = informacje_do_zgloszenia[0]
+                token_do_wpisania = informacje_do_zgloszenia[1]
+
+                # pobierz datę wygaśnięcia
+                wygasa_dnia = int(informacje_do_zgloszenia[2])
+                wygasa_miesiaca = int(informacje_do_zgloszenia[3])
+                wygasa_roku = int(informacje_do_zgloszenia[4])
+
+                # utwórz obiekt daty z daty wygaśnięcia
+                wygasa_data = datetime.date(
+                    wygasa_roku, wygasa_miesiaca, wygasa_dnia)
+
+                # pobierz dzisiejszą datę
+                dzisiaj = datetime.date.today()
+                # porównaj daty
+                if dzisiaj > wygasa_data:
+                    messagebox.showerror(
+                        "Czas minął", "Token zaufanego użytkownika wygasł. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
+                    return
+                elif dzisiaj == wygasa_data:
+                    messagebox.showwarning(
+                        "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby     odpowiedzialnej za program!")
+            else:
                 messagebox.showwarning(
-                    "Czas mija...", "Token zaufanego użytkownika wygasa dzisiaj. Jak najszybciej zgłoś się do osoby odpowiedzialnej za program!")
-        else:
-            messagebox.showwarning(
-                'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
-            return
+                    'Błąd', 'Niestety nie można zgłosić tego błędu automatycznie. Jak najszybciej zgłoś sie do osoby odpowiedzialnej za program!')
+                return
 
-        # ustawienia konta
-        username = f'{nazwa_uzytkownika}'
-        password = f'{token_do_wpisania}'
-        repository_name = 'Ksao0/Repozytorium-magnesy-t'
-        issue_title = 'Automatyczne zgłoszenie błędu z otworz_okno_wybor()'
-        a = traceback.format_exc()
-        aktualna_data_czas = datetime.datetime.now()
-        format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
-        issue_body = f"Data: {format_data_czas} Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika}\n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
+            # ustawienia konta
+            username = f'{nazwa_uzytkownika}'
+            password = f'{token_do_wpisania}'
+            repository_name = 'Ksao0/Repozytorium-magnesy-t'
+            issue_title = 'Automatyczne zgłoszenie błędu z otworz_okno_wybor()'
+            a = traceback.format_exc()
+            aktualna_data_czas = datetime.datetime.now()
+            format_data_czas = aktualna_data_czas.strftime("%d.%m.%Y %H:%M")
+            issue_body = f"Data: {format_data_czas} Błąd funkcji otworz_okno_wybor():\n{e}\nWystąpił u: {nazwa_uzytkownika} \n\nTyp błędu: {exc_type}\nWartość błędu: {exc_value}\nTraceback:\n\n{a}"
 
-        # autentykacja
-        g = Github(username, password)
+            # autentykacja
+            g = Github(username, password)
 
-        # pobierz repozytorium
-        repo = g.get_repo(repository_name)
+            # pobierz repozytorium
+            repo = g.get_repo(repository_name)
 
-        # utwórz nowe zgłoszenie błędu
-        repo.create_issue(title=issue_title, body=issue_body)
+            # utwórz nowe zgłoszenie błędu
+            repo.create_issue(title=issue_title, body=issue_body)
 
-        messagebox.showinfo("Problem został zgłoszony",
+            messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
-        exit()
-
+            exit()
+    else:
+        ukrywanie_bledu()
 
 # Dodanie etykiet i pól tekstowych
 label_pakietow = tk.Label(root, text="Liczba pakietów:")

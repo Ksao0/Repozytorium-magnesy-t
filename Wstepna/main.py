@@ -44,7 +44,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = "Czy ty to w ogóle czytasz?"
+dodatkowe_od_tworcy = "\n\nCzy ty to w ogóle czytasz?"
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)

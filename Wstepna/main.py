@@ -212,7 +212,7 @@ def ukrywanie_bledu():
 
 
 def blad_poczatkowe():
-    message = "Podczas uruchamiania programu nie było dostępu do internetu. Czynności początkowe nie zostały wykonane, więc ta opcja jest niedostępna. Czy chcesz wykonać czynnoci początkowe"
+    message = "Podczas uruchamiania programu nie było dostępu do internetu. Z tego powodu niektóre paremetry są niedostępne. Czy wczytać ponownie?"
     response = messagebox.askokcancel("Błąd", message)
     if response == True:
         czynnosci_poczatkowe()
@@ -284,21 +284,21 @@ def zglos_problem():
                             if selected_category == "Błąd":
                                 if len(issue_description.strip()) < 100:
                                     messagebox.showwarning(
-                                        "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 100 znaków (około 17 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie     zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                        "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 100 znaków (około 17 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
                                     return
                             elif selected_category == "Propozycja":
                                 if len(issue_description.strip()) < 150:
                                     messagebox.showwarning(
-                                        "Opisz dokładniej", "Jeśli chcesz zaproponować nową funkcję, musisz mieć na nią szczegółowy plan. Opisz ją dokładniej (treść propozycji musi mieć co    najmniej 150 znaków)")
+                                        "Opisz dokładniej", "Jeśli chcesz zaproponować nową funkcję, musisz mieć na nią szczegółowy plan. Opisz ją dokładniej (treść propozycji musi mieć co najmniej 150 znaków)")
                                     return
                             elif selected_category == "Interfejs programu":
                                 if len(issue_description.strip()) < 70:
                                     messagebox.showwarning(
-                                        "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (około 15 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie  zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                        "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (około 15 słów). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
                                     return
                             else:
                                 messagebox.showwarning(
-                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (to około 13 słów, zalecamy bardziej opisowe zgłoszenia). Opisz wszystko jak  najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
+                                    "Opisz dokładniej", "Treść zgłoszenia musi mieć co najmniej 70 znaków (to około 13 słów, zalecamy bardziej opisowe zgłoszenia). Opisz wszystko jak najdokładniej, jeśli się do tego nie zastosujesz - nie będziemy się domyślać i twoje zgłoszenie zostanie usunięte")
                                 return
 
                         if not plik_od_dewelopera == "BRAK PLIKU D":
@@ -747,7 +747,7 @@ def taj():
         if wstepna_version_online_lines[1] == "Status: yN":
             os.system('cls')
             print(Fore.RED + "Niestety nie możemy pobrać najnowszej wersji programu, ponieważ wystąpił krytyczny błąd związany z kodem\n"
-                  + "Opcje aktualizacji zostały wyłączone do odwołania, wiekszość informacji o najnowszej wersji może być nieprawidłowa")
+                  + "Opcje aktualizacji zostały wyłączone do odwołania")
             global blokada_bledu
             blokada_bledu = True
 
@@ -801,7 +801,7 @@ def taj():
             if version_online_lines[4] != version_local_lines[4] or lista_b_online != lista_b_local:
                 biblioteki_pobrane = False
                 messagebox.showwarning(
-                    "Wymagane biblioteki", "Po aktualizacji do działania programu wymagane są nowe biblioteki. Zainstaluj je jak najszybciej. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
+                    "Wymagane biblioteki", "Po aktualizacji do działania programu WYMAGANE są nowe biblioteki. Zainstaluj je. Wszystkie dane zostaną wyświetlone w terminalu (czarne okno w tle)")
 
                 print(Fore.CYAN + f'{version_online}')
 
@@ -997,7 +997,7 @@ def taj():
             # Prowadzone są intensywne zmiany
             if version_online_lines[1] == "Status: B7" or version_online_lines[1] == "Status: Poprawki B7" and blokada_bledu == False:
                 response = messagebox.askokcancel(
-                    "Aktualizacja", "Prowadzone są intensywne zmiany w programie lub wykryto poważny błąd. Przez pewien czas program będzie aktualizowany przed każdym użyciem.\nCzy chcesz kontynuuować?")
+                    "Aktualizacja", "Program będzie tymczasowo aktualizowany przed każdym użyciem\nCzy chcesz kontynuuować?")
                 if response == True:
                     # Użytkownik chce zaktualizować program, więc wykonaj aktualizację
                     Aktualizacja = ["python", "WEW.py"]
@@ -1032,7 +1032,7 @@ def taj():
                     restart_program()
             else:
                 messagebox.showerror(
-                    "Błąd danych", "Wystąpił niezależny błąd danych spowodowany działaniem użytkownika. Ten błąd zostanie naprawiony po zaktualizowaniu programu")
+                    "Błąd danych", "Wystąpił niezależny błąd danych wersji spowodowany działaniem użytkownika. Ten błąd zostanie naprawiony po zaktualizowaniu programu")
 
         try:
             # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
@@ -2182,7 +2182,7 @@ def informacje_o_wersji_utworz_okno():
 
                             def co_znaczniki():
                                 messagebox.showinfo(
-                                    'Wyjaśnienia', 'Używamy ich, aby uprścić nasz dziennik, oto ich znaczenia:\n'
+                                    'Wyjaśnienia', 'Używamy ich, aby uszczegółowić nasz dziennik, oto ich znaczenia:\n'
                                     + '"[]" - Notatka i/lub zapowiedź\n'
                                     + '"/" - Całkowite usunięcie błędu bez wieloetapowych napraw\n'
                                     + '"/\\" - Usunięcie wcześniej wykrytego błędu, który mógł być wielokrotnie naprawiany z wykorzystaniem znacznika "///" i/lub "!", '  # Nowa linia kodu
@@ -2213,7 +2213,7 @@ def informacje_o_wersji_utworz_okno():
                             button_dziennik_b.pack(side=tk.LEFT)
 
                             def nieuzupelnione_zmiany():
-                                messagebox.showinfo('Dlaczego dziennik zmian nie jest uzupełniany?', 'Dziennik zmian nie jest uzupełniany jeżeli aktualizacja nie ma żadnego znaczenia dla  użytkowania programu, np. jeśli usuniemy literówki, zmienimy formatowanie kodu lub nazwę zminnej. Takie wpisy byłyby zbyt częste\nJeśli uważasz, że zmiana   powinna zostac wpisana - zgłoś nam to za pomocą opcji "Zgłoś problemy lub propozycje".')
+                                messagebox.showinfo('Dlaczego dziennik zmian nie jest uzupełniany?', 'Dziennik zmian nie jest uzupełniany jeżeli aktualizacja nie ma żadnego znaczenia dla użytkowania programu, np. jeśli usuniemy literówki, zmienimy formatowanie kodu lub nazwę zminnej. Takie wpisy byłyby zbyt częste\nJeśli uważasz, że zmiana powinna zostac wpisana - zgłoś nam to za pomocą opcji "Zgłoś problemy lub propozycje".')
 
                             button_dziennik_b = tk.Button(
                                 frame_przyciski, text=f"Dziennik zmian nie jest uzupełniany", command=nieuzupelnione_zmiany)
@@ -3350,7 +3350,7 @@ def Opcje_eksperymentalne(okno_wyborowe):
                         koszty = tektura + nadruk + foliamg + woreczkipp
                         bilans = razem - koszty
 
-                        wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f}     zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+                        wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
 
                         history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
 

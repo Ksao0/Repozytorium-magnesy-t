@@ -44,7 +44,7 @@ okno_problemu_otwarte = 0
 okno_wyborowe_otwarte = 0
 internet = 1
 
-dodatkowe_od_tworcy = "\n\nCzy ty to w ogóle czytasz?"
+dodatkowe_od_tworcy = '\n\nChciałbyś, abyś mógł przenieść historię obliczeń z telefonu na komputer? Wtedy miałbyś opcję generowania wykresów\n (dostępną od wielu miesięcy w przypadku danych z komputera) również z tych wygenerowanych na telefonie\nMasz jakiś pomysł, jak mogłoby się to dziać?\n Niestety nie mogę tego zrobić przez Wi-Fi\nPozostaje jedynie metoda z podłączaniem kabla do komputera, ale wtedy musiałbyś wiedzieć, gdzie dokładnie na telefonie znajduje się plik historii i przenieść go do folderu na komputerze. Całe dekodowanie itp. byłoby po stronie programu.\n\nAby zobaczyć, jak teraz wyglądają wykresy wejdź w "Więcej opcji" --> "Stwórz wykres"'
 
 # Wywołanie funkcji startowej.
 # Inicjalizacja modułu colorama (do kolorowego tekstu)

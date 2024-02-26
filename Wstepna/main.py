@@ -66,6 +66,14 @@ while True:
         tlo_thread.daemon = True
         tlo_thread.start()
 
+
+    tytul_powiadomienia_nowe = "To powiadomienia!!!"
+    tresc_powiadomienia_nowe = "Jeśli to widzisz, to właśnie udało mi się ogarnąć tworzenie powiadomień!\nSpokojnie, nie będę ich wysyłał, to tylko test ;)"
+
+    # Wywołanie funkcji z nowymi danymi
+    powiadomienie_jednorazowe(tytul_powiadomienia_nowe, tresc_powiadomienia_nowe)
+
+
     global okno_informacje_otwarte
     global okno_edycja_kosztow_otwarte
     global okno_problemu_otwarte

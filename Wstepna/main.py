@@ -217,11 +217,12 @@ def ukrywanie_bledu():
 
 def blad_poczatkowe():
     message = 'Podczas uruchamiania programu nie było dostępu do internetu. Z tego powodu niektóre działania są niedostępne. Czy spróbować ponownie?\nNaciśnięcie "Nie" oznacza uruchomienie trybu offline'
-    response = messagebox.askquestion("Błąd", message)
+    response = messagebox.askquestion("Brak dostępu do internetu", message)
     if response == True:
         czynnosci_poczatkowe()
     else:
-        message = "Tego trybu nie używa się na co dzień, więc trudniej jest wyłapać ewentualne błędy.\nProgramowałem zakładając, że raczej będziesz mieć dostęp do internetu.\nBłędy na pewno nie występują podczas zwykłego liczenia.\n W razie czego je zgłaszaj"
+        message = "Tego trybu nie używa się na co dzień, więc trudniej jest wyłapać ewentualne błędy.\nProgramowałem zakładając, że raczej będziesz mieć dostęp do internetu.\nBłędy na pewno nie występują podczas zwykłego liczenia.\n W razie czego je zgłaszaj. Oczywiście jak odzyskasz sieć ;)"
+        response = messagebox.showinfo("Brak dostępu do internetu", message)
         return
 
 

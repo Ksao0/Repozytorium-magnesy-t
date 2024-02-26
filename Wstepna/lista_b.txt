@@ -20,3 +20,5 @@
  - Pilow
  - colorama
  - tqdm
+ - win10toast
+ - threading

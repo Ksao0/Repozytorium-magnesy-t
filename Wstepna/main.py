@@ -221,6 +221,7 @@ def blad_poczatkowe():
     if response == True:
         czynnosci_poczatkowe()
     else:
+        message = "Tego trybu nie używa się na co dzień, więc trudniej jest wyłapać ewentualne błędy.\nProgramowałem zakładając, że raczej będziesz mieć dostęp do internetu.\nBłędy na pewno nie występują podczas zwykłego liczenia.\n W razie czego je zgłaszaj"
         return
 
 

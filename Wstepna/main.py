@@ -216,7 +216,7 @@ def ukrywanie_bledu():
 
 
 def blad_poczatkowe():
-    message = "Podczas uruchamiania programu nie było dostępu do internetu. Z tego powodu niektóre paremetry są niedostępne. Czy wczytać ponownie?\nNaciśnięcie Nioznacza uruchomienie trybu offline"
+    message = 'Podczas uruchamiania programu nie było dostępu do internetu. Z tego powodu niektóre działania są niedostępne. Czy spróbować ponownie?\nNaciśnięcie "Nie" oznacza uruchomienie trybu offline'
     response = messagebox.askquestion("Błąd", message)
     if response == True:
         czynnosci_poczatkowe()

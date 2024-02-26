@@ -3628,7 +3628,8 @@ def Opcje_eksperymentalne(okno_wyborowe):
 
 
 def otworz_okno_wybor():
-    if blokada_bledu == False:
+    global internet
+    if blokada_bledu == False or internet == 1:
         try:
             global file_path_ikonka
             if blokada_bledu == 0:
@@ -3778,8 +3779,13 @@ def otworz_okno_wybor():
             messagebox.showinfo("Problem został zgłoszony",
                             "Problem, który wystąpił został zgłoszony! Postaramy się jak najszybciej go naprawić.")
             exit()
-    else:
+    elif blokada_bledu == True:
         ukrywanie_bledu()
+    else:
+        print('Wykryto brak połączenia z internetem')
+        messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Sprawdź połączenie z internetem, a następnie naciśnij ok')
+        internet = 0
 
 # Dodanie etykiet i pól tekstowych
 label_pakietow = tk.Label(root, text="Liczba pakietów:")

@@ -1,2 +1,1 @@
-1.7.2.7-Beta
-1.6.1.2 Wstępna (ost)
+# 1.6.1.3 Wstępna

@@ -13,7 +13,7 @@ import sys
 import traceback
 import matplotlib.pyplot as plt
 from colorama import init, Fore, Style
-
+import time
 global klamstwo
 klamstwo = False
 
@@ -69,6 +69,8 @@ try:
 
     Aktualizacja = ["python", "Aktualizacja.py"]
     subprocess.run(Aktualizacja)
+
+    time.sleep(1)  # Dodatkowe opóźnienie, aby uniknąć intensywnego użycia CPU
 
     input(Fore.CYAN + "Naciśnij klawisz Enter, aby zakończyć...")
 except Exception as e:

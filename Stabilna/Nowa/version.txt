@@ -1,5 +1,5 @@
 1.7.5.2
-Status: Nowa wersja
+Status: B6
 Nazwa poprawki: Zabezpieczenia +
 Wydano: 08.03.2024
 Informacja o bibliotekach: C4

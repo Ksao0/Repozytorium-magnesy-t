@@ -67,6 +67,8 @@ try:
     print(Fore.GREEN + "Zakończono aktualizację II poziomu\n")
     print(Fore.YELLOW + 'Rozpoczynanie aktualizacji I poziomu')
 
+    time.sleep(1)  # Dodatkowe opóźnienie, aby uniknąć intensywnego użycia CPU
+
     Aktualizacja = ["python", "Aktualizacja.py"]
     subprocess.run(Aktualizacja)
 

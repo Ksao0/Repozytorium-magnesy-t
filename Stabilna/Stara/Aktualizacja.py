@@ -41,7 +41,7 @@ while od_nowa == 1:
 
         wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
         if wersja_programu == 1:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             stabilna_version_online = response.content.decode('utf-8').strip()
@@ -57,7 +57,7 @@ while od_nowa == 1:
                     os.remove(path)
                 # print("Usunięto plik main.py")
                 # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/main.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/main.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik main.py")
 
@@ -72,7 +72,7 @@ while od_nowa == 1:
                     os.remove(path)
                 # print("Usunięto plik Aktualizator_aktualizatora.py")
                 # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Aktualizator_aktualizatora.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik Aktualizator_aktualizatora.py")
 
@@ -94,7 +94,7 @@ while od_nowa == 1:
                 # print("Usunięto plik version.txt")
 
                 # pobierz plik version.txt z repozytorium i utwórz go
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/version.txt"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik version.txt")
 
@@ -164,7 +164,7 @@ while od_nowa == 1:
                     os.remove(path)
                 # print("Usunięto plik Aktualizator_aktualizatora.py")
                 # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Stara/Aktualizator_aktualizatora.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Aktualizator_aktualizatora.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik Aktualizator_aktualizatora.py")
                 print(Fore.GREEN + 'Zakończono aktualizację I poziomu')

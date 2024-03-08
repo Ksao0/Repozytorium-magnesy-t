@@ -62,7 +62,7 @@ while True:
 
         def powiadomienie_w_tle():
             toaster = MyToastNotifier()
-            toaster.show_toast(msg=tresc_powiadomienia, duration=5)
+            toaster.show_toast(msg=tresc_powiadomienia, duration=3)
 
         # Uruchomienie funkcji w oddzielnym wątku
         tlo_thread = threading.Thread(target=powiadomienie_w_tle)

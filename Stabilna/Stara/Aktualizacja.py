@@ -39,7 +39,16 @@ while od_nowa == 1:
             os.remove(path)
         print(Fore.CYAN + 'Jaką wersję programu chcesz pobrać:\n1: Wersja stabilna\n2: Wersja beta (zalecana)\n')
 
-        wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
+        poprawna = "Nie"
+
+        while poprawna != "Tak":
+            try:
+                wersja_programu = int(input(Fore.CYAN + "Podaj wersję programu: "))
+                poprawna = "Tak"  # Jeśli wprowadzono poprawną liczbę, zakończ pętlę
+            except ValueError:
+                print(Fore.RED + "Błąd: Wprowadź poprawną liczbę.")
+
+
         if wersja_programu == 1:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt'
             response = requests.get(url)

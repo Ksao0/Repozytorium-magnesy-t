@@ -1,4 +1,4 @@
-1.7.5.2-Beta
+1.7.5.3-Beta
 Status: B6
 Nazwa poprawki: Zabezpieczenia +
 Wydano: 26.02.2024

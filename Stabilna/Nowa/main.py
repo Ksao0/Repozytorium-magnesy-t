@@ -1244,11 +1244,17 @@ while True:
                             os.remove(path)
 
                         # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Aktualizator_aktualizatora.py"
+                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
                         urllib.request.urlretrieve(url, path)
 
                         Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
                         subprocess.run(Aktualizacja)
+
+                        time.sleep(1)  # Dodatkowe opóźnienie, aby uniknąć intensywnego użycia CPU
+
+                        input(Fore.CYAN + "Naciśnij klawisz Enter, aby zakończyć...")
+                        
+                        time.sleep(1)  # Dodatkowe opóźnienie, aby uniknąć intensywnego użycia CPU
 
                         # Odczytaj zawartość pliku version.txt w twoim programie
                         path = os.path.join(os.getcwd(), "version.txt")
@@ -1265,8 +1271,9 @@ while True:
                         print(Fore.GREEN + 'Zakończono! ')
                         print(
                             Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
+                        sleep(2)
                         if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie.\nJeśli okno terminala się zamknie - uruchom program ponownie samodzielnie"):
-                            sleep(1)
+                            sleep(2)
                             restart_program()
                 else:
                     blad_poczatkowe()

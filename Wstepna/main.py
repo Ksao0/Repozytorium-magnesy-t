@@ -1250,6 +1250,12 @@ while True:
                         Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
                         subprocess.run(Aktualizacja)
 
+                        time.sleep(1)  # Dodatkowe opóźnienie, aby uniknąć intensywnego użycia CPU
+
+                        input(Fore.CYAN + "Naciśnij klawisz Enter, aby zakończyć...")
+                        
+                        time.sleep(1)  # Dodatkowe opóźnienie, aby uniknąć intensywnego użycia CPU
+
                         # Odczytaj zawartość pliku version.txt w twoim programie
                         path = os.path.join(os.getcwd(), "version.txt")
                         if os.path.exists(path):
@@ -1265,8 +1271,9 @@ while True:
                         print(Fore.GREEN + 'Zakończono! ')
                         print(
                             Fore.YELLOW + 'Program zostanie uruchomiony ponownie.' + Style.RESET_ALL)
+                        sleep(2)
                         if messagebox.showinfo("Aktualizacja", "Program zostanie uruchomiony ponownie.\nJeśli okno terminala się zamknie - uruchom program ponownie samodzielnie"):
-                            sleep(1)
+                            sleep(2)
                             restart_program()
                 else:
                     blad_poczatkowe()

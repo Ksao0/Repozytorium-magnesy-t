@@ -1,4 +1,4 @@
-1.7.5.2
+1.7.5.3
 Status: B6
 Nazwa poprawki: Zabezpieczenia +
 Wydano: 08.03.2024

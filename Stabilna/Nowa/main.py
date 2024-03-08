@@ -118,7 +118,7 @@ while True:
     def download_icon():
         try:
             # Zmień na właściwy adres URL pliku .ico
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy2.ico"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/ikona_magnesy2.ico"
             save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
 
             # Utworzenie folderu "rei", jeśli nie istnieje
@@ -242,7 +242,7 @@ while True:
         try:
             path = os.path.join(os.getcwd(), "WEW.py")
             # pobierz plik WEW.py z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/WEW.py"
             urllib.request.urlretrieve(url, path)
             # print("Zastąpiono plik WEW.py")
         except:
@@ -560,7 +560,7 @@ while True:
             global dane_reia
 
             try:
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/reia.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/reia.txt'
                 response = requests.get(url)
                 response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                 dane_reia = response.content.decode('utf-8').strip()
@@ -583,7 +583,7 @@ while True:
                 # print("Usunięto plik WEW.py")
             try:
                 # pobierz plik main.py z repozytorium
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/WEW.py"
                 urllib.request.urlretrieve(url, path)
                 # print("Zastąpiono plik WEW.py")
             except:
@@ -593,7 +593,7 @@ while True:
                 internet = 0
                 try:
                     # pobierz plik main.py z repozytorium
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/WEW.py"
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/WEW.py"
                     urllib.request.urlretrieve(url, path)
                     # print("Zastąpiono plik WEW.py")
                 except:
@@ -679,7 +679,7 @@ while True:
         try:
             try:
                 # Pobierz zawartość pliku prefvers.txt z repozytorium na GitHub
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/prefvers.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/prefvers.txt'
                 response = requests.get(url)
                 response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                 prefvers = response.content.decode('utf-8').strip()
@@ -809,7 +809,7 @@ while True:
 
             # Pobierz zawartość pliku version.txt z repozytorium na GitHub
             try:
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt'
                 response = requests.get(url)
                 response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                 version_online = response.content.decode('utf-8').strip()
@@ -827,7 +827,7 @@ while True:
                 blokada_bledu = True
 
             try:
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/lista_b.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/lista_b.txt'
                 response = requests.get(url)
                 response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                 lista_b_online = response.content.decode('utf-8').strip()
@@ -1119,7 +1119,7 @@ while True:
 
             try:
                 # Pobierz zawartość pliku nprefvers.txt z repozytorium na GitHub
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/nprefvers.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/nprefvers.txt'
                 response = requests.get(url)
                 response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                 nprefvers = response.content.decode('utf-8').strip()
@@ -1244,7 +1244,7 @@ while True:
                             os.remove(path)
 
                         # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Aktualizator_aktualizatora.py"
                         urllib.request.urlretrieve(url, path)
 
                         Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
@@ -2170,7 +2170,7 @@ while True:
                         version_online = "BRAK DANYCH"
                         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
                         try:
-                            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+                            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt'
                             response = requests.get(url)
                             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                             version_online = response.content.decode(
@@ -2182,7 +2182,7 @@ while True:
                         dziennik_z_online = "BRAK DANYCH"
                         # Pobierz zawartość pliku Dziennk_b.txt z repozytorium na GitHub
                         try:
-                            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Dziennik_b.txt'
+                            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Dziennik_b.txt'
                             response = requests.get(url)
                             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
                             dziennik_z_online = response.content.decode(
@@ -2684,7 +2684,7 @@ while True:
             if os.path.exists(path):
                 os.remove(path)
             # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Aktualizator_aktualizatora.py"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Aktualizator_aktualizatora.py"
             urllib.request.urlretrieve(url, path)
 
             # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
@@ -2844,7 +2844,7 @@ while True:
     if internet == 1:
         if blokada_bledu == True:
             # pobierz zawartość pliku version.txt z repozytorium na GitHub
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt'
             response = requests.get(url)
 
             version_online = response.content.decode('utf-8').strip()
@@ -2880,7 +2880,7 @@ while True:
                 version_local_pop_line = version_local.split('\n')[2]
 
                 # pobierz zawartość pliku version.txt z repozytorium na GitHub
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Komunikat_yN.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Komunikat_yN.txt'
                 response = requests.get(url)
 
                 Komunikat_yN = response.content.decode('utf-8').split('\n')
@@ -2915,7 +2915,7 @@ while True:
                 wersja = "BRAK DANYCH"
 
                 # pobierz zawartość pliku version.txt z repozytorium na GitHub
-                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Komunikat_yN.txt'
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Komunikat_yN.txt'
                 response = requests.get(url)
 
                 Komunikat_yN = response.content.decode('utf-8').split('\n')
@@ -2960,7 +2960,7 @@ while True:
                 f'\nOpis najnowszej wersji (repozytorium): {version_local}' + Style.RESET_ALL)
         else:
             # pobierz zawartość pliku version.txt z repozytorium na GitHub
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt'
             response = requests.get(url)
 
             version_online = response.content.decode('utf-8').strip()
@@ -3020,7 +3020,7 @@ while True:
                         # print("Usunięto plik version.txt")
 
                         # pobierz plik version.txt z repozytorium i utwórz go
-                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt"
+                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/version.txt"
                         urllib.request.urlretrieve(url, path)
                     else:
                         if blokada_bledu == False:
@@ -3055,7 +3055,7 @@ while True:
             os.makedirs(folder_path)
 
         # Pobranie ikony z repozytorium GitHub
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/ikona_magnesy.ico'
         file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
         urllib.request.urlretrieve(url, file_path_ikonka)
 
@@ -3104,7 +3104,7 @@ while True:
                 os.makedirs(folder_path)
 
             # Pobranie ikony z repozytorium GitHub
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/ikona_magnesy.ico'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/ikona_magnesy.ico'
             file_path_ikonka = os.path.join(folder_path, 'ikona_magnesy.ico')
             urllib.request.urlretrieve(url, file_path_ikonka)
 
@@ -3237,7 +3237,7 @@ while True:
                                 os.remove(path)
                             try:
                                 # pobierz plik z repozytorium
-                                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
+                                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Androidow.py"
                                 urllib.request.urlretrieve(url, path)
                                 Gra = ["python", "Androidow.py"]
                                 subprocess.run(Gra)
@@ -3248,7 +3248,7 @@ while True:
                                 internet = 0
                                 try:
                                     # pobierz plik z repozytorium
-                                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Androidow.py"
+                                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Stabilna/Nowa/Androidow.py"
                                     urllib.request.urlretrieve(url, path)
                                     Gra = ["python", "Androidow.py"]
                                     subprocess.run(Gra)

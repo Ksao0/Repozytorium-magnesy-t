@@ -1,0 +1,10 @@
+1.7.5.2
+Status: Nowa wersja
+Nazwa poprawki: Zabezpieczenia +
+Wydano: 08.03.2024
+Informacja o bibliotekach: C4
+
+Informacje:
+ - Poprawki procesu aktualizacji i plików instalacyjnych
+ - Poprawki trybu offline
+Więcej nowości znajdziesz w aplikacji

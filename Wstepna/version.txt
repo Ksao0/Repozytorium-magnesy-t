@@ -1,7 +1,7 @@
 1.7.5.3-Beta
 Status: B6
 Nazwa poprawki: Zabezpieczenia +
-Wydano: 26.02.2024
+Wydano: 08.03.2024
 Informacja o bibliotekach: C4
 
 Informacje:

@@ -88,9 +88,8 @@ class OknoAktualizacji(QWidget):
     def zakoncz_aktualizacje(self, value):
         self.pasek_postępu.setValue(value)
         if value == 100:
-            print('Aktualizacja zakończona.')
             # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
-            subprocess.run(["python", "Aktualizator.py"])
+            # subprocess.run(["python", "Aktualizator.py"])
             self.close()
             # QCoreApplication.quit()  # Zamknij cały program po zakończeniu aktualizacji
 

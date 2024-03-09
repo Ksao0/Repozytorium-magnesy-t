@@ -43,6 +43,7 @@ class AktualizacjaWatek(QThread):
         with urllib.request.urlopen(url) as response:
             return int(response.getheader('Content-Length', 0))
 
+
 class OknoAktualizacji(QWidget):
     def __init__(self):
         super().__init__()
@@ -59,7 +60,8 @@ class OknoAktualizacji(QWidget):
     def inicjalizuj_ui(self):
         układ = QGridLayout()
 
-        etykieta_info = QLabel('Na razie nie można sprawdzać dostępności aktualizacji')
+        etykieta_info = QLabel(
+            'Na razie nie można sprawdzać dostępności aktualizacji')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()
@@ -80,7 +82,8 @@ class OknoAktualizacji(QWidget):
 
         self.pasek_postępu.setValue(0)
         self.watek_aktualizacji = AktualizacjaWatek(self.urls)
-        self.watek_aktualizacji.aktualizacja_zakonczona.connect(self.zakoncz_aktualizacje)
+        self.watek_aktualizacji.aktualizacja_zakonczona.connect(
+            self.zakoncz_aktualizacje)
 
     def rozpocznij_aktualizacje(self):
         self.pasek_postępu.setValue(0)
@@ -94,12 +97,10 @@ class OknoAktualizacji(QWidget):
             self.close()
             # QCoreApplication.quit()  # Zamknij cały program po zakończeniu aktualizacji
 
-
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')
         self.watek_aktualizacji.terminate()
         self.close()
-
 
 
 class OknoUstawien(QWidget):
@@ -551,6 +552,10 @@ class ZaawansowaneOkno(QWidget):
 
 
 if __name__ == '__main__':
+    # Usunięcie cmd
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
     # Inicjalizujemy aplikację
     app = QApplication(sys.argv)
 

@@ -9,8 +9,9 @@ import urllib
 import urllib.request
 import subprocess
 import time
-
+import requests
 from github import Github
+
 
 class AktualizacjaWatek(QThread):
     aktualizacja_zakonczona = pyqtSignal(int)
@@ -48,7 +49,8 @@ class OknoAktualizacji(QWidget):
 
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main.py"
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main.py",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
 
@@ -57,7 +59,7 @@ class OknoAktualizacji(QWidget):
     def inicjalizuj_ui(self):
         układ = QGridLayout()
 
-        etykieta_info = QLabel('Dostępna jest nowa aktualizacja. Czy chcesz zaktualizować aplikację?')
+        etykieta_info = QLabel('Na razie nie można sprawdzać dostępności aktualizacji')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()
@@ -81,7 +83,6 @@ class OknoAktualizacji(QWidget):
         self.watek_aktualizacji.aktualizacja_zakonczona.connect(self.zakoncz_aktualizacje)
 
     def rozpocznij_aktualizacje(self):
-        print('Rozpoczęcie aktualizacji...')
         self.pasek_postępu.setValue(0)
         self.watek_aktualizacji.start()
 
@@ -98,8 +99,6 @@ class OknoAktualizacji(QWidget):
         print('Aktualizacja anulowana.')
         self.watek_aktualizacji.terminate()
         self.close()
-
-
 
 
 

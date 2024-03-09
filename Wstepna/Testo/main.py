@@ -13,32 +13,51 @@ import time
 from github import Github
 
 class AktualizacjaWatek(QThread):
-    aktualizacja_zakonczona = pyqtSignal()
+    aktualizacja_zakonczona = pyqtSignal(int)
+
+    def __init__(self, urls):
+        super().__init__()
+        self.urls = urls
 
     def run(self):
-        path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
+        total_size = sum(self.get_file_size(url) for url in self.urls)
+        current_size = 0
 
-        if os.path.exists(path):
-            os.remove(path)
+        for url in self.urls:
+            path = os.path.join(os.getcwd(), os.path.basename(url))
 
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py"
-        urllib.request.urlretrieve(url, path)
+            if os.path.exists(path):
+                os.remove(path)
 
-        Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
-        subprocess.run(Aktualizacja)
-        self.aktualizacja_zakonczona.emit()
+            urllib.request.urlretrieve(url, path)
+
+            current_size += self.get_file_size(url)
+            progress_percentage = int((current_size / total_size) * 100)
+            self.aktualizacja_zakonczona.emit(progress_percentage)
+
+        # Emitowanie sygnału z wartością 100, gdy wszystkie pliki są pobrane
+        self.aktualizacja_zakonczona.emit(100)
+
+    def get_file_size(self, url):
+        with urllib.request.urlopen(url) as response:
+            return int(response.getheader('Content-Length', 0))
 
 class OknoAktualizacji(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.urls = [
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main.py"
+            # Dodaj tutaj inne URL-e do plików, jeśli są
+        ]
 
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
         układ = QGridLayout()
 
-        etykieta_info = QLabel(
-            'Dostępna jest nowa aktualizacja. Czy chcesz zaktualizować aplikację?')
+        etykieta_info = QLabel('Dostępna jest nowa aktualizacja. Czy chcesz zaktualizować aplikację?')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()
@@ -54,29 +73,28 @@ class OknoAktualizacji(QWidget):
         układ.addWidget(przycisk_anuluj, 2, 1)
 
         self.setLayout(układ)
-
         self.setWindowTitle('Okno Aktualizatora')
         self.setGeometry(200, 200, 400, 150)
 
         self.pasek_postępu.setValue(0)
-
-        self.watek_aktualizacji = AktualizacjaWatek()
-        self.watek_aktualizacji.aktualizacja_zakonczona.connect(
-            self.zakoncz_aktualizacje)
+        self.watek_aktualizacji = AktualizacjaWatek(self.urls)
+        self.watek_aktualizacji.aktualizacja_zakonczona.connect(self.zakoncz_aktualizacje)
 
     def rozpocznij_aktualizacje(self):
         print('Rozpoczęcie aktualizacji...')
         self.pasek_postępu.setValue(0)
         self.watek_aktualizacji.start()
 
-    def zakoncz_aktualizacje(self):
-        print('Aktualizacja zakończona.')
-        self.pasek_postępu.setValue(100)
+    def zakoncz_aktualizacje(self, value):
+        self.pasek_postępu.setValue(value)
+        if value == 100:
+            print('Aktualizacja zakończona.')
 
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')
         self.watek_aktualizacji.terminate()
         self.close()
+
 
 
 

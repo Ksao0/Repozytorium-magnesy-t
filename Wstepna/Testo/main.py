@@ -16,22 +16,17 @@ class AktualizacjaWatek(QThread):
     aktualizacja_zakonczona = pyqtSignal()
 
     def run(self):
-        # Ścieżka do pliku Aktualizator_aktualizatora.py w bieżącym folderze
-        path = os.path.join(
-            os.getcwd(), "Aktualizator_aktualizatora.py")
+        path = os.path.join(os.getcwd(), "Aktualizator_aktualizatora.py")
 
-        # Usuń plik Aktualizator_aktualizatora.py, jeśli istnieje
         if os.path.exists(path):
             os.remove(path)
 
-        # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py"
         urllib.request.urlretrieve(url, path)
 
         Aktualizacja = ["python", "Aktualizator_aktualizatora.py"]
         subprocess.run(Aktualizacja)
-
-
+        self.aktualizacja_zakonczona.emit()
 
 class OknoAktualizacji(QWidget):
     def __init__(self):
@@ -40,40 +35,31 @@ class OknoAktualizacji(QWidget):
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
-        # Tworzymy układ siatkowy dla okna aktualizacji
         układ = QGridLayout()
 
-        # Dodajemy etykietę informacyjną
         etykieta_info = QLabel(
             'Dostępna jest nowa aktualizacja. Czy chcesz zaktualizować aplikację?')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
-        # Dodajemy pasek postępu
         self.pasek_postępu = QProgressBar()
         układ.addWidget(self.pasek_postępu, 1, 0, 1, 2)
 
-        # Dodajemy przyciski
         przycisk_tak = QPushButton('Tak')
         przycisk_anuluj = QPushButton('Anuluj')
 
-        # Łączymy przyciski z funkcjami obsługującymi ich kliknięcie
         przycisk_tak.clicked.connect(self.rozpocznij_aktualizacje)
         przycisk_anuluj.clicked.connect(self.anuluj_aktualizacje)
 
         układ.addWidget(przycisk_tak, 2, 0)
         układ.addWidget(przycisk_anuluj, 2, 1)
 
-        # Ustawiamy układ dla okna aktualizacji
         self.setLayout(układ)
 
-        # Ustawiamy tytuł i rozmiar okna aktualizacji
         self.setWindowTitle('Okno Aktualizatora')
         self.setGeometry(200, 200, 400, 150)
 
-        # Inicjalizujemy pasek postępu
         self.pasek_postępu.setValue(0)
 
-        # Inicjalizujemy wątek aktualizacji
         self.watek_aktualizacji = AktualizacjaWatek()
         self.watek_aktualizacji.aktualizacja_zakonczona.connect(
             self.zakoncz_aktualizacje)
@@ -84,17 +70,15 @@ class OknoAktualizacji(QWidget):
         self.watek_aktualizacji.start()
 
     def zakoncz_aktualizacje(self):
-        aktualna_wartosc = self.pasek_postępu.value()
-        if aktualna_wartosc < 100:
-            self.pasek_postępu.setValue(aktualna_wartosc + 10)
-        else:
-            print('Aktualizacja zakończona.')
-            self.watek_aktualizacji.terminate()
+        print('Aktualizacja zakończona.')
+        self.pasek_postępu.setValue(100)
 
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')
         self.watek_aktualizacji.terminate()
         self.close()
+
+
 
 
 class OknoUstawien(QWidget):

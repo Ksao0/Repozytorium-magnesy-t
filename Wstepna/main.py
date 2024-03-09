@@ -2712,11 +2712,6 @@ while True:
                 messagebox.showerror("Błąd", "Liczba pakietów musi być dodatnia")
                 return
 
-            if liczba_pakietow == "H12":
-                    # Pobierz plik Aktualizator_aktualizatora.py z repozytorium
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
-                    urllib.request.urlretrieve(url, path)
-
             cena_za_magnes = float(entry_ceny.get().replace(",", "."))
 
             if cena_za_magnes <= 0:

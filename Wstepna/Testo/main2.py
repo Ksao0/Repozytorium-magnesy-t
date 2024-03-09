@@ -1,16 +1,19 @@
-import sys
-import os
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
-from PyQt5.QtGui import QPalette, QColor, QIcon
-from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal
-import messagebox
-import datetime
-import urllib
-import urllib.request
-import subprocess
-import time
-import requests
 from github import Github
+import requests
+import time
+import subprocess
+import urllib.request
+import urllib
+import datetime
+import messagebox
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal
+from PyQt5.QtGui import QPalette, QColor, QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
+import os
+import sys
+# Minimalizowanie cmd
+import ctypes
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 
 class AktualizacjaWatek(QThread):
@@ -50,7 +53,7 @@ class OknoAktualizacji(QWidget):
 
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main.py",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
@@ -552,9 +555,6 @@ class ZaawansowaneOkno(QWidget):
 
 
 if __name__ == '__main__':
-    # Usunięcie cmd
-    startupinfo = subprocess.STARTUPINFO()
-    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
     # Inicjalizujemy aplikację
     app = QApplication(sys.argv)

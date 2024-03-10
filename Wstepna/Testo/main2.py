@@ -97,8 +97,11 @@ class OknoAktualizacji(QWidget):
         if value == 100:
             # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
             # subprocess.run(["python", "Aktualizator.py"])
+            # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
+            subprocess.run(["python", "Aktualizator.py"])
             time.sleep(1)
             QCoreApplication.quit()  # Zamknij cały program po zakończeniu aktualizacji
+
 
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')

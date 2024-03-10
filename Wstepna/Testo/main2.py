@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
 from github import Github
 import requests
 import time
@@ -11,22 +12,61 @@ from PyQt5.QtGui import QPalette, QColor, QIcon
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
 import os
 import sys
+import threading
+
+from win10toast import ToastNotifier
+
 # Minimalizowanie cmd
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
-import os
+class Powiadomienia(QWidget):
+    # Przekierowanie błędów do "czarnej dziury"
+    sys.stderr = open('nul', 'w')
+
+    def __init__(self):
+        self.toaster = self.MyToastNotifier()
+
+    def powiadomienie_jednorazowe(self, tytul_powiadomienia, tresc_powiadomienia, duration):
+        self.toaster.show_toast(
+            msg=tresc_powiadomienia, duration=duration, tytul_powiadomienia=tytul_powiadomienia)
+
+    class MyToastNotifier(ToastNotifier):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.wyswietlone_powiadomienie = False
+
+        def show_toast(self, msg, icon_path=None, duration=5, threaded=True, tytul_powiadomienia=""):
+            icon_path = "rei2/ikona_magnesy2.ico"
+            nazwa_aplikacji = "Magnesy"
+            title = f"{nazwa_aplikacji} - {tytul_powiadomienia}"
+            try:
+                if not self.wyswietlone_powiadomienie:
+                    if not threaded:
+                        return super().show_toast(title, msg, icon_path, duration, threaded)
+                    else:
+                        threading.Thread(target=self._show_toast, args=(
+                            title, msg, icon_path, duration)).start()
+                        self.wyswietlone_powiadomienie = True
+                        return 1  # lub inna wartość int
+            except Exception as e:
+                # Przechwytywanie błędów, ale nie wyświetlanie ich
+                pass
+
 
 class OknoRozszerzen(QWidget):
-
     def __init__(self):
         super().__init__()
 
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
+        # Przykładowe użycie
+        toaster = Powiadomienia()
+        toaster.powiadomienie_jednorazowe(
+            tytul_powiadomienia="Rozszerzenia", tresc_powiadomienia="Niektóre rozszerzenia mogą otwierać się dłużej\nAby zarządzać rozszerzeniem, przejdź do plików programu i dodaj, lub usuń jego folder", duration=3)
+
         # Tworzymy układ siatkowy dla okna rozszerzeń
         układ = QGridLayout()
 
@@ -37,31 +77,44 @@ class OknoRozszerzen(QWidget):
             brak_rozszerzen_label = QLabel('Brak dostępnych rozszerzeń.')
             układ.addWidget(brak_rozszerzen_label, 0, 0, 1, 2)
         else:
-            for folder_rozszerzenia in os.listdir(sciezka_rozszerzen):
-                sciezka_folderu = os.path.join(sciezka_rozszerzen, folder_rozszerzenia)
+            # Dodaję listę do śledzenia uruchomionych skryptów
+            self.uruchomione_rozszerzenia = []
 
-                # Sprawdzamy, czy to folder
+            for folder_rozszerzenia in os.listdir(sciezka_rozszerzen):
+                sciezka_folderu = os.path.join(
+                    sciezka_rozszerzen, folder_rozszerzenia)
+
                 if os.path.isdir(sciezka_folderu):
-                    # Odczytujemy informacje z pliku info.txt
                     sciezka_info = os.path.join(sciezka_folderu, "info.txt")
+
                     if os.path.exists(sciezka_info):
                         with open(sciezka_info, 'r', encoding='utf-8') as plik_info:
                             nazwa_rozszerzenia = plik_info.readline().strip()
                             nazwa_skryptu = plik_info.readline().strip()
 
-                            # Tworzymy przycisk na podstawie nazwy rozszerzenia
                             przycisk = QPushButton(nazwa_rozszerzenia, self)
 
-                            # Przypisujemy funkcję do przycisku, która uruchamia skrypt .py
                             def uruchom_skrypt(sciezka_skryptu):
                                 def _uruchom_skrypt():
-                                    os.system(f"python {sciezka_skryptu}")
+                                    try:
+                                        # Sprawdzamy, czy skrypt nie jest już uruchomiony
+                                        if sciezka_skryptu not in self.uruchomione_rozszerzenia:
+                                            # Dodajemy skrypt do listy uruchomionych
+                                            self.uruchomione_rozszerzenia.append(
+                                                sciezka_skryptu)
+                                            # Uruchamiamy skrypt w osobnym wątku
+                                            threading.Thread(target=lambda: os.system(
+                                                f"python {sciezka_skryptu}")).start()
+
+                                    except Exception as e:
+                                        # Komunikat o błędzie
+                                        messagebox.showerror(
+                                            'Błąd rozszerzenia', 'To rozszerzenie jest uszkodzone')
 
                                 return _uruchom_skrypt
 
-                            przycisk.clicked.connect(uruchom_skrypt(os.path.join(sciezka_folderu, f"{nazwa_skryptu}.py")))
-
-                            # Dodajemy przycisk do układu siatkowego
+                            przycisk.clicked.connect(uruchom_skrypt(
+                                os.path.join(sciezka_folderu, f"{nazwa_skryptu}.py")))
                             układ.addWidget(przycisk)
 
         # Ustawiamy układ dla okna rozszerzeń
@@ -70,6 +123,7 @@ class OknoRozszerzen(QWidget):
         # Ustawiamy tytuł i rozmiar okna rozszerzeń
         self.setWindowTitle('Lista rozszerzeń')
         self.setGeometry(1300, 300, 400, 320)
+
 
 class AktualizacjaWatek(QThread):
     aktualizacja_zakonczona = pyqtSignal(int)
@@ -111,17 +165,18 @@ class AktualizacjaWatek(QThread):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-        folder_contents = urllib.request.urlopen(url).read().decode('utf-8').splitlines()
+        folder_contents = urllib.request.urlopen(
+            url).read().decode('utf-8').splitlines()
 
         for content in folder_contents:
             content_url = url + content
             content_path = os.path.join(folder_path, content)
 
-            if content.endswith('/'):  # Jeśli kończy się na '/', to jest to kolejny folder
+            # Jeśli kończy się na '/', to jest to kolejny folder
+            if content.endswith('/'):
                 self.download_folder(content_url, content_path)
             else:
                 urllib.request.urlretrieve(content_url, content_path)
-
 
 
 class OknoAktualizacji(QWidget):
@@ -210,7 +265,8 @@ class OknoUstawien(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.okno_rozszerzen = None  # Dodaj atrybut do przechowywania referencji do OknoRozszerzen
+        # Dodaj atrybut do przechowywania referencji do OknoRozszerzen
+        self.okno_rozszerzen = None
 
         self.inicjalizuj_ui()
 

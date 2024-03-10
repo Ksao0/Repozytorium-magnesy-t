@@ -69,7 +69,7 @@ class OknoRozszerzen(QWidget):
 
         # Ustawiamy tytuł i rozmiar okna rozszerzeń
         self.setWindowTitle('Lista rozszerzeń')
-        self.setGeometry(900, 300, 400, 320)
+        self.setGeometry(1300, 300, 400, 320)
 
 class AktualizacjaWatek(QThread):
     aktualizacja_zakonczona = pyqtSignal(int)

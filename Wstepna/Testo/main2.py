@@ -6,7 +6,7 @@ import urllib.request
 import urllib
 import datetime
 import messagebox
-from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QCoreApplication
 from PyQt5.QtGui import QPalette, QColor, QIcon
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
 import os
@@ -64,7 +64,7 @@ class OknoAktualizacji(QWidget):
         układ = QGridLayout()
 
         etykieta_info = QLabel(
-            'Na razie nie można sprawdzać dostępności aktualizacji')
+            'Na razie nie można sprawdzać dostępności aktualizacji\nPorogram zostanie uruchomiony ponownie po wykonaniu akcji')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()
@@ -97,8 +97,8 @@ class OknoAktualizacji(QWidget):
         if value == 100:
             # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
             # subprocess.run(["python", "Aktualizator.py"])
-            self.close()
-            # QCoreApplication.quit()  # Zamknij cały program po zakończeniu aktualizacji
+            time.sleep(1)
+            QCoreApplication.quit()  # Zamknij cały program po zakończeniu aktualizacji
 
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')

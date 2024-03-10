@@ -16,6 +16,61 @@ import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
+import os
+
+class OknoRozszerzen(QWidget):
+
+    def __init__(self):
+        super().__init__()
+
+        self.inicjalizuj_ui()
+
+    def inicjalizuj_ui(self):
+        # Tworzymy układ siatkowy dla okna rozszerzeń
+        układ = QGridLayout()
+
+        # Przechodzimy przez foldery w "Rozszerzenia"
+        sciezka_rozszerzen = "Rozszerzenia"
+
+        if not os.path.exists(sciezka_rozszerzen) or not os.listdir(sciezka_rozszerzen):
+            brak_rozszerzen_label = QLabel('Brak dostępnych rozszerzeń.')
+            układ.addWidget(brak_rozszerzen_label, 0, 0, 1, 2)
+        else:
+            for folder_rozszerzenia in os.listdir(sciezka_rozszerzen):
+                sciezka_folderu = os.path.join(sciezka_rozszerzen, folder_rozszerzenia)
+
+                # Sprawdzamy, czy to folder
+                if os.path.isdir(sciezka_folderu):
+                    # Odczytujemy informacje z pliku info.txt
+                    sciezka_info = os.path.join(sciezka_folderu, "info.txt")
+                    if os.path.exists(sciezka_info):
+                        with open(sciezka_info, 'r', encoding='utf-8') as plik_info:
+                            nazwa_rozszerzenia = plik_info.readline().strip()
+                            nazwa_skryptu = plik_info.readline().strip()
+
+                            # Tworzymy przycisk na podstawie nazwy rozszerzenia
+                            przycisk = QPushButton(nazwa_rozszerzenia, self)
+
+                            # Przypisujemy funkcję do przycisku, która uruchamia skrypt .py
+                            def uruchom_skrypt(sciezka_skryptu):
+                                def _uruchom_skrypt():
+                                    os.system(f"python {sciezka_skryptu}")
+
+                                return _uruchom_skrypt
+
+                            przycisk.clicked.connect(uruchom_skrypt(os.path.join(sciezka_folderu, f"{nazwa_skryptu}.py")))
+
+                            # Dodajemy przycisk do układu siatkowego
+                            układ.addWidget(przycisk)
+
+        # Ustawiamy układ dla okna rozszerzeń
+        self.setLayout(układ)
+
+        # Ustawiamy tytuł i rozmiar okna rozszerzeń
+        self.setWindowTitle('Lista rozszerzeń')
+        self.setGeometry(900, 300, 400, 320)
+
 class AktualizacjaWatek(QThread):
     aktualizacja_zakonczona = pyqtSignal(int)
 
@@ -33,9 +88,15 @@ class AktualizacjaWatek(QThread):
             if os.path.exists(path):
                 os.remove(path)
 
-            urllib.request.urlretrieve(url, path)
+            # Sprawdź, czy URL prowadzi do pliku czy do folderu
+            if url.endswith('/'):  # Jeśli kończy się na '/', to jest to folder
+                folder_name = os.path.basename(url[:-1])
+                folder_path = os.path.join(os.getcwd(), folder_name)
+                self.download_folder(url, folder_path)
+            else:
+                urllib.request.urlretrieve(url, path)
+                current_size += self.get_file_size(url)
 
-            current_size += self.get_file_size(url)
             progress_percentage = int((current_size / total_size) * 100)
             self.aktualizacja_zakonczona.emit(progress_percentage)
 
@@ -45,6 +106,22 @@ class AktualizacjaWatek(QThread):
     def get_file_size(self, url):
         with urllib.request.urlopen(url) as response:
             return int(response.getheader('Content-Length', 0))
+
+    def download_folder(self, url, folder_path):
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
+        folder_contents = urllib.request.urlopen(url).read().decode('utf-8').splitlines()
+
+        for content in folder_contents:
+            content_url = url + content
+            content_path = os.path.join(folder_path, content)
+
+            if content.endswith('/'):  # Jeśli kończy się na '/', to jest to kolejny folder
+                self.download_folder(content_url, content_path)
+            else:
+                urllib.request.urlretrieve(content_url, content_path)
+
 
 
 class OknoAktualizacji(QWidget):
@@ -134,6 +211,8 @@ class OknoUstawien(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.okno_rozszerzen = None  # Dodaj atrybut do przechowywania referencji do OknoRozszerzen
+
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
@@ -190,14 +269,17 @@ class OknoUstawien(QWidget):
         etykieta_cena_woreczki = QLabel('Używana cena woreczków: ', self)
         układ.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
 
-        # Dodaj więcej elementów do okna ustawień, jeśli jest to konieczne
+        button_rozszerzenia = QPushButton('Rozszerzenia', self)
+        button_rozszerzenia.clicked.connect(
+            self.pokaz_rozszerzenia)  # Połącz przycisk z funkcją
+        układ.addWidget(button_rozszerzenia, 10, 1, 1, 1)
 
         # Ustawiamy układ dla okna ustawień
         self.setLayout(układ)
 
         # Ustawiamy tytuł i rozmiar okna ustawień
-        self.setWindowTitle('Okno Ustawień')
-        self.setGeometry(900, 300, 400, 300)
+        self.setWindowTitle('Ustawienia')
+        self.setGeometry(900, 300, 400, 320)
 
         # # Pobieranie kosztów z pliku
         path = os.path.join(os.getcwd(), "Ceny.txt")
@@ -228,6 +310,14 @@ class OknoUstawien(QWidget):
         etykieta_cena_folia.setText(f'Używana cena folii: {ceny_foliamg} zł')
         etykieta_cena_woreczki.setText(
             f'Używana cena woreczków: {ceny_woreczkipp} zł')
+
+    def pokaz_rozszerzenia(self):
+        # Tworzymy instancję klasy OknoRozszerzen
+        if not self.okno_rozszerzen or not self.okno_rozszerzen.isVisible():
+            self.okno_rozszerzen = OknoRozszerzen()
+            self.okno_rozszerzen.show()
+        else:
+            self.okno_rozszerzen.raise_()
 
     def zmien_ceny(self, pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki):
         try:

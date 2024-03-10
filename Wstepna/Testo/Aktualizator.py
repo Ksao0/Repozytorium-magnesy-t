@@ -56,6 +56,7 @@ from github import Github
 def otworz_main2():
     time.sleep(1)
     subprocess.run(["python", "main2.py"])
+    time.sleep(0.2)
 
 
 otworz_main2()

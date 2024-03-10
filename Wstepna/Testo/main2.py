@@ -102,7 +102,6 @@ class OknoAktualizacji(QWidget):
             time.sleep(1)
             QCoreApplication.quit()  # Zamknij cały program po zakończeniu aktualizacji
 
-
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')
         self.watek_aktualizacji.terminate()

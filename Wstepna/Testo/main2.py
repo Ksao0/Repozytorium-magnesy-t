@@ -50,6 +50,9 @@ class AktualizacjaWatek(QThread):
 class OknoAktualizacji(QWidget):
     def __init__(self):
         super().__init__()
+        
+        self.przycisk_tak = QPushButton('Tak')  # Tutaj zdefiniuj przycisk "Tak"
+        self.przycisk_anuluj = QPushButton('Anuluj')
 
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py",
@@ -73,7 +76,7 @@ class OknoAktualizacji(QWidget):
         przycisk_tak = QPushButton('Tak')
         przycisk_anuluj = QPushButton('Anuluj')
 
-        przycisk_tak.clicked.connect(self.rozpocznij_aktualizacje)
+        przycisk_tak.clicked.connect(lambda: self.rozpocznij_aktualizacje())
         przycisk_anuluj.clicked.connect(self.anuluj_aktualizacje)
 
         układ.addWidget(przycisk_tak, 2, 0)
@@ -90,6 +93,12 @@ class OknoAktualizacji(QWidget):
 
     def rozpocznij_aktualizacje(self):
         self.pasek_postępu.setValue(0)
+        
+        # Wyłącz przycisk i zmień jego wygląd
+        self.przycisk_tak.setEnabled(False)
+        self.przycisk_tak.setText('Aktualizacja w toku...')
+        self.przycisk_tak.setStyleSheet('background-color: lightgray; color: gray;')
+
         self.watek_aktualizacji.start()
 
     def zakoncz_aktualizacje(self, value):

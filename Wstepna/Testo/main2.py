@@ -55,6 +55,50 @@ class Powiadomienia(QWidget):
                 pass
 
 
+def sprawdzanie_nowych_aktualizacji():
+    # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+    try:
+        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+        response = requests.get(url)
+        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+        version_online = response.content.decode('utf-8').strip()
+    except requests.exceptions.RequestException as e:
+        messagebox.showerror(
+            "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+        return
+    version_online_lines = version_online.split('\n')
+    # Odczytaj zawartość pliku version.txt w twoim programie
+    path = os.path.join(os.getcwd(), "version.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            version_local = f.read().strip()
+    else:
+        version_local = "BRAK DANYCH"
+
+    version_local_lines = version_local.split('\n')
+
+    najnowsza_wersja_online = version_online_lines[0]
+    aktualna_wersja = version_online_lines[0]
+
+    # aktualizacja_wymagana = int(version_online_lines[1])
+    # aktualna_wersja_numer = int(aktualna_wersja)
+
+    if aktualna_wersja != najnowsza_wersja_online:
+        # Kiedyś zrobię osobne okno aktualizacji
+        messagebox.askyesno(
+            'Nowa wersja', 'Dostępna jest nowa wersja.\nCzy chcesz zaktualizować?')
+
+    if not version_local_lines[1] == version_online_lines[0]:
+        # Kiedyś zrobię osobne okno aktualizacji
+        messagebox.askyesno(
+            'Nowa wersja', 'Dostępna jest nowa wersja.\nCzy chcesz zaktualizować?')
+
+    # if aktualizacja_wymagana < aktualna_wersja_numer:
+    #     toaster = Powiadomienia()
+    #     toaster.powiadomienie_jednorazowe(
+    #         tytul_powiadomienia="Aktualizacja", tresc_powiadomienia="Program zostanie zaktualizowany", duration=3)
+
+
 class OknoRozszerzen(QWidget):
     def __init__(self):
         super().__init__()

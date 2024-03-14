@@ -106,7 +106,7 @@ def sprawdzanie_nowych_aktualizacji():
 
         if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
             messagebox.showinfo(
-                'Nowa wersja', f'Dostępna jest aktualizacja, czy chcesz zainstalować teraz? {local_aktualna_wersja}, {najnowsza_wersja_online}')
+                'Nowa wersja', f'Dostępna jest aktualizacja? {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZainstaluj ją ręcznie')
 
     except:
         pass

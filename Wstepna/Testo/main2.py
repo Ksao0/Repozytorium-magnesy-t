@@ -21,6 +21,21 @@ import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 
+def Inne():
+    def Inne1p():
+        try:
+            subprocess.run(['python', 'Inne.py'])
+        except:
+            pass
+
+    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+    thread = threading.Thread(target=Inne1p)
+
+    # Uruchamianie wątku
+    thread.start()
+    sprawdzanie_nowych_aktualizacji()
+
+
 class Powiadomienia(QWidget):
     # Przekierowanie błędów do "czarnej dziury"
     sys.stderr = open('nul', 'w')
@@ -56,47 +71,40 @@ class Powiadomienia(QWidget):
 
 
 def sprawdzanie_nowych_aktualizacji():
-    # Pobierz zawartość pliku version.txt z repozytorium na GitHub
     try:
-        url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
-        response = requests.get(url)
-        response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-        version_online = response.content.decode('utf-8').strip()
-    except requests.exceptions.RequestException as e:
-        messagebox.showerror(
-            "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
-        return
-    version_online_lines = version_online.split('\n')
-    # Odczytaj zawartość pliku version.txt w twoim programie
-    path = os.path.join(os.getcwd(), "version.txt")
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            version_local = f.read().strip()
-    else:
-        version_local = "BRAK DANYCH"
+        # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            version_online = response.content.decode('utf-8').strip()
+        except requests.exceptions.RequestException as e:
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+            return
+        version_online_lines = version_online.split('\n')
+        # Odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
+        else:
+            version_local = "BRAK DANYCH"
 
-    version_local_lines = version_local.split('\n')
+        version_local_lines = version_local.split('\n')
 
-    najnowsza_wersja_online = version_online_lines[0]
-    aktualna_wersja = version_online_lines[0]
+        najnowsza_wersja_online = version_online_lines[0]
+        local_aktualna_wersja = version_local_lines[0]
 
-    # aktualizacja_wymagana = int(version_online_lines[1])
-    # aktualna_wersja_numer = int(aktualna_wersja)
+        local_aktualna_wersja_numer = int(local_aktualna_wersja)
+        wymagana_aktualizacja_na_local = int(version_local_lines[1])
 
-    if aktualna_wersja != najnowsza_wersja_online:
-        # Kiedyś zrobię osobne okno aktualizacji
-        messagebox.askyesno(
-            'Nowa wersja', 'Dostępna jest nowa wersja.\nCzy chcesz zaktualizować?')
+        if local_aktualna_wersja_numer != najnowsza_wersja_online:
+            messagebox.showinfo('Nowa wersja', 'Dostępna jest aktualizacja, czy chcesz zainstalować teraz?')
 
-    if not version_local_lines[1] == version_online_lines[0]:
-        # Kiedyś zrobię osobne okno aktualizacji
-        messagebox.askyesno(
-            'Nowa wersja', 'Dostępna jest nowa wersja.\nCzy chcesz zaktualizować?')
 
-    # if aktualizacja_wymagana < aktualna_wersja_numer:
-    #     toaster = Powiadomienia()
-    #     toaster.powiadomienie_jednorazowe(
-    #         tytul_powiadomienia="Aktualizacja", tresc_powiadomienia="Program zostanie zaktualizowany", duration=3)
+    except:
+        pass
 
 
 class OknoRozszerzen(QWidget):
@@ -776,6 +784,12 @@ if __name__ == '__main__':
 
     # Wyświetlamy główne okno
     okno.show()
+
+    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+    thread = threading.Thread(target=Inne)
+
+    # Uruchamianie wątku
+    thread.start()
 
     # Uruchamiamy pętlę główną
     sys.exit(app.exec_())

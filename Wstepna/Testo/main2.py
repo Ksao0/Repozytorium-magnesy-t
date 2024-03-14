@@ -16,6 +16,8 @@ import threading
 
 from win10toast import ToastNotifier
 
+from packaging import version
+
 # Minimalizowanie cmd
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -74,7 +76,7 @@ def sprawdzanie_nowych_aktualizacji():
     try:
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/version.txt'
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
             response = requests.get(url)
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             version_online = response.content.decode('utf-8').strip()
@@ -96,12 +98,9 @@ def sprawdzanie_nowych_aktualizacji():
         najnowsza_wersja_online = version_online_lines[0]
         local_aktualna_wersja = version_local_lines[0]
 
-        local_aktualna_wersja_numer = int(local_aktualna_wersja)
-        wymagana_aktualizacja_na_local = int(version_local_lines[1])
-
-        if local_aktualna_wersja_numer != najnowsza_wersja_online:
-            messagebox.showinfo('Nowa wersja', 'Dostępna jest aktualizacja, czy chcesz zainstalować teraz?')
-
+        if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
+            messagebox.showinfo(
+                'Nowa wersja', f'Dostępna jest aktualizacja, czy chcesz zainstalować teraz? {local_aktualna_wersja}, {najnowsza_wersja_online}')
 
     except:
         pass

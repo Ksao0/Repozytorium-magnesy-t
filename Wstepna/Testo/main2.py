@@ -35,6 +35,12 @@ def Inne():
 
     # Uruchamianie wątku
     thread.start()
+
+    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+    thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
+
+    # Uruchamianie wątku
+    thread.start()
     sprawdzanie_nowych_aktualizacji()
 
 

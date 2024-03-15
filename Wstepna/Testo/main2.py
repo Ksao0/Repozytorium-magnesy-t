@@ -25,7 +25,7 @@ ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 def Inne():
     def Inne1p():
-        try:
+        try:  # Tego pliku nie ma w repozytorium
             subprocess.run(['python', 'Inne.py'])
         except:
             pass
@@ -106,7 +106,10 @@ def sprawdzanie_nowych_aktualizacji():
 
         if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
             messagebox.showinfo(
-                'Nowa wersja', f'Dostępna jest aktualizacja? {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZainstaluj ją ręcznie')
+                'Nowa wersja', f'Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZainstaluj ją ręcznie')
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
 
     except:
         pass
@@ -403,8 +406,7 @@ class OknoUstawien(QWidget):
         else:
             teraz_ceny = "13\n35\n18\n11"
 
-        # Check if teraz_ceny is not empty before attempting to split and convert to float
-        if teraz_ceny.strip():  # strip removes leading and trailing whitespaces
+        if teraz_ceny.strip():
             ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
             ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
             ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
@@ -573,7 +575,10 @@ class ZaawansowaneOkno(QWidget):
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 zawartosc = f.read().strip()
-                text_edit_historia.setPlainText(zawartosc)
+                if zawartosc == '':
+                    text_edit_historia.setPlainText("Brak historii obliczeń")
+                else:
+                    text_edit_historia.setPlainText(zawartosc)
 
         # Ustawiamy układ dla głównego okna
         self.setLayout(układ)

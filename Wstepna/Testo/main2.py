@@ -41,8 +41,6 @@ def Inne():
 
     # Uruchamianie wątku
     thread.start()
-    sprawdzanie_nowych_aktualizacji()
-
 
 class Powiadomienia(QWidget):
     # Przekierowanie błędów do "czarnej dziury"

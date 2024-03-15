@@ -105,7 +105,7 @@ while True:
     okno_wyborowe_otwarte = 0
     internet = 1
 
-    dodatkowe_od_tworcy = '\n\nTo pewnie ostatnia aktualizacja wprowadzająca nowe funkcje, lub naprawiająca poważne błędy.\nMoim zdaniem wszystko jest już gootowe, więc nie ma już sensu marnować na to więcej czasu.\nJeśli chcesz, to mogę pododawać, lub usunąć (oszczędność miejsca) jakieś funkcje, ewentualnie zrobić coś nowego'
+    dodatkowe_od_tworcy = '\n\nTa wersja nie będzie już rozwijana.'
 
     # Wywołanie funkcji startowej.
     # Inicjalizacja modułu colorama (do kolorowego tekstu)

@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDo
 import os
 import sys
 import threading
+import shutil
 
 from win10toast import ToastNotifier
 
@@ -42,6 +43,39 @@ def Inne():
     # Uruchamianie wątku
     thread.start()
 
+    download_icon()
+
+
+def download_icon():
+        try:
+            # Zmień na właściwy adres URL pliku .ico
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/icon.ico"
+            save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
+
+            # Utworzenie folderu "rei", jeśli nie istnieje
+            folder_path = "rei"
+
+            # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+            if os.path.exists(folder_path):
+                shutil.rmtree(folder_path)
+
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+
+            response = requests.get(url)
+            if response.status_code == 200:
+                icon_data = response.content
+                filename = os.path.basename(url)
+                save_path = os.path.join(save_folder, filename)
+
+                with open(save_path, 'wb') as icon_file:
+                    icon_file.write(icon_data)
+            else:
+                return
+
+        except Exception as e:
+            return
+
 class Powiadomienia(QWidget):
     # Przekierowanie błędów do "czarnej dziury"
     sys.stderr = open('nul', 'w')
@@ -59,7 +93,7 @@ class Powiadomienia(QWidget):
             self.wyswietlone_powiadomienie = False
 
         def show_toast(self, msg, icon_path=None, duration=5, threaded=True, tytul_powiadomienia=""):
-            icon_path = "rei2/ikona_magnesy2.ico"
+            icon_path = "rei/icon.ico"
             nazwa_aplikacji = "Magnesy"
             title = f"{nazwa_aplikacji} - {tytul_powiadomienia}"
             try:

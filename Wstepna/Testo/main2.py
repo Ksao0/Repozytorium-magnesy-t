@@ -43,38 +43,43 @@ def Inne():
     # Uruchamianie wątku
     thread.start()
 
-    download_icon()
+    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+    thread = threading.Thread(target=download_icon)
+
+    # Uruchamianie wątku
+    thread.start()
 
 
 def download_icon():
-        try:
-            # Zmień na właściwy adres URL pliku .ico
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/icon.ico"
-            save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
+    try:
+        # Zmień na właściwy adres URL pliku .ico
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/icon.ico"
+        save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
 
-            # Utworzenie folderu "rei", jeśli nie istnieje
-            folder_path = "rei"
+        # Utworzenie folderu "rei", jeśli nie istnieje
+        folder_path = "rei"
 
-            # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
-            if os.path.exists(folder_path):
-                shutil.rmtree(folder_path)
+        # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
+        if os.path.exists(folder_path):
+            shutil.rmtree(folder_path)
 
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
 
-            response = requests.get(url)
-            if response.status_code == 200:
-                icon_data = response.content
-                filename = os.path.basename(url)
-                save_path = os.path.join(save_folder, filename)
+        response = requests.get(url)
+        if response.status_code == 200:
+            icon_data = response.content
+            filename = os.path.basename(url)
+            save_path = os.path.join(save_folder, filename)
 
-                with open(save_path, 'wb') as icon_file:
-                    icon_file.write(icon_data)
-            else:
-                return
-
-        except Exception as e:
+            with open(save_path, 'wb') as icon_file:
+                icon_file.write(icon_data)
+        else:
             return
+
+    except Exception as e:
+        return
+
 
 class Powiadomienia(QWidget):
     # Przekierowanie błędów do "czarnej dziury"
@@ -137,8 +142,6 @@ def sprawdzanie_nowych_aktualizacji():
         local_aktualna_wersja = version_local_lines[0]
 
         if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
-            messagebox.showinfo(
-                'Nowa wersja', f'Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZainstaluj ją ręcznie')
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
                 tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)

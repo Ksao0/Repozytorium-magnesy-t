@@ -49,7 +49,7 @@ def Inne():
 def download_icon():
         try:
             # Zmień na właściwy adres URL pliku .ico
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/icon.ico"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/icon.ico"
             save_folder = "rei2"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
 
             # Utworzenie folderu "rei", jeśli nie istnieje

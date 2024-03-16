@@ -26,7 +26,6 @@ from packaging import version
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
-
 class Ikona:
     def tworzenie_ikonki(self):
         def find_folders_with_main2_and_rei(desktop_path):
@@ -38,7 +37,6 @@ class Ikona:
                 if "main2.py" in files and "rei" in dirs:
                     # Znaleziono folder zawierający zarówno plik main2.py, jak i folder rei
                     folders_found.append(root)
-            print(folders_found)
 
             return folders_found
 
@@ -69,7 +67,8 @@ class Ikona:
             # Wyświetl powiadomienie o utworzeniu skrótu
             msg = QMessageBox()
             msg.setWindowTitle("Skrót utworzony")
-            msg.setText("Skrót został utworzony na pulpicie!")
+            msg.setText("Skrót na pulpicie został utworzony!")
+            msg.setIcon(QMessageBox.Information)
             msg.exec_()
 
         def select_folder_and_create_shortcut():
@@ -108,6 +107,7 @@ class Ikona:
 
 
 def Inne():
+    print('Dziennik działań:')
     def Inne1p():
         def open_file_in_same_location(file_name):
             # Pobierz ścieżkę do bieżącego katalogu (gdzie znajduje się plik main2.py)
@@ -969,11 +969,6 @@ if __name__ == '__main__':
 
     # Uruchamianie wątku
     thread.start()
-
-    # Pobierz ścieżkę do bieżącego katalogu (gdzie znajduje się plik main2.py)
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-
-    print(current_directory)
 
     # Uruchamiamy pętlę główną
     sys.exit(app.exec_())

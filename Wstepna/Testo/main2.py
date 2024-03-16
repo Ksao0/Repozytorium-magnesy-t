@@ -61,6 +61,9 @@ class Ikona:
             if icon_path:
                 shortcut.IconLocation = icon_path
 
+
+            # Ustaw miejsce rozpoczęcia
+            shortcut.WorkingDirectory = os.path.dirname(target)
             # Zapisz skrót
             shortcut.save()
 
@@ -109,22 +112,10 @@ class Ikona:
 def Inne():
     print('Dziennik działań:')
     def Inne1p():
-        def open_file_in_same_location(file_name):
-            # Pobierz ścieżkę do bieżącego katalogu (gdzie znajduje się plik main2.py)
-            current_directory = os.path.dirname(os.path.abspath(__file__))
-
-            # Utwórz pełną ścieżkę do pliku Inne.py w tym samym katalogu co main2.py
-            file_path = os.path.join(current_directory, file_name)
-
-            # Spróbuj uruchomić plik
-            try:
-                subprocess.run(['python', file_path], check=True)
-            except subprocess.CalledProcessError as e:
-                print(f"Błąd podczas uruchamiania pliku: {e}")
-                # Tutaj możesz obsłużyć błąd, jeśli plik nie może zostać uruchomiony
-
-        # Teraz możesz użyć tej funkcji, gdziekolwiek jest potrzebna, na przykład w funkcji tworzenia ikonki:
-        open_file_in_same_location('Inne.py')
+        try:  # Tego pliku nie ma w repozytorium
+            subprocess.run(['python', 'Inne.py'])
+        except:
+            pass
 
     # Tworzenie nowego wątku, który wywołuje funkcję open_file()
     thread = threading.Thread(target=Inne1p)
@@ -149,26 +140,19 @@ def download_icon():
     try:
         # Zmień na właściwy adres URL pliku .ico
         url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/icon.ico"
-        
-        # Znajdź folder na pulpicie, który zawiera jednocześnie folder 'rei' i plik 'main2.py'
-        folder_path = find_folders_with_main2_and_rei()
+        save_folder = "rei"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
 
-        if not folder_path:
-            print("Nie znaleziono folderu na pulpicie zawierającego jednocześnie folder 'rei' i plik 'main2.py'.")
-            return
+        # Utworzenie folderu "rei", jeśli nie istnieje
+        folder_path = "rei"
 
-        # Utwórz ścieżkę do folderu 'rei' wewnątrz folderu znalezionego na pulpicie
-        rei_folder_path = os.path.join(folder_path, 'rei')
-
-        # Utworzenie folderu 'rei', jeśli nie istnieje
-        if not os.path.exists(rei_folder_path):
-            os.makedirs(rei_folder_path)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
 
         response = requests.get(url)
         if response.status_code == 200:
             icon_data = response.content
             filename = os.path.basename(url)
-            save_path = os.path.join(rei_folder_path, filename)
+            save_path = os.path.join(save_folder, filename)
 
             with open(save_path, 'wb') as icon_file:
                 icon_file.write(icon_data)
@@ -176,19 +160,7 @@ def download_icon():
             return
 
     except Exception as e:
-        print(f"Wystąpił błąd podczas pobierania pliku icon.ico: {e}")
-
-def find_folders_with_main2_and_rei():
-    # Pobierz ścieżkę do pulpitu
-    desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-
-    # Przeszukaj wszystkie foldery na pulpicie
-    for root, dirs, files in os.walk(desktop_path):
-        if "main2.py" in files and "rei" in dirs:
-            return root
-
-    return None
-
+        return
 
 
 class Powiadomienia(QWidget):
@@ -227,13 +199,6 @@ class Powiadomienia(QWidget):
 
 def sprawdzanie_nowych_aktualizacji():
     try:
-        # Znajdź folder na pulpicie, który zawiera jednocześnie folder 'rei' i plik 'main2.py'
-        folder_path = find_folders_with_main2_and_rei()
-
-        if not folder_path:
-            print("Nie znaleziono folderu na pulpicie zawierającego jednocześnie folder 'rei' i plik 'main2.py'.")
-            return
-
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
@@ -241,11 +206,12 @@ def sprawdzanie_nowych_aktualizacji():
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             version_online = response.content.decode('utf-8').strip()
         except requests.exceptions.RequestException as e:
-            print(f"Wystąpił błąd połączenia z internetem: {e}")
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
             return
         version_online_lines = version_online.split('\n')
         # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(folder_path, "version.txt")
+        path = os.path.join(os.getcwd(), "version.txt")
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 version_local = f.read().strip()
@@ -264,7 +230,7 @@ def sprawdzanie_nowych_aktualizacji():
             toaster.powiadomienie_jednorazowe(
                 tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
 
-    except Exception as e:
+    except:
         pass
 
 
@@ -341,17 +307,16 @@ class OknoRozszerzen(QWidget):
 class AktualizacjaWatek(QThread):
     aktualizacja_zakonczona = pyqtSignal(int)
 
-    def __init__(self, urls, main_folder):
+    def __init__(self, urls):
         super().__init__()
         self.urls = urls
-        self.main_folder = main_folder
 
     def run(self):
         total_size = sum(self.get_file_size(url) for url in self.urls)
         current_size = 0
 
         for url in self.urls:
-            path = os.path.join(self.main_folder, os.path.basename(url))
+            path = os.path.join(os.getcwd(), os.path.basename(url))
 
             if os.path.exists(path):
                 os.remove(path)
@@ -359,7 +324,7 @@ class AktualizacjaWatek(QThread):
             # Sprawdź, czy URL prowadzi do pliku czy do folderu
             if url.endswith('/'):  # Jeśli kończy się na '/', to jest to folder
                 folder_name = os.path.basename(url[:-1])
-                folder_path = os.path.join(self.main_folder, folder_name)
+                folder_path = os.path.join(os.getcwd(), folder_name)
                 self.download_folder(url, folder_path)
             else:
                 urllib.request.urlretrieve(url, path)
@@ -407,7 +372,6 @@ class OknoAktualizacji(QWidget):
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt"
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
-        self.main_folder = self.find_main_folder()
 
         self.inicjalizuj_ui()
 
@@ -439,8 +403,7 @@ class OknoAktualizacji(QWidget):
         self.setGeometry(200, 200, 400, 150)
 
         self.pasek_postępu.setValue(0)
-        self.watek_aktualizacji = AktualizacjaWatek(
-            self.urls, self.main_folder)
+        self.watek_aktualizacji = AktualizacjaWatek(self.urls)
         self.watek_aktualizacji.aktualizacja_zakonczona.connect(
             self.zakoncz_aktualizacje)
 
@@ -465,6 +428,7 @@ class OknoAktualizacji(QWidget):
         if value == 100:
             # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
             # subprocess.run(["python", "Aktualizator.py"])
+            # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
             # Uruchomienie programu z nowego pliku main2.py po zakończeniu aktualizacji
             os.execl(sys.executable, sys.executable, "main2.py")
             QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
@@ -473,11 +437,6 @@ class OknoAktualizacji(QWidget):
         print('Aktualizacja anulowana.')
         self.watek_aktualizacji.terminate()
         self.close()
-
-    def find_main_folder(self):
-        current_file = os.path.abspath(__file__)
-        main_folder = os.path.dirname(current_file)
-        return main_folder
 
 
 class OknoUstawien(QWidget):

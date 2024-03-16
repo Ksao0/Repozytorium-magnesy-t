@@ -227,6 +227,13 @@ class Powiadomienia(QWidget):
 
 def sprawdzanie_nowych_aktualizacji():
     try:
+        # Znajdź folder na pulpicie, który zawiera jednocześnie folder 'rei' i plik 'main2.py'
+        folder_path = find_folders_with_main2_and_rei()
+
+        if not folder_path:
+            print("Nie znaleziono folderu na pulpicie zawierającego jednocześnie folder 'rei' i plik 'main2.py'.")
+            return
+
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
@@ -234,12 +241,11 @@ def sprawdzanie_nowych_aktualizacji():
             response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
             version_online = response.content.decode('utf-8').strip()
         except requests.exceptions.RequestException as e:
-            messagebox.showerror(
-                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+            print(f"Wystąpił błąd połączenia z internetem: {e}")
             return
         version_online_lines = version_online.split('\n')
         # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "version.txt")
+        path = os.path.join(folder_path, "version.txt")
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 version_local = f.read().strip()
@@ -252,11 +258,13 @@ def sprawdzanie_nowych_aktualizacji():
         local_aktualna_wersja = version_local_lines[0]
 
         if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
+            print("Dostępna jest aktualizacja:")
+            print(f"  {local_aktualna_wersja} --> {najnowsza_wersja_online}")
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
                 tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
 
-    except:
+    except Exception as e:
         pass
 
 

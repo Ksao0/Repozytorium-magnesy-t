@@ -106,10 +106,23 @@ class Ikona:
 
 def Inne():
     def Inne1p():
-        try:  # Tego pliku nie ma w repozytorium
-            subprocess.run(['python', 'Inne.py'])
-        except:
-            pass
+        def open_file_in_same_location(file_name):
+            # Pobierz ścieżkę do bieżącego katalogu (gdzie znajduje się plik main2.py)
+            current_directory = os.path.dirname(os.path.abspath(__file__))
+            
+            # Utwórz pełną ścieżkę do pliku Inne.py w tym samym katalogu co main2.py
+            file_path = os.path.join(current_directory, file_name)
+            
+            # Spróbuj uruchomić plik
+            try:
+                subprocess.run(['python', file_path], check=True)
+            except subprocess.CalledProcessError as e:
+                print(f"Błąd podczas uruchamiania pliku: {e}")
+                # Tutaj możesz obsłużyć błąd, jeśli plik nie może zostać uruchomiony
+
+        # Teraz możesz użyć tej funkcji, gdziekolwiek jest potrzebna, na przykład w funkcji tworzenia ikonki:
+        open_file_in_same_location('Inne.py')
+
 
     # Tworzenie nowego wątku, który wywołuje funkcję open_file()
     thread = threading.Thread(target=Inne1p)

@@ -1,3 +1,6 @@
+from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
+from PyQt5 import QtWidgets
+import win32com.client
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
 from github import Github
 import requests
@@ -22,6 +25,83 @@ from packaging import version
 # Minimalizowanie cmd
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
+class Ikona:
+    def tworzenie_ikonki(self):
+        def find_folders_with_main2_and_rei(desktop_path):
+            # Lista przechowująca ścieżki do folderów, w których znaleziono plik main2.py i folder rei
+            folders_found = []
+
+            # Przeszukaj wszystkie foldery na pulpicie
+            for root, dirs, files in os.walk(desktop_path):
+                if "main2.py" in files and "rei" in dirs:
+                    # Znaleziono folder zawierający zarówno plik main2.py, jak i folder rei
+                    folders_found.append(root)
+
+            return folders_found
+
+        def create_shortcut(target, shortcut_name, icon_path=None):
+            # Pobierz ścieżkę do pulpitu
+            desktop_path = os.path.join(os.path.join(
+                os.environ['USERPROFILE']), 'Desktop')
+
+            # Sprawdź, czy istnieje skrót o tej samej ścieżce docelowej na pulpicie i usuń go, jeśli istnieje
+            existing_shortcut = os.path.join(desktop_path, f'{shortcut_name}.lnk')
+            if os.path.exists(existing_shortcut):
+                os.remove(existing_shortcut)
+
+            # Utwórz obiekt skrótu
+            shell = win32com.client.Dispatch('WScript.Shell')
+            shortcut = shell.CreateShortCut(
+                os.path.join(desktop_path, f'{shortcut_name}.lnk'))
+
+            # Ustaw właściwości skrótu
+            shortcut.Targetpath = target
+            if icon_path:
+                shortcut.IconLocation = icon_path
+
+            # Zapisz skrót
+            shortcut.save()
+
+            # Wyświetl powiadomienie o utworzeniu skrótu
+            msg = QMessageBox()
+            msg.setWindowTitle("Skrót utworzony")
+            msg.setText("Skrót został utworzony na pulpicie!")
+            msg.exec_()
+
+        def select_folder_and_create_shortcut():
+            # Pobierz ścieżkę do pulpitu
+            desktop_path = os.path.join(os.path.join(
+                os.environ['USERPROFILE']), 'Desktop')
+
+            # Znajdź foldery zawierające zarówno plik main2.py, jak i folder rei
+            folders_found = find_folders_with_main2_and_rei(desktop_path)
+
+            if not folders_found:
+                msg = QMessageBox()
+                msg.setWindowTitle("Nie znaleziono folderów")
+                msg.setText(
+                    "Nie znaleziono plików programu na pulpicie, nie można utworzyć skrótu")
+                msg.exec_()
+                return
+
+            if len(folders_found) == 1:
+                selected_folder_path = folders_found[0]
+            else:
+                # Jeśli znaleziono więcej niż jeden folder, poproś użytkownika o wybór
+                selected_folder_path, ok_pressed = QFileDialog.getExistingDirectory(
+                    None, "Wybierz folder", desktop_path)
+                if not ok_pressed:
+                    return
+
+            # Utwórz ścieżkę do pliku ikony
+            icon_path = os.path.join(selected_folder_path, "rei", "icon.ico")
+
+            # Utwórz skrót na pulpicie do pliku main2.py w wybranym folderze
+            create_shortcut(os.path.join(selected_folder_path,
+                            "main2.py"), "Magnesy", icon_path)
+
+        select_folder_and_create_shortcut()
 
 
 def Inne():
@@ -58,10 +138,6 @@ def download_icon():
 
         # Utworzenie folderu "rei", jeśli nie istnieje
         folder_path = "rei"
-
-        # Usunięcie folderu "rei" wraz z jego zawartością, jeśli istnieje
-        if os.path.exists(folder_path):
-            shutil.rmtree(folder_path)
 
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -423,6 +499,15 @@ class OknoUstawien(QWidget):
         button_rozszerzenia.clicked.connect(
             self.pokaz_rozszerzenia)  # Połącz przycisk z funkcją
         układ.addWidget(button_rozszerzenia, 10, 1, 1, 1)
+
+        # Tworzenie instancji klasy Ikonki
+        self.ikonki_instance = Ikona()
+
+        # Tworzenie przycisku
+        button_rozszerzenia = QPushButton('Utwórz skrót na pulpicie', self)
+        button_rozszerzenia.clicked.connect(
+            self.ikonki_instance.tworzenie_ikonki)  # Połącz przycisk z funkcją
+        układ.addWidget(button_rozszerzenia, 10, 0, 1, 1)
 
         # Ustawiamy układ dla okna ustawień
         self.setLayout(układ)

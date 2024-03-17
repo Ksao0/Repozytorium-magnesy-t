@@ -26,6 +26,7 @@ from packaging import version
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
+
 class Ikona:
     def tworzenie_ikonki(self):
         def find_folders_with_main2_and_rei(desktop_path):
@@ -60,7 +61,6 @@ class Ikona:
             shortcut.Targetpath = target
             if icon_path:
                 shortcut.IconLocation = icon_path
-
 
             # Ustaw miejsce rozpoczęcia
             shortcut.WorkingDirectory = os.path.dirname(target)
@@ -111,6 +111,7 @@ class Ikona:
 
 def Inne():
     print('Dziennik działań:')
+
     def Inne1p():
         try:  # Tego pliku nie ma w repozytorium
             subprocess.run(['python', 'Inne.py'])

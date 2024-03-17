@@ -72,8 +72,9 @@ def start_client():
                 client_socket.sendall(message.encode())
             print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
         except Exception as e:
-            if ilosc_bledow < 3:  # Sprawdź warunek ilości błędów
-                print("Wystąpił błąd podczas uruchamiania klienta:", e)
+            if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
+                if ilosc_bledow == 0:
+                    print("Wystąpił błąd podczas uruchamiania klienta:", e)
                 ilosc_bledow += 1  # Zwiększ licznik błędów
             else:
                 print("Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")

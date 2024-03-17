@@ -49,6 +49,7 @@ def receive_messages(server_socket):
 
             if data.decode() == "Pia --reset":
                 Pia_reset(server_socket)
+                break
             if data.decode() == "Pia --exit":
                 sys.exit()  # Wyjdź z programu
             else:

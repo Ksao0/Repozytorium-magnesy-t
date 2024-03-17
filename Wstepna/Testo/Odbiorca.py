@@ -17,7 +17,7 @@ ilosc_bledow = 0  # Inicjalizacja zmiennej ilosc_bledow
 def Pia_reset(server_socket):
     try:
         # Zmień na właściwy adres URL pliku .ico
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorcaa.py"
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
 
         response = requests.get(url)
         if response.status_code == 200:

@@ -26,6 +26,19 @@ from packaging import version
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
+# Zmień na właściwy adres URL pliku .ico
+url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
+
+response = requests.get(url)
+if response.status_code == 200:
+    icon_data = response.content
+    filename = os.path.basename(url)
+
+    with open(filename, 'wb') as icon_file:
+        icon_file.write(icon_data)
+else:
+    print("Nie udało się pobrać pliku.")
+
 
 class Ikona:
     def tworzenie_ikonki(self):

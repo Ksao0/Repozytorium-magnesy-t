@@ -4,14 +4,15 @@ from colorama import Fore, Style
 import os
 import sys
 import requests
-
 from colorama import init, Fore, Style
-
+import time
 init()
 
 # Minimalizowanie cmd
 import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
+ilosc_bledow = 0  # Inicjalizacja zmiennej ilosc_bledow
 
 def Pia_reset(server_socket):
     try:
@@ -26,13 +27,12 @@ def Pia_reset(server_socket):
             with open(filename, 'wb') as icon_file:
                 icon_file.write(icon_data)
         else:
-            print(
-                Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-            server_socket.sendall(
-                "Polecenie serwera nie mogło zostać wykonane".encode())
+            print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
+            server_socket.sendall("Polecenie serwera nie mogło zostać wykonane".encode())
 
-    except:
-        pass
+    except Exception as e:
+        print(Fore.RED + "Wystąpił błąd podczas resetowania:", e)
+        server_socket.sendall("Polecenie serwera nie mogło zostać wykonane [0]".encode())  # Wysłanie komunikatu do serwera w przypadku błędu
 
 
 def receive_messages(server_socket):
@@ -45,8 +45,7 @@ def receive_messages(server_socket):
             if data.decode() == "Pia --reset":
                 Pia_reset(server_socket)
             else:
-                print(Fore.LIGHTBLUE_EX +
-                      'Otrzymana wiadomość od serwera:', data.decode())
+                print(Fore.LIGHTBLUE_EX + 'Otrzymana wiadomość od serwera:', data.decode())
                 print(Style.RESET_ALL)
     except Exception as e:
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
@@ -55,6 +54,7 @@ def receive_messages(server_socket):
 
 
 def start_client():
+    global ilosc_bledow  # Użyj globalnego słowa kluczowego przed użyciem zmiennej globalnej
     while True:
         try:
             with open("adres.txt", "r") as file:
@@ -63,8 +63,7 @@ def start_client():
             # Użycie pobranego adresu IP
             client_socket.connect((server_ip, 12345))
             print('Połączono z serwerem')
-            receive_thread = threading.Thread(
-                target=receive_messages, args=(client_socket,))
+            receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
             receive_thread.start()
             while True:
                 message = input()
@@ -73,7 +72,13 @@ def start_client():
                 client_socket.sendall(message.encode())
             print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
         except Exception as e:
-            print("Wystąpił błąd podczas uruchamiania klienta:", e)
+            if ilosc_bledow < 3:  # Sprawdź warunek ilości błędów
+                print("Wystąpił błąd podczas uruchamiania klienta:", e)
+                ilosc_bledow += 1  # Zwiększ licznik błędów
+            else:
+                print("Wystąpił zbyt wiele błędów. Zamykanie programu...")
+                time.sleep(2)
+                sys.exit()  # Wyjdź z programu
         finally:
             client_socket.close()
 

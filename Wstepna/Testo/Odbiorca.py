@@ -76,7 +76,7 @@ def start_client():
                 print("Wystąpił błąd podczas uruchamiania klienta:", e)
                 ilosc_bledow += 1  # Zwiększ licznik błędów
             else:
-                print("Wystąpił zbyt wiele błędów. Zamykanie programu...")
+                print("Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
                 time.sleep(2)
                 sys.exit()  # Wyjdź z programu
         finally:

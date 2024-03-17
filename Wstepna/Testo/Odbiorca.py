@@ -9,6 +9,9 @@ from colorama import init, Fore, Style
 
 init()
 
+# Minimalizowanie cmd
+import ctypes
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 def Pia_reset(server_socket):
     try:

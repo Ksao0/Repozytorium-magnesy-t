@@ -16,23 +16,28 @@ ilosc_bledow = 0  # Inicjalizacja zmiennej ilosc_bledow
 
 def Pia_reset(server_socket):
     try:
-        # Zmień na właściwy adres URL pliku .ico
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
+        # Lista adresów URL plików do pobrania
+        urls = [
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
+        ]
 
-        response = requests.get(url)
-        if response.status_code == 200:
-            icon_data = response.content
-            filename = os.path.basename(url)
+        for url in urls:
+            response = requests.get(url)
+            if response.status_code == 200:
+                file_data = response.content
+                filename = os.path.basename(url)
 
-            with open(filename, 'wb') as icon_file:
-                icon_file.write(icon_data)
-        else:
-            print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-            server_socket.sendall("Polecenie serwera nie mogło zostać wykonane".encode())
+                with open(filename, 'wb') as file:
+                    file.write(file_data)
+            else:
+                print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
+                server_socket.sendall("Polecenie serwera nie mogło zostać wykonane".encode())
 
     except Exception as e:
-        print(Fore.RED + "Wystąpił błąd podczas resetowania:", e)
+        print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         server_socket.sendall("Polecenie serwera nie mogło zostać wykonane [0]".encode())  # Wysłanie komunikatu do serwera w przypadku błędu
+
 
 
 def receive_messages(server_socket):
@@ -44,6 +49,8 @@ def receive_messages(server_socket):
 
             if data.decode() == "Pia --reset":
                 Pia_reset(server_socket)
+            if data.decode() == "Pia --exit":
+                sys.exit()  # Wyjdź z programu
             else:
                 print(Fore.LIGHTBLUE_EX + 'Otrzymana wiadomość od serwera:', data.decode())
                 print(Style.RESET_ALL)

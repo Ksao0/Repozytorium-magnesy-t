@@ -11,6 +11,7 @@ import os
 import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
 from szyfrowanie import szyfrowanie, odszyfrowywanie
+import tkinter.messagebox
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -74,6 +75,22 @@ def Pia_reset(server_socket):
             "Polecenie serwera nie mogło zostać wykonane [0]".encode())
 
 
+# Funkcja do obsługi powiadomień
+def show_notification(title, message, notification_type):
+    # Wybierz rodzaj powiadomienia na podstawie przekazanego parametru
+    if notification_type == "info":
+        tkinter.messagebox.showinfo(title, message)
+    elif notification_type == "warning":
+        tkinter.messagebox.showwarning(title, message)
+    elif notification_type == "error":
+        tkinter.messagebox.showerror(title, message)
+    # elif notification_type == "question":
+    #    response = tkinter.messagebox.askquestion(title, message)
+        # Tutaj możesz obsłużyć odpowiedź użytkownika na pytanie, jeśli jest to konieczne
+    else:
+        tkinter.messagebox.showinfo(title, message)
+
+
 def receive_messages(server_socket):
     try:
         while True:
@@ -93,6 +110,22 @@ def receive_messages(server_socket):
                     message = message.rstrip('")')
                     # Wyświetlanie powiadomienia
                     toaster.show_toast(f"Polecnia serwera: {title}", message)
+                else:
+                    print("Błędny format polecenia powiadomienia")
+                break
+            elif odszyfrowywanie(data.decode()).startswith("Pia --mes"):
+                sys.stderr = open('nul', 'w')
+                # Parsowanie tytułu, treści powiadomienia i rodzaju powiadomienia
+                command = odszyfrowywanie(data.decode()).strip()
+                command_parts = command.split('("')
+                if len(command_parts) == 3:
+                    notification_type, message_part = command_parts[0].split(
+                        ' ", "')
+                    title, message = message_part.split('", "')
+                    # Usuń ewentualny znak ")" na końcu wiadomości
+                    message = message.rstrip('")')
+                    # Wyświetlanie powiadomienia
+                    show_notification(title, message, notification_type)
                 else:
                     print("Błędny format polecenia powiadomienia")
 

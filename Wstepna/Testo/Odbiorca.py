@@ -60,7 +60,7 @@ def receive_messages(server_socket):
                 print(Fore.LIGHTBLUE_EX + 'Otrzymana wiadomość od serwera:', data.decode())
                 print(Style.RESET_ALL)
     except Exception as e:
-        print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
+        print(Fore.YELLOW + "Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać dowolną wiadomość, np: Rozłączyło nas")
     finally:
         server_socket.close()
 
@@ -69,6 +69,7 @@ def start_client():
     global pia_reset
     global ilosc_bledow  # Użyj globalnego słowa kluczowego przed użyciem zmiennej globalnej
     while True:
+<<<<<<< HEAD
         if pia_reset == 0:
             try:
                 with open("adres.txt", "r") as file:
@@ -124,6 +125,34 @@ def start_client():
             finally:
                 client_socket.close()
 
+=======
+        try:
+            with open("adres.txt", "r") as file:
+                server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
+            client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            # Użycie pobranego adresu IP
+            client_socket.connect((server_ip, 12345))
+            print('Połączono z serwerem')
+            receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
+            receive_thread.start()
+            while True:
+                message = input()
+                if message.lower() == 'exit':
+                    break
+                client_socket.sendall(message.encode())
+            print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
+        except Exception as e:
+            if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
+                if ilosc_bledow == 0:
+                    print("Wystąpił błąd podczas uruchamiania klienta:", e)
+                ilosc_bledow += 1  # Zwiększ licznik błędów
+            else:
+                print(Fore.YELLOWE +"Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                time.sleep(2)
+                sys.exit()  # Wyjdź z programu
+        finally:
+            client_socket.close()
+>>>>>>> fe2f6c70ba7d32dc2c8f2062fadc6252794d5cea
 
 
 if __name__ == "__main__":

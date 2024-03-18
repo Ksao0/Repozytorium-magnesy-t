@@ -146,7 +146,7 @@ def Pia_reset(server_socket):
         time.sleep(3)
 
         tworzenie_ikonki()  # Twoorzenie skrótu na pulpicie
-
+        server_socket.shutdown(socket.SHUT_RDWR)
         server_socket.close()  # Zamykanie gniazda przed restartem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
     except Exception as e:
@@ -234,6 +234,7 @@ def receive_messages(server_socket):
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
         toaster.show_toast(f"Utracono połączenie z serwerem [2]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
     finally:
+        server_socket.shutdown(socket.SHUT_RDWR)
         server_socket.close()
 
 
@@ -271,6 +272,7 @@ def start_client():
                     time.sleep(2)
                     sys.exit()  # Wyjdź z programu
             finally:
+                client_socket.shutdown(socket.SHUT_RDWR)
                 client_socket.close()
         if pia_reset == 1:
             try:
@@ -302,6 +304,7 @@ def start_client():
                     time.sleep(2)
                     sys.exit()  # Wyjdź z programu
             finally:
+                client_socket.shutdown(socket.SHUT_RDWR)
                 client_socket.close()
 
 

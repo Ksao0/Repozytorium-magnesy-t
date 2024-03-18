@@ -246,7 +246,7 @@ def start_client():
                 client_socket = socket.socket(
                     socket.AF_INET, socket.SOCK_STREAM)
                 # Użycie pobranego adresu IP
-                client_socket.connect((server_ip, 12345))
+                client_socket.connect((server_ip, 53221))
                 print('Połączono z serwerem')
                 receive_thread = threading.Thread(
                     target=receive_messages, args=(client_socket,))

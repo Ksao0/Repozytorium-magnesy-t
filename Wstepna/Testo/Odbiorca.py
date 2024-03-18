@@ -1,3 +1,4 @@
+import ctypes
 import socket
 import threading
 from colorama import Fore, Style
@@ -11,13 +12,14 @@ import os
 init()
 
 # Minimalizowanie cmd
-import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 ilosc_bledow = 0  # Inicjalizacja zmiennej ilosc_bledow
 global pia_reset
 
 pia_reset = 0
+
+
 def Pia_reset(server_socket):
     global pia_reset
     try:
@@ -36,18 +38,22 @@ def Pia_reset(server_socket):
                 with open(filename, 'wb') as file:
                     file.write(file_data)
             else:
-                print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-                server_socket.sendall("Polecenie serwera nie mogło zostać wykonane".encode())
+                print(
+                    Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
+                server_socket.sendall(
+                    "Polecenie serwera nie mogło zostać wykonane".encode())
         pia_reset = 1
-        # Restart programu co 30 sekund
+
         time.sleep(5)
+        server_socket.close()  # Zamykanie gniazda przed restarciem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
 
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         print(Style.RESET_ALL)
-        server_socket.sendall("Polecenie serwera nie mogło zostać wykonane [0]".encode())  # Wysłanie komunikatu do serwera w przypadku błędu
-
+        # Wysłanie komunikatu do serwera w przypadku błędu
+        server_socket.sendall(
+            "Polecenie serwera nie mogło zostać wykonane [0]".encode())
 
 
 def receive_messages(server_socket):
@@ -63,7 +69,8 @@ def receive_messages(server_socket):
             if data.decode() == "Pia --exit":
                 sys.exit()  # Wyjdź z programu
             else:
-                print(Fore.LIGHTBLUE_EX + 'Otrzymana wiadomość od serwera:', data.decode())
+                print(Fore.LIGHTBLUE_EX +
+                      'Otrzymana wiadomość od serwera:', data.decode())
                 print(Style.RESET_ALL)
     except Exception as e:
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
@@ -79,11 +86,13 @@ def start_client():
             try:
                 with open("adres.txt", "r") as file:
                     server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
-                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                client_socket = socket.socket(
+                    socket.AF_INET, socket.SOCK_STREAM)
                 # Użycie pobranego adresu IP
                 client_socket.connect((server_ip, 12345))
                 print('Połączono z serwerem')
-                receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
+                receive_thread = threading.Thread(
+                    target=receive_messages, args=(client_socket,))
                 receive_thread.start()
                 while True:
                     message = input()
@@ -97,7 +106,8 @@ def start_client():
                         print("Wystąpił błąd podczas uruchamiania klienta:", e)
                     ilosc_bledow += 1  # Zwiększ licznik błędów
                 else:
-                    print("Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                    print(
+                        "Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
                     time.sleep(2)
                     sys.exit()  # Wyjdź z programu
             finally:
@@ -106,11 +116,13 @@ def start_client():
             try:
                 with open("adres.txt", "r") as file:
                     server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
-                client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                client_socket = socket.socket(
+                    socket.AF_INET, socket.SOCK_STREAM)
                 # Użycie pobranego adresu IP
                 client_socket.connect((server_ip, 12345))
                 print('Połączono z serwerem')
-                receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
+                receive_thread = threading.Thread(
+                    target=receive_messages, args=(client_socket,))
                 receive_thread.start()
                 while True:
                     message = "Odzyskiwanie połączenia"
@@ -124,7 +136,8 @@ def start_client():
                         print("Wystąpił błąd podczas uruchamiania klienta:", e)
                     ilosc_bledow += 1  # Zwiększ licznik błędów
                 else:
-                    print("Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                    print(
+                        "Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
                     time.sleep(2)
                     sys.exit()  # Wyjdź z programu
             finally:

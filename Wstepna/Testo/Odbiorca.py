@@ -171,6 +171,7 @@ def show_notification(title, message, notification_type, server_socket):
             title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     else:
         print("Nieznany rodzaj powiadomienia")
+        toaster.show_toast(f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
 
 
 def receive_messages(server_socket):
@@ -231,6 +232,7 @@ def receive_messages(server_socket):
                 print(Style.RESET_ALL)
     except Exception as e:
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
+        toaster.show_toast(f"Utracono połączenie z serwerem [2]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
     finally:
         server_socket.close()
 
@@ -257,6 +259,7 @@ def start_client():
                         break
                     client_socket.sendall(szyfrowanie(message).encode())
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
+                toaster.show_toast(f"Utracono połączenie z serwerem [1]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
             except Exception as e:
                 if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
                     if ilosc_bledow == 0:
@@ -287,6 +290,7 @@ def start_client():
                         break
                     client_socket.sendall(message.encode())
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
+                toaster.show_toast(f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
             except Exception as e:
                 if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
                     if ilosc_bledow == 0:

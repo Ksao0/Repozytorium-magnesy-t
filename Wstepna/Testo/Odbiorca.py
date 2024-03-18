@@ -145,9 +145,10 @@ def Pia_reset(server_socket):
         pia_reset = 1
         time.sleep(3)
 
-        tworzenie_ikonki()  # Twoorzenie skrótu na pulpicie
+        tworzenie_ikonki()  # Tworzenie skrótu na pulpicie
         server_socket.shutdown(socket.SHUT_RDWR)
         server_socket.close()  # Zamykanie gniazda przed restartem
+        start_client()
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)

@@ -19,6 +19,9 @@ global pia_reset
 
 pia_reset = 0
 
+os.system('cls')  # W przypadku Windows, używamy polecenia cls
+print('Dziennik działań:')
+
 
 def Pia_reset(server_socket):
     global pia_reset

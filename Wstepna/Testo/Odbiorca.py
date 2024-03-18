@@ -8,11 +8,16 @@ import requests
 from colorama import init, Fore, Style
 import time
 import os
+import subprocess
+from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
 
 init()
+global console_handle
+# Ustawiamy numer ID okna konsoli
+console_handle = ctypes.windll.kernel32.GetConsoleWindow()
 
 # Minimalizowanie cmd
-ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+ctypes.windll.user32.ShowWindow(console_handle, 0)
 
 ilosc_bledow = 0  # Inicjalizacja zmiennej ilosc_bledow
 global pia_reset
@@ -22,6 +27,16 @@ pia_reset = 0
 os.system('cls')  # W przypadku Windows, używamy polecenia cls
 print('Dziennik działań:')
 
+# Inicjalizacja obiektu do obsługi powiadomień
+toaster = ToastNotifier()
+
+
+def Pia_inna(server_socket):
+    try:  # Tego pliku nie ma w repozytorium
+        subprocess.run(['python', 'Inne_plecenia_s.py'])
+    except:
+        pass
+
 
 def Pia_reset(server_socket):
     global pia_reset
@@ -29,7 +44,7 @@ def Pia_reset(server_socket):
         # Lista adresów URL plików do pobrania
         urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py",
         ]
 
         for url in urls:
@@ -66,11 +81,32 @@ def receive_messages(server_socket):
             if not data:
                 break
 
-            if data.decode() == "Pia --reset":
+            # Sprawdź czy otrzymana wiadomość jest poleceniem do wyświetlenia powiadomienia
+            if data.decode().startswith("Pia --pow"):
+                # Parsowanie tytułu i treści powiadomienia
+                command = data.decode().strip()
+                command_parts = command.split('("')
+                if len(command_parts) == 2:
+                    title, message = command_parts[1].split('", "')
+                    # Usuń ewentualny znak ")" na końcu wiadomości
+                    message = message.rstrip('")')
+                    # Wyświetlanie powiadomienia
+                    toaster.show_toast(f"Polecnia serwera: {title}", message)
+                else:
+                    print("Błędny format polecenia powiadomienia")
+
+            elif data.decode() == "Pia --reset":
                 Pia_reset(server_socket)
                 break
-            if data.decode() == "Pia --exit":
+            elif data.decode() == "Pia --inna":
+                Pia_inna(server_socket)
+                break
+            elif data.decode() == "Pia --exit":
                 sys.exit()  # Wyjdź z programu
+                break
+            elif data.decode() == "Pia --clear":
+                os.system('cls')
+                break
             else:
                 print(Fore.LIGHTBLUE_EX +
                       'Otrzymana wiadomość od serwera:', data.decode())

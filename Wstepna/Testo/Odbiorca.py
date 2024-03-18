@@ -45,6 +45,7 @@ def Pia_inna(server_socket):
         subprocess.run(['python', 'Inne_plecenia_s.py'])
     except:
         pass
+    return
 
 
 def tworzenie_ikonki():
@@ -126,6 +127,7 @@ def tworzenie_ikonki():
                         "main2.py"), "Magnesy", icon_path)
 
     select_folder_and_create_shortcut()
+    return
 
 
 def Pia_reset(server_socket):
@@ -153,7 +155,7 @@ def Pia_reset(server_socket):
         pia_reset = 1
         time.sleep(3)
 
-        tworzenie_ikonki() # Twoorzenie skrótu na pulpicie
+        tworzenie_ikonki()  # Twoorzenie skrótu na pulpicie
 
         server_socket.close()  # Zamykanie gniazda przed restartem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")

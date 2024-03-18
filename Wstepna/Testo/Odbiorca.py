@@ -6,6 +6,8 @@ import sys
 import requests
 from colorama import init, Fore, Style
 import time
+import os
+
 init()
 
 # Minimalizowanie cmd
@@ -37,9 +39,13 @@ def Pia_reset(server_socket):
                 print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
                 server_socket.sendall("Polecenie serwera nie mogło zostać wykonane".encode())
         pia_reset = 1
+        # Restart programu co 30 sekund
+        time.sleep(5)
+        os.execl(sys.executable, sys.executable, "Odbiorca.py")
 
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
+        print(Style.RESET_ALL)
         server_socket.sendall("Polecenie serwera nie mogło zostać wykonane [0]".encode())  # Wysłanie komunikatu do serwera w przypadku błędu
 
 
@@ -60,7 +66,7 @@ def receive_messages(server_socket):
                 print(Fore.LIGHTBLUE_EX + 'Otrzymana wiadomość od serwera:', data.decode())
                 print(Style.RESET_ALL)
     except Exception as e:
-        print(Fore.YELLOW + "Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać dowolną wiadomość, np: Rozłączyło nas")
+        print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
     finally:
         server_socket.close()
 
@@ -123,7 +129,6 @@ def start_client():
                     sys.exit()  # Wyjdź z programu
             finally:
                 client_socket.close()
-
 
 
 if __name__ == "__main__":

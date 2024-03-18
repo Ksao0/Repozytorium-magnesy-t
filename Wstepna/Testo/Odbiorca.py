@@ -12,6 +12,10 @@ import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
 from szyfrowanie import szyfrowanie, odszyfrowywanie
 import tkinter.messagebox
+import messagebox
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QCoreApplication
+from PyQt5.QtGui import QPalette, QColor, QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -79,16 +83,14 @@ def Pia_reset(server_socket):
 def show_notification(title, message, notification_type):
     # Wybierz rodzaj powiadomienia na podstawie przekazanego parametru
     if notification_type == "info":
-        tkinter.messagebox.showinfo(title, message)
+        messagebox.showinfo(title, message)
     elif notification_type == "warning":
-        tkinter.messagebox.showwarning(title, message)
+        messagebox.showwarning(title, message)
     elif notification_type == "error":
-        tkinter.messagebox.showerror(title, message)
-    # elif notification_type == "question":
-    #    response = tkinter.messagebox.askquestion(title, message)
-        # Tutaj możesz obsłużyć odpowiedź użytkownika na pytanie, jeśli jest to konieczne
+        messagebox.showerror(title, message)
     else:
-        tkinter.messagebox.showinfo(title, message)
+        print("Nieznany rodzaj powiadomienia")
+
 
 
 def receive_messages(server_socket):
@@ -113,16 +115,23 @@ def receive_messages(server_socket):
                 else:
                     print("Błędny format polecenia powiadomienia")
                 break
-            elif odszyfrowywanie(data.decode()).startswith("Pia --mes"):
-                command = odszyfrowywanie(data.decode()).strip()
+            
+            decrypted_data = odszyfrowywanie(data.decode())
+            if decrypted_data.startswith("Pia --mes"):
+                command = decrypted_data.strip()
                 command_parts = command.split('("')
                 if len(command_parts) == 2:
-                    notification_type, message_part = command_parts[1].split('", "')
-                    title, message = message_part.rstrip('")').split('", "')
-                    # Wyświetlanie powiadomienia
-                    show_notification(title, message, notification_type)
+                    message_part = command_parts[1].rstrip('")')
+                    parts = message_part.split('", "')
+                    if len(parts) == 3:
+                        notification_type, title, message = parts
+                        show_notification(title, message, notification_type)
+                    else:
+                        print("Błędny format polecenia powiadomienia")
                 else:
                     print("Błędny format polecenia powiadomienia")
+                break
+
             elif odszyfrowywanie(data.decode()) == "Pia --reset":
                 Pia_reset(server_socket)
                 break

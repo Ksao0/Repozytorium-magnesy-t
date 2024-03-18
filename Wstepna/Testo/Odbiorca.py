@@ -80,17 +80,19 @@ def Pia_reset(server_socket):
 
 
 # Funkcja do obsługi powiadomień
-def show_notification(title, message, notification_type):
+def show_notification(title, message, notification_type, server_socket):
     # Wybierz rodzaj powiadomienia na podstawie przekazanego parametru
     if notification_type == "info":
-        messagebox.showinfo(title, message)
+        messagebox.showinfo(
+            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     elif notification_type == "warning":
-        messagebox.showwarning(title, message)
+        messagebox.showwarning(
+            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     elif notification_type == "error":
-        messagebox.showerror(title, message)
+        messagebox.showerror(
+            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     else:
         print("Nieznany rodzaj powiadomienia")
-
 
 
 def receive_messages(server_socket):
@@ -115,7 +117,7 @@ def receive_messages(server_socket):
                 else:
                     print("Błędny format polecenia powiadomienia")
                 break
-            
+
             decrypted_data = odszyfrowywanie(data.decode())
             if decrypted_data.startswith("Pia --mes"):
                 command = decrypted_data.strip()
@@ -125,7 +127,8 @@ def receive_messages(server_socket):
                     parts = message_part.split('", "')
                     if len(parts) == 3:
                         notification_type, title, message = parts
-                        show_notification(title, message, notification_type)
+                        show_notification(
+                            title, message, notification_type, server_socket)
                     else:
                         print("Błędny format polecenia powiadomienia")
                 else:

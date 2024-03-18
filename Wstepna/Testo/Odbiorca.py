@@ -85,7 +85,7 @@ def receive_messages(server_socket):
             if odszyfrowywanie(data.decode()).startswith("Pia --pow"):
                 sys.stderr = open('nul', 'w')
                 # Parsowanie tytułu i treści powiadomienia
-                command = data.decode().strip()
+                command = odszyfrowywanie(data.decode()).strip()
                 command_parts = command.split('("')
                 if len(command_parts) == 2:
                     title, message = command_parts[1].split('", "')

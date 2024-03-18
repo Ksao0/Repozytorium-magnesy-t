@@ -87,13 +87,6 @@ def tworzenie_ikonki():
         # Zapisz skrót
         shortcut.save()
 
-        # Wyświetl powiadomienie o utworzeniu skrótu
-        msg = QMessageBox()
-        msg.setWindowTitle("Skrót utworzony")
-        msg.setText("Skrót na pulpicie został utworzony!")
-        msg.setIcon(QMessageBox.Information)
-        msg.exec_()
-
     def select_folder_and_create_shortcut():
         # Pobierz ścieżkę do pulpitu
         desktop_path = os.path.join(os.path.join(
@@ -102,22 +95,10 @@ def tworzenie_ikonki():
         # Znajdź foldery zawierające zarówno plik main2.py, jak i folder rei
         folders_found = find_folders_with_main2_and_rei(desktop_path)
 
-        if not folders_found:
-            msg = QMessageBox()
-            msg.setWindowTitle("Nie znaleziono folderów")
-            msg.setText(
-                "Nie znaleziono plików programu na pulpicie, nie można utworzyć skrótu")
-            msg.exec_()
-            return
-
         if len(folders_found) == 1:
             selected_folder_path = folders_found[0]
         else:
-            # Jeśli znaleziono więcej niż jeden folder, poproś użytkownika o wybór
-            selected_folder_path, ok_pressed = QFileDialog.getExistingDirectory(
-                None, "Wybierz folder", desktop_path)
-            if not ok_pressed:
-                return
+            return
 
         # Utwórz ścieżkę do pliku ikony
         icon_path = os.path.join(selected_folder_path, "rei", "icon.ico")

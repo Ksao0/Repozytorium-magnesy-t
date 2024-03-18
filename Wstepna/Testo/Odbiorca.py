@@ -20,6 +20,8 @@ from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDo
 
 import win32com.client
 
+
+import pythoncom
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -49,6 +51,9 @@ def Pia_inna(server_socket):
 
 
 def tworzenie_ikonki():
+    # Inicjalizacja COM
+    pythoncom.CoInitialize()
+
     def find_folders_with_main2_and_rei(desktop_path):
         # Lista przechowująca ścieżki do folderów, w których znaleziono plik main2.py i folder rei
         folders_found = []
@@ -108,6 +113,10 @@ def tworzenie_ikonki():
                         "main2.py"), "Magnesy", icon_path)
 
     select_folder_and_create_shortcut()
+
+    # Zwalnianie zasobów COM
+    pythoncom.CoUninitialize()
+
     return
 
 

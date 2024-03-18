@@ -56,7 +56,7 @@ def receive_messages(server_socket):
                 print(Fore.LIGHTBLUE_EX + 'Otrzymana wiadomość od serwera:', data.decode())
                 print(Style.RESET_ALL)
     except Exception as e:
-        print(Fire.YELLOW + "Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać dowolną wiadomość, np: Rozłączyło nas")
+        print(Fore.YELLOW + "Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać dowolną wiadomość, np: Rozłączyło nas")
     finally:
         server_socket.close()
 
@@ -85,7 +85,7 @@ def start_client():
                     print("Wystąpił błąd podczas uruchamiania klienta:", e)
                 ilosc_bledow += 1  # Zwiększ licznik błędów
             else:
-                print(Fire.YELLOWE +"Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                print(Fore.YELLOWE +"Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
                 time.sleep(2)
                 sys.exit()  # Wyjdź z programu
         finally:

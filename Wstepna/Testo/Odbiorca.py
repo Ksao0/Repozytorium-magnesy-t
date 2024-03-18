@@ -114,20 +114,15 @@ def receive_messages(server_socket):
                     print("Błędny format polecenia powiadomienia")
                 break
             elif odszyfrowywanie(data.decode()).startswith("Pia --mes"):
-                sys.stderr = open('nul', 'w')
-                # Parsowanie tytułu, treści powiadomienia i rodzaju powiadomienia
                 command = odszyfrowywanie(data.decode()).strip()
-                command_parts = command.split('|')
-                if len(command_parts) == 3:
-                    notification_type = command_parts[0]
-                    title = command_parts[1]
-                    message = command_parts[2]
+                command_parts = command.split('("')
+                if len(command_parts) == 2:
+                    notification_type, message_part = command_parts[1].split('", "')
+                    title, message = message_part.rstrip('")').split('", "')
                     # Wyświetlanie powiadomienia
                     show_notification(title, message, notification_type)
                 else:
                     print("Błędny format polecenia powiadomienia")
-
-
             elif odszyfrowywanie(data.decode()) == "Pia --reset":
                 Pia_reset(server_socket)
                 break

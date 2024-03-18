@@ -148,7 +148,6 @@ def Pia_reset(server_socket):
         tworzenie_ikonki()  # Tworzenie skrótu na pulpicie
         server_socket.shutdown(socket.SHUT_RDWR)
         server_socket.close()  # Zamykanie gniazda przed restartem
-        start_client()
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
@@ -173,6 +172,7 @@ def show_notification(title, message, notification_type, server_socket):
     else:
         print("Nieznany rodzaj powiadomienia")
         toaster.show_toast(f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+    return
 
 
 def receive_messages(server_socket):

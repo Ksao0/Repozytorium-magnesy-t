@@ -153,7 +153,7 @@ def Pia_reset(server_socket):
         pia_reset = 1
         time.sleep(3)
 
-        tworzenie_ikonki()
+        tworzenie_ikonki() # Twoorzenie skrótu na pulpicie
 
         server_socket.close()  # Zamykanie gniazda przed restartem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")

@@ -10,7 +10,7 @@ import time
 import os
 import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
-
+from szyfrowanie import szyfrowanie, odszyfrowywanie
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -82,7 +82,7 @@ def receive_messages(server_socket):
                 break
 
             # Sprawdź czy otrzymana wiadomość jest poleceniem do wyświetlenia powiadomienia
-            if data.decode().startswith("Pia --pow"):
+            if odszyfrowywanie(data.decode()).startswith("Pia --pow"):
                 sys.stderr = open('nul', 'w')
                 # Parsowanie tytułu i treści powiadomienia
                 command = data.decode().strip()
@@ -96,21 +96,21 @@ def receive_messages(server_socket):
                 else:
                     print("Błędny format polecenia powiadomienia")
 
-            elif data.decode() == "Pia --reset":
+            elif odszyfrowywanie(data.decode()) == "Pia --reset":
                 Pia_reset(server_socket)
                 break
-            elif data.decode() == "Pia --inna":
+            elif odszyfrowywanie(data.decode()) == "Pia --inna":
                 Pia_inna(server_socket)
                 break
-            elif data.decode() == "Pia --exit":
+            elif odszyfrowywanie(data.decode()) == "Pia --exit":
                 sys.exit()  # Wyjdź z programu
                 break
-            elif data.decode() == "Pia --clear":
+            elif odszyfrowywanie(data.decode()) == "Pia --clear":
                 os.system('cls')
                 break
             else:
                 print(Fore.LIGHTBLUE_EX +
-                      'Otrzymana wiadomość od serwera:', data.decode())
+                      'Otrzymana wiadomość od serwera:', odszyfrowywanie(data.decode()))
                 print(Style.RESET_ALL)
     except Exception as e:
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
@@ -138,7 +138,7 @@ def start_client():
                     message = input()
                     if message.lower() == 'exit':
                         break
-                    client_socket.sendall(message.encode())
+                    client_socket.sendall(szyfrowanie(message).encode())
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
             except Exception as e:
                 if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
@@ -177,7 +177,7 @@ def start_client():
                     ilosc_bledow += 1  # Zwiększ licznik błędów
                 else:
                     print(
-                        "Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                        "Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
                     time.sleep(2)
                     sys.exit()  # Wyjdź z programu
             finally:

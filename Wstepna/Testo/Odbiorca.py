@@ -43,6 +43,33 @@ def Pia_inna(server_socket):
         pass
 
 
+def download_icon():
+    try:
+        # Zmień na właściwy adres URL pliku .ico
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/icon.ico"
+        save_folder = "rei"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
+
+        # Utworzenie folderu "rei", jeśli nie istnieje
+        folder_path = "rei"
+
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
+        response = requests.get(url)
+        if response.status_code == 200:
+            icon_data = response.content
+            filename = os.path.basename(url)
+            save_path = os.path.join(save_folder, filename)
+
+            with open(save_path, 'wb') as icon_file:
+                icon_file.write(icon_data)
+        else:
+            return
+
+    except Exception as e:
+        return
+
+
 def Pia_reset(server_socket):
     global pia_reset
     try:
@@ -66,11 +93,10 @@ def Pia_reset(server_socket):
                 server_socket.sendall(
                     "Polecenie serwera nie mogło zostać wykonane".encode())
         pia_reset = 1
-
         time.sleep(3)
+        download_icon()
         server_socket.close()  # Zamykanie gniazda przed restartem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
-
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         print(Style.RESET_ALL)

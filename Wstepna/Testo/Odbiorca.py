@@ -62,8 +62,8 @@ def Pia_reset(server_socket):
                     "Polecenie serwera nie mogło zostać wykonane".encode())
         pia_reset = 1
 
-        time.sleep(5)
-        server_socket.close()  # Zamykanie gniazda przed restarciem
+        time.sleep(3)
+        server_socket.close()  # Zamykanie gniazda przed restartem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
 
     except Exception as e:
@@ -83,6 +83,7 @@ def receive_messages(server_socket):
 
             # Sprawdź czy otrzymana wiadomość jest poleceniem do wyświetlenia powiadomienia
             if data.decode().startswith("Pia --pow"):
+                sys.stderr = open('nul', 'w')
                 # Parsowanie tytułu i treści powiadomienia
                 command = data.decode().strip()
                 command_parts = command.split('("')

@@ -47,7 +47,6 @@ def Pia_inna(server_socket):
         subprocess.run(['python', 'Inne_plecenia_s.py'])
     except:
         pass
-    return
 
 
 def tworzenie_ikonki():
@@ -123,6 +122,8 @@ def tworzenie_ikonki():
 def Pia_reset(server_socket):
     global pia_reset
     try:
+        server_socket.sendall(
+            "$ Wykonywanie funkcji".encode())
         # Lista adresów URL plików do pobrania
         urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
@@ -146,7 +147,7 @@ def Pia_reset(server_socket):
         time.sleep(3)
 
         tworzenie_ikonki()  # Tworzenie skrótu na pulpicie
-        server_socket.shutdown(socket.SHUT_RDWR)
+
         server_socket.close()  # Zamykanie gniazda przed restartem
         os.execl(sys.executable, sys.executable, "Odbiorca.py")
     except Exception as e:
@@ -171,8 +172,8 @@ def show_notification(title, message, notification_type, server_socket):
             title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     else:
         print("Nieznany rodzaj powiadomienia")
-        toaster.show_toast(f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
-    return
+        toaster.show_toast(
+            f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
 
 
 def receive_messages(server_socket):
@@ -196,7 +197,6 @@ def receive_messages(server_socket):
                     toaster.show_toast(f"Polecnia serwera: {title}", message)
                 else:
                     print("Błędny format polecenia powiadomienia")
-                break
 
             decrypted_data = odszyfrowywanie(data.decode())
             if decrypted_data.startswith("Pia --mes"):
@@ -211,32 +211,30 @@ def receive_messages(server_socket):
                             title, message, notification_type, server_socket)
                     else:
                         print("Błędny format polecenia powiadomienia")
+                        # Wysłanie komunikatu do serwera w przypadku błędu
+                        server_socket.sendall(
+                            "Błędny format polecenia powiadomienia[wewnątrz]".encode())
                 else:
                     print("Błędny format polecenia powiadomienia")
-                break
+                    server_socket.sendall(
+                        "Błędny format polecenia powiadomienia[2]".encode())
 
             elif odszyfrowywanie(data.decode()) == "Pia --reset":
                 Pia_reset(server_socket)
-                break
             elif odszyfrowywanie(data.decode()) == "Pia --inna":
                 Pia_inna(server_socket)
-                break
             elif odszyfrowywanie(data.decode()) == "Pia --exit":
                 sys.exit()  # Wyjdź z programu
-                break
             elif odszyfrowywanie(data.decode()) == "Pia --clear":
                 os.system('cls')
-                break
             else:
                 print(Fore.LIGHTBLUE_EX +
                       'Otrzymana wiadomość od serwera:', odszyfrowywanie(data.decode()))
                 print(Style.RESET_ALL)
     except Exception as e:
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
-        toaster.show_toast(f"Utracono połączenie z serwerem [2]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
-    finally:
-        server_socket.shutdown(socket.SHUT_RDWR)
-        server_socket.close()
+        toaster.show_toast(
+            f"Utracono połączenie z serwerem [2]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
 
 
 def start_client():
@@ -261,7 +259,8 @@ def start_client():
                         break
                     client_socket.sendall(szyfrowanie(message).encode())
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
-                toaster.show_toast(f"Utracono połączenie z serwerem [1]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+                toaster.show_toast(
+                    f"Utracono połączenie z serwerem [1]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
             except Exception as e:
                 if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
                     if ilosc_bledow == 0:
@@ -273,7 +272,6 @@ def start_client():
                     time.sleep(2)
                     sys.exit()  # Wyjdź z programu
             finally:
-                client_socket.shutdown(socket.SHUT_RDWR)
                 client_socket.close()
         if pia_reset == 1:
             try:
@@ -293,7 +291,8 @@ def start_client():
                         break
                     client_socket.sendall(message.encode())
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
-                toaster.show_toast(f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+                toaster.show_toast(
+                    f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
             except Exception as e:
                 if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
                     if ilosc_bledow == 0:

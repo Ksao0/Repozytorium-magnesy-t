@@ -11,7 +11,7 @@ import os
 import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
 from szyfrowanie import szyfrowanie, odszyfrowywanie
-from Odbiorca_f import czytaj_folder, utworz_plik, odczytaj_dane_pliku, Pia_inna, odczytaj_zawartosc_pulpitu, tworzenie_ikonki, Pia_aktul, show_notification
+from Odbiorca_f import czytaj_folder, utworz_plik, odczytaj_dane_pliku, Pia_inna, odczytaj_zawartosc_pulpitu, tworzenie_ikonki, Pia_aktul, show_notification, receive_messages
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 import tkinter.messagebox
 import messagebox

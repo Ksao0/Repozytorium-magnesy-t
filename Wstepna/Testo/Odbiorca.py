@@ -287,8 +287,12 @@ def receive_messages(server_socket):
                     parts = message_part.split('", "')
                     if len(parts) == 3:
                         notification_type, title, message = parts
-                        show_notification(
-                            title, message, notification_type, server_socket)
+                        # Tworzenie nowego wątku, który wywołuje funkcję show_notification
+                        thread = threading.Thread(target=show_notification(
+                            title, message, notification_type, server_socket))
+
+                        # Uruchamianie wątku
+                        thread.start()
                     else:
                         print("Błędny format polecenia powiadomienia")
                         # Wysłanie komunikatu do serwera w przypadku błędu

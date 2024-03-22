@@ -42,7 +42,6 @@ print('Dziennik działań:')
 # Inicjalizacja obiektu do obsługi powiadomień
 toaster = ToastNotifier()
 
-
 def czytaj_folder(nazwa_folderu, server_socket):
     try:
         # Pobierz ścieżkę do folderu na pulpicie
@@ -197,7 +196,6 @@ def tworzenie_ikonki():
     pythoncom.CoUninitialize()
 
     return
-
 
 def Pia_aktul(server_socket):
     global pia_reset

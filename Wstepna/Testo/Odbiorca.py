@@ -84,7 +84,6 @@ def Pia_reset(server_socket):
             "Polecenie serwera nie mogło zostać wykonane [0]".encode())
 
 
-
 def receive_messages(server_socket):
     try:
         while True:

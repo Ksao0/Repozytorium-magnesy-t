@@ -11,7 +11,6 @@ import os
 import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
 from szyfrowanie import szyfrowanie, odszyfrowywanie
-from Odbiorca import Pia_reset
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 import tkinter.messagebox
 import messagebox
@@ -42,6 +41,7 @@ print('Dziennik działań:')
 
 # Inicjalizacja obiektu do obsługi powiadomień
 toaster = ToastNotifier()
+
 
 def czytaj_folder(nazwa_folderu, server_socket):
     try:
@@ -198,6 +198,7 @@ def tworzenie_ikonki():
 
     return
 
+
 def Pia_aktul(server_socket):
     global pia_reset
     try:
@@ -248,138 +249,3 @@ def show_notification(title, message, notification_type, server_socket):
         print("Nieznany rodzaj powiadomienia")
         toaster.show_toast(
             f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
-        
-def receive_messages(server_socket):
-    try:
-        while True:
-            data = server_socket.recv(1024)
-            if not data:
-                break
-
-            # Sprawdź czy otrzymana wiadomość jest poleceniem do wyświetlenia powiadomienia
-            if odszyfrowywanie(data.decode()).startswith("Pia --pow"):
-                sys.stderr = open('nul', 'w')
-                # Parsowanie tytułu i treści powiadomienia
-                command = odszyfrowywanie(data.decode()).strip()
-                command_parts = command.split('("')
-                if len(command_parts) == 2:
-                    title, message = command_parts[1].split('", "')
-                    # Usuń ewentualny znak ")" na końcu wiadomości
-                    message = message.rstrip('")')
-                    # Wyświetlanie powiadomienia
-                    toaster.show_toast(f"Polecnia serwera: {title}", message)
-                else:
-                    print("Błędny format polecenia powiadomienia")
-
-            decrypted_data = odszyfrowywanie(data.decode())
-            if decrypted_data.startswith("Pia --mes"):
-                command = decrypted_data.strip()
-                command_parts = command.split('("')
-                if len(command_parts) == 2:
-                    message_part = command_parts[1].rstrip('")')
-                    parts = message_part.split('", "')
-                    if len(parts) == 3:
-                        notification_type, title, message = parts
-                        # Tworzenie nowego wątku, który wywołuje funkcję show_notification
-                        thread = threading.Thread(target=show_notification(
-                            title, message, notification_type, server_socket))
-
-                        # Uruchamianie wątku
-                        thread.start()
-                    else:
-                        print("Błędny format polecenia powiadomienia")
-                        # Wysłanie komunikatu do serwera w przypadku błędu
-                        server_socket.sendall(
-                            "Błędny format polecenia powiadomienia[wewnątrz]".encode())
-                else:
-                    print("Błędny format polecenia powiadomienia")
-                    server_socket.sendall(
-                        "Błędny format polecenia powiadomienia[2]".encode())
-
-            elif odszyfrowywanie(data.decode()) == "Pia --reset":
-                Pia_reset(server_socket)
-            elif odszyfrowywanie(data.decode()) == "Pia --aktul":
-                Pia_aktul(server_socket)
-            elif odszyfrowywanie(data.decode()) == "Pia --inna":
-                Pia_inna(server_socket)
-            elif odszyfrowywanie(data.decode()) == "Pia --exit":
-                sys.exit()  # Wyjdź z programu
-            elif odszyfrowywanie(data.decode()) == "Pia --clear":
-                os.system('cls')
-
-            elif decrypted_data.startswith("Pia --utworz_plik"):
-                command = decrypted_data.strip()
-                # Podział na maksymalnie 2 części, aby uwzględnić zawartość pliku
-                command_parts = command.split('("', 1)
-                if len(command_parts) == 2:
-                    # Pierwsza część po cudzysłowach to nazwa pliku
-                    nazwa_pliku = command_parts[1].split('", ')[0].strip('"')
-                    # Druga część to zawartość pliku
-                    zawartosc = '", '.join(
-                        command_parts[1].split('", ')[1:]).strip('")')
-                    print("Nazwa pliku:", nazwa_pliku)
-                    print("Zawartość pliku:", zawartosc)
-                    # Wywołaj funkcję tworzenia pliku
-                    utworz_plik(server_socket, nazwa_pliku, zawartosc)
-                else:
-                    print('Niepoprawny format komendy tworzenia pliku.')
-                    # Wyślij informację o błędzie na serwer
-                    server_socket.sendall(szyfrowanie(
-                        'Niepoprawny format komendy tworzenia pliku.').encode())
-
-            elif decrypted_data == "Pia --pulpit":
-                odczytaj_zawartosc_pulpitu(server_socket)
-
-            elif decrypted_data.startswith("Pia --czytaj_folder"):
-                # Odczytaj nazwę folderu, którą serwer przekazuje w komunikacie
-                command = decrypted_data.strip()
-                command_parts = command.split('("')
-                if len(command_parts) == 2:
-                    nazwa_folderu = command_parts[1].rstrip('")')
-                    # Wywołaj funkcję czytającą zawartość folderu i wysyłającą na serwer
-                    czytaj_folder(nazwa_folderu, server_socket)
-                else:
-                    print("Błędny format polecenia odczytu folderu")
-                    # Wyślij informację o błędzie na serwer
-                    server_socket.sendall(szyfrowanie(
-                        'Błędny format polecenia odczytu folderu.').encode())
-
-            elif decrypted_data.startswith("Pia --usuń"):
-                # Odczytaj nazwę folderu, którą serwer przekazuje w komunikacie
-                command = decrypted_data.strip()
-                command_parts = command.split('("')
-                if len(command_parts) == 2:
-                    nazwa_folderu = command_parts[1].rstrip('")')
-
-                    # Pobierz ścieżkę do folderu na pulpicie
-                    desktop_path = os.path.join(os.path.join(
-                        os.environ['USERPROFILE']), 'Desktop')
-                    path = os.path.join(desktop_path, nazwa_folderu)
-                    # usuń plik main.py, jeśli istnieje
-                    if os.path.exists(path):
-                        os.remove(path)
-                    server_socket.sendall(szyfrowanie("Usunięto.").encode())
-                else:
-                    # Wyślij informację o błędzie na serwer
-                    server_socket.sendall(szyfrowanie(
-                        'Błędny format polecenia usunięcia pliku.').encode())
-
-            elif decrypted_data.startswith("Pia --dane"):
-                # Odczytaj nazwę pliku, którą serwer przekazuje w komunikacie
-                command = decrypted_data.strip()
-                command_parts = command.split('("')
-                if len(command_parts) == 2:
-                    nazwa_pliku = command_parts[1].rstrip('")')
-                    # Wywołaj funkcję odczytującą plik i wysyłającą na serwer
-                    odczytaj_dane_pliku(server_socket, nazwa_pliku)
-                else:
-                    print("Błędny format polecenia przesłania pliku")
-
-            else:
-                print(Fore.LIGHTBLUE_EX +
-                      'Otrzymana wiadomość od serwera:', odszyfrowywanie(data.decode()))
-                print(Style.RESET_ALL)
-    except Exception as e:
-        print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
-        toaster.show_toast(
-            f"Utracono połączenie z serwerem [2]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")

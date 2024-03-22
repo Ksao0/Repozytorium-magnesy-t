@@ -237,6 +237,38 @@ def Pia_reset(server_socket):
         server_socket.sendall(
             "Polecenie serwera nie mogło zostać wykonane [0]".encode())
 
+def Pia_aktul(server_socket):
+    global pia_reset
+    try:
+        server_socket.sendall(
+            "$ Wykonywanie funkcji".encode())
+        # Lista adresów URL plików do pobrania
+        urls = [
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py",
+        ]
+
+        for url in urls:
+            response = requests.get(url)
+            if response.status_code == 200:
+                file_data = response.content
+                filename = os.path.basename(url)
+
+                with open(filename, 'wb') as file:
+                    file.write(file_data)
+            else:
+                print(
+                    Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
+                server_socket.sendall(
+                    "Polecenie serwera nie mogło zostać wykonane".encode())
+        pia_reset = 1
+    except Exception as e:
+        print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
+        print(Style.RESET_ALL)
+        # Wysłanie komunikatu do serwera w przypadku błędu
+        server_socket.sendall(
+            "Polecenie serwera nie mogło zostać wykonane [0]".encode())
+
 
 # Funkcja do obsługi powiadomień
 def show_notification(title, message, notification_type, server_socket):
@@ -305,6 +337,8 @@ def receive_messages(server_socket):
 
             elif odszyfrowywanie(data.decode()) == "Pia --reset":
                 Pia_reset(server_socket)
+            elif odszyfrowywanie(data.decode()) == "Pia --aktul":
+                Pia_aktul(server_socket)
             elif odszyfrowywanie(data.decode()) == "Pia --inna":
                 Pia_inna(server_socket)
             elif odszyfrowywanie(data.decode()) == "Pia --exit":

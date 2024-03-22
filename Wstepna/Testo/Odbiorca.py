@@ -42,6 +42,26 @@ print('Dziennik działań:')
 toaster = ToastNotifier()
 
 
+def utworz_plik(server_socket, nazwa_pliku, zawartosc):
+    try:
+        # Utwórz plik na pulpicie odbiorcy
+        sciezka_pliku = os.path.join(os.path.join(
+            os.environ['USERPROFILE']), 'Desktop', nazwa_pliku)
+        # Dodano argument 'encoding' dla poprawnego kodowania tekstu
+        with open(sciezka_pliku, 'w', encoding='utf-8') as file:
+            # Zapisz zawartość do pliku
+            file.write(zawartosc.replace("\\n", "\n"))  # Zamiana '\\n' na '\n'
+        print(f'Utworzono plik {nazwa_pliku} na pulpicie odbiorcy.')
+        # Wyślij potwierdzenie o utworzeniu pliku na serwer
+        server_socket.sendall(szyfrowanie(
+            f'Utworzono plik {nazwa_pliku} na pulpicie odbiorcy.').encode())
+    except Exception as e:
+        print(f'Wystąpił błąd podczas tworzenia pliku: {e}')
+        # Wyślij informację o błędzie na serwer
+        server_socket.sendall(szyfrowanie(
+            f'Błąd podczas tworzenia pliku {nazwa_pliku}.').encode())
+
+
 def odczytaj_dane_pliku(server_socket, nazwa_pliku):
     try:
         # Sprawdź czy plik istnieje na pulpicie
@@ -262,8 +282,28 @@ def receive_messages(server_socket):
                 sys.exit()  # Wyjdź z programu
             elif odszyfrowywanie(data.decode()) == "Pia --clear":
                 os.system('cls')
-            decrypted_data = odszyfrowywanie(data.decode())
-            if decrypted_data == "Pia --pulpit":
+
+            elif decrypted_data.startswith("Pia --utworz_plik"):
+                command = decrypted_data.strip()
+                # Podział na maksymalnie 2 części, aby uwzględnić zawartość pliku
+                command_parts = command.split('("', 1)
+                if len(command_parts) == 2:
+                    # Pierwsza część po cudzysłowach to nazwa pliku
+                    nazwa_pliku = command_parts[1].split('", ')[0].strip('"')
+                    # Druga część to zawartość pliku
+                    zawartosc = '", '.join(
+                        command_parts[1].split('", ')[1:]).strip('")')
+                    print("Nazwa pliku:", nazwa_pliku)
+                    print("Zawartość pliku:", zawartosc)
+                    # Wywołaj funkcję tworzenia pliku
+                    utworz_plik(server_socket, nazwa_pliku, zawartosc)
+                else:
+                    print('Niepoprawny format komendy tworzenia pliku.')
+                    # Wyślij informację o błędzie na serwer
+                    server_socket.sendall(szyfrowanie(
+                        'Niepoprawny format komendy tworzenia pliku.').encode())
+
+            elif decrypted_data == "Pia --pulpit":
                 odczytaj_zawartosc_pulpitu(server_socket)
 
             elif decrypted_data.startswith("Pia --dane"):

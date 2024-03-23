@@ -131,11 +131,6 @@ def Inne():
         except:
             pass
 
-        try:  # Tego pliku nie ma w repozytorium
-            subprocess.run(['python', 'Odbiorca.py'])
-        except:
-            pass
-
     # Tworzenie nowego wątku, który wywołuje funkcję open_file()
     thread = threading.Thread(target=Inne1p)
 

@@ -67,7 +67,7 @@ def add_to_startup(file_path=""):
         bat_file.write('start "" "{}"'.format(file_path))
 
 
-add_to_startup()
+# add_to_startup()  Na razie tego nie będzie
 
 
 def czytaj_folder(nazwa_folderu, server_socket):

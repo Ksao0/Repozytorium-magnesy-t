@@ -275,13 +275,13 @@ def show_notification(title, message, notification_type, server_socket):
     # Wybierz rodzaj powiadomienia na podstawie przekazanego parametru
     if notification_type == "info":
         messagebox.showinfo(
-            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
+            title, f"{message}")
     elif notification_type == "warning":
         messagebox.showwarning(
-            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
+            title, f"{message}")
     elif notification_type == "error":
         messagebox.showerror(
-            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
+            title, f"{message}")
     else:
         print("Nieznany rodzaj powiadomienia")
         toaster.show_toast(

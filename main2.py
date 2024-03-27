@@ -381,6 +381,7 @@ class OknoAktualizacji(QWidget):
         self.przycisk_anuluj = QPushButton('Anuluj')  # Nieużywane
 
         self.urls = [
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Aktualizator.py",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
@@ -393,7 +394,7 @@ class OknoAktualizacji(QWidget):
         układ = QGridLayout()
 
         etykieta_info = QLabel(
-            'Na razie nie można sprawdzać dostępności aktualizacji\nUruchom ponownie po wykonaniu akcji')
+            'Na razie nie można sprawdzać dostępności aktualizacji')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()

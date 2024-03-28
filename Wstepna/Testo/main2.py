@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 from PyQt5 import QtWidgets
 import win32com.client
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QVBoxLayout, QTabWidget, QApplication, QScrollArea
 from github import Github
 import requests
 import time
@@ -486,60 +486,94 @@ class OknoUstawien(QWidget):
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
-        # Tworzymy układ siatkowy dla okna ustawień
-        układ = QGridLayout()
+        układ_glowny = QVBoxLayout(self)
+
+        # Tworzymy obszar przewijania dla zakładek
+        obszar_przewijania = QScrollArea(self)
+        obszar_przewijania.setWidgetResizable(True)
+
+        # Tworzymy widget zakładek
+        zakladki = QTabWidget()
+
+        # Tworzymy zakładki
+        zakladka_glowna = QWidget()
+        zakladka_inne = QWidget()
+        zakladka_estetyka = QWidget()
+
+        self.utworz_zakladke_glowna(zakladka_glowna)
+        self.utworz_zakladke_inne(zakladka_inne)
+        self.utworz_zakladke_estetyka(zakladka_estetyka)
+
+        zakladki.addTab(zakladka_glowna, "Główna")
+        zakladki.addTab(zakladka_inne, "Inne")
+        zakladki.addTab(zakladka_estetyka, "Estetyka")
+
+        # Ustawiamy widget zakładek jako widżet obszaru przewijania
+        obszar_przewijania.setWidget(zakladki)
+
+        # Dodajemy obszar przewijania do układu głównego
+        układ_glowny.addWidget(obszar_przewijania)
+
+        self.setWindowTitle('Ustawienia')
+        self.setGeometry(900, 300, 400, 380)
+
+    # Pozostała część kodu
+
+    def utworz_zakladke_glowna(self, zakladka):
+        # Tworzymy układ siatkowy dla zakładki
+        układ = QGridLayout(zakladka)
 
         etykieta_ustawien = QLabel(
-            'Podaj ceny kosztów dla jednego pakietu', self)
+            'Podaj ceny kosztów dla jednego pakietu', zakladka)
         układ.addWidget(etykieta_ustawien, 0, 0, 1, 2)
 
-        etykieta_cena = QLabel('Cena tektury: ', self)
+        etykieta_cena = QLabel('Cena tektury: ', zakladka)
         układ.addWidget(etykieta_cena, 1, 0, 1, 1)
 
-        pole_cena_tektura = QDoubleSpinBox(self)
+        pole_cena_tektura = QDoubleSpinBox(zakladka)
         układ.addWidget(pole_cena_tektura, 1, 1, 1, 1)
 
-        etykieta_cena = QLabel('Cena nadruku: ', self)
+        etykieta_cena = QLabel('Cena nadruku: ', zakladka)
         układ.addWidget(etykieta_cena, 2, 0, 1, 1)
 
-        pole_cena_nadruk = QDoubleSpinBox(self)
+        pole_cena_nadruk = QDoubleSpinBox(zakladka)
         układ.addWidget(pole_cena_nadruk, 2, 1, 1, 1)
 
-        etykieta_cena = QLabel('Cena folii: ', self)
+        etykieta_cena = QLabel('Cena folii: ', zakladka)
         układ.addWidget(etykieta_cena, 3, 0, 1, 1)
 
-        pole_cena_folia = QDoubleSpinBox(self)
+        pole_cena_folia = QDoubleSpinBox(zakladka)
         układ.addWidget(pole_cena_folia, 3, 1, 1, 1)
 
-        etykieta_cena = QLabel('Cena woreczków: ', self)
+        etykieta_cena = QLabel('Cena woreczków: ', zakladka)
         układ.addWidget(etykieta_cena, 4, 0, 1, 1)
 
-        pole_cena_woreczki = QDoubleSpinBox(self)
+        pole_cena_woreczki = QDoubleSpinBox(zakladka)
         układ.addWidget(pole_cena_woreczki, 4, 1, 1, 1)
 
-        button_zapisz1 = QPushButton('Ustaw domyślne ceny', self)
+        button_zapisz1 = QPushButton('Ustaw domyślne ceny', zakladka)
         button_zapisz1.clicked.connect(lambda: self.zmien_ceny(None, None, None, None, etykieta_cena_tektura,
                                                                etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))  # Połącz przycisk z funkcją
         układ.addWidget(button_zapisz1, 5, 0, 1, 1)
 
-        button_zapisz2 = QPushButton('Zapisz zmiany', self)
+        button_zapisz2 = QPushButton('Zapisz zmiany', zakladka)
         button_zapisz2.clicked.connect(lambda: self.zmien_ceny(
             pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))  # Połącz przycisk z funkcją
         układ.addWidget(button_zapisz2, 5, 1, 1, 1)
 
-        etykieta_cena_tektura = QLabel('Używana cena tektury: ', self)
+        etykieta_cena_tektura = QLabel('Używana cena tektury: ', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
-        etykieta_cena_nadruk = QLabel('Używana cena nadruku: ', self)
+        etykieta_cena_nadruk = QLabel('Używana cena nadruku: ', zakladka)
         układ.addWidget(etykieta_cena_nadruk, 7, 0, 1, 2)
 
-        etykieta_cena_folia = QLabel('Używana cena folii: ', self)
+        etykieta_cena_folia = QLabel('Używana cena folii: ', zakladka)
         układ.addWidget(etykieta_cena_folia, 8, 0, 1, 2)
 
-        etykieta_cena_woreczki = QLabel('Używana cena woreczków: ', self)
+        etykieta_cena_woreczki = QLabel('Używana cena woreczków: ', zakladka)
         układ.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
 
-        button_rozszerzenia = QPushButton('Rozszerzenia', self)
+        button_rozszerzenia = QPushButton('Rozszerzenia', zakladka)
         button_rozszerzenia.clicked.connect(
             self.pokaz_rozszerzenia)  # Połącz przycisk z funkcją
         układ.addWidget(button_rozszerzenia, 10, 1, 1, 1)
@@ -548,19 +582,12 @@ class OknoUstawien(QWidget):
         self.ikonki_instance = Ikona()
 
         # Tworzenie przycisku
-        button_rozszerzenia = QPushButton('Utwórz skrót na pulpicie', self)
+        button_rozszerzenia = QPushButton('Utwórz skrót na pulpicie', zakladka)
         button_rozszerzenia.clicked.connect(
             self.ikonki_instance.tworzenie_ikonki)  # Połącz przycisk z funkcją
         układ.addWidget(button_rozszerzenia, 10, 0, 1, 1)
 
-        # Ustawiamy układ dla okna ustawień
-        self.setLayout(układ)
-
-        # Ustawiamy tytuł i rozmiar okna ustawień
-        self.setWindowTitle('Ustawienia')
-        self.setGeometry(900, 300, 400, 320)
-
-        # # Pobieranie kosztów z pliku
+        # Pobieranie kosztów z pliku
         path = os.path.join(os.getcwd(), "Ceny.txt")
 
         # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
@@ -576,7 +603,6 @@ class OknoUstawien(QWidget):
             ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
             ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
         else:
-
             ceny_tektura = 0.0
             ceny_nadruk = 0.0
             ceny_foliamg = 0.0
@@ -588,6 +614,20 @@ class OknoUstawien(QWidget):
         etykieta_cena_folia.setText(f'Używana cena folii: {ceny_foliamg} zł')
         etykieta_cena_woreczki.setText(
             f'Używana cena woreczków: {ceny_woreczkipp} zł')
+
+        # Dodaj resztę elementów dla sekcji Głównej
+
+    def utworz_zakladke_inne(self, zakladka):
+        # Tworzymy układ siatkowy dla zakładki
+        układ = QGridLayout(zakladka)
+
+        # Dodaj elementy dla sekcji Inne
+
+    def utworz_zakladke_estetyka(self, zakladka):
+        # Tworzymy układ siatkowy dla zakładki
+        układ = QGridLayout(zakladka)
+
+        # Dodaj elementy dla sekcji Estetyka
 
     def pokaz_rozszerzenia(self):
         # Tworzymy instancję klasy OknoRozszerzen
@@ -860,6 +900,28 @@ class ZaawansowaneOkno(QWidget):
             background-color: #757575;
             width: 10px;
         }
+
+        QTabWidget::pane {
+            border-top: 2px solid #C2C7CB;
+        }
+
+        QTabWidget::tab-bar {
+            alignment: left;
+        }
+
+        QTabBar::tab {
+            background-color: #C2C7CB;
+            color: #000000;
+            min-width: 80px;
+            padding: 5px;
+            margin-right: 2px;
+        }
+
+        QTabBar::tab:selected {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+
 
         """
 

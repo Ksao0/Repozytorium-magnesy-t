@@ -244,7 +244,30 @@ def sprawdzanie_nowych_aktualizacji():
             toaster.powiadomienie_jednorazowe(
                 tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
 
-    except:
+        if version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
+            if messagebox.showinfo("Aktualizacje są dobre", "Twój program powoli się starzeje, zaktualizujmy go więc automatycznie"):
+                try:
+                    path = os.path.join(os.getcwd(), "main.py")
+                    if os.path.exists(path):
+                        os.remove(path)
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main.py"
+                    urllib.request.urlretrieve(url, path)
+
+                    path = os.path.join(os.getcwd(), "main.py")
+                    if os.path.exists(path):
+                        os.remove(path)
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt"
+                    urllib.request.urlretrieve(url, path)
+
+                    os.execl(sys.executable, sys.executable, "main2.py")
+                    QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
+                except Exception as e:
+                    print(e)
+                    messagebox.showerror(
+                        'Błąd', "Skopiuj traceback z dziennika i zgłoś błąd")
+
+    except Exception as e:
+        print(e)
         pass
 
 
@@ -442,7 +465,6 @@ class OknoAktualizacji(QWidget):
         if value == 100:
             # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
             # subprocess.run(["python", "Aktualizator.py"])
-            # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
             # Uruchomienie programu z nowego pliku main2.py po zakończeniu aktualizacji
             os.execl(sys.executable, sys.executable, "main2.py")
             QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
@@ -708,6 +730,7 @@ class ZaawansowaneOkno(QWidget):
         układ.addWidget(etykieta_calkowita_wartosc_pakietow, 6, 0, 1, 2)
 
         text_edit_historia = QTextEdit(self)
+        text_edit_historia.setReadOnly(True)
         układ.addWidget(text_edit_historia, 1, 3, 6, 3)
 
         text_edit_historia.setPlainText("Brak historii obliczeń")

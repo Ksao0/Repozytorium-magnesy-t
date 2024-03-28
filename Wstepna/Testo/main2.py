@@ -245,26 +245,8 @@ def sprawdzanie_nowych_aktualizacji():
                 tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
 
         if version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
-            if messagebox.showinfo("Aktualizacje są dobre", "Twój program powoli się starzeje, zaktualizujmy go więc automatycznie"):
-                try:
-                    path = os.path.join(os.getcwd(), "main.py")
-                    if os.path.exists(path):
-                        os.remove(path)
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main.py"
-                    urllib.request.urlretrieve(url, path)
-
-                    path = os.path.join(os.getcwd(), "main.py")
-                    if os.path.exists(path):
-                        os.remove(path)
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt"
-                    urllib.request.urlretrieve(url, path)
-
-                    os.execl(sys.executable, sys.executable, "main2.py")
-                    QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
-                except Exception as e:
-                    print(e)
-                    messagebox.showerror(
-                        'Błąd', "Skopiuj traceback z dziennika i zgłoś błąd")
+            messagebox.showerror("Aktualizacje nie są takie straszne ;)",
+                                 f"Ta wersja powoli się starzeje. Warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
 
     except Exception as e:
         print(e)
@@ -515,7 +497,7 @@ class OknoUstawien(QWidget):
         układ_glowny.addWidget(obszar_przewijania)
 
         self.setWindowTitle('Ustawienia')
-        self.setGeometry(900, 300, 400, 380)
+        self.setGeometry(900, 300, 512, 365)
 
     # Pozostała część kodu
 
@@ -620,13 +602,17 @@ class OknoUstawien(QWidget):
     def utworz_zakladke_inne(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
-
+        etykieta_cena_tektura = QLabel(
+            'Niedługo pojawią się tu nowe opcje:', zakladka)
+        układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Inne
 
     def utworz_zakladke_estetyka(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
-
+        etykieta_cena_tektura = QLabel(
+            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!', zakladka)
+        układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Estetyka
 
     def pokaz_rozszerzenia(self):
@@ -889,37 +875,49 @@ class ZaawansowaneOkno(QWidget):
             background-color: #505050; /* Kolor tła przycisków po najechaniu myszką */
         }
 
-        QProgressBar {
-            border: 2px solid #616161;
-            border-radius: 5px;
-            text-align: center;
-            background: #424242;
+        QProgressBar { /* Styl dla paska postępu */
+            border: 2px solid #616161; /* Grubość i kolor obramowania */
+            border-radius: 5px; /* Zaokrąglenie rogów */
+            text-align: center; /* Wycentrowany tekst */
+            background: #424242; /* Kolor tła */
         }
 
-        QProgressBar::chunk {
-            background-color: #757575;
-            width: 10px;
+
+        QProgressBar::chunk { /* Styl dla wypełnienia paska postępu */
+            background-color: #757575; /* Kolor wypełnienia */
+            width: 10px; /* Szerokość wypełnienia */
         }
 
-        QTabWidget::pane {
-            border-top: 2px solid #C2C7CB;
+        /* Usunięcie obramowania dla panelu zakładek */
+        QTabWidget {
+            border: none;
         }
 
-        QTabWidget::tab-bar {
-            alignment: left;
+
+        QTabWidget::pane { /* Styl dla panelu zakładek */
+            border-top: 0px solid #343637; /* Górne obramowanie panelu */
         }
 
-        QTabBar::tab {
-            background-color: #C2C7CB;
-            color: #000000;
-            min-width: 80px;
-            padding: 5px;
-            margin-right: 2px;
+        QTabWidget::tab-bar { /* Styl dla paska zakładek */
+            alignment: left; /* Wyrównanie do lewej */
         }
 
-        QTabBar::tab:selected {
-            background-color: #FFFFFF;
-            color: #000000;
+        QTabBar::tab { /* Styl dla pojedynczej zakładki */
+            background-color: #343637; /* Kolor tła zakładki */
+            color: #F2F2F2; /* Kolor tekstu */
+            min-width: 80px; /* Minimalna szerokość zakładki */
+            padding: 5px; /* Wewnętrzny odstęp */
+            margin-right: 2px; /* Prawy margines */
+        }
+
+        QTabBar::tab:selected { /* Styl dla wybranej zakładki */
+            background-color: #2E2E2E; /* Kolor tła wybranej zakładki */
+            color: #f2f2f2; /* Kolor tekstu */
+        }
+
+        QTabBar::tab:last {
+            margin-right: 0;
+            border-bottom-right-radius: 7px; /* Zaokrąglenie górnego prawego rogu */
         }
 
 

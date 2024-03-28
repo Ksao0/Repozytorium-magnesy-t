@@ -388,7 +388,8 @@ class OknoAktualizacji(QWidget):
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css"
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
 
@@ -790,157 +791,7 @@ class ZaawansowaneOkno(QWidget):
         self.setGeometry(300, 300, 600, 400)
 
         # Arkusz stylów
-        # Ewentualnie dodaj menu bar
-        dark_stylesheet = """
-        QWidget {
-            background-color: #2E2E2E; /* Kolor tła głównego okna */
-            color: #FFFFFF; /* Kolor tekstu */
-            selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
-            selection-background-color: #EAEAEA; /* Ustawienie koloru tła zaznaczonego tekstu */
-        }
-
-        QStatusBar {
-            background-color: #333333; /* Kolor tła paska statusu */
-            color: #FFFFFF; /* Kolor tekstu paska statusu */
-        }
-        
-
-        QPushButton {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QTextEdit {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-
-            selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
-            selection-background-color: #EAEAEA; /* Ustawienie koloru tła zaznaczonego tekstu */
-
-        }
-
-        QScrollBar:vertical {
-            background-color: #404040; /* Kolor tła pionowego paska przewijania */
-            width: 10px; /* Szerokość pionowego paska przewijania */
-        }
-
-        QScrollBar::handle:vertical {
-            background-color: #555555; /* Kolor "uchwytu" pionowego paska przewijania */
-            border-radius: 5px; /* Zaokrąglenie narożników "uchwytu" */
-        }
-
-        QScrollBar::add-line:vertical,
-        QScrollBar::sub-line:vertical,
-        QScrollBar::add-page:vertical,
-        QScrollBar::sub-page:vertical {
-            background: none; /* Wyłączenie tła dla różnych części pionowego paska przewijania */
-        }
-
-        QScrollBar:horizontal {
-            background-color: #404040; /* Kolor tła poziomego paska przewijania */
-            height: 10px; /* Wysokość poziomego paska przewijania */
-        }
-
-        QScrollBar::handle:horizontal {
-            background-color: #555555; /* Kolor "uchwytu" poziomego paska przewijania */
-            border-radius: 5px; /* Zaokrąglenie narożników "uchwytu" */
-        }
-
-        QScrollBar::add-line:horizontal,
-        QScrollBar::sub-line:horizontal,
-        QScrollBar::add-page:horizontal,
-        QScrollBar::sub-page:horizontal {
-            background: none; /* Wyłączenie tła dla różnych części poziomego paska przewijania */
-        }
-
-        
-
-        QDoubleSpinBox {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
-            width: 0px; /* Ustaw szerokość przycisków na 0, aby je ukryć */
-        }
-
-
-        QSpinBox {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QPushButton:hover {
-            background-color: #505050; /* Kolor tła przycisków po najechaniu myszką */
-        }
-
-        QProgressBar { /* Styl dla paska postępu */
-            border: 2px solid #616161; /* Grubość i kolor obramowania */
-            border-radius: 5px; /* Zaokrąglenie rogów */
-            text-align: center; /* Wycentrowany tekst */
-            background: #424242; /* Kolor tła */
-        }
-
-
-        QProgressBar::chunk { /* Styl dla wypełnienia paska postępu */
-            background-color: #757575; /* Kolor wypełnienia */
-            width: 10px; /* Szerokość wypełnienia */
-        }
-
-        /* Usunięcie obramowania dla panelu zakładek */
-        QTabWidget {
-            border: none;
-        }
-
-
-        QTabWidget::pane { /* Styl dla panelu zakładek */
-            border-top: 0px solid #343637; /* Górne obramowanie panelu */
-        }
-
-        QTabWidget::tab-bar { /* Styl dla paska zakładek */
-            alignment: left; /* Wyrównanie do lewej */
-        }
-
-        QTabBar::tab { /* Styl dla pojedynczej zakładki */
-            background-color: #343637; /* Kolor tła zakładki */
-            color: #F2F2F2; /* Kolor tekstu */
-            min-width: 55px; /* Minimalna szerokość zakładki */
-            padding: 5px; /* Wewnętrzny odstęp */
-            margin-right: 2px; /* Prawy margines */
-            padding-right: 19%;
-            text-align: center; /* Wyśrodkowanie tekstu */
-            padding-left: 21%;
-
-        }
-
-        QTabBar::tab:selected { /* Styl dla wybranej zakładki */
-            background-color: #2E2E2E; /* Kolor tła wybranej zakładki */
-            color: #f2f2f2; /* Kolor tekstu */
-        }
-
-        QTabBar::tab:last {
-            margin-right: 0;
-            border-bottom-right-radius: 7px; /* Zaokrąglenie górnego prawego rogu */
-        }
-
-
-        """
-
-        # Ustawienie arkusza stylów
-        app.setStyleSheet(dark_stylesheet)
-        # app.setStyleSheet(open('styl_morski.css').read())
+        app.setStyleSheet(open('styl_domyslny.css').read())
 
     def pokaz_ustawienia(self):
         # Tworzymy instancję klasy OknoUstawien

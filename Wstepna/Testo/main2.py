@@ -700,7 +700,7 @@ class OknoUstawien(QWidget):
                 wszystkie_zmiany_cen + aktualna_zawartosc)
 
             with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-                plik.write(f"{aktualna_zawartosc}")
+                plik.write(wszystkie_zmiany_cen + aktualna_zawartosc)
 
         except Exception as e:
             print(e)
@@ -1021,8 +1021,8 @@ class ZaawansowaneOkno(QWidget):
             f'Całkowita wartość pakietów: {razem:.2f} zł')
 
         # Zapisz wynik obliczeń do pliku Zapisy.txt
-        with open('Zapisy.txt', mode='a', encoding='utf-8') as file:
-            file.write(wyniki)
+        with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
+            file.write(wyniki + aktualna_zawartosc)
 
 
 if __name__ == '__main__':

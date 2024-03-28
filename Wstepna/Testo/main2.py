@@ -246,7 +246,7 @@ def sprawdzanie_nowych_aktualizacji():
 
         if version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
             messagebox.showerror("Aktualizacje nie są takie straszne ;)",
-                                 f"Ta wersja powoli się starzeje. Warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
+                                 f"Ta wersja jet już przestarzała, warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
 
     except Exception as e:
         print(e)
@@ -603,7 +603,7 @@ class OknoUstawien(QWidget):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
-            'Niedługo pojawią się tu nowe opcje:', zakladka)
+            'Niedługo pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów z poprzedniej wersji\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Inne
 
@@ -611,7 +611,7 @@ class OknoUstawien(QWidget):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
-            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!', zakladka)
+            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n\nBędzie to najprawdopodobniej coś bardziej rozbudowanego niż to, co masz na telefonie\n - gotowe style\n - kreator motywów', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Estetyka
 
@@ -925,6 +925,7 @@ class ZaawansowaneOkno(QWidget):
 
         # Ustawienie arkusza stylów
         app.setStyleSheet(dark_stylesheet)
+        # app.setStyleSheet(open('styl_morski.css').read())
 
     def pokaz_ustawienia(self):
         # Tworzymy instancję klasy OknoUstawien

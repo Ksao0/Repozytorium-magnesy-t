@@ -481,14 +481,17 @@ class OknoUstawien(QWidget):
         zakladka_glowna = QWidget()
         zakladka_inne = QWidget()
         zakladka_estetyka = QWidget()
+        zakladka_tryb = QWidget()
 
         self.utworz_zakladke_glowna(zakladka_glowna)
         self.utworz_zakladke_inne(zakladka_inne)
         self.utworz_zakladke_estetyka(zakladka_estetyka)
+        self.utworz_zakladke_tryb(zakladka_tryb)
 
         zakladki.addTab(zakladka_glowna, "Główna")
         zakladki.addTab(zakladka_inne, "Inne")
         zakladki.addTab(zakladka_estetyka, "Estetyka")
+        zakladki.addTab(zakladka_tryb, "Licz w trybie za magnes")
 
         # Ustawiamy widget zakładek jako widżet obszaru przewijania
         obszar_przewijania.setWidget(zakladki)
@@ -603,7 +606,7 @@ class OknoUstawien(QWidget):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
-            'Niedługo pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów z poprzedniej wersji\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
+            'Niedługo pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Inne
 
@@ -612,6 +615,14 @@ class OknoUstawien(QWidget):
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
             'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n\nBędzie to najprawdopodobniej coś bardziej rozbudowanego niż to, co masz na telefonie\n - gotowe style\n - kreator motywów', zakladka)
+        układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
+        # Dodaj elementy dla sekcji Estetyka
+
+    def utworz_zakladke_tryb(self, zakladka):
+        # Tworzymy układ siatkowy dla zakładki
+        układ = QGridLayout(zakladka)
+        etykieta_cena_tektura = QLabel(
+            'Wkrótce ;D', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Estetyka
 
@@ -905,9 +916,13 @@ class ZaawansowaneOkno(QWidget):
         QTabBar::tab { /* Styl dla pojedynczej zakładki */
             background-color: #343637; /* Kolor tła zakładki */
             color: #F2F2F2; /* Kolor tekstu */
-            min-width: 80px; /* Minimalna szerokość zakładki */
+            min-width: 55px; /* Minimalna szerokość zakładki */
             padding: 5px; /* Wewnętrzny odstęp */
             margin-right: 2px; /* Prawy margines */
+            padding-right: 19%;
+            text-align: center; /* Wyśrodkowanie tekstu */
+            padding-left: 21%;
+
         }
 
         QTabBar::tab:selected { /* Styl dla wybranej zakładki */

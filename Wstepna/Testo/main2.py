@@ -372,7 +372,6 @@ class OknoRozszerzen(QWidget):
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
-        # Przykładowe użycie
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
             tytul_powiadomienia="Rozszerzenia? Hmm...", tresc_powiadomienia="Niektóre rozszerzenia mogą otwierać się dłużej\nAby zarządzać rozszerzeniem, przejdź do plików programu i dodaj, lub usuń jego folder", duration=3)
@@ -517,8 +516,7 @@ class OknoAktualizacji(QWidget):
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_ametyst.css",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
@@ -739,7 +737,16 @@ class OknoUstawien(QWidget):
         etykieta_cena_tektura = QLabel(
             'Wkrótce pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
-        # Dodaj elementy dla sekcji Inne
+
+        button_klienci = QPushButton("Zarządzanie klientami", zakladka)
+        button_klienci.clicked.connect(self.klienci)
+        układ.addWidget(button_klienci, 1, 0, 1, 1)
+
+    def klienci(self):
+        try:  # Tego pliku nie ma w repozytorium
+            subprocess.run(['python', 'Klienci.py'])
+        except:
+            pass
 
     def utworz_zakladke_estetyka(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki

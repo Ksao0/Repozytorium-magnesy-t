@@ -5,12 +5,120 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 import messagebox
 import datetime
 from PyQt5.QtCore import Qt
+import requests
+from main2 import Powiadomienia
+
+
+def wybierz_styl_z_pliku():
+    # Funkcja do odczytywania zawartości pliku i wybierania stylu
+
+    # Sprawdzenie, czy plik istnieje
+    if os.path.isfile("Styl.txt"):
+        # Otwarcie pliku do odczytu
+        with open("Styl.txt", "r", encoding='utf-8') as plik:
+            # Odczytanie zawartości i usunięcie białych znaków z końca
+            styl = plik.read().strip()
+            if os.path.isfile(f"styl_{styl}.css"):
+                ustawianie_stylu(styl)
+            else:
+                try:
+                    print('Nie znaleziono pliku arkusza stylu')
+                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+
+                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                    nazwa_pliku = f"styl_{styl}.css"
+                    response = requests.get(url)
+
+                    if response.status_code == 200:
+                        with open(nazwa_pliku, 'wb') as plik:
+                            plik.write(response.content)
+                        print(f'Pobrano styl: {styl}')
+                        app.setStyleSheet(open(f'styl_{styl}.css').read())
+                        print(f'Ustawiono styl na: {styl}')
+                    else:
+                        toaster = Powiadomienia()
+                        toaster.powiadomienie_jednorazowe(
+                            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+                        print('Zapisany styl nie istnieje')
+                        ustawianie_stylu("szarość")
+                        # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                        with open("Styl.txt", "w", encoding='utf-8') as plik:
+                            plik.write("szarość")
+                        print(' Zapisano preferencje')
+                except:
+                    toaster = Powiadomienia()
+                    toaster.powiadomienie_jednorazowe(
+                        tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+                    print('Zapisany styl nie istnieje')
+                    ustawianie_stylu("szarość")
+                    # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                    with open("Styl.txt", "w", encoding='utf-8') as plik:
+                        plik.write("szarość")
+                    print(' Zapisano preferencje')
+    else:
+        try:
+            app.setStyleSheet(open('styl_szarość.css').read())
+            print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+        except:
+            print('Nie znaleziono pliku arkusza stylu')
+            # Podaj URL pliku, który chcesz pobrać
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+
+            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+            nazwa_pliku = "styl_szarość.css"
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                with open(nazwa_pliku, 'wb') as plik:
+                    plik.write(response.content)
+                print('Pobrano styl: szarość')
+                app.setStyleSheet(open('styl_szarość.css').read())
+                print('Ustawiono styl na: szarość')
+            else:
+                print("Wystąpił problem podczas pobierania pliku")
+
+
+def ustawianie_stylu(styl):
+    try:
+        app.setStyleSheet(open(f'styl_{styl}.css').read())
+        print(f'Ustawiono styl na: {styl}')
+
+    except:
+        try:
+            # Podaj URL pliku, który chcesz pobrać
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+
+            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+            nazwa_pliku = f"styl_{styl}.css"
+            response = requests.get(url)
+        except:
+            try:
+                app.setStyleSheet(open('styl_szarość.css').read())
+                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+            except:
+                print('Nie znaleziono pliku arkusza stylu')
+                # Podaj URL pliku, który chcesz pobrać
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+
+                # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                nazwa_pliku = "styl_szarość.css"
+                response = requests.get(url)
+
+                if response.status_code == 200:
+                    with open(nazwa_pliku, 'wb') as plik:
+                        plik.write(response.content)
+                    print('Pobrano styl: szarość')
+                    app.setStyleSheet(open('styl_szarość.css').read())
+                    print('Ustawiono styl na: szarość')
+                else:
+                    print("Wystąpił problem podczas pobierania pliku")
+
 
 class OknoKlientow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Lista klientów")
-        self.setGeometry(250, 200, 410, 250)
+        self.setGeometry(250, 200, 420, 290)
 
         self.clients_list = QtWidgets.QListWidget(self)
         self.clients_list.setGeometry(200, 30, 200, 200)
@@ -37,147 +145,6 @@ class OknoKlientow(QtWidgets.QMainWindow):
         button_show_history.clicked.connect(self.show_client_history)
 
         self.load_clients_list()
-
-        # Arkusz stylów
-        # Ewentualnie dodaj menu bar
-        dark_stylesheet = """
-        QWidget {
-            background-color: #2E2E2E; /* Kolor tła głównego okna */
-            color: #FFFFFF; /* Kolor tekstu */
-            selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
-            selection-background-color: #EAEAEA; /* Ustawienie koloru tła zaznaczonego tekstu */
-        }
-
-        QStatusBar {
-            background-color: #333333; /* Kolor tła paska statusu */
-            color: #FFFFFF; /* Kolor tekstu paska statusu */
-        }
-        
-
-        QPushButton {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QTextEdit {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-
-            selection-color: #29706d; /* Ustawienie koloru zaznaczonego tekstu */
-            selection-background-color: #EAEAEA; /* Ustawienie koloru tła zaznaczonego tekstu */
-
-        }
-        QListWidget{
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-
-            selection-color: #2e5f5d; /* Ustawienie koloru zaznaczonego tekstu */
-            selection-background-color: #2e5f5d; /* Ustawienie koloru tła zaznaczonego tekstu */
-
-        }
-
-        QListWidget::item:selected {
-            color: #FFFFFF; /* Kolor tekstu zaznaczonego przycisku */
-            background-color: #2e5f5d; /* Kolor tła zaznaczonego przycisku */
-        }
-
-        QListWidget::item:hover {
-            background-color: #555555; /* Kolor podświetlenia po najechaniu myszką */
-        }
-
-        QScrollBar:vertical {
-            background-color: #404040; /* Kolor tła pionowego paska przewijania */
-            width: 10px; /* Szerokość pionowego paska przewijania */
-        }
-
-        QScrollBar::handle:vertical {
-            background-color: #555555; /* Kolor "uchwytu" pionowego paska przewijania */
-            border-radius: 5px; /* Zaokrąglenie narożników "uchwytu" */
-        }
-
-        QScrollBar::add-line:vertical,
-        QScrollBar::sub-line:vertical,
-        QScrollBar::add-page:vertical,
-        QScrollBar::sub-page:vertical {
-            background: none; /* Wyłączenie tła dla różnych części pionowego paska przewijania */
-        }
-
-        QScrollBar:horizontal {
-            background-color: #404040; /* Kolor tła poziomego paska przewijania */
-            height: 10px; /* Wysokość poziomego paska przewijania */
-        }
-
-        QScrollBar::handle:horizontal {
-            background-color: #555555; /* Kolor "uchwytu" poziomego paska przewijania */
-            border-radius: 5px; /* Zaokrąglenie narożników "uchwytu" */
-        }
-
-        QScrollBar::add-line:horizontal,
-        QScrollBar::sub-line:horizontal,
-        QScrollBar::add-page:horizontal,
-        QScrollBar::sub-page:horizontal {
-            background: none; /* Wyłączenie tła dla różnych części poziomego paska przewijania */
-        }
-
-
-        QDoubleSpinBox {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
-            width: 0px; /* Ustaw szerokość przycisków na 0, aby je ukryć */
-        }
-
-
-        QSpinBox {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QLineEdit {
-            background-color: #404040; /* Kolor tła przycisków */
-            color: #FFFFFF; /* Kolor tekstu przycisków */
-            border: 1px solid #555555; /* Grubość i kolor obramowania przycisków */
-            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-        }
-
-        QPushButton:hover {
-            background-color: #505050; /* Kolor tła przycisków po najechaniu myszką */
-        }
-
-        QProgressBar {
-            border: 2px solid #616161;
-            border-radius: 5px;
-            text-align: center;
-            background: #424242;
-        }
-
-        QProgressBar::chunk {
-            background-color: #757575;
-            width: 10px;
-        }
-
-        """
-
-        # Ustawienie arkusza stylów
-        app.setStyleSheet(dark_stylesheet)
 
     def create_client_file(self, name, city, phone, additional_info):
         folder = "klienci"
@@ -341,7 +308,8 @@ class OknoKlientow(QtWidgets.QMainWindow):
     def show_client_history(self):
         def showHelp(self):
             # Tutaj można wyświetlić pomoc kontekstową w zależności od aktualnego kontekstu aplikacji
-            QMessageBox.information(self, "Pomoc kontekstowa", "To jest pomoc kontekstowa dla tego okna.")
+            QMessageBox.information(
+                self, "Pomoc kontekstowa", "To jest pomoc kontekstowa dla tego okna.")
 
         selected_client = self.clients_list.currentItem().text()
         if selected_client:
@@ -359,8 +327,6 @@ class OknoKlientow(QtWidgets.QMainWindow):
                 text_edit.setPlainText(history_data)
                 text_edit.setReadOnly(True)
                 text_edit.setGeometry(10, 10, 580, 380)
-
-
 
                 dialog.exec_()
             else:
@@ -512,5 +478,7 @@ if __name__ == "__main__":
     window = OknoKlientow()
 
     window.show()
+
+    wybierz_styl_z_pliku()
 
     sys.exit(app.exec_())

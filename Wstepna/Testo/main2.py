@@ -1,3 +1,4 @@
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLabel, QMessageBox
 import ctypes
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
@@ -41,6 +42,54 @@ if response.status_code == 200:
         icon_file.write(icon_data)
 else:
     print("Nie udało się pobrać pliku.")
+
+
+def wybierz_styl_z_pliku():
+    # Funkcja do odczytywania zawartości pliku i wybierania stylu
+
+    # Sprawdzenie, czy plik istnieje
+    if os.path.isfile("Styl.txt"):
+        # Otwarcie pliku do odczytu
+        with open("Styl.txt", "r", encoding='utf-8') as plik:
+            # Odczytanie zawartości i usunięcie białych znaków z końca
+            styl = plik.read().strip()
+
+            ustawianie_stylu(styl)
+    else:
+        print("Plik 'Styl.txt' nie istnieje.")
+
+
+def ustawianie_stylu(styl):
+    if styl == "szarość":
+        styl = "domyslny"
+    try:
+        app.setStyleSheet(open(f'styl_{styl}.css').read())
+        if styl == "domyslny":
+            print(f'Ustawiono styl na: szarość')
+        else:
+            print(f'Ustawiono styl na: {styl}')
+
+    except:
+        try:
+            app.setStyleSheet(open('styl_domyslny.css').read())
+            print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+        except:
+            print('Nie znaleziono pliku arkusza stylu')
+            # Podaj URL pliku, który chcesz pobrać
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css"
+
+            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+            nazwa_pliku = "styl_domyslny.css"
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                with open(nazwa_pliku, 'wb') as plik:
+                    plik.write(response.content)
+                print('Pobrano styl: szarość')
+                app.setStyleSheet(open('styl_domyslny.css').read())
+                print('Ustawiono styl na: szarość')
+            else:
+                print("Wystąpił problem podczas pobierania pliku")
 
 
 class Ikona:
@@ -198,8 +247,11 @@ class Powiadomienia(QWidget):
 
         def show_toast(self, msg, icon_path=None, duration=5, threaded=True, tytul_powiadomienia=""):
             icon_path = "rei/icon.ico"
-            nazwa_aplikacji = "Magnesy"
-            title = f"{nazwa_aplikacji} - {tytul_powiadomienia}"
+            nazwa_aplikacji = ""  # Nazwa aplikacji nie będzie już wyświetlana
+            if nazwa_aplikacji != "":
+                title = f"{nazwa_aplikacji} - {tytul_powiadomienia}"
+            else:
+                title = f"{tytul_powiadomienia}"
             try:
                 if not self.wyswietlone_powiadomienie:
                     if not threaded:
@@ -266,7 +318,7 @@ class OknoRozszerzen(QWidget):
         # Przykładowe użycie
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
-            tytul_powiadomienia="Rozszerzenia", tresc_powiadomienia="Niektóre rozszerzenia mogą otwierać się dłużej\nAby zarządzać rozszerzeniem, przejdź do plików programu i dodaj, lub usuń jego folder", duration=3)
+            tytul_powiadomienia="Rozszerzenia? Hmm...", tresc_powiadomienia="Niektóre rozszerzenia mogą otwierać się dłużej\nAby zarządzać rozszerzeniem, przejdź do plików programu i dodaj, lub usuń jego folder", duration=3)
 
         # Tworzymy układ siatkowy dla okna rozszerzeń
         układ = QGridLayout()
@@ -305,17 +357,18 @@ class OknoRozszerzen(QWidget):
                                                 # Dodajemy skrypt do listy uruchomionych
                                                 self.uruchomione_rozszerzenia.append(
                                                     sciezka_skryptu)
-                                                # Uruchamiamy skrypt przy użyciu subprocess
-                                                subprocess.Popen(
-                                                    ['python', sciezka_skryptu])
+                                                # Uruchamiamy skrypt przy użyciu wątków
+                                                thread = threading.Thread(
+                                                    target=self.uruchom_skrypt_w_watkach, args=(sciezka_skryptu,))
+                                                thread.start()
                                         else:
                                             # Jeśli plik nie istnieje, wyświetlamy odpowiedni komunikat
-                                            messagebox.showerror(
-                                                'Błąd rozszerzenia', f'Niestety to rozszerzenie jest uszkodzone, nie można znaleźć pliku:\n {sciezka_skryptu}')
+                                            self.show_error_message(
+                                                f'Niestety to rozszerzenie jest uszkodzone, nie można znaleźć pliku:\n {sciezka_skryptu}')
                                     except Exception as e:
                                         # Obsługa innych błędów
-                                        messagebox.showerror(
-                                            'Błąd rozszerzenia', 'Wystąpił nieznany błąd podczas uruchamiania rozszerzenia')
+                                        self.show_error_message(
+                                            'Wystąpił nieznany błąd podczas uruchamiania rozszerzenia')
 
                                 return _uruchom_skrypt
 
@@ -329,6 +382,17 @@ class OknoRozszerzen(QWidget):
         # Ustawiamy tytuł i rozmiar okna rozszerzeń
         self.setWindowTitle('Lista rozszerzeń')
         self.setGeometry(1300, 300, 400, 320)
+
+    def uruchom_skrypt_w_watkach(self, sciezka_skryptu):
+        os.system('python ' + sciezka_skryptu)
+
+    def show_error_message(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Błąd rozszerzenia")
+        msg.setInformativeText(message)
+        msg.setWindowTitle("Błąd")
+        msg.exec_()
 
 
 class AktualizacjaWatek(QThread):
@@ -638,34 +702,27 @@ class OknoUstawien(QWidget):
         układ.addWidget(button_styl_szarosc, 3, 1, 1, 1)
 
     def ustawianie_styli(self, styl):
-        if styl == "szarość":
-            app.setStyleSheet(open(f'styl_domyslny.css').read())
-            print(f'Ustawiono styl na: szarość')
+        with open("Styl.txt", "r", encoding='utf-8') as plik:
+            # Odczytanie zawartości i usunięcie białych znaków z końca
+            styl_teraz = plik.read().strip()
+
+        if styl_teraz != styl:
+            ustawianie_stylu(styl)
+
+            path = os.path.join(os.getcwd(), "Styl.txt")
+
+            # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
+            if not os.path.isfile("Styl.txt"):
+                open("Styl.txt", "w", encoding='utf-8').close()
+
+            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+            with open("Styl.txt", "w", encoding='utf-8') as plik:
+                plik.write(styl)
+            print(' Zapisano preferencje')
         else:
-            try:
-                app.setStyleSheet(open(f'styl_{styl}.css').read())
-                print(f'Ustawiono styl na: {styl}')
-            except:
-                try:
-                    app.setStyleSheet(open('styl_domyslny.css').read())
-                    print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
-                except:
-                    print('Nie znaleziono pliku arkusza stylu')
-                    # Podaj URL pliku, który chcesz pobrać
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css"
-
-                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                    nazwa_pliku = "styl_domyslny.css"
-                    response = requests.get(url)
-
-                    if response.status_code == 200:
-                        with open(nazwa_pliku, 'wb') as plik:
-                            plik.write(response.content)
-                        print('Pobrano styl: szarość')
-                        app.setStyleSheet(open('styl_domyslny.css').read())
-                        print('Ustawiono styl na: szarość')
-                    else:
-                        print("Wystąpił problem podczas pobierania pliku")
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia="Ten styl jest już aktywny", tresc_powiadomienia="Próbujesz ustawić jeszcze raz dokładnie ten sam styl, którego używasz ;)", duration=3)
 
     def utworz_zakladke_tryb(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
@@ -1017,6 +1074,8 @@ if __name__ == '__main__':
 
     # Uruchamianie wątku
     thread.start()
+
+    wybierz_styl_z_pliku()
 
     # Uruchamiamy pętlę główną
     sys.exit(app.exec_())

@@ -53,43 +53,100 @@ def wybierz_styl_z_pliku():
         with open("Styl.txt", "r", encoding='utf-8') as plik:
             # Odczytanie zawartości i usunięcie białych znaków z końca
             styl = plik.read().strip()
+            if os.path.isfile(f"styl_{styl}.css"):
+                ustawianie_stylu(styl)
+            else:
+                try:
+                    print('Nie znaleziono pliku arkusza stylu')
+                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
 
-            ustawianie_stylu(styl)
+                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                    nazwa_pliku = f"styl_{styl}.css"
+                    response = requests.get(url)
+
+                    if response.status_code == 200:
+                        with open(nazwa_pliku, 'wb') as plik:
+                            plik.write(response.content)
+                        print(f'Pobrano styl: {styl}')
+                        app.setStyleSheet(open(f'styl_{styl}.css').read())
+                        print(f'Ustawiono styl na: {styl}')
+                    else:
+                        toaster = Powiadomienia()
+                        toaster.powiadomienie_jednorazowe(
+                            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+                        print('Zapisany styl nie istnieje')
+                        ustawianie_stylu("szarość")
+                        # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                        with open("Styl.txt", "w", encoding='utf-8') as plik:
+                            plik.write("szarość")
+                        print(' Zapisano preferencje')
+                except:
+                    toaster = Powiadomienia()
+                    toaster.powiadomienie_jednorazowe(
+                        tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+                    print('Zapisany styl nie istnieje')
+                    ustawianie_stylu("szarość")
+                    # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                    with open("Styl.txt", "w", encoding='utf-8') as plik:
+                        plik.write("szarość")
+                    print(' Zapisano preferencje')
     else:
-        print("Plik 'Styl.txt' nie istnieje.")
-
-
-def ustawianie_stylu(styl):
-    if styl == "szarość":
-        styl = "domyslny"
-    try:
-        app.setStyleSheet(open(f'styl_{styl}.css').read())
-        if styl == "domyslny":
-            print(f'Ustawiono styl na: szarość')
-        else:
-            print(f'Ustawiono styl na: {styl}')
-
-    except:
         try:
-            app.setStyleSheet(open('styl_domyslny.css').read())
+            app.setStyleSheet(open('styl_szarość.css').read())
             print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
         except:
             print('Nie znaleziono pliku arkusza stylu')
             # Podaj URL pliku, który chcesz pobrać
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css"
+            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
 
             # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-            nazwa_pliku = "styl_domyslny.css"
+            nazwa_pliku = "styl_szarość.css"
             response = requests.get(url)
 
             if response.status_code == 200:
                 with open(nazwa_pliku, 'wb') as plik:
                     plik.write(response.content)
                 print('Pobrano styl: szarość')
-                app.setStyleSheet(open('styl_domyslny.css').read())
+                app.setStyleSheet(open('styl_szarość.css').read())
                 print('Ustawiono styl na: szarość')
             else:
                 print("Wystąpił problem podczas pobierania pliku")
+
+
+def ustawianie_stylu(styl):
+    try:
+        app.setStyleSheet(open(f'styl_{styl}.css').read())
+        print(f'Ustawiono styl na: {styl}')
+
+    except:
+        try:
+            # Podaj URL pliku, który chcesz pobrać
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+
+            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+            nazwa_pliku = f"styl_{styl}.css"
+            response = requests.get(url)
+        except:
+            try:
+                app.setStyleSheet(open('styl_szarość.css').read())
+                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+            except:
+                print('Nie znaleziono pliku arkusza stylu')
+                # Podaj URL pliku, który chcesz pobrać
+                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+
+                # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                nazwa_pliku = "styl_szarość.css"
+                response = requests.get(url)
+
+                if response.status_code == 200:
+                    with open(nazwa_pliku, 'wb') as plik:
+                        plik.write(response.content)
+                    print('Pobrano styl: szarość')
+                    app.setStyleSheet(open('styl_szarość.css').read())
+                    print('Ustawiono styl na: szarość')
+                else:
+                    print("Wystąpił problem podczas pobierania pliku")
 
 
 class Ikona:
@@ -460,7 +517,7 @@ class OknoAktualizacji(QWidget):
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_ametyst.css",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
             # Dodaj tutaj inne URL-e do plików, jeśli są
@@ -702,9 +759,52 @@ class OknoUstawien(QWidget):
         układ.addWidget(button_styl_szarosc, 3, 1, 1, 1)
 
     def ustawianie_styli(self, styl):
-        with open("Styl.txt", "r", encoding='utf-8') as plik:
-            # Odczytanie zawartości i usunięcie białych znaków z końca
-            styl_teraz = plik.read().strip()
+        try:
+            with open("Styl.txt", "r", encoding='utf-8') as plik:
+                # Odczytanie zawartości i usunięcie białych znaków z końca
+                styl_teraz = plik.read().strip()
+            try:
+                with open(f"styl_{styl}.css", "r", encoding='utf-8') as plik:
+                    # Odczytanie zawartości i usunięcie białych znaków z końca
+                    styl_teraz = plik.read().strip()
+            except:
+                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+
+                # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                nazwa_pliku = f"styl_{styl}.css"
+                response = requests.get(url)
+
+                if response.status_code == 200:
+                    with open(nazwa_pliku, 'wb') as plik:
+                        plik.write(response.content)
+                    print(f'Pobrano styl: {styl}')
+                    app.setStyleSheet(open(f'styl_{styl}.css').read())
+                    print(f'Ustawiono styl na: {styl}')
+                else:
+                    print("Wystąpił problem podczas pobierania pliku")
+            ustawianie_stylu(styl)
+
+        except:
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia="Pliki sa ciekawe, co nie?", tresc_powiadomienia="Najprawdopodobniej musiałeś usnąć plik z danymi o ostatnim aktywowanym stylu. Może zrobiłeś to teraz, może wcześniej. Nie powtarzaj tego.\nProblem został rozwiązany", duration=3)
+            styl_teraz = "Brak stylu"
+
+        if styl_teraz == "Brak stylu":
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+
+            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+            nazwa_pliku = f"styl_{styl}.css"
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                with open(nazwa_pliku, 'wb') as plik:
+                    plik.write(response.content)
+                print(f'Pobrano styl: {styl}')
+                app.setStyleSheet(open(f'styl_{styl}.css').read())
+                print(f'Ustawiono styl na: {styl}')
+            else:
+                print("Wystąpił problem podczas pobierania pliku")
 
         if styl_teraz != styl:
             ustawianie_stylu(styl)
@@ -964,11 +1064,6 @@ class ZaawansowaneOkno(QWidget):
         # Ustawiamy tytuł i rozmiar głównego okna
         self.setWindowTitle('Magnesy v2')
         self.setGeometry(300, 300, 600, 400)
-        try:
-            # Arkusz stylów
-            app.setStyleSheet(open('styl_domyslny.css').read())
-        except:
-            print('')
 
     def pokaz_ustawienia(self):
         # Tworzymy instancję klasy OknoUstawien

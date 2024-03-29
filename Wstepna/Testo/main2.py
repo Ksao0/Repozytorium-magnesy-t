@@ -1,3 +1,4 @@
+import ctypes
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 from PyQt5 import QtWidgets
 import win32com.client
@@ -22,8 +23,9 @@ from win10toast import ToastNotifier
 
 from packaging import version
 
+os.system('cls')
+
 # Minimalizowanie cmd
-import ctypes
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 # Zmień na właściwy adres URL pliku .ico
@@ -607,7 +609,7 @@ class OknoUstawien(QWidget):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
-            'Niedługo pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
+            'Wkrótce pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Inne
 
@@ -615,7 +617,7 @@ class OknoUstawien(QWidget):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
-            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n\nBędzie to najprawdopodobniej coś bardziej rozbudowanego niż to, co masz na telefonie\n - gotowe style\n - kreator motywów', zakladka)
+            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n\n\n - gotowe style\n - kreator motywów\n\nNa razie to okno będzie bardzo uproszczone:', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Estetyka
 
@@ -821,7 +823,7 @@ class ZaawansowaneOkno(QWidget):
                     with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
                         file.write('')
 
-                text_edit_historia.setPlainText('')
+                text_edit_historia.setPlainText('Historia została skasowana')
         except:
             messagebox.showinfo(
                 'Brak pliku', "Nie masz jeszcze historii zapisów")
@@ -863,6 +865,11 @@ class ZaawansowaneOkno(QWidget):
 
         wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
         aktualna_zawartosc = text_edit_historia.toPlainText()
+
+        aktualna_zawartosc = aktualna_zawartosc.replace(
+            "Brak historii obliczeń", "")
+        aktualna_zawartosc = aktualna_zawartosc.replace(
+            "Historia została skasowana", "")
         text_edit_historia.setPlainText(wyniki + aktualna_zawartosc)
 
         etykieta_zarobisz.setText(f'Zarobisz: {bilans:.2f} zł')

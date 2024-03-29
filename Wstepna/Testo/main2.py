@@ -617,17 +617,85 @@ class OknoUstawien(QWidget):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
-            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n\n\n - gotowe style\n - kreator motywów\n\nNa razie to okno będzie bardzo uproszczone:', zakladka)
+            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n - gotowe style\n - kreator motywów\n\nNa razie to okno będzie bardzo uproszczone:', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
         # Dodaj elementy dla sekcji Estetyka
 
     def utworz_zakladke_tryb(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
-        etykieta_cena_tektura = QLabel(
-            'Wkrótce ;D', zakladka)
-        układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
-        # Dodaj elementy dla sekcji Estetyka
+
+        etykieta_ilosc_magnesow = QLabel("Ilość magnesów: ", zakladka)
+        układ.addWidget(etykieta_ilosc_magnesow, 0, 0, 1, 1)
+
+        pole_ilosc_magnesow = QSpinBox(zakladka)
+        pole_ilosc_magnesow.setMaximum(9999999)
+        układ.addWidget(pole_ilosc_magnesow, 0, 1, 1, 2)
+
+        etykieta_cena_za_magnes = QLabel("Cena za magnes: ", zakladka)
+        układ.addWidget(etykieta_cena_za_magnes, 1, 0, 1, 1)
+
+        pole_cena_za_magnes = QDoubleSpinBox(zakladka)
+        układ.addWidget(pole_cena_za_magnes, 1, 1, 1, 2)
+
+        oblicz_za_magnes = QPushButton("Oblicz", zakladka)
+        oblicz_za_magnes.clicked.connect(lambda: self.oblicz(
+            pole_ilosc_magnesow, pole_cena_za_magnes, zarobisz_za_magnes, wydasz_za_magnes, c_war_za_magnes_za_magnes))
+        układ.addWidget(oblicz_za_magnes, 2, 0, 1, 3)
+
+        zarobisz_za_magnes = QLabel("Zarobisz: ")
+        układ.addWidget(zarobisz_za_magnes, 3, 0, 1, 2)
+
+        wydasz_za_magnes = QLabel("Wydasz: ")
+        układ.addWidget(wydasz_za_magnes, 4, 0, 1, 2)
+
+        c_war_za_magnes_za_magnes = QLabel("Całkowita wartość: ")
+        układ.addWidget(c_war_za_magnes_za_magnes, 5, 0, 1, 2)
+
+    def oblicz(self, pole_ilosc_magnesow, pole_cena_za_magnes, zarobisz_za_magnes, wydasz_za_magnes, c_war_za_magnes_za_magnes):
+        liczba_magnesow = pole_ilosc_magnesow.value()
+        cena_za_magnes_2 = pole_cena_za_magnes.value()
+
+        now = datetime.datetime.now()
+
+        data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
+
+        # # Pobieranie kosztów z pliku
+        path = os.path.join(os.getcwd(), "Ceny.txt")
+
+        # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
+        if os.path.exists(path):
+            with open(path, "r", encoding='utf-8') as f:
+                teraz_ceny = f.read()
+        else:
+            teraz_ceny = "13\n35\n18\n11"
+
+        ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
+        ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
+        ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
+        ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
+
+        ceny_tektura = ceny_tektura / 224
+        ceny_nadruk = ceny_nadruk / 224
+        ceny_foliamg = ceny_foliamg / 224
+        ceny_woreczkipp = ceny_woreczkipp / 224
+
+        tektura = ceny_tektura * liczba_magnesow
+        nadruk = ceny_nadruk * liczba_magnesow
+        foliamg = ceny_foliamg * liczba_magnesow
+        woreczkipp = ceny_woreczkipp * liczba_magnesow
+
+        koszty = tektura + nadruk + foliamg + woreczkipp
+        cenaZaWszystko = cena_za_magnes_2 * liczba_magnesow
+
+        razem = cena_za_magnes_2 * liczba_magnesow
+        bilans = razem - koszty
+
+        zarobisz_za_magnes.setText(f'Zarobisz: {bilans:.2f} zł')
+        wydasz_za_magnes.setText(f'Wydasz: {koszty:.2f} zł')
+
+        c_war_za_magnes_za_magnes.setText(
+            f'Całkowita wartość pakietów: {razem:.2f} zł')
 
     def pokaz_rozszerzenia(self):
         # Tworzymy instancję klasy OknoRozszerzen
@@ -746,12 +814,14 @@ class ZaawansowaneOkno(QWidget):
         układ.addWidget(etykieta_ilosc, 1, 0, 1, 1)
 
         pole_ilosc = QSpinBox(self)
+        pole_ilosc.setMaximum(1000)
         układ.addWidget(pole_ilosc, 1, 1, 1, 1)
 
         etykieta_cena = QLabel('Cena za magnes: ', self)
         układ.addWidget(etykieta_cena, 2, 0, 1, 1)
 
         pole_cena = QDoubleSpinBox(self)
+        pole_cena.setMaximum(1000)
         układ.addWidget(pole_cena, 2, 1, 1, 1)
 
         button_oblicz = QPushButton('Oblicz', self)

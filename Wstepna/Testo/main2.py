@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLabel, QMessageBox
 import ctypes
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 from PyQt5 import QtWidgets
@@ -297,19 +298,24 @@ class OknoRozszerzen(QWidget):
                             def uruchom_skrypt(sciezka_skryptu):
                                 def _uruchom_skrypt():
                                     try:
-                                        # Sprawdzamy, czy skrypt nie jest już uruchomiony
-                                        if sciezka_skryptu not in self.uruchomione_rozszerzenia:
-                                            # Dodajemy skrypt do listy uruchomionych
-                                            self.uruchomione_rozszerzenia.append(
-                                                sciezka_skryptu)
-                                            # Uruchamiamy skrypt w osobnym wątku
-                                            threading.Thread(target=lambda: os.system(
-                                                f"python {sciezka_skryptu}")).start()
-
+                                        # Sprawdzamy, czy plik skryptu istnieje
+                                        if os.path.exists(sciezka_skryptu):
+                                            # Sprawdzamy, czy skrypt nie jest już uruchomiony
+                                            if sciezka_skryptu not in self.uruchomione_rozszerzenia:
+                                                # Dodajemy skrypt do listy uruchomionych
+                                                self.uruchomione_rozszerzenia.append(
+                                                    sciezka_skryptu)
+                                                # Uruchamiamy skrypt przy użyciu subprocess
+                                                subprocess.Popen(
+                                                    ['python', sciezka_skryptu])
+                                        else:
+                                            # Jeśli plik nie istnieje, wyświetlamy odpowiedni komunikat
+                                            messagebox.showerror(
+                                                'Błąd rozszerzenia', f'Niestety to rozszerzenie jest uszkodzone, nie można znaleźć pliku:\n {sciezka_skryptu}')
                                     except Exception as e:
-                                        # Komunikat o błędzie
+                                        # Obsługa innych błędów
                                         messagebox.showerror(
-                                            'Błąd rozszerzenia', 'To rozszerzenie jest uszkodzone')
+                                            'Błąd rozszerzenia', 'Wystąpił nieznany błąd podczas uruchamiania rozszerzenia')
 
                                 return _uruchom_skrypt
 
@@ -618,8 +624,47 @@ class OknoUstawien(QWidget):
         układ = QGridLayout(zakladka)
         etykieta_cena_tektura = QLabel(
             'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n - gotowe style\n - kreator motywów\n\nNa razie to okno będzie bardzo uproszczone:', zakladka)
-        układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
-        # Dodaj elementy dla sekcji Estetyka
+        układ.addWidget(etykieta_cena_tektura, 1, 0, 1, 2)
+
+        button_styl_szarosc = QPushButton("Szarość", zakladka)
+        button_styl_szarosc.clicked.connect(
+            lambda: self.ustawianie_styli("szarość"))
+        układ.addWidget(button_styl_szarosc, 3, 0, 1, 1)
+
+        button_styl_szarosc = QPushButton("Morski", zakladka)
+        button_styl_szarosc.clicked.connect(
+            lambda: self.ustawianie_styli("morski"))
+        układ.addWidget(button_styl_szarosc, 3, 1, 1, 1)
+
+    def ustawianie_styli(self, styl):
+        if styl == "szarość":
+            app.setStyleSheet(open(f'styl_domyslny.css').read())
+            print(f'Ustawiono styl na: szarość')
+        else:
+            try:
+                app.setStyleSheet(open(f'styl_{styl}.css').read())
+                print(f'Ustawiono styl na: {styl}')
+            except:
+                try:
+                    app.setStyleSheet(open('styl_domyslny.css').read())
+                    print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+                except:
+                    print('Nie znaleziono pliku arkusza stylu')
+                    # Podaj URL pliku, który chcesz pobrać
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css"
+
+                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                    nazwa_pliku = "styl_domyslny.css"
+                    response = requests.get(url)
+
+                    if response.status_code == 200:
+                        with open(nazwa_pliku, 'wb') as plik:
+                            plik.write(response.content)
+                        print('Pobrano styl: szarość')
+                        app.setStyleSheet(open('styl_domyslny.css').read())
+                        print('Ustawiono styl na: szarość')
+                    else:
+                        print("Wystąpił problem podczas pobierania pliku")
 
     def utworz_zakladke_tryb(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
@@ -861,9 +906,11 @@ class ZaawansowaneOkno(QWidget):
         # Ustawiamy tytuł i rozmiar głównego okna
         self.setWindowTitle('Magnesy v2')
         self.setGeometry(300, 300, 600, 400)
-
-        # Arkusz stylów
-        app.setStyleSheet(open('styl_domyslny.css').read())
+        try:
+            # Arkusz stylów
+            app.setStyleSheet(open('styl_domyslny.css').read())
+        except:
+            print('')
 
     def pokaz_ustawienia(self):
         # Tworzymy instancję klasy OknoUstawien

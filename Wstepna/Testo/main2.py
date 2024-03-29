@@ -394,10 +394,11 @@ class OknoAktualizacji(QWidget):
         self.przycisk_anuluj = QPushButton('Anuluj')  # Nieużywane
 
         self.urls = [
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css"
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_domyslny.css",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_ametyst.css",
+            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
 
@@ -631,7 +632,7 @@ class OknoUstawien(QWidget):
             lambda: self.ustawianie_styli("szarość"))
         układ.addWidget(button_styl_szarosc, 3, 0, 1, 1)
 
-        button_styl_szarosc = QPushButton("Morski", zakladka)
+        button_styl_szarosc = QPushButton("Ametyst", zakladka)
         button_styl_szarosc.clicked.connect(
             lambda: self.ustawianie_styli("morski"))
         układ.addWidget(button_styl_szarosc, 3, 1, 1, 1)

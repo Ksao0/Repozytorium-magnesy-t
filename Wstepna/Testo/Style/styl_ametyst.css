@@ -48,7 +48,7 @@ QTextEdit {
 
 
 QScrollBar:vertical {
-    background-color: #3a0c38; /* Kolor tła pionowego paska przewijania */
+    background-color: #281d29; /* Kolor tła pionowego paska przewijania */
     width: 10px; /* Szerokość pionowego paska przewijania */
 }
 
@@ -62,12 +62,12 @@ QScrollBar::sub-page:vertical {
 
 
 QScrollBar:horizontal {
-    background-color: #410c3e; /* Kolor tła poziomego paska przewijania */
+    background-color: #281d29; /* Kolor tła poziomego paska przewijania */
     height: 10px; /* Wysokość poziomego paska przewijania */
 }
 QScrollBar::handle:vertical,
 QScrollBar::handle:horizontal {
-    background-color: #231225; /* Kolor "uchwytu" poziomego paska przewijania */
+    background-color: #291428; /* Kolor "uchwytu" poziomego paska przewijania */
     border-radius: 5px; /* Zaokrąglenie narożników "uchwytu" */
 }
 

@@ -634,7 +634,7 @@ class OknoUstawien(QWidget):
 
         button_styl_szarosc = QPushButton("Ametyst", zakladka)
         button_styl_szarosc.clicked.connect(
-            lambda: self.ustawianie_styli("morski"))
+            lambda: self.ustawianie_styli("ametyst"))
         układ.addWidget(button_styl_szarosc, 3, 1, 1, 1)
 
     def ustawianie_styli(self, styl):

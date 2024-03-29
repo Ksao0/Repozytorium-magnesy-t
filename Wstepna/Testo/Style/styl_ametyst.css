@@ -36,7 +36,7 @@ QTextEdit {
 QTextEdit {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
         stop: 0 #281c2b, /* Początek gradientu */
-        stop: 0.5 #30292f, /* Środkowy kolor gradientu */
+        stop: 0.25 #30292f, /* Środkowy kolor gradientu */
         stop: 1 #1B0C1A); /* Koniec gradientu */
     color: #F2F2F2; /* Kolor tekstu */
     border: 1px solid #30292f; /* Grubość i kolor obramowania */
@@ -78,7 +78,7 @@ QScrollBar::sub-page:horizontal {
     background: none; /* Wyłączenie tła dla różnych części poziomego paska przewijania */
 }
 
-
+QLineEdit,
 QDoubleSpinBox {
     background-color: #36193b; /* Kolor tła przycisków */
     color: #F2F2F2; /* Kolor tekstu przycisków */

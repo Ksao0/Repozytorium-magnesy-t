@@ -27,6 +27,17 @@ from packaging import version
 
 os.system('cls')
 
+global ustawienie_sprawdzanie_aktualizacji_w_tle
+if os.path.isfile("Ustawienia.txt"):
+    with open("Ustawienia.txt", "r", encoding='utf-8') as plik:
+        # Odczytanie zawartości i usunięcie białych znaków z końca
+        ustawienia = plik.read().strip()
+        ustawienia_linie = ustawienia.split('\n')
+    if ustawienia_linie[0] == "Tak":
+        ustawienie_sprawdzanie_aktualizacji_w_tle = True
+    else:
+        ustawienie_sprawdzanie_aktualizacji_w_tle = False
+
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
@@ -324,45 +335,55 @@ class Powiadomienia(QWidget):
 
 
 def sprawdzanie_nowych_aktualizacji():
-    try:
-        # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+    global ustawienie_sprawdzanie_aktualizacji_w_tle
+    while True:
         try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
-            response = requests.get(url)
-            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-            version_online = response.content.decode('utf-8').strip()
-        except requests.exceptions.RequestException as e:
-            messagebox.showerror(
-                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
-            return
-        version_online_lines = version_online.split('\n')
-        # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "version.txt")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                version_local = f.read().strip()
-        else:
-            version_local = "BRAK DANYCH"
+            # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+            try:
+                url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
+                response = requests.get(url)
+                response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+                version_online = response.content.decode('utf-8').strip()
+            except requests.exceptions.RequestException as e:
+                messagebox.showerror(
+                    "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+                return
+            version_online_lines = version_online.split('\n')
+            # Odczytaj zawartość pliku version.txt w twoim programie
+            path = os.path.join(os.getcwd(), "version.txt")
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    version_local = f.read().strip()
+            else:
+                version_local = "BRAK DANYCH"
 
-        version_local_lines = version_local.split('\n')
+            version_local_lines = version_local.split('\n')
 
-        najnowsza_wersja_online = version_online_lines[0]
-        local_aktualna_wersja = version_local_lines[0]
+            najnowsza_wersja_online = version_online_lines[0]
+            local_aktualna_wersja = version_local_lines[0]
 
-        if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
-            print("Dostępna jest aktualizacja:")
-            print(f"  {local_aktualna_wersja} --> {najnowsza_wersja_online}")
-            toaster = Powiadomienia()
-            toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
+            if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
+                print("Dostępna jest aktualizacja:")
+                print(f"  {local_aktualna_wersja} --> {najnowsza_wersja_online}")
+                toaster = Powiadomienia()
+                toaster.powiadomienie_jednorazowe(
+                    tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
 
-        if version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
-            messagebox.showerror("Aktualizacje nie są takie straszne ;)",
-                                 f"Ta wersja jet już przestarzała, warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
+            if version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
+                messagebox.showerror("Aktualizacje nie są takie straszne ;)",
+                                     f"Ta wersja jet już przestarzała, warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
+        except Exception as e:
+            print(e)
+            pass
 
-    except Exception as e:
-        print(e)
-        pass
+        n = 0
+        while n != 75:
+            time.sleep(2)
+            if ustawienie_sprawdzanie_aktualizacji_w_tle == False:
+                break
+            n = n + 1
+        if ustawienie_sprawdzanie_aktualizacji_w_tle == False:
+            break
 
 
 class OknoRozszerzen(QWidget):
@@ -734,6 +755,7 @@ class OknoUstawien(QWidget):
     def utworz_zakladke_inne(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
+
         etykieta_cena_tektura = QLabel(
             'Wkrótce pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
@@ -741,6 +763,63 @@ class OknoUstawien(QWidget):
         button_klienci = QPushButton("Zarządzanie klientami", zakladka)
         button_klienci.clicked.connect(self.klienci)
         układ.addWidget(button_klienci, 1, 0, 1, 1)
+
+        if ustawienie_sprawdzanie_aktualizacji_w_tle == True:
+            self.toggle_button = QPushButton(
+                'Sprawdzanie aktualiacji w tle: włączone', zakladka)
+            self.toggle_button.setCheckable(True)
+            # Ustawienie wartości domyślnej na True
+            self.toggle_button.setChecked(True)
+        else:
+            self.toggle_button = QPushButton(
+                'Sprawdzanie aktualiacji w tle: wyłączone', zakladka)
+            self.toggle_button.setCheckable(True)
+            # Ustawienie wartości domyślnej na False
+            self.toggle_button.setChecked(False)
+
+        # Stylowanie przycisku
+        self.toggle_button.setStyleSheet("""
+            QPushButton {
+                text-align: left;
+            }
+        """)
+
+        # Dodanie przełącznika do układu siatkowego
+        układ.addWidget(self.toggle_button, 2, 0, 1, 1)
+
+        self.toggle_button.clicked.connect(self.onToggleSwitch)
+
+    def onToggleSwitch(self):
+        global ustawienie_sprawdzanie_aktualizacji_w_tle
+        if self.toggle_button.isChecked():
+            # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
+            if not os.path.isfile("Ustawienia.txt"):
+                open("Ustawienia.txt", "w", encoding='utf-8').close()
+
+            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+            with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
+                plik.write("Tak")
+            self.toggle_button.setText(
+                'Sprawdzanie aktualiacji w tle: włączone')
+            ustawienie_sprawdzanie_aktualizacji_w_tle = True
+
+            # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+            thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
+
+            # Uruchamianie wątku
+            thread.start()
+
+        else:
+            # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
+            if not os.path.isfile("Ustawienia.txt"):
+                open("Ustawienia.txt", "w", encoding='utf-8').close()
+
+            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+            with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
+                plik.write("Nie")
+            self.toggle_button.setText(
+                'Sprawdzanie aktualiacji w tle: wyłączone')
+            ustawienie_sprawdzanie_aktualizacji_w_tle = False
 
     def klienci(self):
         try:  # Tego pliku nie ma w repozytorium
@@ -1071,6 +1150,11 @@ class ZaawansowaneOkno(QWidget):
         # Ustawiamy tytuł i rozmiar głównego okna
         self.setWindowTitle('Magnesy v2')
         self.setGeometry(300, 300, 600, 400)
+
+    def closeEvent(self, event):
+        global ustawienie_sprawdzanie_aktualizacji_w_tle
+        ustawienie_sprawdzanie_aktualizacji_w_tle = False
+        event.accept()
 
     def pokaz_ustawienia(self):
         # Tworzymy instancję klasy OknoUstawien

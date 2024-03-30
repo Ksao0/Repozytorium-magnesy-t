@@ -40,6 +40,12 @@ if os.path.isfile("Ustawienia.txt"):
         ustawienie_sprawdzanie_aktualizacji_w_tle = True
     else:
         ustawienie_sprawdzanie_aktualizacji_w_tle = False
+else:
+    # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+    with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
+        plik.write("Tak")
+    ustawienie_sprawdzanie_aktualizacji_w_tle = True
+    messagebox.showwarning("Brak pliku ustawień", "Nie udało się znaleźć pliku z zapisanymi ustawieniami, więc wczytano domyślne wartości")
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -380,7 +386,7 @@ def sprawdzanie_nowych_aktualizacji():
             pass
 
         n = 0
-        while n != 90:
+        while n != 60:
             time.sleep(2)
             if ustawienie_sprawdzanie_aktualizacji_w_tle == False:
                 break

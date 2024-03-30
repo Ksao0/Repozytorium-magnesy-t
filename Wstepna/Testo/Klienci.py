@@ -118,7 +118,7 @@ class OknoKlientow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Lista klientów")
-        self.setGeometry(250, 200, 420, 290)
+        self.setGeometry(250, 200, 430, 275)
 
         self.clients_list = QtWidgets.QListWidget(self)
         self.clients_list.setGeometry(200, 30, 200, 200)

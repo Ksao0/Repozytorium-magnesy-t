@@ -380,7 +380,7 @@ def sprawdzanie_nowych_aktualizacji():
             pass
 
         n = 0
-        while n !=  90:
+        while n != 90:
             time.sleep(2)
             if ustawienie_sprawdzanie_aktualizacji_w_tle == False:
                 break
@@ -871,6 +871,7 @@ class OknoUstawien(QWidget):
 
     def klienci(self):
         try:
+
             subprocess.run(['python', 'Klienci.py'])
         except:
             pass
@@ -1113,7 +1114,7 @@ class OknoUstawien(QWidget):
         except Exception as e:
             print(e)
             return
-        
+
     def utworz_zakladke_zglaszanie(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)

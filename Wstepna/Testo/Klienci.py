@@ -9,6 +9,34 @@ import requests
 from main2 import Powiadomienia
 
 
+def aktualnosc():
+    try:
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            klienci_online = response.content.decode('utf-8').strip()
+        except requests.exceptions.RequestException as e:
+            messagebox.showerror(
+                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
+            return
+
+        # Odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "Klienci.py")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                klienci_local = f.read().strip()
+
+        if klienci_online != klienci_local:
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia=f"Nowość!", tresc_powiadomienia=f'Wyszła nowa wersja zarządzania klientami! Aby ją zainstalować zaktualizuj cały program', duration=3)
+    except:
+        toaster = Powiadomienia()
+        toaster.powiadomienie_jednorazowe(
+            tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Na wszelki wypadek zaktualizuj program do najnowszej wersji i spróbuj ponownie', duration=3)
+
+
 def wybierz_styl_z_pliku():
     # Funkcja do odczytywania zawartości pliku i wybierania stylu
 
@@ -480,5 +508,5 @@ if __name__ == "__main__":
     window.show()
 
     wybierz_styl_z_pliku()
-
+    aktualnosc()
     sys.exit(app.exec_())

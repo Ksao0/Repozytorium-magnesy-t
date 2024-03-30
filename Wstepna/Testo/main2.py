@@ -28,6 +28,9 @@ from packaging import version
 os.system('cls')
 
 global ustawienie_sprawdzanie_aktualizacji_w_tle
+global zaawansowane_okno_zamkniete
+zaawansowane_okno_zamkniete = False
+
 if os.path.isfile("Ustawienia.txt"):
     with open("Ustawienia.txt", "r", encoding='utf-8') as plik:
         # Odczytanie zawartości i usunięcie białych znaków z końca
@@ -757,12 +760,16 @@ class OknoUstawien(QWidget):
         układ = QGridLayout(zakladka)
 
         etykieta_cena_tektura = QLabel(
-            'Wkrótce pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - automatyczna aktualizacja (po włączeniu komputera pliki byłyby podmieniane)\n - itp.', zakladka)
+            'Wkrótce pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - funkcje związane z autostartem itp.', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
         button_klienci = QPushButton("Zarządzanie klientami", zakladka)
         button_klienci.clicked.connect(self.klienci)
         układ.addWidget(button_klienci, 1, 0, 1, 1)
+
+        self.button_polacz = QPushButton("Połącz z serwerem", zakladka)
+        self.button_polacz.clicked.connect(self.otworz_odbiorca)
+        układ.addWidget(self.button_polacz, 3, 0, 1, 1)
 
         if ustawienie_sprawdzanie_aktualizacji_w_tle == True:
             self.toggle_button = QPushButton(
@@ -789,25 +796,58 @@ class OknoUstawien(QWidget):
 
         self.toggle_button.clicked.connect(self.onToggleSwitch)
 
+    def otworz_odbiorca(self):
+        def w_nowym_watku():
+            self.button_polacz.setEnabled(False)
+            if os.path.isfile("Odbiorca.py"):
+                subprocess.run(['python', 'Odbiorca.py'])
+            else:
+                toaster = Powiadomienia()
+                toaster.powiadomienie_jednorazowe(
+                    tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Na wszelki wypadek zaktualizuj program do najnowszej wersji i spróbuj ponownie', duration=3)
+            self.button_polacz.setText('Próba wykonania')
+
+        thread = threading.Thread(target=w_nowym_watku)
+
+        # Uruchamianie wątku
+        thread.start()
+
     def onToggleSwitch(self):
         global ustawienie_sprawdzanie_aktualizacji_w_tle
+        global zaawansowane_okno_zamkniete
         if self.toggle_button.isChecked():
-            # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-            if not os.path.isfile("Ustawienia.txt"):
-                open("Ustawienia.txt", "w", encoding='utf-8').close()
+            if zaawansowane_okno_zamkniete != True:
+                # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
+                if not os.path.isfile("Ustawienia.txt"):
+                    open("Ustawienia.txt", "w", encoding='utf-8').close()
 
-            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-            with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
-                plik.write("Tak")
-            self.toggle_button.setText(
-                'Sprawdzanie aktualiacji w tle: włączone')
-            ustawienie_sprawdzanie_aktualizacji_w_tle = True
+                # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
+                    plik.write("Tak")
+                self.toggle_button.setText(
+                    'Sprawdzanie aktualiacji w tle: włączone')
+                ustawienie_sprawdzanie_aktualizacji_w_tle = True
 
-            # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-            thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
+                # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+                thread = threading.Thread(
+                    target=sprawdzanie_nowych_aktualizacji)
 
-            # Uruchamianie wątku
-            thread.start()
+                # Uruchamianie wątku
+                thread.start()
+            else:
+                toaster = Powiadomienia()
+                toaster.powiadomienie_jednorazowe(
+                    tytul_powiadomienia=f"Uruchom program ponownie, aby wprowadzić zmiany", tresc_powiadomienia=f'Zmiana zacznie działać po ponownym uruchomieniu programu', duration=3)
+
+                # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
+                if not os.path.isfile("Ustawienia.txt"):
+                    open("Ustawienia.txt", "w", encoding='utf-8').close()
+
+                # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
+                    plik.write("Tak")
+                self.toggle_button.setText(
+                    'Sprawdzanie aktualiacji w tle: włączone')
 
         else:
             # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
@@ -822,7 +862,7 @@ class OknoUstawien(QWidget):
             ustawienie_sprawdzanie_aktualizacji_w_tle = False
 
     def klienci(self):
-        try:  # Tego pliku nie ma w repozytorium
+        try:
             subprocess.run(['python', 'Klienci.py'])
         except:
             pass
@@ -1153,7 +1193,9 @@ class ZaawansowaneOkno(QWidget):
 
     def closeEvent(self, event):
         global ustawienie_sprawdzanie_aktualizacji_w_tle
+        global zaawansowane_okno_zamkniete
         ustawienie_sprawdzanie_aktualizacji_w_tle = False
+        zaawansowane_okno_zamkniete = True
         event.accept()
 
     def pokaz_ustawienia(self):

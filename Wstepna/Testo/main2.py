@@ -380,7 +380,7 @@ def sprawdzanie_nowych_aktualizacji():
             pass
 
         n = 0
-        while n != 75:
+        while n !=  90:
             time.sleep(2)
             if ustawienie_sprawdzanie_aktualizacji_w_tle == False:
                 break
@@ -635,16 +635,19 @@ class OknoUstawien(QWidget):
         zakladka_inne = QWidget()
         zakladka_estetyka = QWidget()
         zakladka_tryb = QWidget()
+        zakladka_zglaszanie = QWidget()
 
         self.utworz_zakladke_glowna(zakladka_glowna)
         self.utworz_zakladke_inne(zakladka_inne)
         self.utworz_zakladke_estetyka(zakladka_estetyka)
         self.utworz_zakladke_tryb(zakladka_tryb)
+        # self.utworz_zakladke_zglaszanie(zakladka_zglaszanie)
 
         zakladki.addTab(zakladka_glowna, "Główna")
         zakladki.addTab(zakladka_inne, "Inne")
         zakladki.addTab(zakladka_estetyka, "Estetyka")
         zakladki.addTab(zakladka_tryb, "Licz w trybie za magnes")
+        # zakladki.addTab(zakladka_zglaszanie, "Zgłoś/zapytaj")
 
         # Ustawiamy widget zakładek jako widżet obszaru przewijania
         obszar_przewijania.setWidget(zakladki)
@@ -798,14 +801,19 @@ class OknoUstawien(QWidget):
 
     def otworz_odbiorca(self):
         def w_nowym_watku():
-            self.button_polacz.setEnabled(False)
-            if os.path.isfile("Odbiorca.py"):
-                subprocess.run(['python', 'Odbiorca.py'])
-            else:
+            try:
+                self.button_polacz.setText('Próba wykonania')
+                self.button_polacz.setEnabled(False)
+                if os.path.isfile("Odbiorca.py"):
+                    subprocess.run(['python', 'Odbiorca.py'])
+                else:
+                    toaster = Powiadomienia()
+                    toaster.powiadomienie_jednorazowe(
+                        tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Na wszelki wypadek zaktualizuj program do najnowszej wersji i spróbuj ponownie', duration=3)
+            except:
                 toaster = Powiadomienia()
                 toaster.powiadomienie_jednorazowe(
-                    tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Na wszelki wypadek zaktualizuj program do najnowszej wersji i spróbuj ponownie', duration=3)
-            self.button_polacz.setText('Próba wykonania')
+                    tytul_powiadomienia="Błąd", tresc_powiadomienia="Coś poszło nie tak", duration=3)
 
         thread = threading.Thread(target=w_nowym_watku)
 
@@ -1105,6 +1113,20 @@ class OknoUstawien(QWidget):
         except Exception as e:
             print(e)
             return
+        
+    def utworz_zakladke_zglaszanie(self, zakladka):
+        # Tworzymy układ siatkowy dla zakładki
+        układ = QGridLayout(zakladka)
+
+        etykieta_ustawien = QLabel(
+            'Wpisz swoje zgłoszenie, pytanie, lub propozycję i ją nam wyślij!', zakladka)
+        układ.addWidget(etykieta_ustawien, 0, 0, 1, 2)
+
+        pole_pytan = QTextEdit(zakladka)
+        układ.addWidget(pole_pytan, 1, 0, 1, 2)
+
+        button_wyslij = QPushButton("Wyślij!", zakladka)
+        układ.addWidget(button_wyslij, 2, 0, 1, 2)
 
 
 class ZaawansowaneOkno(QWidget):

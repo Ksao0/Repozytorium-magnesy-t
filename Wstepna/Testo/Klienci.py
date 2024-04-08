@@ -7,6 +7,7 @@ import datetime
 from PyQt5.QtCore import Qt
 import requests
 from main2 import Powiadomienia
+import threading
 
 
 def aktualnosc():
@@ -507,6 +508,10 @@ if __name__ == "__main__":
 
     window.show()
 
-    wybierz_styl_z_pliku()
-    aktualnosc()
+    # Tworzenie nowego wątku, który wywołuje funkcję
+    thread = threading.Thread(target=wybierz_styl_z_pliku)
+
+    # Uruchamianie wątku
+    thread.start()
+
     sys.exit(app.exec_())

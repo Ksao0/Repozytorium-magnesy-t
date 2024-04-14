@@ -150,7 +150,6 @@ class AutoStartManager:
             print('Pobrano plik: Automa.py')
         else:
             print("Wystąpił problem podczas pobierania pliku")
-        pass
 
     def find_folder_and_add_to_startup(self):
         main2_folder = self.search_for_main2_folder()

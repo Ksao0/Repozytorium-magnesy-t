@@ -2,6 +2,10 @@ import os
 import shutil
 import requests
 from PyQt5.QtWidgets import QProgressBar
+import ctypes
+
+# Minimalizowanie cmd
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 
 class Automa:
@@ -46,6 +50,7 @@ class Automa:
 
         else:
             print("Folder 'main2.py' i 'rei2' nie został znaleziony na pulpicie.")
+    print('Kończenie')
 
 
 # Użycie:

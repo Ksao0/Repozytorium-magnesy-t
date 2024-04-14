@@ -602,14 +602,6 @@ class OknoAktualizacji(QWidget):
         self.przycisk_aktualizuj = QPushButton('Aktualizuj')
         self.przycisk_anuluj = QPushButton('Anuluj')  # Nieużywane
 
-        self.urls = [
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
-            # Dodaj tutaj inne URL-e do plików, jeśli są
-        ]
-
         self.inicjalizuj_ui()
 
     def inicjalizuj_ui(self):
@@ -622,43 +614,47 @@ class OknoAktualizacji(QWidget):
         self.pasek_postępu = QProgressBar()
         układ.addWidget(self.pasek_postępu, 1, 0, 1, 2)
 
-        self.przycisk_aktualizuj = QPushButton('Aktualizuj')
-        przycisk_anuluj = QPushButton('Anuluj')
-
         self.przycisk_aktualizuj.clicked.connect(self.rozpocznij_aktualizacje)
-        przycisk_anuluj.clicked.connect(self.anuluj_aktualizacje)
+        self.przycisk_anuluj.clicked.connect(self.anuluj_aktualizacje)
 
         self.przycisk_anuluj.setEnabled(False)
         self.przycisk_anuluj.setStyleSheet(
             'background-color: lightgray; color: gray;')
 
         układ.addWidget(self.przycisk_aktualizuj, 2, 0)
-        układ.addWidget(przycisk_anuluj, 2, 1)
+        układ.addWidget(self.przycisk_anuluj, 2, 1)
 
         self.setLayout(układ)
         self.setWindowTitle('Okno Aktualizatora')
         self.setGeometry(200, 200, 400, 150)
 
         self.pasek_postępu.setValue(0)
-        self.watek_aktualizacji = AktualizacjaWatek(self.urls)
-        self.watek_aktualizacji.aktualizacja_zakonczona.connect(
-            self.zakoncz_aktualizacje)
+        self.watek_aktualizacji = None
 
     def rozpocznij_aktualizacje(self):
-        self.pasek_postępu.setValue(0)
+        if self.watek_aktualizacji is None or not self.watek_aktualizacji.isRunning():
+            self.pasek_postępu.setValue(0)
 
-        # Wyłącz przycisk i zmień jego wygląd
-        self.przycisk_aktualizuj.setEnabled(False)
-        self.przycisk_aktualizuj.setText('Aktualizacja w toku...')
-        self.przycisk_aktualizuj.setStyleSheet(
-            'background-color: lightgray; color: gray;')
+            # Wyłącz przycisk i zmień jego wygląd
+            self.przycisk_aktualizuj.setEnabled(False)
+            self.przycisk_aktualizuj.setText('Aktualizacja w toku...')
+            self.przycisk_aktualizuj.setStyleSheet(
+                'background-color: lightgray; color: gray;')
 
-        # Wyłącz przycisk i zmień jego wygląd
-        self.przycisk_anuluj.setEnabled(True)
-        self.przycisk_anuluj.setStyleSheet(
-            'background-color: gray; color: lightgray;')
+            # Wyłącz przycisk i zmień jego wygląd
+            self.przycisk_anuluj.setEnabled(True)
+            self.przycisk_anuluj.setStyleSheet(
+                'background-color: gray; color: lightgray;')
 
-        self.watek_aktualizacji.start()
+            self.watek_aktualizacji = AktualizacjaWatek(self.urls_z_pliku())
+            self.watek_aktualizacji.aktualizacja_zakonczona.connect(
+                self.zakoncz_aktualizacje)
+            self.watek_aktualizacji.start()
+
+    def urls_z_pliku(self):
+        with open("lista.txt", "r") as file:
+            urls = file.readlines()
+        return [url.strip() for url in urls]
 
     def zakoncz_aktualizacje(self, value):
         self.pasek_postępu.setValue(value)
@@ -667,11 +663,12 @@ class OknoAktualizacji(QWidget):
             # subprocess.run(["python", "Aktualizator.py"])
             # Uruchomienie programu z nowego pliku main2.py po zakończeniu aktualizacji
             os.execl(sys.executable, sys.executable, "main2.py")
-            QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
+            QApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
 
     def anuluj_aktualizacje(self):
         print('Aktualizacja anulowana.')
-        self.watek_aktualizacji.terminate()
+        if self.watek_aktualizacji and self.watek_aktualizacji.isRunning():
+            self.watek_aktualizacji.terminate()
         self.close()
 
 

@@ -1,6 +1,6 @@
 import os
 import requests
-from PyQt5.QtWidgets import QApplication, QProgressBar, QWidget
+from PyQt5.QtCore import QCoreApplication, QThread, pyqtSignal
 import ctypes
 import sys
 
@@ -8,54 +8,45 @@ import sys
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 
-class Automa:
-    def __init__(self):
-        self.urls = [
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
-            # Dodaj tutaj inne URL-e do plików, jeśli są
-        ]
-        self.app = QApplication(sys.argv)
-        self.pasek_postępu_automa = QProgressBar()
+class Automa(QThread):
+    aktualizacja_zakonczona = pyqtSignal(int)
 
-    def find_main2_folder(self):
-        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        for root, dirs, files in os.walk(desktop_path):
-            if 'main2.py' in files and 'rei' in dirs:
-                return root
-        return None
+    def __init__(self, urls):
+        super().__init__()
+        self.urls = urls
+
+    def run(self):
+        total_files = len(self.urls)
+        for i, url in enumerate(self.urls):
+            file_name = url.split('/')[-1]
+            response = requests.get(url, stream=True)
+            total_size_in_bytes = int(response.headers.get('content-length', 0))
+            block_size = 1024  # 1 KB
+            progress_bar = 0
+            with open(file_name, 'wb') as file:
+                for data in response.iter_content(block_size):
+                    file.write(data)
+                    progress_bar += len(data)
+                    percent = progress_bar * 100 / total_size_in_bytes
+                    self.aktualizacja_zakonczona.emit(int(i + percent / total_files))
 
 
-    def download_files(self):
-        main2_folder = self.find_main2_folder()
-        if main2_folder:
-            total_files = len(self.urls)
-            self.pasek_postępu_automa.setMaximum(total_files)
-            self.pasek_postępu_automa.setValue(0)
-            for i, url in enumerate(self.urls):
-                file_name = url.split('/')[-1]
-                file_path = os.path.join(main2_folder, file_name)
-                response = requests.get(url, stream=True)
-                total_size_in_bytes = int(
-                    response.headers.get('content-length', 0))
-                block_size = 1024  # 1 KB
-                progress_bar = 0
-                with open(file_path, 'wb') as file:
-                    for data in response.iter_content(block_size):
-                        file.write(data)
-                        progress_bar += len(data)
-                        percent = progress_bar * 100 / total_size_in_bytes
-                        self.pasek_postępu_automa.setValue(
-                            int(i + percent / total_files))
-
-        else:
-            print("Folder 'main2.py' i 'rei' nie został znaleziony na pulpicie.")
-        print('Kończenie')
-        sys.exit(self.app.exec_())
+def read_urls_from_file(file_path):
+    with open(file_path, 'r') as file:
+        urls = [line.strip() for line in file.readlines()]
+    return urls
 
 
 # Użycie:
-automa = Automa()
-automa.download_files()
+app = QCoreApplication(sys.argv)
+
+# Ścieżka do pliku lista.txt w repozytorium
+lista_txt_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/lista.txt"
+lista_txt_content = requests.get(lista_txt_url).text
+urls = [line.strip() for line in lista_txt_content.split('\n') if line.strip()]
+
+automa = Automa(urls)
+automa.aktualizacja_zakonczona.connect(lambda value: app.quit())
+automa.start()
+
+sys.exit(app.exec_())

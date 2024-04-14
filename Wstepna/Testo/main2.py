@@ -616,7 +616,7 @@ class OknoAktualizacji(QWidget):
         układ = QGridLayout()
 
         etykieta_info = QLabel(
-            'Na razie nie można sprawdzać dostępności aktualizacji')
+            'Nie przerywaj aktualizacji, jeśli nie jest to konieczne konieczne')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()

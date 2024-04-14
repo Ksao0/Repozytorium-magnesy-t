@@ -20,17 +20,40 @@ import os
 import sys
 import threading
 import shutil
-
 from win10toast import ToastNotifier
 
 from packaging import version
 import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
 
 os.system('cls')
-
+global ustawienie_auto
 global ustawienie_sprawdzanie_aktualizacji_w_tle
 global zaawansowane_okno_zamkniete
 zaawansowane_okno_zamkniete = False
+
+
+class OperacjeNaPliku:
+    def __init__(self, nazwa_pliku):
+        self.nazwa_pliku = nazwa_pliku
+
+    def podmien_linijke(self, numer_linii, nowa_zawartosc):
+        # Otwarcie pliku i odczytanie całej zawartości
+        with open(self.nazwa_pliku, 'r', encoding='utf-8') as plik:
+            linie = plik.readlines()
+
+        # Sprawdzenie czy numer linii jest prawidłowy
+        if numer_linii < 0 or numer_linii >= len(linie):
+            print("Błąd: Numer linii jest nieprawidłowy.")
+            return
+
+        # Zmiana zawartości wybranej linii
+        linie[numer_linii] = nowa_zawartosc + '\n'
+
+        # Zapis zmodyfikowanej zawartości do pliku
+        with open(self.nazwa_pliku, 'w', encoding='utf-8') as plik:
+            for linia in linie:
+                plik.write(linia)
+
 
 if os.path.isfile("Ustawienia.txt"):
     with open("Ustawienia.txt", "r", encoding='utf-8') as plik:
@@ -41,10 +64,16 @@ if os.path.isfile("Ustawienia.txt"):
         ustawienie_sprawdzanie_aktualizacji_w_tle = True
     else:
         ustawienie_sprawdzanie_aktualizacji_w_tle = False
+
+    if ustawienia_linie[1] == "Tak":
+        ustawienie_auto = True
+    else:
+        ustawienie_auto = False
 else:
     # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
     with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
-        plik.write("Tak")
+        plik.write("Tak\n")
+        plik.write("Nie")
     ustawienie_sprawdzanie_aktualizacji_w_tle = True
     messagebox.showwarning(
         "Brak pliku ustawień", "Nie udało się znaleźć pliku z zapisanymi ustawieniami, więc wczytano domyślne wartości")
@@ -828,7 +857,7 @@ class OknoUstawien(QWidget):
         układ = QGridLayout(zakladka)
 
         etykieta_cena_tektura = QLabel(
-            'Automatyczne sprawdzanie aktualizacji w tle - po włączaniu programu w tle będą sprawdzane aktualizacje, ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI\n\nSprawdzanie aktualizacji automatycznie po uruchomieniu komputera - po włączeniu komputera program będzie aktualizowany jeśli to konieczne, NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI\nTa opcja nie wpłynie na działanie komputera, wszystkie wątki programu zostaną zamknięte', zakladka)
+            'Automatyczne sprawdzanie aktualizacji w tle - po włączaniu programu w tle będą sprawdzane aktualizacje, ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI\nPo jego zamknięciu ten wątek zostanie zamknięty.\n\nSprawdzanie aktualizacji automatycznie po uruchomieniu komputera - po włączeniu komputera program będzie jednorazowo aktualizowany jeśli to konieczne, NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI\nTa opcja nie wpłynie na działanie komputera, wszystkie wątki programu zostaną zamknięte po aktualizacji', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
         button_klienci = QPushButton("Zarządzanie klientami", zakladka)
@@ -870,9 +899,17 @@ class OknoUstawien(QWidget):
         self.toggle_button.clicked.connect(self.onToggleSwitch)
 
     def automa(self):
+        global ustawienie_auto
         # Utwórz instancję klasy AutoStartManager i uruchom
         auto_start_manager = AutoStartManager()
         auto_start_manager.run()
+
+        nazwa_pliku = "Ustawienia.txt"
+        operacje = OperacjeNaPliku(nazwa_pliku)
+        numer_linii = 1  # Numer linii do zmiany
+        nowa_zawartosc = "Tak"
+        operacje.podmien_linijke(numer_linii, nowa_zawartosc)
+        ustawienie_auto = True
 
     def otworz_odbiorca(self):
         def w_nowym_watku():
@@ -904,9 +941,11 @@ class OknoUstawien(QWidget):
                 if not os.path.isfile("Ustawienia.txt"):
                     open("Ustawienia.txt", "w", encoding='utf-8').close()
 
-                # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
-                    plik.write("Tak")
+                nazwa_pliku = "Ustawienia.txt"
+                operacje = OperacjeNaPliku(nazwa_pliku)
+                numer_linii = 0  # Numer linii do zmiany
+                nowa_zawartosc = "Tak"
+                operacje.podmien_linijke(numer_linii, nowa_zawartosc)
                 self.toggle_button.setText(
                     'Sprawdzanie aktualiacji w tle: włączone')
                 ustawienie_sprawdzanie_aktualizacji_w_tle = True
@@ -926,20 +965,20 @@ class OknoUstawien(QWidget):
                 if not os.path.isfile("Ustawienia.txt"):
                     open("Ustawienia.txt", "w", encoding='utf-8').close()
 
-                # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
-                    plik.write("Tak")
+                nazwa_pliku = "Ustawienia.txt"
+                operacje = OperacjeNaPliku(nazwa_pliku)
+                numer_linii = 0  # Numer linii do zmiany
+                nowa_zawartosc = "Tak"
+                operacje.podmien_linijke(numer_linii, nowa_zawartosc)
                 self.toggle_button.setText(
                     'Sprawdzanie aktualiacji w tle: włączone')
 
         else:
-            # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-            if not os.path.isfile("Ustawienia.txt"):
-                open("Ustawienia.txt", "w", encoding='utf-8').close()
-
-            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-            with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
-                plik.write("Nie")
+            nazwa_pliku = "Ustawienia.txt"
+            operacje = OperacjeNaPliku(nazwa_pliku)
+            numer_linii = 0  # Numer linii do zmiany
+            nowa_zawartosc = "Nie"
+            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
             self.toggle_button.setText(
                 'Sprawdzanie aktualiacji w tle: wyłączone')
             ustawienie_sprawdzanie_aktualizacji_w_tle = False

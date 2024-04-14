@@ -24,6 +24,7 @@ from win10toast import ToastNotifier
 
 from packaging import version
 import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
+from colorama import Fore, Style
 
 os.system('cls')
 global ustawienie_auto
@@ -56,19 +57,28 @@ class OperacjeNaPliku:
 
 
 if os.path.isfile("Ustawienia.txt"):
-    with open("Ustawienia.txt", "r", encoding='utf-8') as plik:
-        # Odczytanie zawartości i usunięcie białych znaków z końca
-        ustawienia = plik.read().strip()
-        ustawienia_linie = ustawienia.split('\n')
-    if ustawienia_linie[0] == "Tak":
-        ustawienie_sprawdzanie_aktualizacji_w_tle = True
-    else:
-        ustawienie_sprawdzanie_aktualizacji_w_tle = False
+    try:
+        with open("Ustawienia.txt", "r", encoding='utf-8') as plik:
+            # Odczytanie zawartości i usunięcie białych znaków z końca
+            ustawienia = plik.read().strip()
+            ustawienia_linie = ustawienia.split('\n')
+        if ustawienia_linie[0] == "Tak":
+            ustawienie_sprawdzanie_aktualizacji_w_tle = True
+        else:
+            ustawienie_sprawdzanie_aktualizacji_w_tle = False
 
-    if ustawienia_linie[1] == "Tak":
-        ustawienie_auto = True
-    else:
-        ustawienie_auto = False
+        if ustawienia_linie[1] == "Tak":
+            ustawienie_auto = True
+        else:
+            ustawienie_auto = False
+    except:
+        # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+        with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
+            plik.write("Tak\n")
+            plik.write("Nie")
+        ustawienie_sprawdzanie_aktualizacji_w_tle = True
+        messagebox.showwarning(
+            "Brak pliku ustawień", "Nie udało się znaleźć pliku z zapisanymi ustawieniami, więc wczytano domyślne wartości")
 else:
     # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
     with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
@@ -857,7 +867,18 @@ class OknoUstawien(QWidget):
         układ = QGridLayout(zakladka)
 
         etykieta_cena_tektura = QLabel(
-            'Automatyczne sprawdzanie aktualizacji w tle - po włączaniu programu w tle będą sprawdzane aktualizacje, ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI\nPo jego zamknięciu ten wątek zostanie zamknięty.\n\nSprawdzanie aktualizacji automatycznie po uruchomieniu komputera - po włączeniu komputera program będzie jednorazowo aktualizowany jeśli to konieczne, NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI\nTa opcja nie wpłynie na działanie komputera, wszystkie wątki programu zostaną zamknięte po aktualizacji', zakladka)
+            '''
+Sprawdzanie aktualizacji w tle:
+Aktualizacje będą stale sprawdzane podczas działania programu
+ - ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI
+Po zamknięciu programu ten wątek zostanie zamknięty.
+
+Sprawdzanie aktualizacji po uruchomieniu:
+Po włączeniu komputera program będzie jednorazowo aktualizowany
+ - NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI
+Wszystkie wątki programu zostaną zamknięte po aktualizacji
+Ta opcja nie wpłynie na działanie komputera,
+''', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
         button_klienci = QPushButton("Zarządzanie klientami", zakladka)
@@ -868,10 +889,10 @@ class OknoUstawien(QWidget):
         self.button_polacz.clicked.connect(self.otworz_odbiorca)
         układ.addWidget(self.button_polacz, 3, 0, 1, 1)
 
-        self.button_polacz = QPushButton(
-            "Sprawdzaj aktualizacje automatycznie po uruchomieniu komputera", zakladka)
-        self.button_polacz.clicked.connect(self.automa)
-        układ.addWidget(self.button_polacz, 3, 0, 1, 1)
+        self.button_automa = QPushButton(
+            "Sprawdzaj aktualizacje po uruchomieniu", zakladka)
+        self.button_automa.clicked.connect(self.automa)
+        układ.addWidget(self.button_automa, 4, 0, 1, 1)
 
         if ustawienie_sprawdzanie_aktualizacji_w_tle == True:
             self.toggle_button = QPushButton(
@@ -910,6 +931,16 @@ class OknoUstawien(QWidget):
         nowa_zawartosc = "Tak"
         operacje.podmien_linijke(numer_linii, nowa_zawartosc)
         ustawienie_auto = True
+
+        toaster = Powiadomienia()
+        toaster.powiadomienie_jednorazowe(
+            tytul_powiadomienia=f"Ustawiono!", tresc_powiadomienia=f'Zaktualizowowaliśmy i od nowa ustawiliśmy to ustawienie dla użytkownika {getpass.getuser()}!\nInstrukcje dotyczące usuwania tego ustawienia są w dzienniku działań', duration=3)
+
+        # Ścieżka do katalogu Startup
+        sciezka_do_kasowania = rf'{Fore.LIGHTYELLOW_EX}C:\Users\{Fore.CYAN}TWOJA_NAZWA_UŻYTKOWNIKA{Fore.LIGHTYELLOW_EX}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup{Style.RESET_ALL}'
+
+        # Kolorowe instrukcje
+        print(f"{Fore.LIGHTBLACK_EX}Usuń plik {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z tej ścieżki, aby wyłączyć:\n{sciezka_do_kasowania}{Fore.LIGHTBLACK_EX}\nPamiętaj o uzupełnieniu nazwy użytkownika ({Fore.BLUE}{getpass.getuser()}{Style.RESET_ALL}{Fore.LIGHTBLACK_EX})\n")
 
     def otworz_odbiorca(self):
         def w_nowym_watku():

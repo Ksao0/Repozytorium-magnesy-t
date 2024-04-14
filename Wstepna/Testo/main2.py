@@ -24,6 +24,7 @@ import shutil
 from win10toast import ToastNotifier
 
 from packaging import version
+import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
 
 os.system('cls')
 
@@ -45,7 +46,8 @@ else:
     with open("Ustawienia.txt", "w", encoding='utf-8') as plik:
         plik.write("Tak")
     ustawienie_sprawdzanie_aktualizacji_w_tle = True
-    messagebox.showwarning("Brak pliku ustawień", "Nie udało się znaleźć pliku z zapisanymi ustawieniami, więc wczytano domyślne wartości")
+    messagebox.showwarning(
+        "Brak pliku ustawień", "Nie udało się znaleźć pliku z zapisanymi ustawieniami, więc wczytano domyślne wartości")
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -131,6 +133,62 @@ def wybierz_styl_z_pliku():
                 print('Ustawiono styl na: szarość')
             else:
                 print("Wystąpił problem podczas pobierania pliku")
+
+
+class AutoStartManager:
+    def __init__(self):
+        # Podaj URL pliku, który chcesz pobrać
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.py"
+
+        # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+        nazwa_pliku = "styl_szarość.css"
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            with open(nazwa_pliku, 'wb') as plik:
+                plik.write(response.content)
+            print('Pobrano plik: Automa.py')
+        else:
+            print("Wystąpił problem podczas pobierania pliku")
+        pass
+
+    def find_folder_and_add_to_startup(self):
+        main2_folder = self.search_for_main2_folder()
+        if main2_folder:
+            automa_py_path = self.find_automa_py(main2_folder)
+            if automa_py_path:
+                self.add_to_startup(automa_py_path)
+
+    def search_for_main2_folder(self):
+        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        for root, dirs, files in os.walk(desktop_path):
+            if 'main2.py' in files and 'rei2' in dirs:
+                return os.path.join(root, 'rei2')
+        return None
+
+    def find_automa_py(self, folder_path):
+        for root, dirs, files in os.walk(folder_path):
+            if 'Automa.py' in files:
+                return os.path.join(root, 'Automa.py')
+        return None
+
+    def add_to_startup(self, file_path):
+        """
+        Funkcja dodająca program do autostartu systemu Windows z opóźnieniem.
+
+        :param file_path: Ścieżka do pliku, który ma zostać uruchomiony podczas startu systemu.
+                        Domyślnie używana jest ścieżka bieżącego pliku.
+        :param delay_seconds: Opóźnienie (w sekundach) przed uruchomieniem programu. Domyślnie 30 sekund.
+        """
+        bat_path = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(
+            getpass.getuser())
+
+        # Utwórz plik wsadowy (.bat) w folderze autostartu
+        with open(os.path.join(bat_path, "startup.bat"), "w+") as bat_file:
+            # Zapisz polecenie do pliku wsadowego, które uruchomi podany plik po upływie opóźnienia
+            # Wyłącz wyświetlanie poleceń w pliku wsadowym
+            bat_file.write("@echo off\n")
+            bat_file.write('start "" "{}"'.format(file_path))
 
 
 def ustawianie_stylu(styl):
@@ -780,6 +838,11 @@ class OknoUstawien(QWidget):
         self.button_polacz.clicked.connect(self.otworz_odbiorca)
         układ.addWidget(self.button_polacz, 3, 0, 1, 1)
 
+        self.button_polacz = QPushButton(
+            "Sprawdzaj aktualizacje automatycznie po uruchomieniu komputera", zakladka)
+        self.button_polacz.clicked.connect(self.automa)
+        układ.addWidget(self.button_polacz, 3, 0, 1, 1)
+
         if ustawienie_sprawdzanie_aktualizacji_w_tle == True:
             self.toggle_button = QPushButton(
                 'Sprawdzanie aktualiacji w tle: włączone', zakladka)
@@ -804,6 +867,12 @@ class OknoUstawien(QWidget):
         układ.addWidget(self.toggle_button, 2, 0, 1, 1)
 
         self.toggle_button.clicked.connect(self.onToggleSwitch)
+
+    def automa(self):
+        # Utwórz instancję klasy AutoStartManager
+        auto_start_manager = AutoStartManager()
+        # Znajdź folder zawierający main2.py i folder rei2, a następnie dodaj Autom.py do autostartu, jeśli to możliwe
+        auto_start_manager.find_folder_and_add_to_startup()
 
     def otworz_odbiorca(self):
         def w_nowym_watku():

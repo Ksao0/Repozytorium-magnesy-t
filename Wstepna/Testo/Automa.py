@@ -1,8 +1,8 @@
 import os
-import shutil
 import requests
-from PyQt5.QtWidgets import QProgressBar
+from PyQt5.QtWidgets import QApplication, QProgressBar, QWidget
 import ctypes
+import sys
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -17,14 +17,16 @@ class Automa:
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
             # Dodaj tutaj inne URL-e do plików, jeśli są
         ]
+        self.app = QApplication(sys.argv)
         self.pasek_postępu_automa = QProgressBar()
 
     def find_main2_folder(self):
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         for root, dirs, files in os.walk(desktop_path):
-            if 'main2.py' in files and 'rei2' in dirs:
-                return os.path.join(root, 'rei2')
+            if 'main2.py' in files and 'rei' in dirs:
+                return root
         return None
+
 
     def download_files(self):
         main2_folder = self.find_main2_folder()
@@ -49,8 +51,9 @@ class Automa:
                             int(i + percent / total_files))
 
         else:
-            print("Folder 'main2.py' i 'rei2' nie został znaleziony na pulpicie.")
-    print('Kończenie')
+            print("Folder 'main2.py' i 'rei' nie został znaleziony na pulpicie.")
+        print('Kończenie')
+        sys.exit(self.app.exec_())
 
 
 # Użycie:

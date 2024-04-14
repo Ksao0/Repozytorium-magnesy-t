@@ -137,57 +137,59 @@ def wybierz_styl_z_pliku():
 
 class AutoStartManager:
     def __init__(self):
-        # Podaj URL pliku, który chcesz pobrać
-        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.py"
+        pass
 
-        # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-        nazwa_pliku = "styl_szarość.css"
-        response = requests.get(url)
-
-        if response.status_code == 200:
-            with open(nazwa_pliku, 'wb') as plik:
-                plik.write(response.content)
-            print('Pobrano plik: Automa.py')
-        else:
-            print("Wystąpił problem podczas pobierania pliku")
-
-    def find_folder_and_add_to_startup(self):
-        main2_folder = self.search_for_main2_folder()
-        if main2_folder:
-            automa_py_path = self.find_automa_py(main2_folder)
-            if automa_py_path:
-                self.add_to_startup(automa_py_path)
-
-    def search_for_main2_folder(self):
+    def find_main2_folder(self):
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         for root, dirs, files in os.walk(desktop_path):
-            if 'main2.py' in files and 'rei2' in dirs:
-                return os.path.join(root, 'rei2')
+            if 'main2.py' in files and 'rei' in dirs:
+                return os.path.join(root, 'rei')
         return None
 
-    def find_automa_py(self, folder_path):
-        for root, dirs, files in os.walk(folder_path):
-            if 'Automa.py' in files:
-                return os.path.join(root, 'Automa.py')
-        return None
+    def download_file(self, url, destination):
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(destination, 'wb') as file:
+                file.write(response.content)
+            return True
+        else:
+            print("Wystąpił problem podczas pobierania pliku.")
+            return False
 
     def add_to_startup(self, file_path):
-        """
-        Funkcja dodająca program do autostartu systemu Windows z opóźnieniem.
-
-        :param file_path: Ścieżka do pliku, który ma zostać uruchomiony podczas startu systemu.
-                        Domyślnie używana jest ścieżka bieżącego pliku.
-        :param delay_seconds: Opóźnienie (w sekundach) przed uruchomieniem programu. Domyślnie 30 sekund.
-        """
         bat_path = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(
             getpass.getuser())
+        bat_file_path = os.path.join(bat_path, "startup.bat")
 
-        # Utwórz plik wsadowy (.bat) w folderze autostartu
-        with open(os.path.join(bat_path, "startup.bat"), "w+") as bat_file:
-            # Zapisz polecenie do pliku wsadowego, które uruchomi podany plik po upływie opóźnienia
-            # Wyłącz wyświetlanie poleceń w pliku wsadowym
+        if not os.path.exists(bat_path):
+            os.makedirs(bat_path)
+
+        with open(bat_file_path, "w+") as bat_file:
             bat_file.write("@echo off\n")
             bat_file.write('start "" "{}"'.format(file_path))
+
+    def run(self):
+        # Szukaj folderu zawierającego main2.py i folder rei
+        main2_folder = self.find_main2_folder()
+
+        if main2_folder:
+            print("Znaleziono folder zawierający main2.py i folder rei:", main2_folder)
+
+            # Ścieżka do pobrania pliku Automa.py
+            automa_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.py"
+            automa_destination = os.path.join(main2_folder, "Automa.py")
+
+            # Pobierz plik Automa.py
+            if self.download_file(automa_url, automa_destination):
+                print("Pobrano plik Automa.py.")
+
+                # Dodaj plik Automa.py do autostartu
+                self.add_to_startup(automa_destination)
+                print("Plik Automa.py został dodany do autostartu.")
+            else:
+                print("Nie udało się pobrać pliku Automa.py.")
+        else:
+            print("Nie znaleziono folderu zawierającego main2.py i folder rei.")
 
 
 def ustawianie_stylu(styl):
@@ -868,10 +870,9 @@ class OknoUstawien(QWidget):
         self.toggle_button.clicked.connect(self.onToggleSwitch)
 
     def automa(self):
-        # Utwórz instancję klasy AutoStartManager
+        # Utwórz instancję klasy AutoStartManager i uruchom
         auto_start_manager = AutoStartManager()
-        # Znajdź folder zawierający main2.py i folder rei2, a następnie dodaj Autom.py do autostartu, jeśli to możliwe
-        auto_start_manager.find_folder_and_add_to_startup()
+        auto_start_manager.run()
 
     def otworz_odbiorca(self):
         def w_nowym_watku():

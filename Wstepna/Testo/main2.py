@@ -828,7 +828,7 @@ class OknoUstawien(QWidget):
         układ = QGridLayout(zakladka)
 
         etykieta_cena_tektura = QLabel(
-            'Wkrótce pojawią się tu nowe opcje\n\nBędą tu pewnie funkcje typu:\n - zgłaszania błędów/propozycji (podobne do tego, co było kiedyś)\n - funkcje związane z autostartem itp.', zakladka)
+            'Automatyczne sprawdzanie aktualizacji w tle - po włączaniu programu w tle będą sprawdzane aktualizacje, ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI\n\nSprawdzanie aktualizacji automatycznie po uruchomieniu komputera - po włączeniu komputera program będzie aktualizowany jeśli to konieczne, NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI\nTa opcja nie wpłynie na działanie komputera, wszystkie wątki programu zostaną zamknięte', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
         button_klienci = QPushButton("Zarządzanie klientami", zakladka)

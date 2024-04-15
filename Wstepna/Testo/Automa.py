@@ -1,10 +1,9 @@
 import os
 import requests
-from PyQt5.QtCore import QCoreApplication, QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication, QMainWindow, QProgressBar
+from PyQt5.QtCore import QCoreApplication, QThread, pyqtSignal, Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import ctypes
 import sys
-import threading
 from colorama import Fore, Style
 
 # Minimalizowanie cmd
@@ -20,9 +19,11 @@ try:
             self.folder_path = folder_path
 
         def run(self):
-            total_size = sum(self.get_file_size(url) for url in self.urls)
+            total_size = 0
+            for url in self.urls:
+                total_size += self.get_file_size(url)
             total_downloaded = 0
-            for i, url in enumerate(self.urls):
+            for url in self.urls:
                 file_name = os.path.join(self.folder_path, url.split('/')[-1])
                 response = requests.get(url, stream=True)
                 total_size_in_bytes = self.get_file_size(url)
@@ -46,18 +47,8 @@ try:
     class MainWindow(QMainWindow):
         def __init__(self):
             super().__init__()
-            self.progress_bar = QProgressBar(self)
-            self.progress_bar.setGeometry(20, 20, 360, 25)
-            self.progress_bar.setMaximum(100)
-            self.progress_bar.setMinimum(0)
             self.setWindowTitle("Aktualizacja plików (magnesy)")
             self.setFixedSize(400, 70)
-            # Ustawienie stylu dla paska postępu
-            self.progress_bar.setStyleSheet(
-                "QProgressBar { border: 2px solid #231225; border-radius: 5px; background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop: 0 #250623, stop: 0.5 #351c34, stop: 1 #1b0c1a); }"
-                "QProgressBar::chunk { background-color: #3e1642; width: 10px; }"
-            )
-            # Ustawienie stylu dla głównego okna
             self.setStyleSheet(
                 "QWidget { background-color: #1B0C1A; color: #F2F2F2; selection-color: #40535b; selection-background-color: #441d32; }"
                 "QStatusBar { background-color: #333333; color: #FFFFFF; }"
@@ -85,7 +76,6 @@ try:
             for line in lista_txt_content.split('\n') if line.strip()]
 
     automa = Automa(urls, folder_path)
-    automa.aktualizacja_zakonczona.connect(main_window.progress_bar.setValue)
     automa.aktualizacja_zakonczona.connect(
         lambda value: app.quit())  # Zamyka aplikację po pobraniu
     automa.start()

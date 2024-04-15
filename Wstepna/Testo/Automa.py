@@ -73,7 +73,7 @@ try:
     # Szukanie folderu na pulpicie zawierającego plik main2.py
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
     for root, dirs, files in os.walk(desktop_path):
-        if "main2.py" in files in files and "rei" in dirs:
+        if "main2.py" in files and "rei" in dirs:
             folder_path = root
             break
     else:

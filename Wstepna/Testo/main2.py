@@ -920,27 +920,30 @@ Ta opcja nie wpłynie na działanie komputera,
         self.toggle_button.clicked.connect(self.onToggleSwitch)
 
     def automa(self):
-        global ustawienie_auto
-        # Utwórz instancję klasy AutoStartManager i uruchom
-        auto_start_manager = AutoStartManager()
-        auto_start_manager.run()
+        if messagebox.askokcancel("Autostart", 'Ta opcja doda aktualizator do autostartu, możesz to cofnąć w każdej chwili\nW niektórych przypadkach możesz zobaczyć okno terminala na killka sekund'):
+            global ustawienie_auto
+            # Utwórz instancję klasy AutoStartManager i uruchom
+            auto_start_manager = AutoStartManager()
+            auto_start_manager.run()
 
-        nazwa_pliku = "Ustawienia.txt"
-        operacje = OperacjeNaPliku(nazwa_pliku)
-        numer_linii = 1  # Numer linii do zmiany
-        nowa_zawartosc = "Tak"
-        operacje.podmien_linijke(numer_linii, nowa_zawartosc)
-        ustawienie_auto = True
+            nazwa_pliku = "Ustawienia.txt"
+            operacje = OperacjeNaPliku(nazwa_pliku)
+            numer_linii = 1  # Numer linii do zmiany
+            nowa_zawartosc = "Tak"
+            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
+            ustawienie_auto = True
 
-        toaster = Powiadomienia()
-        toaster.powiadomienie_jednorazowe(
-            tytul_powiadomienia=f"Ustawiono!", tresc_powiadomienia=f'Zaktualizowowaliśmy i od nowa ustawiliśmy to ustawienie dla użytkownika {getpass.getuser()}!\nInstrukcje dotyczące usuwania tego ustawienia są w dzienniku działań', duration=3)
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia=f"Ustawiono!", tresc_powiadomienia=f'Zaktualizowowaliśmy lub ustawiliśmy to ustawienie dla użytkownika {getpass.getuser()}!\nInstrukcje     dotyczące usuwania tego ustawienia są w dzienniku działań', duration=3)
 
-        # Ścieżka do katalogu Startup
-        sciezka_do_kasowania = rf'{Fore.LIGHTYELLOW_EX}C:\Users\{Fore.CYAN}TWOJA_NAZWA_UŻYTKOWNIKA{Fore.LIGHTYELLOW_EX}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup{Style.RESET_ALL}'
+            # Ścieżka do katalogu Startup
+            sciezka_do_kasowania = rf'{Fore.LIGHTYELLOW_EX}C:\Users\{Fore.CYAN}TWOJA_NAZWA_UŻYTKOWNIKA{Fore.LIGHTYELLOW_EX}\AppData\Roaming\Microsoft\Windows\Start     Menu\Programs\Startup{Style.RESET_ALL}'
 
-        # Kolorowe instrukcje
-        print(f"{Fore.LIGHTBLACK_EX}Aby wyłączyć - usuń plik {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z tej ścieżki:\n{sciezka_do_kasowania}{Fore.LIGHTBLACK_EX}\nPamiętaj o uzupełnieniu nazwy użytkownika ({Fore.BLUE}{getpass.getuser()}{Style.RESET_ALL}{Fore.LIGHTBLACK_EX})\nEwentualnie usuń {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z autostartu w menedżerze zadań\n")
+            # Kolorowe instrukcje
+            print(f"{Fore.LIGHTBLACK_EX}Aby wyłączyć - usuń plik {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z tej ścieżki:\n{sciezka_do_kasowania}{Fore.  LIGHTBLACK_EX}\nPamiętaj o uzupełnieniu nazwy użytkownika ({Fore.BLUE}{getpass.getuser()}{Style.RESET_ALL}{Fore.LIGHTBLACK_EX})\nEwentualnie usuń {Fore.LIGHTYELLOW_EX}   startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z autostartu w menedżerze zadań\n")
+        else:
+            messagebox.showinfo('Autostart', "Anulowano")
 
 
     def otworz_odbiorca(self):

@@ -198,7 +198,7 @@ class AutoStartManager:
     def add_to_startup(self, file_path):
         bat_path = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(
             getpass.getuser())
-        bat_file_path = os.path.join(bat_path, "startup.bat")
+        bat_file_path = os.path.join(bat_path, "Magnesy-update.bat")
 
         if not os.path.exists(bat_path):
             os.makedirs(bat_path)

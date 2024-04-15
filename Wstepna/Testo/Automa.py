@@ -47,11 +47,11 @@ try:
         def __init__(self):
             super().__init__()
             self.progress_bar = QProgressBar(self)
-            self.progress_bar.setGeometry(30, 40, 200, 25)
+            self.progress_bar.setGeometry(20, 20, 360, 25)
             self.progress_bar.setMaximum(100)
             self.progress_bar.setMinimum(0)
-            self.setWindowTitle("Aktualizacja plików")
-            self.setFixedSize(400, 100)
+            self.setWindowTitle("Aktualizacja plików (magnesy)")
+            self.setFixedSize(400, 70)
             # Ustawienie stylu dla paska postępu
             self.progress_bar.setStyleSheet(
                 "QProgressBar { border: 2px solid #231225; border-radius: 5px; background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop: 0 #250623, stop: 0.5 #351c34, stop: 1 #1b0c1a); }"
@@ -86,7 +86,8 @@ try:
 
     automa = Automa(urls, folder_path)
     automa.aktualizacja_zakonczona.connect(main_window.progress_bar.setValue)
-    automa.aktualizacja_zakonczona.connect(lambda value: app.quit())  # Zamyka aplikację po pobraniu
+    automa.aktualizacja_zakonczona.connect(
+        lambda value: app.quit())  # Zamyka aplikację po pobraniu
     automa.start()
 
     sys.exit(app.exec_())

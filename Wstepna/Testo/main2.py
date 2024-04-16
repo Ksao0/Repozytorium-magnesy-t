@@ -462,7 +462,7 @@ def sprawdzanie_nowych_aktualizacji():
                 with open(path, "r", encoding="utf-8") as f:
                     version_local = f.read().strip()
             else:
-                version_local = "BRAK DANYCH"
+                version_local = "1.0.0"
 
             version_local_lines = version_local.split('\n')
 
@@ -944,7 +944,6 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             print(f"{Fore.LIGHTBLACK_EX}Aby wyłączyć - usuń plik {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z tej ścieżki:\n{sciezka_do_kasowania}{Fore.  LIGHTBLACK_EX}\nPamiętaj o uzupełnieniu nazwy użytkownika ({Fore.BLUE}{getpass.getuser()}{Style.RESET_ALL}{Fore.LIGHTBLACK_EX})\nEwentualnie usuń {Fore.LIGHTYELLOW_EX}   startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z autostartu w menedżerze zadań\n")
         else:
             messagebox.showinfo('Autostart', "Anulowano")
-
 
     def otworz_odbiorca(self):
         def w_nowym_watku():

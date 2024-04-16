@@ -17,44 +17,42 @@ try:
             self.version_txt_path = version_txt_path
 
         def run(self):
-            def aktul():
-                if local_version_content != remote_version_content:
-                    total_files = len(self.urls)
-                    for i, url in enumerate(self.urls):
-                        file_name = os.path.join(
-                            self.folder_path, url.split('/')[-1])
-                        response = requests.get(url, stream=True)
-                        total_size_in_bytes = int(
-                            response.headers.get('content-length', 0))
-                        block_size = 1024  # 1 KB
-                        progress_bar = 0
-                        previous_percent = 0  # Przechowuje poprzedni procent postępu
-                        with open(file_name, 'wb') as file:
-                            for data in response.iter_content(block_size):
-                                file.write(data)
-                                progress_bar += len(data)
-                                # Ograniczenie do maksymalnie 100%
-                                percent = min(
-                                    progress_bar * 100 / total_size_in_bytes, 100)
-                                # Wyświetl tylko, gdy postęp się zmienia
-                                if int(percent) != previous_percent:
-                                    print(
-                                        f"Pobrano {file_name}: {percent:.2f}%")
-                                    # Aktualizuj poprzedni procent
-                                    previous_percent = int(percent)
-                else:
-                    print(
-                        "Plik version.txt na komputerze jest aktualny. Nie ma potrzeby aktualizacji.")
-                    sys.exit(0)
             local_version_content = self.read_local_version_txt()
             if local_version_content is None:
                 print("Nie udało się odczytać pliku version.txt na komputerze.")
-                aktul()
 
             remote_version_content = self.read_remote_version_txt()
             if remote_version_content is None:
                 print("Nie udało się pobrać pliku version.txt z repozytorium.")
-                aktul()
+
+            if local_version_content != remote_version_content or remote_version_content is None or local_version_content is None:
+                total_files = len(self.urls)
+                for i, url in enumerate(self.urls):
+                    file_name = os.path.join(
+                        self.folder_path, url.split('/')[-1])
+                    response = requests.get(url, stream=True)
+                    total_size_in_bytes = int(
+                        response.headers.get('content-length', 0))
+                    block_size = 1024  # 1 KB
+                    progress_bar = 0
+                    previous_percent = 0  # Przechowuje poprzedni procent postępu
+                    with open(file_name, 'wb') as file:
+                        for data in response.iter_content(block_size):
+                            file.write(data)
+                            progress_bar += len(data)
+                            # Ograniczenie do maksymalnie 100%
+                            percent = min(
+                                progress_bar * 100 / total_size_in_bytes, 100)
+                            # Wyświetl tylko, gdy postęp się zmienia
+                            if int(percent) != previous_percent:
+                                print(
+                                    f"Pobrano {file_name}: {percent:.2f}%")
+                                # Aktualizuj poprzedni procent
+                                previous_percent = int(percent)
+            else:
+                print(
+                    "Plik version.txt na komputerze jest aktualny. Nie ma potrzeby aktualizacji.")
+                sys.exit(0)
 
         def read_local_version_txt(self):
             try:

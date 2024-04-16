@@ -876,8 +876,8 @@ Po zamknięciu programu ten wątek zostanie zamknięty.
 Sprawdzanie aktualizacji po uruchomieniu:
 Po włączeniu komputera program będzie jednorazowo aktualizowany
  - NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI
-Wszystkie wątki programu zostaną zamknięte po aktualizacji
 Ta opcja nie wpłynie na działanie komputera,
+Wszystkie wątki programu zostaną zamknięte po aktualizacji.
 ''', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 

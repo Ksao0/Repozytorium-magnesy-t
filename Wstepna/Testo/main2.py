@@ -12,7 +12,8 @@ import subprocess
 import urllib.request
 import urllib
 import datetime
-import messagebox
+import tkinter as tk
+from tkinter import messagebox
 from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QCoreApplication
 from PyQt5.QtGui import QPalette, QColor, QIcon
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar

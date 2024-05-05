@@ -4,8 +4,6 @@ import ctypes
 import sys
 from colorama import Fore, Style
 import time
-# Minimalizowanie cmd
-ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 try:
     print(f'{Fore.LIGHTBLACK_EX}Aktualizowanie magnesów\n\nAby wyłączyć tę opcję usuń ją z autostaru')

@@ -669,7 +669,8 @@ class OknoAktualizacji(QWidget):
         układ.addWidget(self.pasek_postępu, 1, 0, 1, 2)
 
         self.przycisk_aktualizuj = QPushButton('Aktualizuj')
-        self.przycisk_instalator = QPushButton('Instalator')  # Użyj przycisku self.przycisk_instalator
+        # Użyj przycisku self.przycisk_instalator
+        self.przycisk_instalator = QPushButton('Instalator')
 
         self.przycisk_aktualizuj.clicked.connect(self.rozpocznij_aktualizacje)
         self.przycisk_instalator.clicked.connect(self.okno_instalator)
@@ -688,7 +689,8 @@ class OknoAktualizacji(QWidget):
         }
         """)
 
-        układ.addWidget(self.przycisk_instalator, 2, 1)  # Dodaj przycisk self.przycisk_instalator do interfejsu
+        # Dodaj przycisk self.przycisk_instalator do interfejsu
+        układ.addWidget(self.przycisk_instalator, 2, 1)
 
         self.setLayout(układ)
         self.setWindowTitle('Okno Aktualizatora')
@@ -728,6 +730,7 @@ class OknoAktualizacji(QWidget):
         global instalator_sesja
         if instalator_sesja == 0:
             instalator_sesja = 1
+
             def otworz():
                 try:
                     subprocess.run(['python', 'Instalator.py'])
@@ -964,7 +967,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
 
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia=f"Ustawiono!", tresc_powiadomienia=f'Zaktualizowowaliśmy lub ustawiliśmy to ustawienie dla użytkownika {getpass.getuser()}!\nInstrukcje     dotyczące usuwania tego ustawienia są w dzienniku działań', duration=3)
+                tytul_powiadomienia=f"Ustawiono!", tresc_powiadomienia=f'Zaktualizowowaliśmy lub ustawiliśmy to ustawienie dla użytkownika {getpass.getuser()}!\nInstrukcje dotyczące usuwania tego ustawienia są w dzienniku działań', duration=3)
 
             # Ścieżka do katalogu Startup
             sciezka_do_kasowania = rf'{Fore.LIGHTYELLOW_EX}C:\Users\{Fore.CYAN}TWOJA_NAZWA_UŻYTKOWNIKA{Fore.LIGHTYELLOW_EX}\AppData\Roaming\Microsoft\Windows\Start     Menu\Programs\Startup{Style.RESET_ALL}'

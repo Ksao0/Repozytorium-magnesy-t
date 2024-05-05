@@ -183,7 +183,9 @@ class AutoStartManager:
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         for root, dirs, files in os.walk(desktop_path):
             if 'main2.py' in files and 'rei' in dirs:
-                return os.path.join(root, 'rei')
+                # Jeśli do folderu rei to:
+                # return os.path.join(root, 'rei')
+                return os.path.join(root)
         return None
 
     def download_file(self, url, destination):
@@ -211,7 +213,7 @@ class AutoStartManager:
     def run(self):
         # Szukaj folderu zawierającego main2.py i folder rei
         main2_folder = self.find_main2_folder()
-
+        print(f'{main2_folder}')
         if main2_folder:
             print("Znaleziono folder zawierający main2.py i folder rei:", main2_folder)
 

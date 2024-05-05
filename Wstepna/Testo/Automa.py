@@ -50,6 +50,7 @@ try:
             else:
                 print(
                     "Plik version.txt na komputerze jest aktualny. Nie ma potrzeby aktualizacji.")
+                time.sleep(2)
                 sys.exit(0)
 
         def read_local_version_txt(self):
@@ -84,7 +85,7 @@ try:
         requests.get("https://www.google.com", timeout=5)
     except (requests.ConnectionError, requests.Timeout):
         print("Brak połączenia z internetem.")
-        sys.exit(1)
+        sys.exit(2)
 
     # Ścieżka do pliku lista.txt w repozytorium
     lista_txt_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/lista.txt"

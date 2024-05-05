@@ -10,6 +10,7 @@ import colorama
 from colorama import Fore, Style
 import urllib.request
 import subprocess
+import threading
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -19,6 +20,11 @@ MAX_WIDTH = 550  # Możesz dostosować wartość do swoich preferencji
 
 # Inicjalizacja Colorama
 colorama.init()
+
+global teraz
+global teraz_bib
+teraz = 0
+teraz_bib = 0
 
 
 class MainWindow(QMainWindow):
@@ -76,6 +82,27 @@ class MainWindow(QMainWindow):
 
         button2 = QPushButton("Zainstaluj biblioteki", self)
         button2.setGeometry(120, height - 40, 125, 30)
+
+        def aktualizacja1():
+            global teraz
+            if teraz == 0:
+                # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+                thread = threading.Thread(target=aktualizacja)
+
+                # Uruchamianie wątku
+                thread.start()
+            else:
+                print(Fore.MAGENTA + "Ten wątek jest już aktywny. (aktualizacja)")
+
+        def zainstaluj_biblioteki1():
+            if teraz_bib == 0:
+                # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+                thread = threading.Thread(target=aktualizacja)
+
+                # Uruchamianie wątku
+                thread.start()
+            else:
+                print(Fore.MAGENTA + "Ten wątek jest już aktywny. (biblioteki)")
 
         # Funkcja do sprawdzania wersji
         def wersja():
@@ -136,17 +163,20 @@ class MainWindow(QMainWindow):
                       "Wszystkie biblioteki zostały pomyślnie zainstalowane.")
             except Exception as e:
                 print(Fore.RED + "Wystąpił błąd:", e)
+            global teraz_bib
+            teraz_bib = 0
 
         # Funkcja do uzyskania listy zainstalowanych pakietów
         def get_installed_packages():
             try:
-                installed_packages = subprocess.check_output(['pip', 'freeze']).decode().split('\n')
-                installed_packages = [pkg.split('==')[0] for pkg in installed_packages if pkg]
+                installed_packages = subprocess.check_output(
+                    ['pip', 'freeze']).decode().split('\n')
+                installed_packages = [pkg.split('==')[0]
+                                      for pkg in installed_packages if pkg]
                 return installed_packages
             except subprocess.CalledProcessError:
                 print("Nie udało się uzyskać listy zainstalowanych pakietów.")
                 return []
-
 
         def aktualizacja():
             # Przywracanie widoczności okna terminala
@@ -239,10 +269,14 @@ class MainWindow(QMainWindow):
 
             automa = Automa(urls, folder_path)
             automa.run()
+            global teraz
+            teraz = 0
 
         # Przypisanie akcji do przycisków
-        button1.clicked.connect(aktualizacja)
-        button2.clicked.connect(zainstaluj_biblioteki)
+        button1.clicked.connect(
+            lambda: threading.Thread(target=aktualizacja1).start())
+        button2.clicked.connect(lambda: threading.Thread(
+            target=zainstaluj_biblioteki1).start())
 
 
 if __name__ == "__main__":

@@ -312,7 +312,8 @@ class OknoKlientow(QtWidgets.QMainWindow):
             # Wywołaj metodę addWidget tylko gdy obiekt nie jest None i posiada taką metodę
             obiekt.addWidget(widget)
         else:
-            print("Nie można wywołać metody addWidget na pustym obiekcie lub obiekt nie posiada takiej metody")
+            print(
+                "Nie można wywołać metody addWidget na pustym obiekcie lub obiekt nie posiada takiej metody")
 
         dialog.layout().addWidget(label_pakietow)
         dialog.layout().addWidget(entry_pakietow)

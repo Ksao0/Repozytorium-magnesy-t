@@ -62,7 +62,6 @@ class MainWindow(QMainWindow):
 
                 # Zablokowanie możliwości zmiany rozmiaru okna
                 self.setFixedSize(width, height)
-                print(f"{width, height}")
             except Exception as e:
                 print("Wystąpił błąd podczas wczytywania lub skalowania obrazu:", str(e))
         else:

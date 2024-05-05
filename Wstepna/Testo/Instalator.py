@@ -86,6 +86,7 @@ class MainWindow(QMainWindow):
         def aktualizacja1():
             global teraz
             if teraz == 0:
+                teraz = 1
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
                 thread = threading.Thread(target=aktualizacja)
 
@@ -95,7 +96,9 @@ class MainWindow(QMainWindow):
                 print(Fore.MAGENTA + "Ten wątek jest już aktywny. (aktualizacja)")
 
         def zainstaluj_biblioteki1():
+            global teraz_bib
             if teraz_bib == 0:
+                teraz_bib = 1
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
                 thread = threading.Thread(target=aktualizacja)
 

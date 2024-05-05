@@ -33,6 +33,9 @@ global ustawienie_sprawdzanie_aktualizacji_w_tle
 global zaawansowane_okno_zamkniete
 zaawansowane_okno_zamkniete = False
 
+global instalator_sesja
+instalator_sesja = 0
+
 
 class OperacjeNaPliku:
     def __init__(self, nazwa_pliku):
@@ -709,10 +712,22 @@ class OknoAktualizacji(QWidget):
             QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
 
     def okno_instalator(self):
-        try:
-            subprocess.run(['python', 'Instalator.py'])
-        except:
-            messagebox.showinfo('Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Wykonaj zwykłą aktualizację, a instalator zostanie pobrany.')
+        global instalator_sesja
+        if instalator_sesja == 0:
+            instalator_sesja = 1
+            def otworz():
+                try:
+                    subprocess.run(['python', 'Instalator.py'])
+                except:
+                    messagebox.showinfo(
+                        'Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Wykonaj zwykłą aktualizację, a instalator zostanie pobrany.')
+            # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+            thread = threading.Thread(target=otworz)
+
+            # Uruchamianie wątku
+            thread.start()
+        else:
+            messagebox.showinfo('Info', 'Instalator może być otwarty tylko raz na uruchomienie programu. Jeśli okno jeszcze się nie wyświetliło - poczekaj, jeszcze się ładuje.\nJeśli nie pojawi się w ciągu kilkudziesięciu sekund - uruchom cały program ponownie')
 
 
 class OknoUstawien(QWidget):

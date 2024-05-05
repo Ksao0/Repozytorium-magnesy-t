@@ -11,6 +11,7 @@ from colorama import Fore, Style
 import urllib.request
 import subprocess
 import threading
+import time
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -100,7 +101,7 @@ class MainWindow(QMainWindow):
             if teraz_bib == 0:
                 teraz_bib = 1
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=aktualizacja)
+                thread = threading.Thread(target=zainstaluj_biblioteki)
 
                 # Uruchamianie wątku
                 thread.start()
@@ -168,6 +169,9 @@ class MainWindow(QMainWindow):
                 print(Fore.RED + "Wystąpił błąd:", e)
             global teraz_bib
             teraz_bib = 0
+            time.sleep(5)
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
         # Funkcja do uzyskania listy zainstalowanych pakietów
         def get_installed_packages():
@@ -274,6 +278,9 @@ class MainWindow(QMainWindow):
             automa.run()
             global teraz
             teraz = 0
+        time.sleep(5)
+        ctypes.windll.user32.ShowWindow(
+            ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
         # Przypisanie akcji do przycisków
         button1.clicked.connect(

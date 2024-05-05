@@ -111,7 +111,6 @@ class MainWindow(QMainWindow):
 
         def zainstaluj_biblioteki():
             # Przywracanie widoczności okna terminala
-            # Minimalizowanie cmd
             ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 1)
             try:
                 # Pobierz listę bibliotek z repozytorium

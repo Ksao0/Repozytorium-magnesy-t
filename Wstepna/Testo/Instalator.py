@@ -9,6 +9,8 @@ import ctypes
 import colorama
 from colorama import Fore, Style
 import urllib.request
+import subprocess
+
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
@@ -106,9 +108,6 @@ class MainWindow(QMainWindow):
 
         wersja()
 
-        import subprocess
-        import pkg_resources
-
         def zainstaluj_biblioteki():
             # Przywracanie widoczności okna terminala
             ctypes.windll.user32.ShowWindow(
@@ -119,8 +118,7 @@ class MainWindow(QMainWindow):
                     'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/bib.txt').text.strip().split()
 
                 # Sprawdź zainstalowane biblioteki
-                installed_packages = [
-                    pkg.key for pkg in pkg_resources.working_set]
+                installed_packages = get_installed_packages()
 
                 # Instaluj biblioteki, które nie są jeszcze zainstalowane
                 for lib in libraries_to_install:
@@ -134,11 +132,23 @@ class MainWindow(QMainWindow):
                         print(Fore.CYAN +
                               f"Biblioteka {lib} jest już zainstalowana.")
 
-                print(Style.RESET_ALL + Fore.GREEN +
-                      "Wszystkie biblioteki zostały pomyślnie zainstalowane." + Style.RESET_ALL)
-
+                print(Fore.GREEN +
+                      "Wszystkie biblioteki zostały pomyślnie zainstalowane.")
             except Exception as e:
                 print(Fore.RED + "Wystąpił błąd:", e)
+
+        # Funkcja do uzyskania listy zainstalowanych pakietów
+        def get_installed_packages():
+            # Uzyskanie listy zainstalowanych pakietów za pomocą polecenia pip freeze
+            try:
+                installed_packages = subprocess.check_output(
+                    ['pip', 'freeze']).decode().split('\n')
+                # Usunięcie pustych elementów i zwrócenie listy pakietów
+                return [pkg.split('==')[0] for pkg in installed_packages if pkg]
+            except subprocess.CalledProcessError:
+                # Obsługa błędu w przypadku niepowodzenia wykonania polecenia
+                print("Nie udało się uzyskać listy zainstalowanych pakietów.")
+                return []
 
         def aktualizacja():
             # Przywracanie widoczności okna terminala

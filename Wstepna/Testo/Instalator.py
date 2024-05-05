@@ -26,9 +26,13 @@ global teraz
 global teraz_bib
 teraz = 0
 teraz_bib = 0
+global zdj
+zdj = 0
 
 
 class MainWindow(QMainWindow):
+    global zdj
+
     def __init__(self):
         super().__init__()
 
@@ -62,6 +66,17 @@ class MainWindow(QMainWindow):
 
                 # Zablokowanie możliwości zmiany rozmiaru okna
                 self.setFixedSize(width, height)
+                app.setStyleSheet("""
+    QPushButton {
+        background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
+        color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
+        border: 1px solid rgba(5, 63, 50, 0.788); /* Grubość i kolor obramowania przycisków */
+        border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+        padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+        text-align: center;
+        alignment: center
+    }
+    """)
             except Exception as e:
                 print("Wystąpił błąd podczas wczytywania lub skalowania obrazu:", str(e))
         else:
@@ -71,15 +86,17 @@ class MainWindow(QMainWindow):
             width = 550
             height = 452
 
+            zdj = 1
             # Ustawiamy rozmiar okna na nowe wymiary obrazu
             self.resize(width, height)
             app.setStyleSheet("""
 QWidget {
-    background-color: #1B0C1A; /* Kolor tła głównego okna */
-    color: #F2F2F2; /* Kolor tekstu */
-    selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
-    selection-background-color: #441d32; /* Ustawienie koloru tła zaznaczonego tekstu */
+    background-color: rgba(9, 39, 32, 0.795); /* Kolor tła głównego okna */
+    color: rgba(9, 39, 32, 0.795); /* Kolor tekstu */
+    selection-color: rgba(9, 39, 32, 0.795); /* Ustawienie koloru zaznaczonego tekstu */
+    selection-background-color: rgba(9, 39, 32, 0.795); /* Ustawienie koloru tła zaznaczonego tekstu */
 }
+
 QPushButton {
     background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
     color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
@@ -95,7 +112,7 @@ QPushButton {
         text_label = QLabel("Instalator", self)
         text_label.setAlignment(Qt.AlignCenter)
         text_label.setStyleSheet(
-            "color: white; font-size: 16px; background-color: rgba(0, 0, 0, 0.5);")
+            "color: white; font-size: 16px; background-color: rgba(1, 22, 17, 0.665);")
         text_label.setGeometry(10, 10, width - 17, 30)
 
         # Dodajemy napis
@@ -106,8 +123,12 @@ QPushButton {
 
         # Dodajemy napis
         text_label_N2 = QLabel("""Proszę czekać""", self)
-        text_label_N2.setStyleSheet(
-            "color: white; font-size: 11.5px; text-align: center;")
+        if zdj == 1:
+            text_label_N2.setStyleSheet(
+                "color: white; font-size: 11.5px; text-align: center;")
+        else:
+            text_label_N2.setStyleSheet(
+                "color: white; font-size: 11.5px; text-align: center;")
         text_label_N2.setGeometry(130, 130, 330, 215)
 
         # Dodajemy przyciski
@@ -334,15 +355,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    app.setStyleSheet("""
-QPushButton {
-    background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
-    color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
-    border: 1px solid rgba(5, 63, 50, 0.788); /* Grubość i kolor obramowania przycisków */
-    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
-    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
-    text-align: center;
-    alignment: center
-}
-""")
     sys.exit(app.exec_())

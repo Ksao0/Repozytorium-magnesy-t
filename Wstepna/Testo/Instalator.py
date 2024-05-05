@@ -191,8 +191,9 @@ class MainWindow(QMainWindow):
                             Fore.RED + f"Nie udało się pobrać pliku {url}. Aktualizacja przerwana.")
                         return
 
-                    with open(file_name, 'w') as local_file:
-                        local_file.write(response.text)
+                    with open(file_name, 'wb') as local_file:  # Otwarcie w trybie binarnym
+                        # Zapis zawartości binarnej
+                        local_file.write(response.content)
                         print(Fore.GREEN + f"Pobrano {file_name}")
 
                 def get_remote_file_content(self, url):

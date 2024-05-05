@@ -669,13 +669,26 @@ class OknoAktualizacji(QWidget):
         układ.addWidget(self.pasek_postępu, 1, 0, 1, 2)
 
         self.przycisk_aktualizuj = QPushButton('Aktualizuj')
-        przycisk_instalator = QPushButton('Instalator')
+        self.przycisk_instalator = QPushButton('Instalator')  # Użyj przycisku self.przycisk_instalator
 
         self.przycisk_aktualizuj.clicked.connect(self.rozpocznij_aktualizacje)
-        przycisk_instalator.clicked.connect(self.okno_instalator)
+        self.przycisk_instalator.clicked.connect(self.okno_instalator)
 
         układ.addWidget(self.przycisk_aktualizuj, 2, 0)
-        układ.addWidget(przycisk_instalator, 2, 1)
+
+        # Ustaw arkusz stylu dla przycisku self.przycisk_instalator
+        self.przycisk_instalator.setStyleSheet("""
+        QPushButton {
+            background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
+            color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
+            border: 1px solid rgba(5, 63, 50, 0.788); /* Grubość i kolor obramowania przycisków */
+            border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+            padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+            text-align: center;
+        }
+        """)
+
+        układ.addWidget(self.przycisk_instalator, 2, 1)  # Dodaj przycisk self.przycisk_instalator do interfejsu
 
         self.setLayout(układ)
         self.setWindowTitle('Okno Aktualizatora')

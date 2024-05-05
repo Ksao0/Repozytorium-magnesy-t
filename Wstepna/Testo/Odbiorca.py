@@ -23,8 +23,6 @@ import win32com.client
 import pythoncom
 
 import urllib
-
-import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -43,31 +41,6 @@ print('Dziennik działań:')
 
 # Inicjalizacja obiektu do obsługi powiadomień
 toaster = ToastNotifier()
-
-
-def add_to_startup(file_path=""):
-    """
-    Funkcja dodająca program do autostartu systemu Windows z opóźnieniem.
-
-    :param file_path: Ścieżka do pliku, który ma zostać uruchomiony podczas startu systemu.
-                      Domyślnie używana jest ścieżka bieżącego pliku.
-    :param delay_seconds: Opóźnienie (w sekundach) przed uruchomieniem programu. Domyślnie 30 sekund.
-    """
-    if not file_path:
-        file_path = os.path.abspath(__file__)
-
-    bat_path = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(
-        getpass.getuser())
-
-    # Utwórz plik wsadowy (.bat) w folderze autostartu
-    with open(bat_path + '\\' + "startup.bat", "w+") as bat_file:
-        # Zapisz polecenie do pliku wsadowego, które uruchomi podany plik po upływie opóźnienia
-        # Wyłącz wyświetlanie poleceń w pliku wsadowym
-        bat_file.write("@echo off\n")
-        bat_file.write('start "" "{}"'.format(file_path))
-
-
-# add_to_startup()  Na razie tego nie będzie
 
 
 def czytaj_folder(nazwa_folderu, server_socket):
@@ -303,13 +276,13 @@ def show_notification(title, message, notification_type, server_socket):
     # Wybierz rodzaj powiadomienia na podstawie przekazanego parametru
     if notification_type == "info":
         messagebox.showinfo(
-            title, f"{message}")
+            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     elif notification_type == "warning":
         messagebox.showwarning(
-            title, f"{message}")
+            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     elif notification_type == "error":
         messagebox.showerror(
-            title, f"{message}")
+            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
     else:
         print("Nieznany rodzaj powiadomienia")
         toaster.show_toast(
@@ -417,6 +390,7 @@ def receive_messages(server_socket):
                 command_parts = command.split('("')
                 if len(command_parts) == 2:
                     nazwa_folderu = command_parts[1].rstrip('")')
+                    # Wywołaj funkcję czytającą zawartość folderu i wysyłającą na serwer
 
                     # Pobierz ścieżkę do folderu na pulpicie
                     desktop_path = os.path.join(os.path.join(
@@ -427,6 +401,7 @@ def receive_messages(server_socket):
                         os.remove(path)
                     server_socket.sendall(szyfrowanie("Usunięto.").encode())
                 else:
+                    print("Błędny format polecenia odczytu folderu")
                     # Wyślij informację o błędzie na serwer
                     server_socket.sendall(szyfrowanie(
                         'Błędny format polecenia usunięcia pliku.').encode())
@@ -481,60 +456,71 @@ def start_client():
     folder_path = folders_found[0]
 
     while True:
-        try:
-            # Sprawdź, czy plik "adres.txt" istnieje w folderze oraz czy plik "rei" istnieje
-            adres_path = os.path.join(folder_path, 'adres.txt')
-            rei_folder_path = os.path.join(folder_path, 'rei')
-
-            if not os.path.exists(adres_path) or not os.path.exists(rei_folder_path):
-                print(
-                    "Plik 'adres.txt' lub folder 'rei' nie zostały znalezione w odpowiednim folderze.")
-                time.sleep(5)  # Poczekaj 5 sekund przed kolejną próbą
-                continue
-
-            with open(adres_path, "r") as file:
-                server_ip = file.readline().strip()
-
-            if pia_reset == 0:
+        if pia_reset == 0:
+            try:
+                with open("adres.txt", "r") as file:
+                    server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
                 client_socket = socket.socket(
                     socket.AF_INET, socket.SOCK_STREAM)
+                # Użycie pobranego adresu IP
                 client_socket.connect((server_ip, 53221))
-            else:
+                print('Połączono z serwerem')
+                receive_thread = threading.Thread(
+                    target=receive_messages, args=(client_socket,))
+                receive_thread.start()
+                while True:
+                    message = input()
+                    if message.lower() == 'exit':
+                        break
+                    client_socket.sendall(szyfrowanie(message).encode())
+                print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
+                toaster.show_toast(
+                    f"Utracono połączenie z serwerem [1]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+            except Exception as e:
+                if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
+                    if ilosc_bledow == 0:
+                        print("Wystąpił błąd podczas uruchamiania klienta:", e)
+                    ilosc_bledow += 1  # Zwiększ licznik błędów
+                else:
+                    print(
+                        "Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                    time.sleep(2)
+                    sys.exit()  # Wyjdź z programu
+            finally:
+                client_socket.close()
+        if pia_reset == 1:
+            try:
+                with open("adres.txt", "r") as file:
+                    server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
                 client_socket = socket.socket(
                     socket.AF_INET, socket.SOCK_STREAM)
+                # Użycie pobranego adresu IP
                 client_socket.connect((server_ip, 12345))
-
-            print('Połączono z serwerem')
-            receive_thread = threading.Thread(
-                target=receive_messages, args=(client_socket,))
-            receive_thread.start()
-
-            while True:
-                message = input()
-                if message.lower() == 'exit':
-                    break
-                client_socket.sendall(szyfrowanie(message).encode())
-
-            print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
-            toaster.show_toast(
-                f"Utracono połączenie z serwerem [{pia_reset}]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
-
-        except Exception as e:
-            if ilosc_bledow < 7:
-                if ilosc_bledow == 0:
-                    print("Wystąpił błąd podczas uruchamiania klienta:", e)
-                ilosc_bledow += 1
-            else:
-                print(
-                    "Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
-                time.sleep(2)
-                sys.exit()
-
-        finally:
-            client_socket.close()
-
-
-start_client()
+                print('Połączono z serwerem')
+                receive_thread = threading.Thread(
+                    target=receive_messages, args=(client_socket,))
+                receive_thread.start()
+                while True:
+                    message = "Odzyskiwanie połączenia"
+                    if message.lower() == 'exit':
+                        break
+                    client_socket.sendall(message.encode())
+                print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
+                toaster.show_toast(
+                    f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+            except Exception as e:
+                if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
+                    if ilosc_bledow == 0:
+                        print("Wystąpił błąd podczas uruchamiania klienta:", e)
+                    ilosc_bledow += 1  # Zwiększ licznik błędów
+                else:
+                    print(
+                        "Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
+                    time.sleep(2)
+                    sys.exit()  # Wyjdź z programu
+            finally:
+                client_socket.shutdown(socket.SHUT_RDWR)
+                client_socket.close()
 
 
 if __name__ == "__main__":

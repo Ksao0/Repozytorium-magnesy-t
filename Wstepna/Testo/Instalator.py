@@ -278,7 +278,7 @@ class MainWindow(QMainWindow):
             automa.run()
             global teraz
             teraz = 0
-        time.sleep(5)
+        time.sleep(3)
         ctypes.windll.user32.ShowWindow(
             ctypes.windll.kernel32.GetConsoleWindow(), 0)
 

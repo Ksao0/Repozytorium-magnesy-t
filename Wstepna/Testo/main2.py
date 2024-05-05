@@ -709,7 +709,7 @@ class OknoAktualizacji(QWidget):
             'background-color: lightgray; color: gray;')
 
         # Wyłącz przycisk i zmień jego wygląd
-        self.przycisk_instalator.setEnabled(True)
+        self.przycisk_instalator.setEnabled(False)
         self.przycisk_instalator.setStyleSheet(
             'background-color: gray; color: lightgray;')
 

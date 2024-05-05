@@ -178,7 +178,7 @@ class MainWindow(QMainWindow):
 
                     with open(local_file_path, 'rb') as local_file:  # Otwarcie w trybie binarnym
                         local_content = local_file.read().decode(
-                            'utf-8', errors='ignore')  # Dekodowanie jako utf-8
+                            'latin-1', errors='ignore')  # Dekodowanie
 
                     return local_content == response.text
 

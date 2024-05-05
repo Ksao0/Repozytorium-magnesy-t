@@ -90,7 +90,6 @@ QPushButton {
     text-align: center;
     alignment: center
 }
-
 """)
 
         # Dodajemy napis
@@ -336,5 +335,15 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    app.setStyleSheet(open('styl_instalator.css').read())
+    app.setStyleSheet("""
+QPushButton {
+    background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
+    color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
+    border: 1px solid rgba(5, 63, 50, 0.788); /* Grubość i kolor obramowania przycisków */
+    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+    text-align: center;
+    alignment: center
+}
+""")
     sys.exit(app.exec_())

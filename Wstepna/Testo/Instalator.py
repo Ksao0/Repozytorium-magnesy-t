@@ -139,16 +139,14 @@ class MainWindow(QMainWindow):
 
         # Funkcja do uzyskania listy zainstalowanych pakietów
         def get_installed_packages():
-            # Uzyskanie listy zainstalowanych pakietów za pomocą polecenia pip freeze
             try:
-                installed_packages = subprocess.check_output(
-                    ['pip', 'freeze']).decode().split('\n')
-                # Usunięcie pustych elementów i zwrócenie listy pakietów
-                return [pkg.split('==')[0] for pkg in installed_packages if pkg]
+                installed_packages = subprocess.check_output(['pip', 'freeze']).decode().split('\n')
+                installed_packages = [pkg.split('==')[0] for pkg in installed_packages if pkg]
+                return installed_packages
             except subprocess.CalledProcessError:
-                # Obsługa błędu w przypadku niepowodzenia wykonania polecenia
                 print("Nie udało się uzyskać listy zainstalowanych pakietów.")
                 return []
+
 
         def aktualizacja():
             # Przywracanie widoczności okna terminala

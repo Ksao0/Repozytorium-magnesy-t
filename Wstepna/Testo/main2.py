@@ -878,7 +878,7 @@ Po zamknięciu programu ten wątek zostanie zamknięty.
 
 Sprawdzanie aktualizacji po uruchomieniu:
 Po włączeniu komputera program będzie jednorazowo aktualizowany
- - NIE ZOSTANIESZ POINFORMOWANY O AKTUALIZACJI
+ - NIE ZOSTANIESZ POINFORMOWANY PRZED ROZPOCZĘCIEM AKTUALIZACJI
 Ta opcja nie wpłynie na działanie komputera,
 Wszystkie wątki programu zostaną zamknięte po aktualizacji.
 ''', zakladka)

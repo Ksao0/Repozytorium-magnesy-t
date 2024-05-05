@@ -3,7 +3,7 @@ import requests
 import ctypes
 import sys
 from colorama import Fore, Style
-
+import time
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
@@ -96,6 +96,7 @@ try:
 
     automa = Automa(urls, folder_path, version_txt_path)
     automa.run()
+    time.sleep(3)
 
 except Exception as e:
     print(f"Wystąpił błąd: {e}")

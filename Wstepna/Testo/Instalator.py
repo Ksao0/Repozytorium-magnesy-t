@@ -1,525 +1,240 @@
 import sys
 import os
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5 import QtWidgets, QtGui, QtCore
-import messagebox
-import datetime
-from PyQt5.QtCore import Qt
 import requests
-from main2 import Powiadomienia
-import threading
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
+from packaging import version
+import ctypes
+import colorama
+from colorama import Fore, Style
+
+# Minimalizowanie cmd
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
+# Maksymalna szerokość okna
+MAX_WIDTH = 550  # Możesz dostosować wartość do swoich preferencji
+
+# Inicjalizacja Colorama
+colorama.init()
 
 
-def aktualnosc():
-    try:
-        try:
-            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py'
-            response = requests.get(url)
-            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
-            klienci_online = response.content.decode('utf-8').strip()
-        except requests.exceptions.RequestException as e:
-            messagebox.showerror(
-                "Błąd", f'Wystąpił błąd połączenia z internetem. Spróbuj ponownie później')
-            return
-
-        # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "Klienci.py")
-        if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
-                klienci_local = f.read().strip()
-
-        if klienci_online != klienci_local:
-            toaster = Powiadomienia()
-            toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia=f"Nowość!", tresc_powiadomienia=f'Wyszła nowa wersja zarządzania klientami! Aby ją zainstalować zaktualizuj cały program', duration=3)
-    except:
-        toaster = Powiadomienia()
-        toaster.powiadomienie_jednorazowe(
-            tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Na wszelki wypadek zaktualizuj program do najnowszej wersji i spróbuj ponownie', duration=3)
-
-
-def wybierz_styl_z_pliku():
-    # Funkcja do odczytywania zawartości pliku i wybierania stylu
-
-    # Sprawdzenie, czy plik istnieje
-    if os.path.isfile("Styl.txt"):
-        # Otwarcie pliku do odczytu
-        with open("Styl.txt", "r", encoding='utf-8') as plik:
-            # Odczytanie zawartości i usunięcie białych znaków z końca
-            styl = plik.read().strip()
-            if os.path.isfile(f"styl_{styl}.css"):
-                ustawianie_stylu(styl)
-            else:
-                try:
-                    print('Nie znaleziono pliku arkusza stylu')
-                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
-
-                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                    nazwa_pliku = f"styl_{styl}.css"
-                    response = requests.get(url)
-
-                    if response.status_code == 200:
-                        with open(nazwa_pliku, 'wb') as plik:
-                            plik.write(response.content)
-                        print(f'Pobrano styl: {styl}')
-                        app.setStyleSheet(open(f'styl_{styl}.css').read())
-                        print(f'Ustawiono styl na: {styl}')
-                    else:
-                        toaster = Powiadomienia()
-                        toaster.powiadomienie_jednorazowe(
-                            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
-                        print('Zapisany styl nie istnieje')
-                        ustawianie_stylu("szarość")
-                        # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                        with open("Styl.txt", "w", encoding='utf-8') as plik:
-                            plik.write("szarość")
-                        print(' Zapisano preferencje')
-                except:
-                    toaster = Powiadomienia()
-                    toaster.powiadomienie_jednorazowe(
-                        tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
-                    print('Zapisany styl nie istnieje')
-                    ustawianie_stylu("szarość")
-                    # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                    with open("Styl.txt", "w", encoding='utf-8') as plik:
-                        plik.write("szarość")
-                    print(' Zapisano preferencje')
-    else:
-        try:
-            app.setStyleSheet(open('styl_szarość.css').read())
-            print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
-        except:
-            print('Nie znaleziono pliku arkusza stylu')
-            # Podaj URL pliku, który chcesz pobrać
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
-
-            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-            nazwa_pliku = "styl_szarość.css"
-            response = requests.get(url)
-
-            if response.status_code == 200:
-                with open(nazwa_pliku, 'wb') as plik:
-                    plik.write(response.content)
-                print('Pobrano styl: szarość')
-                app.setStyleSheet(open('styl_szarość.css').read())
-                print('Ustawiono styl na: szarość')
-            else:
-                print("Wystąpił problem podczas pobierania pliku")
-
-
-def ustawianie_stylu(styl):
-    try:
-        app.setStyleSheet(open(f'styl_{styl}.css').read())
-        print(f'Ustawiono styl na: {styl}')
-
-    except:
-        try:
-            # Podaj URL pliku, który chcesz pobrać
-            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
-
-            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-            nazwa_pliku = f"styl_{styl}.css"
-            response = requests.get(url)
-        except:
-            try:
-                app.setStyleSheet(open('styl_szarość.css').read())
-                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
-            except:
-                print('Nie znaleziono pliku arkusza stylu')
-                # Podaj URL pliku, który chcesz pobrać
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
-
-                # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                nazwa_pliku = "styl_szarość.css"
-                response = requests.get(url)
-
-                if response.status_code == 200:
-                    with open(nazwa_pliku, 'wb') as plik:
-                        plik.write(response.content)
-                    print('Pobrano styl: szarość')
-                    app.setStyleSheet(open('styl_szarość.css').read())
-                    print('Ustawiono styl na: szarość')
-                else:
-                    print("Wystąpił problem podczas pobierania pliku")
-
-
-class OknoKlientow(QtWidgets.QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Lista klientów")
-        self.setGeometry(250, 200, 430, 275)
 
-        self.clients_list = QtWidgets.QListWidget(self)
-        self.clients_list.setGeometry(200, 30, 200, 200)
-        self.clients_list.doubleClicked.connect(self.show_client_info)
+        # Wczytujemy obraz
+        image_path = "tropic.png"
+        pixmap = QPixmap(image_path)
 
-        button_new_client = QtWidgets.QPushButton("Nowy klient", self)
-        button_new_client.setGeometry(10, 30, 150, 30)
-        button_new_client.clicked.connect(self.new_client)
+        # Obliczamy proporcjonalne wymiary obrazu
+        width, height = pixmap.width(), pixmap.height()
+        if width > MAX_WIDTH:
+            ratio = MAX_WIDTH / width
+            width = MAX_WIDTH
+            height = int(height * ratio)
 
-        button_edit_client = QtWidgets.QPushButton("Edytuj klienta", self)
-        button_edit_client.setGeometry(10, 80, 150, 30)
-        button_edit_client.clicked.connect(self.edit_client_info)
+        # Skalujemy obraz
+        pixmap = pixmap.scaled(width, height)
 
-        button_delete_client = QtWidgets.QPushButton("Usuń klienta", self)
-        button_delete_client.setGeometry(10, 130, 150, 30)
-        button_delete_client.clicked.connect(self.delete_client)
+        # Tworzymy etykietę i ustawiamy tło na obraz
+        label = QLabel(self)
+        label.setPixmap(pixmap)
+        self.setWindowTitle('Instalator')
+        label.resize(width, height)
 
-        button_calculate = QtWidgets.QPushButton("Obliczenia", self)
-        button_calculate.setGeometry(10, 180, 150, 30)
-        button_calculate.clicked.connect(self.calculate)
+        # Ustawiamy rozmiar okna na nowe wymiary obrazu
+        self.resize(width, height)
 
-        button_show_history = QtWidgets.QPushButton("Pokaż historię", self)
-        button_show_history.setGeometry(10, 230, 150, 30)
-        button_show_history.clicked.connect(self.show_client_history)
+        # Zablokowanie możliwości zmiany rozmiaru okna
+        self.setFixedSize(width, height)
 
-        self.load_clients_list()
+        # Dodajemy napis
+        text_label = QLabel("Instalator", self)
+        text_label.setAlignment(Qt.AlignCenter)
+        text_label.setStyleSheet(
+            "color: white; font-size: 16px; background-color: rgba(0, 0, 0, 0.5);")
+        text_label.setGeometry(10, 10, width - 17, 30)
 
-    def create_client_file(self, name, city, phone, additional_info):
-        folder = "klienci"
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-        file_path = os.path.join(folder, f"KLIENT.{name}.txt")
-        with open(file_path, "w") as file:
-            file.write(f"{name}\n{city}\n{phone}\n{additional_info}")
+        # Dodajemy napis
+        text_label_N = QLabel("Co nowego?", self)
+        text_label_N.setStyleSheet(
+            "color: white; font-size: 28px; text-align: center;")
+        text_label_N.setGeometry(213, 75, 650, 45)
 
-    def delete_client_file(self, name):
-        client_name, client_city = name.split(" - ")
-        client_file_prefix = f"KLIENT.{client_name}"
+        # Dodajemy napis
+        text_label_N2 = QLabel("""Proszę czekać""", self)
+        text_label_N2.setStyleSheet(
+            "color: white; font-size: 11.5px; text-align: center;")
+        text_label_N2.setGeometry(130, 130, 320, 215)
 
-        folder = "klienci"
-        for file in os.listdir(folder):
-            if file.startswith(client_file_prefix):
-                file_path = os.path.join(folder, file)
-                if os.path.exists(file_path):
-                    os.remove(file_path)
+        # Dodajemy przyciski
+        button1 = QPushButton("Aktualizuj", self)
+        button1.setGeometry(10, height - 40, 100, 30)
 
-        history_file_path = f"klienci/KLIENT_HISTORIA.{client_name} - {client_city}.txt"
-        if os.path.exists(history_file_path):
-            os.remove(history_file_path)
+        button2 = QPushButton("Zainstaluj biblioteki", self)
+        button2.setGeometry(120, height - 40, 125, 30)
 
-    def load_clients_list(self):
-        folder = "klienci"
-        self.clients_list.clear()
-        if not os.path.exists(folder):
-            return
-
-        client_names = []
-        for file in os.listdir(folder):
-            if file.startswith("KLIENT.") and file.endswith(".txt"):
-                client_name = file.split(".")[1]
-                client_names.append(client_name)
-
-        client_names.sort()  # Sortuj nazwy klientów alfabetycznie
-
-        for client_name in client_names:
-            client_file_path = os.path.join(
-                folder, f"KLIENT.{client_name}.txt")
-            with open(client_file_path, "r") as client_file:
-                client_data = client_file.read().splitlines()
-            if len(client_data) >= 2:
-                client_city = client_data[1]
-            else:
-                client_city = "Brak danych o miejscowości"
-            self.clients_list.addItem(f"{client_name} - {client_city}")
-
-    def obliczenia(self, liczba_pakietow, cena_za_magnes, selected_client):
-
-        # Zamiana na liczbę zmiennoprzecinkową
-        if not liczba_pakietow.is_integer():
-            messagebox.showerror(
-                "Błąd", "Liczba pakietów nie może być liczbą z przecinkiem")
-        if liczba_pakietow <= 0:
-            messagebox.showerror(
-                "Błąd", "Liczba pakietów musi być dodatnia")
-            return
-
-        if cena_za_magnes <= 0:
-            messagebox.showerror(
-                "Błąd", "Cena za magnes musi być dodatnia")
-            return
-
-        now = datetime.datetime.now()
-
-        data_obliczenia = now.strftime(
-            "%d.%m.%Y %H:%M:%S")
-
-        # Liczenie kosztów
-
-        # # Pobieranie kosztów z pliku
-        path = os.path.join(os.getcwd(), "Ceny.txt")
-
-        # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
-        if os.path.exists(path):
-            with open(path, "r", encoding='utf-8') as f:
-                teraz_ceny = f.read()
-        else:
-            teraz_ceny = "13\n35\n18\n11"
-
-        ceny_tektura = round(
-            float(teraz_ceny.split('\n')[0]), 2)
-        ceny_nadruk = round(
-            float(teraz_ceny.split('\n')[1]), 2)
-        ceny_foliamg = round(
-            float(teraz_ceny.split('\n')[2]), 2)
-        ceny_woreczkipp = round(
-            float(teraz_ceny.split('\n')[3]), 2)
-
-        magnesy_w_pakiecie = liczba_pakietow * 224
-        cena_za_pakiet = cena_za_magnes * 224
-        razem = cena_za_pakiet * liczba_pakietow
-
-        tektura = ceny_tektura * liczba_pakietow
-        nadruk = ceny_nadruk * liczba_pakietow
-        foliamg = ceny_foliamg * liczba_pakietow
-        woreczkipp = ceny_woreczkipp * liczba_pakietow
-
-        koszty = tektura + nadruk + foliamg + woreczkipp
-        bilans = razem - koszty
-
-        wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
-
-        history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
-
-        # Pobranie starej zawartości pliku historii
-        old_history = ""
-        if os.path.exists(history_file_path):
-            with open(history_file_path, "r") as history_file:
-                old_history = history_file.read()
-
-        # Zapis nowego wpisu do pliku historii
-        with open(history_file_path, "w") as history_file:
-            history_file.write(f"{wyniki_a}\n{old_history}")
-
-    def calculate(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            liczba_pakietow, cena_za_magnes = self.get_input_values()
-            if liczba_pakietow is not None and cena_za_magnes is not None:
-                self.obliczenia(liczba_pakietow,
-                                cena_za_magnes, selected_client)
-
-    def get_input_values(self):
-        dialog = QtWidgets.QDialog()
-        dialog.setWindowTitle("Wprowadź dane")
-        dialog.setModal(True)
-        dialog.setLayout(QtWidgets.QVBoxLayout())
-
-        label_pakietow = QtWidgets.QLabel("Liczba pakietów:")
-        entry_pakietow = QtWidgets.QLineEdit()
-
-        if obiekt is not None and hasattr(obiekt, 'addWidget'):
-            # Wywołaj metodę addWidget tylko gdy obiekt nie jest None i posiada taką metodę
-            obiekt.addWidget(widget)
-        else:
-            print(
-                "Nie można wywołać metody addWidget na pustym obiekcie lub obiekt nie posiada takiej metody")
-
-        dialog.layout().addWidget(label_pakietow)
-        dialog.layout().addWidget(entry_pakietow)
-
-        label_cena = QtWidgets.QLabel("Cena za magnes:")
-        entry_cena = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_cena)
-        dialog.layout().addWidget(entry_cena)
-
-        button_ok = QtWidgets.QPushButton("OK")
-        button_ok.clicked.connect(dialog.accept)
-        dialog.layout().addWidget(button_ok)
-
-        if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            pakietow = entry_pakietow.text()
-            cena = entry_cena.text()
-
+        # Funkcja do sprawdzania wersji
+        def wersja():
             try:
-                liczba_pakietow = float(pakietow)
-                cena_za_magnes = float(cena)
-                return liczba_pakietow, cena_za_magnes
-            except ValueError:
-                QtWidgets.QMessageBox.warning(
-                    dialog, "Błąd", "Niepoprawne wartości. Wprowadź liczby.")
-                return None, None
-        else:
-            return None, None
+                # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+                version_online = requests.get(
+                    'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt').text.strip()
 
-    def show_client_history(self):
-        def showHelp(self):
-            # Tutaj można wyświetlić pomoc kontekstową w zależności od aktualnego kontekstu aplikacji
-            QMessageBox.information(
-                self, "Pomoc kontekstowa", "To jest pomoc kontekstowa dla tego okna.")
+                version_opis = requests.get(
+                    'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version_o.txt').text.strip()
 
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
-            if os.path.exists(history_file_path):
-                with open(history_file_path, "r") as history_file:
-                    history_data = history_file.read()
+                # Odczytaj zawartość pliku version.txt w twoim programie
+                path = os.path.join(os.getcwd(), "version.txt")
+                version_local = "1.0.0" if not os.path.exists(path) else open(
+                    path, "r", encoding="utf-8").read().strip()
 
-                # Tworzenie okna dialogowego z edytowalnym polem tekstowym
-                dialog = QtWidgets.QDialog(self)
-                dialog.setWindowTitle(f"Historia klienta: {selected_client}")
-                dialog.resize(600, 400)
+                najnowsza_wersja_online = version_online.split('\n')[0]
+                local_aktualna_wersja = version_local.split('\n')[0]
 
-                text_edit = QtWidgets.QTextEdit(dialog)
-                text_edit.setPlainText(history_data)
-                text_edit.setReadOnly(True)
-                text_edit.setGeometry(10, 10, 580, 380)
+                if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
+                    text_label.setText(
+                        f'{local_aktualna_wersja} --> {najnowsza_wersja_online}')
+                else:
+                    text_label.setText(f'Masz najnowszą wersję')
 
-                dialog.exec_()
+                text_label_N2.setText("\n".join(version_opis.split('\n')[1:]))
+
+            except Exception as e:
+                print("Wystąpił błąd:", e)
+
+        wersja()
+
+        import subprocess
+        import pkg_resources
+
+        def zainstaluj_biblioteki():
+            # Przywracanie widoczności okna terminala
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 1)
+            try:
+                # Pobierz listę bibliotek z repozytorium
+                libraries_to_install = requests.get(
+                    'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/bib.txt').text.strip().split()
+
+                # Sprawdź zainstalowane biblioteki
+                installed_packages = [
+                    pkg.key for pkg in pkg_resources.working_set]
+
+                # Instaluj biblioteki, które nie są jeszcze zainstalowane
+                for lib in libraries_to_install:
+                    if lib not in installed_packages:
+                        print(Fore.YELLOW + "Instalowanie biblioteki:", lib)
+                        subprocess.run(["pip", "install", lib],
+                                       capture_output=True, text=True)
+                        print(Fore.GREEN + "Biblioteka", lib,
+                              "została pomyślnie zainstalowana.")
+                    else:
+                        print(Fore.CYAN +
+                              f"Biblioteka {lib} jest już zainstalowana.")
+
+                print(Style.RESET_ALL + Fore.GREEN +
+                      "Wszystkie biblioteki zostały pomyślnie zainstalowane." + Style.RESET_ALL)
+
+            except Exception as e:
+                print(Fore.RED + "Wystąpił błąd:", e)
+
+        def aktualizacja():
+            class Automa:
+                def __init__(self, urls, folder_path):
+                    self.urls = urls
+                    self.folder_path = folder_path
+
+                def run(self):
+                    if not os.path.exists(self.folder_path):
+                        print(
+                            Fore.RED + "Folder zawierający wymagane pliki nie istnieje.")
+                        sys.exit(1)
+
+                    for url in self.urls:
+                        file_name = os.path.join(
+                            self.folder_path, url.split('/')[-1])
+
+                        if not os.path.exists(file_name):
+                            print(
+                                Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny." + Style.RESET_ALL)
+                            self.download_file(url, file_name)
+                        else:
+                            if not self.compare_files(url, file_name):
+                                print(Fore.LIGHTYELLOW_EX +
+                                      f"Plik {file_name} jest nieaktualny.")
+                                self.download_file(url, file_name)
+                            else:
+                                print(Fore.CYAN +
+                                      f"Plik {file_name} jest aktualny.")
+
+                def compare_files(self, url, local_file_path):
+                    response = self.get_remote_file_content(url)
+                    if response is None:
+                        print(
+                            Fore.RED + f"Nie udało się pobrać zawartości pliku {url}.")
+                        return False
+
+                    with open(local_file_path, 'rb') as local_file:  # Otwarcie w trybie binarnym
+                        local_content = local_file.read().decode(
+                            'utf-8', errors='ignore')  # Dekodowanie jako utf-8
+
+                    return local_content == response.text
+
+                def download_file(self, url, file_name):
+                    print(Fore.MAGENTA +
+                          f"Rozpoczynam aktualizację pliku {file_name}...")
+                    response = self.get_remote_file_content(url)
+                    if response is None:
+                        print(
+                            Fore.RED + f"Nie udało się pobrać pliku {url}. Aktualizacja przerwana.")
+                        return
+
+                    with open(file_name, 'w') as local_file:
+                        local_file.write(response.text)
+                        print(Fore.GREEN + f"Pobrano {file_name}")
+
+                def get_remote_file_content(self, url):
+                    try:
+                        response = requests.get(url)
+                        if response.status_code == 200:
+                            return response
+                        else:
+                            print(
+                                Fore.RED + f"Błąd podczas pobierania pliku {url}: {response.status_code}")
+                            return None
+                    except Exception as e:
+                        print(
+                            Fore.RED + f"Wystąpił błąd podczas pobierania pliku {url}: {e}")
+                        return None
+
+            desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+            for root, dirs, files in os.walk(desktop_path):
+                if "main2.py" in files and "rei" in dirs:
+                    folder_path = root
+                    break
             else:
-                QtWidgets.QMessageBox.information(
-                    self, "Historia klienta", "Brak historii dla tego klienta.")
+                print("Nie znaleziono wymaganych plików/folderów na pulpicie.")
+                sys.exit(1)
 
-    def get_client_city(self, client_name):
-        client_file_path = os.path.join("klienci", f"KLIENT.{client_name}.txt")
-        if os.path.exists(client_file_path):
-            with open(client_file_path, "r") as client_file:
-                client_data = client_file.read().splitlines()
-            if len(client_data) >= 2:
-                return client_data[1]
-        return "Brak danych o miejscowości"
+            # Ścieżka do pliku lista.txt w repozytorium
+            lista_txt_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/lista.txt"
+            lista_txt_content = requests.get(lista_txt_url).text
+            urls = [line.strip()
+                    for line in lista_txt_content.split('\n') if line.strip()]
 
-    def show_client_info(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            client_name = selected_client.split(" - ")[0]
-            client_file_path = f"klienci/KLIENT.{client_name}.txt"
-            if os.path.exists(client_file_path):
-                with open(client_file_path, "r") as client_file:
-                    client_data = client_file.read().splitlines()
-                info_dialog = QtWidgets.QMessageBox()
-                info_dialog.setWindowTitle(selected_client)
-                info_dialog.setText(
-                    f"Nazwa: {client_data[0]}\nMiejscowość: {client_data[1]}\nTelefon: {client_data[2]}\nInformacje dodatkowe: {client_data[3] if len(client_data) >= 4 else 'Brak'}")
-                info_dialog.exec_()
+            automa = Automa(urls, folder_path)
+            automa.run()
 
-    def edit_client_info(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            client_name = selected_client.split(" - ")[0]
-            client_file_path = f"klienci/KLIENT.{client_name}.txt"
-            if os.path.exists(client_file_path):
-                with open(client_file_path, "r") as client_file:
-                    client_data = client_file.read().splitlines()
-
-                dialog = QtWidgets.QDialog()
-                dialog.setWindowTitle(
-                    f"Edycja danych klienta: {selected_client}")
-                dialog.setModal(True)
-                dialog.setLayout(QtWidgets.QVBoxLayout())
-
-                label_name = QtWidgets.QLabel("Nazwa klienta*:")
-                entry_name = QtWidgets.QLineEdit(client_data[0])
-                dialog.layout().addWidget(label_name)
-                dialog.layout().addWidget(entry_name)
-
-                label_city = QtWidgets.QLabel("Miejscowość*:")
-                entry_city = QtWidgets.QLineEdit(client_data[1])
-                dialog.layout().addWidget(label_city)
-                dialog.layout().addWidget(entry_city)
-
-                label_phone = QtWidgets.QLabel("Telefon:")
-                entry_phone = QtWidgets.QLineEdit(client_data[2])
-                dialog.layout().addWidget(label_phone)
-                dialog.layout().addWidget(entry_phone)
-
-                label_additional_info = QtWidgets.QLabel(
-                    "Informacje dodatkowe:")
-                entry_additional_info = QtWidgets.QLineEdit(
-                    client_data[3] if len(client_data) >= 4 else "")
-                dialog.layout().addWidget(label_additional_info)
-                dialog.layout().addWidget(entry_additional_info)
-
-                button_save = QtWidgets.QPushButton("Zapisz zmiany")
-                button_save.clicked.connect(lambda: self.save_edited_client(dialog, client_name, entry_name.text(
-                ), entry_city.text(), entry_phone.text(), entry_additional_info.text()))
-                dialog.layout().addWidget(button_save)
-
-                dialog.exec_()
-
-    def save_edited_client(self, dialog, client_name, name, city, phone, additional_info):
-        if not name:
-            QtWidgets.QMessageBox.warning(
-                dialog, "Błąd", "Nazwa klienta jest wymagana.")
-            return
-        if not city:
-            QtWidgets.QMessageBox.warning(
-                dialog, "Błąd", "Miejscowość klienta jest wymagana.")
-            return
-
-        with open(f"klienci/KLIENT.{client_name}.txt", "w") as client_file:
-            client_file.write(f"{name}\n{city}\n{phone}\n{additional_info}")
-        dialog.accept()
-        self.load_clients_list()
-
-    def new_client(self):
-        dialog = QtWidgets.QDialog()
-        dialog.setWindowTitle("Nowy klient")
-        dialog.setModal(True)
-        dialog.setLayout(QtWidgets.QVBoxLayout())
-
-        label_name = QtWidgets.QLabel("Nazwa klienta*:")
-        entry_name = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_name)
-        dialog.layout().addWidget(entry_name)
-
-        label_city = QtWidgets.QLabel("Miejscowość*:")
-        entry_city = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_city)
-        dialog.layout().addWidget(entry_city)
-
-        label_phone = QtWidgets.QLabel("Telefon:")
-        entry_phone = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_phone)
-        dialog.layout().addWidget(entry_phone)
-
-        label_additional_info = QtWidgets.QLabel("Informacje dodatkowe:")
-        entry_additional_info = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_additional_info)
-        dialog.layout().addWidget(entry_additional_info)
-
-        button_create = QtWidgets.QPushButton("Utwórz")
-        button_create.clicked.connect(lambda: self.create_new_client(dialog, entry_name.text(
-        ), entry_city.text(), entry_phone.text(), entry_additional_info.text()))
-        dialog.layout().addWidget(button_create)
-
-        dialog.exec_()
-
-    def create_new_client(self, dialog, name, city, phone, additional_info):
-        if not name:
-            QtWidgets.QMessageBox.warning(
-                dialog, "Błąd", "Nazwa klienta jest wymagana.")
-            return
-        if not city:
-            QtWidgets.QMessageBox.warning(
-                dialog, "Błąd", "Miejscowość klienta jest wymagana.")
-
-        self.create_client_file(name, city, phone, additional_info)
-        dialog.accept()
-        self.load_clients_list()
-
-    def delete_client(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            response = QtWidgets.QMessageBox.question(
-                self, "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-            if response == QtWidgets.QMessageBox.Yes:
-                self.delete_client_file(selected_client)
-                self.load_clients_list()
+        # Przypisanie akcji do przycisków
+        button1.clicked.connect(aktualizacja)
+        button2.clicked.connect(zainstaluj_biblioteki)
 
 
 if __name__ == "__main__":
-
-    app = QtWidgets.QApplication(sys.argv)
-
-    window = OknoKlientow()
-
+    app = QApplication(sys.argv)
+    window = MainWindow()
     window.show()
-
-    # Tworzenie nowego wątku, który wywołuje funkcję
-    thread = threading.Thread(target=wybierz_styl_z_pliku)
-
-    # Uruchamianie wątku
-    thread.start()
-
+    app.setStyleSheet(open('styl_instalator.css').read())
     sys.exit(app.exec_())

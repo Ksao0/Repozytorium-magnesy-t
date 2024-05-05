@@ -26,16 +26,15 @@ global teraz
 global teraz_bib
 teraz = 0
 teraz_bib = 0
-global zdj
-zdj = 0
+global zdjecie
+zdjecie = 0
 
 
 class MainWindow(QMainWindow):
-    global zdj
 
     def __init__(self):
         super().__init__()
-
+        global zdjecie
         # Ścieżka do obrazu
         image_path = "tropic.png"
 
@@ -86,7 +85,7 @@ class MainWindow(QMainWindow):
             width = 550
             height = 452
 
-            zdj = 1
+            zdjecie = 1
             # Ustawiamy rozmiar okna na nowe wymiary obrazu
             self.resize(width, height)
             app.setStyleSheet("""
@@ -123,7 +122,7 @@ QPushButton {
 
         # Dodajemy napis
         text_label_N2 = QLabel("""Proszę czekać""", self)
-        if zdj == 1:
+        if zdjecie == 1:
             text_label_N2.setStyleSheet(
                 "color: white; font-size: 11.5px; text-align: center;")
         else:

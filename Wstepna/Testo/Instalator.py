@@ -141,6 +141,10 @@ class MainWindow(QMainWindow):
                 print(Fore.RED + "Wystąpił błąd:", e)
 
         def aktualizacja():
+            # Przywracanie widoczności okna terminala
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 1)
+
             class Automa:
                 def __init__(self, urls, folder_path):
                     self.urls = urls
@@ -148,57 +152,67 @@ class MainWindow(QMainWindow):
 
                 def run(self):
                     if not os.path.exists(self.folder_path):
-                        print(Fore.RED + "Folder zawierający wymagane pliki nie istnieje.")
+                        print(
+                            Fore.RED + "Folder zawierający wymagane pliki nie istnieje.")
                         sys.exit(1)
 
                     for url in self.urls:
-                        file_name = os.path.join(self.folder_path, url.split('/')[-1])
+                        file_name = os.path.join(
+                            self.folder_path, url.split('/')[-1])
 
                         if not os.path.exists(file_name):
-                            print(Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
+                            print(
+                                Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
                             self.download_file(url, file_name)
                         else:
                             if not self.compare_files(url, file_name):
-                                print(Fore.LIGHTYELLOW_EX + f"Plik {file_name} jest nieaktualny.")
+                                print(Fore.LIGHTYELLOW_EX +
+                                      f"Plik {file_name} jest nieaktualny.")
                                 self.download_file(url, file_name)
                             else:
-                                print(Fore.CYAN + f"Plik {file_name} jest aktualny.")
+                                print(Fore.CYAN +
+                                      f"Plik {file_name} jest aktualny.")
 
                 def compare_files(self, url, local_file_path):
                     response = self.get_remote_file_content(url)
                     if response is None:
-                        print(Fore.RED + f"Nie udało się pobrać zawartości pliku {url}.")
+                        print(
+                            Fore.RED + f"Nie udało się pobrać zawartości pliku {url}.")
                         return False
 
                     with open(local_file_path, 'rb') as local_file:  # Otwarcie w trybie binarnym
-                        local_content = local_file.read().decode('utf-8', errors='ignore')  # Dekodowanie
+                        local_content = local_file.read().decode(
+                            'utf-8', errors='ignore')  # Dekodowanie
 
                     return local_content == response.text
 
-
                 def download_file(self, url, file_name):
-                    print(Fore.MAGENTA + f"Rozpoczynam aktualizację pliku {file_name}...")
+                    print(Fore.MAGENTA +
+                          f"Rozpoczynam aktualizację pliku {file_name}...")
                     response = self.get_remote_file_content(url)
                     if response is None:
-                        print(Fore.RED + f"Nie udało się pobrać pliku {url}. Aktualizacja przerwana.")
+                        print(
+                            Fore.RED + f"Nie udało się pobrać pliku {url}. Aktualizacja przerwana.")
                         return
 
                     with open(file_name, 'wb') as local_file:  # Otwarcie w trybie binarnym
                         # Zapis zawartości binarnej
                         local_file.write(response.content)
                         print(Fore.GREEN + f"Pobrano {file_name}")
+
                 def get_remote_file_content(self, url):
                     try:
                         response = requests.get(url)
                         if response.status_code == 200:
                             return response
                         else:
-                            print(Fore.RED + f"Błąd podczas pobierania pliku {url}: {response.status_code}")
+                            print(
+                                Fore.RED + f"Błąd podczas pobierania pliku {url}: {response.status_code}")
                             return None
                     except Exception as e:
-                        print(Fore.RED + f"Wystąpił błąd podczas pobierania pliku {url}: {e}")
+                        print(
+                            Fore.RED + f"Wystąpił błąd podczas pobierania pliku {url}: {e}")
                         return None
-
 
             desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
             for root, dirs, files in os.walk(desktop_path):
@@ -212,11 +226,11 @@ class MainWindow(QMainWindow):
             # Ścieżka do pliku lista.txt w repozytorium
             lista_txt_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/lista.txt"
             lista_txt_content = requests.get(lista_txt_url).text
-            urls = [line.strip() for line in lista_txt_content.split('\n') if line.strip()]
+            urls = [line.strip()
+                    for line in lista_txt_content.split('\n') if line.strip()]
 
             automa = Automa(urls, folder_path)
             automa.run()
-
 
         # Przypisanie akcji do przycisków
         button1.clicked.connect(aktualizacja)

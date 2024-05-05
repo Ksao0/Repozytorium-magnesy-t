@@ -32,31 +32,66 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # Wczytujemy obraz
+        # Ścieżka do obrazu
         image_path = "tropic.png"
-        pixmap = QPixmap(image_path)
 
-        # Obliczamy proporcjonalne wymiary obrazu
-        width, height = pixmap.width(), pixmap.height()
-        if width > MAX_WIDTH:
-            ratio = MAX_WIDTH / width
-            width = MAX_WIDTH
-            height = int(height * ratio)
+        # Sprawdzenie, czy plik istnieje
+        if os.path.exists(image_path):
+            try:
+                # Wczytujemy obraz
+                pixmap = QPixmap(image_path)
 
-        # Skalujemy obraz
-        pixmap = pixmap.scaled(width, height)
+                # Obliczamy proporcjonalne wymiary obrazu
+                width, height = pixmap.width(), pixmap.height()
+                if width > MAX_WIDTH:
+                    ratio = MAX_WIDTH / width
+                    width = MAX_WIDTH
+                    height = int(height * ratio)
 
-        # Tworzymy etykietę i ustawiamy tło na obraz
-        label = QLabel(self)
-        label.setPixmap(pixmap)
-        self.setWindowTitle('Instalator')
-        label.resize(width, height)
+                # Skalujemy obraz
+                pixmap = pixmap.scaled(width, height)
 
-        # Ustawiamy rozmiar okna na nowe wymiary obrazu
-        self.resize(width, height)
+                # Tworzymy etykietę i ustawiamy tło na obraz
+                label = QLabel(self)
+                label.setPixmap(pixmap)
+                self.setWindowTitle('Instalator')
+                label.resize(width, height)
 
-        # Zablokowanie możliwości zmiany rozmiaru okna
-        self.setFixedSize(width, height)
+                # Ustawiamy rozmiar okna na nowe wymiary obrazu
+                self.resize(width, height)
+
+                # Zablokowanie możliwości zmiany rozmiaru okna
+                self.setFixedSize(width, height)
+                print(f"{width, height}")
+            except Exception as e:
+                print("Wystąpił błąd podczas wczytywania lub skalowania obrazu:", str(e))
+        else:
+            label = QLabel(self)
+            self.setWindowTitle('Instalator')
+
+            width = 550
+            height = 452
+
+            # Ustawiamy rozmiar okna na nowe wymiary obrazu
+            self.resize(width, height)
+            app.setStyleSheet("""
+QWidget {
+    background-color: #1B0C1A; /* Kolor tła głównego okna */
+    color: #F2F2F2; /* Kolor tekstu */
+    selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
+    selection-background-color: #441d32; /* Ustawienie koloru tła zaznaczonego tekstu */
+}
+QPushButton {
+    background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
+    color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
+    border: 1px solid rgba(5, 63, 50, 0.788); /* Grubość i kolor obramowania przycisków */
+    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+    text-align: center;
+    alignment: center
+}
+
+""")
 
         # Dodajemy napis
         text_label = QLabel("Instalator", self)
@@ -75,7 +110,7 @@ class MainWindow(QMainWindow):
         text_label_N2 = QLabel("""Proszę czekać""", self)
         text_label_N2.setStyleSheet(
             "color: white; font-size: 11.5px; text-align: center;")
-        text_label_N2.setGeometry(130, 130, 320, 215)
+        text_label_N2.setGeometry(130, 130, 330, 215)
 
         # Dodajemy przyciski
         button1 = QPushButton("Aktualizuj", self)
@@ -120,8 +155,11 @@ class MainWindow(QMainWindow):
 
                 # Odczytaj zawartość pliku version.txt w twoim programie
                 path = os.path.join(os.getcwd(), "version.txt")
-                version_local = "1.0.0" if not os.path.exists(path) else open(
-                    path, "r", encoding="utf-8").read().strip()
+                if os.path.exists(path):
+                    with open(path, "r", encoding="utf-8") as f:
+                        version_local = f.read().strip()
+                else:
+                    version_local = "1.0.0"
 
                 najnowsza_wersja_online = version_online.split('\n')[0]
                 local_aktualna_wersja = version_local.split('\n')[0]
@@ -129,10 +167,15 @@ class MainWindow(QMainWindow):
                 if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
                     text_label.setText(
                         f'{local_aktualna_wersja} --> {najnowsza_wersja_online}')
+                    text_label_N2.setText(
+                        "\n".join(version_opis.split('\n')[1:]))
                 else:
                     text_label.setText(f'Masz najnowszą wersję')
-
-                text_label_N2.setText("\n".join(version_opis.split('\n')[1:]))
+                    text_label_N2.setText(
+                        """
+Masz najnowszą wersję programu\nAby sprawdzić pozostałe pliki i dostępność poprawek,
+które nie muszą być natychmiast pobrane wybierz opcję Aktualizacja
+""")
 
             except Exception as e:
                 print("Wystąpił błąd:", e)

@@ -642,7 +642,7 @@ class OknoAktualizacji(QWidget):
 
         # Tutaj zdefiniuj przycisk "Aktualizuj"
         self.przycisk_aktualizuj = QPushButton('Aktualizuj')
-        self.przycisk_anuluj = QPushButton('Anuluj')  # Nieużywane
+        self.przycisk_instalator = QPushButton('Anuluj')  # Nieużywane
 
         self.urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
@@ -666,17 +666,13 @@ class OknoAktualizacji(QWidget):
         układ.addWidget(self.pasek_postępu, 1, 0, 1, 2)
 
         self.przycisk_aktualizuj = QPushButton('Aktualizuj')
-        przycisk_anuluj = QPushButton('Anuluj')
+        przycisk_instalator = QPushButton('Instalator')
 
         self.przycisk_aktualizuj.clicked.connect(self.rozpocznij_aktualizacje)
-        przycisk_anuluj.clicked.connect(self.anuluj_aktualizacje)
-
-        self.przycisk_anuluj.setEnabled(False)
-        self.przycisk_anuluj.setStyleSheet(
-            'background-color: lightgray; color: gray;')
+        przycisk_instalator.clicked.connect(self.okno_instalator)
 
         układ.addWidget(self.przycisk_aktualizuj, 2, 0)
-        układ.addWidget(przycisk_anuluj, 2, 1)
+        układ.addWidget(przycisk_instalator, 2, 1)
 
         self.setLayout(układ)
         self.setWindowTitle('Okno Aktualizatora')
@@ -697,8 +693,8 @@ class OknoAktualizacji(QWidget):
             'background-color: lightgray; color: gray;')
 
         # Wyłącz przycisk i zmień jego wygląd
-        self.przycisk_anuluj.setEnabled(True)
-        self.przycisk_anuluj.setStyleSheet(
+        self.przycisk_instalator.setEnabled(True)
+        self.przycisk_instalator.setStyleSheet(
             'background-color: gray; color: lightgray;')
 
         self.watek_aktualizacji.start()
@@ -712,10 +708,11 @@ class OknoAktualizacji(QWidget):
             os.execl(sys.executable, sys.executable, "main2.py")
             QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
 
-    def anuluj_aktualizacje(self):
-        print('Aktualizacja anulowana.')
-        self.watek_aktualizacji.terminate()
-        self.close()
+    def okno_instalator(self):
+        try:
+            subprocess.run(['python', 'Instalator.py'])
+        except:
+            messagebox.showinfo('Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Wykonaj zwykłą aktualizację, a instalator zostanie pobrany.')
 
 
 class OknoUstawien(QWidget):

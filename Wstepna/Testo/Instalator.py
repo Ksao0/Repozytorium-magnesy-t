@@ -5,11 +5,11 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from packaging import version
-from win32gui import ShowWindow, GetForegroundWindow
-from win32con import SW_HIDE
+import ctypes
+import colorama
 
-# Ustaw flagę na ukrycie okna terminala
-ShowWindow(GetForegroundWindow(), SW_HIDE)
+# Minimalizowanie cmd
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 # Maksymalna szerokość okna
 MAX_WIDTH = 550  # Możesz dostosować wartość do swoich preferencji
@@ -59,11 +59,7 @@ class MainWindow(QMainWindow):
         text_label_N.setGeometry(213, 75, 650, 45)
 
         # Dodajemy napis
-        text_label_N2 = QLabel("""
-Informacje:
- - Poprawki procesu aktualizacji i plików instalacyjnych
- - Poprawki trybu offline
-Więcej nowości znajdziesz w aplikacji""", self)
+        text_label_N2 = QLabel("""Proszę czekać""", self)
         text_label_N2.setStyleSheet(
             "color: white; font-size: 11.5px; text-align: center;")
         text_label_N2.setGeometry(130, 130, 320, 215)
@@ -111,6 +107,10 @@ Więcej nowości znajdziesz w aplikacji""", self)
 
         # Funkcja do instalowania bibliotek
         def zainstaluj_biblioteki():
+            # Przywracanie widoczności okna terminala
+            # Minimalizowanie cmd
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 1)
             try:
                 # Pobierz listę bibliotek z repozytorium
                 libraries_to_install = requests.get(
@@ -127,7 +127,7 @@ Więcej nowości znajdziesz w aplikacji""", self)
                         subprocess.run(["pip", "install", lib],
                                        capture_output=True, text=True)
                     else:
-                        print("Biblioteka {} jest już zainstalowana.".format(lib))
+                        print(f"Biblioteka jest już zainstalowana.".format(lib))
 
                 print("Wszystkie biblioteki zostały pomyślnie zainstalowane.")
 

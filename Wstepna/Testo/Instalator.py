@@ -7,12 +7,16 @@ from PyQt5.QtCore import Qt
 from packaging import version
 import ctypes
 import colorama
+from colorama import Fore, Style
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 # Maksymalna szerokość okna
 MAX_WIDTH = 550  # Możesz dostosować wartość do swoich preferencji
+
+# Inicjalizacja Colorama
+colorama.init()
 
 
 class MainWindow(QMainWindow):
@@ -105,12 +109,10 @@ class MainWindow(QMainWindow):
         import subprocess
         import pkg_resources
 
-        # Funkcja do instalowania bibliotek
         def zainstaluj_biblioteki():
             # Przywracanie widoczności okna terminala
             # Minimalizowanie cmd
-            ctypes.windll.user32.ShowWindow(
-                ctypes.windll.kernel32.GetConsoleWindow(), 1)
+            ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 1)
             try:
                 # Pobierz listę bibliotek z repozytorium
                 libraries_to_install = requests.get(
@@ -123,16 +125,17 @@ class MainWindow(QMainWindow):
                 # Instaluj biblioteki, które nie są jeszcze zainstalowane
                 for lib in libraries_to_install:
                     if lib not in installed_packages:
-                        print("Instalowanie biblioteki:", lib)
+                        print(Fore.YELLOW + "Instalowanie biblioteki:", lib)
                         subprocess.run(["pip", "install", lib],
-                                       capture_output=True, text=True)
+                                    capture_output=True, text=True)
+                        print(Fore.GREEN + "Biblioteka", lib, "została pomyślnie zainstalowana.")
                     else:
-                        print(f"Biblioteka jest już zainstalowana.".format(lib))
+                        print(Fore.CYAN + f"Biblioteka {lib} jest już zainstalowana.")
 
-                print("Wszystkie biblioteki zostały pomyślnie zainstalowane.")
+                print(Style.RESET_ALL + Fore.GREEN + "Wszystkie biblioteki zostały pomyślnie zainstalowane." + Style.RESET_ALL)
 
             except Exception as e:
-                print("Wystąpił błąd:", e)
+                print(Fore.RED + "Wystąpił błąd:", e)
 
         # Przypisanie akcji do przycisków
         button1.clicked.connect(wersja)
@@ -143,4 +146,5 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+    app.setStyleSheet(open('styl_instalator.css').read())
     sys.exit(app.exec_())

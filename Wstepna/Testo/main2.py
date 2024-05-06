@@ -902,11 +902,12 @@ class OknoUstawien(QWidget):
             '''
 Sprawdzanie aktualizacji w tle:
 Aktualizacje będą stale sprawdzane podczas działania programu
- - ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI
+ - ZOSTANIESZ POINFORMOWWANY O ICH DOSTĘPNOŚCI,
+    aktualizacja nie będzie przeprowadzona automatycznie
 Po zamknięciu programu ten wątek zostanie zamknięty.
 
-Sprawdzanie aktualizacji po uruchomieniu:
-Po włączeniu komputera program będzie jednorazowo aktualizowany
+Aktualizacja po uruchomieniu:
+Po włączeniu komputera program może być jednorazowo aktualizowany
  - NIE ZOSTANIESZ POINFORMOWANY PRZED ROZPOCZĘCIEM AKTUALIZACJI
 Ta opcja nie wpłynie na działanie komputera,
 Wszystkie wątki programu zostaną zamknięte po aktualizacji.
@@ -922,7 +923,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         układ.addWidget(self.button_polacz, 3, 0, 1, 1)
 
         self.button_automa = QPushButton(
-            "Sprawdzaj aktualizacje po uruchomieniu", zakladka)
+            "Aktualizacja po uruchomieniu", zakladka)
         self.button_automa.clicked.connect(self.automa)
         układ.addWidget(self.button_automa, 4, 0, 1, 1)
 

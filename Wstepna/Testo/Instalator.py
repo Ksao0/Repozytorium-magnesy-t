@@ -128,7 +128,7 @@ QPushButton {
         else:
             text_label_N2.setStyleSheet(
                 "color: white; font-size: 11.5px; text-align: center;")
-        text_label_N2.setGeometry(130, 130, 330, 215)
+        text_label_N2.setGeometry(130, 130, 340, 215)
 
         # Dodajemy przyciski
         button1 = QPushButton("Aktualizuj", self)
@@ -182,18 +182,30 @@ QPushButton {
                 najnowsza_wersja_online = version_online.split('\n')[0]
                 local_aktualna_wersja = version_local.split('\n')[0]
 
-                if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
-                    text_label.setText(
-                        f'{local_aktualna_wersja} --> {najnowsza_wersja_online}')
-                    text_label_N2.setText(
-                        "\n".join(version_opis.split('\n')[1:]))
-                else:
-                    text_label.setText(f'Masz najnowszą wersję')
-                    text_label_N2.setText(
-                        """
+                if local_aktualna_wersja != "1.0.0":
+                    if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
+                        text_label.setText(
+                            f'{local_aktualna_wersja} --> {najnowsza_wersja_online}')
+                        text_label_N2.setText(
+                            "\n".join(version_opis.split('\n')[1:]))
+                    else:
+                        text_label.setText(f'Masz najnowszą wersję')
+                        text_label_N2.setText(
+                            """
 Masz najnowszą wersję programu\nAby sprawdzić pozostałe pliki i dostępność poprawek,
 które nie muszą być natychmiast pobrane wybierz opcję Aktualizacja
-""")
+                            """)
+                else:
+                    text_label.setText(f'Jeszcze nie masz naszego programu')
+                    text_label_N2.setText(
+                        """
+Zainstaluj biblioteki, a następnie utwórz folder w którym będą:
+    - folder rei
+    - plik main.py (pamiętaj o odpowiedznim rozszerzeniu)
+Następnie przeprowadź aktualizację
+Ten folder nie musi znajdować się bozpośrednio na pulpicie,
+może być w innych folderach
+                            """)
 
             except Exception as e:
                 print("Wystąpił błąd:", e)
@@ -247,6 +259,7 @@ które nie muszą być natychmiast pobrane wybierz opcję Aktualizacja
                 return []
 
         def aktualizacja():
+            global teraz
             # Przywracanie widoczności okna terminala
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 1)
@@ -327,6 +340,7 @@ które nie muszą być natychmiast pobrane wybierz opcję Aktualizacja
                     break
             else:
                 print("Nie znaleziono wymaganych plików/folderów na pulpicie.")
+                teraz = 0
                 sys.exit(1)
 
             # Ścieżka do pliku lista.txt w repozytorium
@@ -337,7 +351,6 @@ które nie muszą być natychmiast pobrane wybierz opcję Aktualizacja
 
             automa = Automa(urls, folder_path)
             automa.run()
-            global teraz
             teraz = 0
             time.sleep(3)
             ctypes.windll.user32.ShowWindow(

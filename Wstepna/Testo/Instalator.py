@@ -285,7 +285,7 @@ może być w innych folderach.
                             self.download_file(url, file_name)
                         else:
                             if not self.compare_files(url, file_name):
-                                print(Fore.LIGHTYELLOW_EX +
+                                print(Fore.LIGHTBLACK_EX +
                                       f"Plik {file_name} jest nieaktualny.")
                                 self.download_file(url, file_name)
                             else:

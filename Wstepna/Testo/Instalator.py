@@ -349,6 +349,8 @@ może być w innych folderach.
             urls = [line.strip()
                     for line in lista_txt_content.split('\n') if line.strip()]
 
+            text_label.setText(f'Masz najnowszą wersję')
+
             automa = Automa(urls, folder_path)
             automa.run()
             teraz = 0

@@ -193,7 +193,7 @@ QPushButton {
                         text_label_N2.setText(
                             """
 Masz najnowszą wersję programu\nAby sprawdzić pozostałe pliki i dostępność poprawek,
-które nie muszą być natychmiast pobrane wybierz opcję Aktualizacja
+które nie muszą być natychmiast pobrane wybierz opcję Aktualizacji.
                             """)
                 else:
                     text_label.setText(f'Jeszcze nie masz naszego programu')
@@ -204,7 +204,7 @@ Zainstaluj biblioteki, a następnie utwórz folder w którym będą:
     - plik main.py (pamiętaj o odpowiedznim rozszerzeniu)
 Następnie przeprowadź aktualizację
 Ten folder nie musi znajdować się bozpośrednio na pulpicie,
-może być w innych folderach
+może być w innych folderach.
                             """)
 
             except Exception as e:

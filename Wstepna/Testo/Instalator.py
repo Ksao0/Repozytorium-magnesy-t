@@ -193,7 +193,7 @@ QPushButton {
                         text_label_N2.setText(
                             """
 Masz najnowszą wersję programu\nAby sprawdzić pozostałe pliki i dostępność poprawek,
-które nie muszą być natychmiast pobrane wybierz opcję Aktualizacji.
+które nie muszą być natychmiast pobrane wybierz opcję aktualizacji.
                             """)
                 else:
                     text_label.setText(f'Jeszcze nie masz naszego programu')

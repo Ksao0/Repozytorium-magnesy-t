@@ -216,6 +216,7 @@ może być w innych folderach.
             # Przywracanie widoczności okna terminala
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 1)
+
             try:
                 # Pobierz listę bibliotek z repozytorium
                 libraries_to_install = requests.get(
@@ -224,22 +225,36 @@ może być w innych folderach.
                 # Sprawdź zainstalowane biblioteki
                 installed_packages = get_installed_packages()
 
-                # Instaluj biblioteki, które nie są jeszcze zainstalowane
-                for lib in libraries_to_install:
+                # Funkcja instalująca pojedynczą bibliotekę
+                def install_library(lib):
                     if lib not in installed_packages:
-                        print(Fore.YELLOW + "Instalowanie biblioteki:", lib)
+                        print(Fore.LIGHTBLACK_EX +
+                              f"Instalowanie biblioteki: {lib}, czekaj...")
                         subprocess.run(["pip", "install", lib],
                                        capture_output=True, text=True)
-                        print(Fore.GREEN + "Biblioteka", lib,
+                        print(Fore.BLUE + "Biblioteka", lib,
                               "została pomyślnie zainstalowana.")
                     else:
                         print(Fore.CYAN +
                               f"Biblioteka {lib} jest już zainstalowana.")
 
+                # Tworzenie wątków dla instalacji bibliotek
+                threads = []
+                for lib in libraries_to_install:
+                    thread = threading.Thread(
+                        target=install_library, args=(lib,))
+                    thread.start()
+                    threads.append(thread)
+
+                # Oczekiwanie na zakończenie wszystkich wątków
+                for thread in threads:
+                    thread.join()
+
                 print(Fore.GREEN +
                       "Wszystkie biblioteki zostały pomyślnie zainstalowane.")
             except Exception as e:
                 print(Fore.RED + "Wystąpił błąd:", e)
+
             global teraz_bib
             teraz_bib = 0
             time.sleep(5)
@@ -275,22 +290,35 @@ może być w innych folderach.
                             Fore.RED + "Folder zawierający wymagane pliki nie istnieje.")
                         sys.exit(1)
 
+                    # Tworzenie wątków
+                    threads = []
                     for url in self.urls:
                         file_name = os.path.join(
                             self.folder_path, url.split('/')[-1])
 
-                        if not os.path.exists(file_name):
-                            print(
-                                Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
+                        # Tworzenie i uruchamianie wątku dla każdego pliku
+                        thread = threading.Thread(
+                            target=self.process_file, args=(url, file_name))
+                        thread.start()
+                        threads.append(thread)
+
+                    # Oczekiwanie na zakończenie wszystkich wątków
+                    for thread in threads:
+                        thread.join()
+
+                def process_file(self, url, file_name):
+                    if not os.path.exists(file_name):
+                        print(
+                            Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
+                        self.download_file(url, file_name)
+                    else:
+                        if not self.compare_files(url, file_name):
+                            print(Fore.LIGHTBLACK_EX +
+                                  f"Plik {file_name} jest nieaktualny.")
                             self.download_file(url, file_name)
                         else:
-                            if not self.compare_files(url, file_name):
-                                print(Fore.LIGHTBLACK_EX +
-                                      f"Plik {file_name} jest nieaktualny.")
-                                self.download_file(url, file_name)
-                            else:
-                                print(Fore.CYAN +
-                                      f"Plik {file_name} jest aktualny.")
+                            print(Fore.CYAN +
+                                  f"Plik {file_name} jest aktualny.")
 
                 def compare_files(self, url, local_file_path):
                     response = self.get_remote_file_content(url)
@@ -357,6 +385,10 @@ może być w innych folderach.
             time.sleep(3)
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
+        # Uruchomienie funkcji aktualizacji w osobnym wątku
+        update_thread = threading.Thread(target=aktualizacja)
+        update_thread.start()
 
         # Przypisanie akcji do przycisków
         button1.clicked.connect(

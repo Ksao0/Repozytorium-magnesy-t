@@ -386,10 +386,6 @@ może być w innych folderach.
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
-        # Uruchomienie funkcji aktualizacji w osobnym wątku
-        update_thread = threading.Thread(target=aktualizacja)
-        update_thread.start()
-
         # Przypisanie akcji do przycisków
         button1.clicked.connect(
             lambda: threading.Thread(target=aktualizacja1).start())

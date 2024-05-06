@@ -7,7 +7,6 @@ gitpython
 jinja2
 markdown
 markupsafe
-pillow
 pygithub
 pyjwt
 pynacl
@@ -80,6 +79,7 @@ opt-einsum
 packaging
 pandas
 pefile
+pillow
 pip
 plyer
 protobuf

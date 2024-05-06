@@ -907,7 +907,7 @@ Aktualizacje będą stale sprawdzane podczas działania programu
 Po zamknięciu programu ten wątek zostanie zamknięty.
 
 Aktualizacja po uruchomieniu:
-Po włączeniu komputera program może być jednorazowo aktualizowany
+Po włączeniu komputera program MOŻE BYĆ jednorazowo aktualizowany
  - NIE ZOSTANIESZ POINFORMOWANY PRZED ROZPOCZĘCIEM AKTUALIZACJI
 Ta opcja nie wpłynie na działanie komputera,
 Wszystkie wątki programu zostaną zamknięte po aktualizacji.

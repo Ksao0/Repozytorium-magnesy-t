@@ -382,7 +382,7 @@ może być w innych folderach.
             automa = Automa(urls, folder_path)
             automa.run()
             teraz = 0
-            time.sleep(3)
+            time.sleep(2)
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)
 

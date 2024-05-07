@@ -64,7 +64,7 @@ try:
             return local_content == response.text
 
         def download_file(self, url, file_name):
-            print(Fore.MAGENTA +
+            print(Fore.LIGHTCYAN_EX +
                   f"Rozpoczynam aktualizację pliku {file_name}...")
             response = self.get_remote_file_content(url)
             if response is None:

@@ -218,10 +218,7 @@ QPushButton {
                     else:
                         text_label.setText(f'Masz najnowszą wersję')
                         text_label_N2.setText(
-                            """
-Masz najnowszą wersję programu\nAby sprawdzić pozostałe pliki i dostępność poprawek,
-które nie muszą być natychmiast pobrane wybierz opcję aktualizacji.
-                            """)
+                            "\n".join(version_opis.split('\n')[1:]))
                 else:
                     text_label.setText(f'Jeszcze nie masz naszego programu')
                     text_label_N2.setText(

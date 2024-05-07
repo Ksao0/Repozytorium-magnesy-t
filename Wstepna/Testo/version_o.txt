@@ -1,4 +1,4 @@
 2.5.5
-Przy aktualizacji każdorazowo będą instalowane wymagane biblioteki.
- - Możesz je też zainstalować bez aktualizacji
-Naprawiono problemy z programem w przypadku braku internetu
+Po uruchomieniu pobierane są teraz też aktualizacje opcjonalne
+  Aby to działało włącz aktualizację po uruchomieniu w:
+  Opcje>Inne>Aktualizacja po uruchomieniu

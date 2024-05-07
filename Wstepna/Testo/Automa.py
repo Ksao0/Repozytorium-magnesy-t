@@ -4,68 +4,91 @@ import ctypes
 import sys
 from colorama import Fore, Style
 import time
+import threading
 
 try:
     print(f'{Fore.LIGHTBLACK_EX}Aktualizowanie magnesów\n\nAby wyłączyć tę opcję usuń ją z autostaru')
 
     class Automa:
-        def __init__(self, urls, folder_path, version_txt_path):
+        def __init__(self, urls, folder_path):
             self.urls = urls
             self.folder_path = folder_path
-            self.version_txt_path = version_txt_path
 
         def run(self):
-            local_version_content = self.read_local_version_txt()
-            if local_version_content is None:
-                print("Nie udało się odczytać pliku version.txt na komputerze.")
-
-            remote_version_content = self.read_remote_version_txt()
-            if remote_version_content is None:
-                print("Nie udało się pobrać pliku version.txt z repozytorium.")
-
-            if local_version_content != remote_version_content or remote_version_content is None or local_version_content is None:
-                total_files = len(self.urls)
-                for i, url in enumerate(self.urls):
-                    file_name = os.path.join(
-                        self.folder_path, url.split('/')[-1])
-                    response = requests.get(url, stream=True)
-                    total_size_in_bytes = int(
-                        response.headers.get('content-length', 0))
-                    block_size = 1024  # 1 KB
-                    progress_bar = 0
-                    previous_percent = 0  # Przechowuje poprzedni procent postępu
-                    with open(file_name, 'wb') as file:
-                        for data in response.iter_content(block_size):
-                            file.write(data)
-                            progress_bar += len(data)
-                            # Ograniczenie do maksymalnie 100%
-                            percent = min(
-                                progress_bar * 100 / total_size_in_bytes, 100)
-                            # Wyświetl tylko, gdy postęp się zmienia
-                            if int(percent) != previous_percent:
-                                print(
-                                    f"Pobrano {file_name}: {percent:.2f}%")
-                                # Aktualizuj poprzedni procent
-                                previous_percent = int(percent)
-            else:
+            if not os.path.exists(self.folder_path):
                 print(
-                    "Plik version.txt na komputerze jest aktualny. Nie ma potrzeby aktualizacji.")
-                time.sleep(2)
-                sys.exit(0)
+                    Fore.RED + "Folder zawierający wymagane pliki nie istnieje.")
+                sys.exit(1)
 
-        def read_local_version_txt(self):
-            try:
-                with open(self.version_txt_path, 'r') as file:
-                    return file.read()
-            except FileNotFoundError:
-                return None
+            # Tworzenie wątków
+            threads = []
+            for url in self.urls:
+                file_name = os.path.join(
+                    self.folder_path, url.split('/')[-1])
 
-        def read_remote_version_txt(self):
+                # Tworzenie i uruchamianie wątku dla każdego pliku
+                thread = threading.Thread(
+                    target=self.process_file, args=(url, file_name))
+                thread.start()
+                threads.append(thread)
+
+            # Oczekiwanie na zakończenie wszystkich wątków
+            for thread in threads:
+                thread.join()
+
+        def process_file(self, url, file_name):
+            if not os.path.exists(file_name):
+                print(
+                    Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
+                self.download_file(url, file_name)
+            else:
+                if not self.compare_files(url, file_name):
+                    print(Fore.CYAN +
+                          f"Plik {file_name} jest nieaktualny.")
+                    self.download_file(url, file_name)
+                else:
+                    print(Fore.LIGHTBLACK_EX +
+                          f"Plik {file_name} jest aktualny.")
+
+        def compare_files(self, url, local_file_path):
+            response = self.get_remote_file_content(url)
+            if response is None:
+                print(
+                    Fore.RED + f"Nie udało się pobrać zawartości pliku {url}.")
+                return False
+
+            with open(local_file_path, 'rb') as local_file:  # Otwarcie w trybie binarnym
+                local_content = local_file.read().decode(
+                    'utf-8', errors='ignore')  # Dekodowanie
+
+            return local_content == response.text
+
+        def download_file(self, url, file_name):
+            print(Fore.MAGENTA +
+                  f"Rozpoczynam aktualizację pliku {file_name}...")
+            response = self.get_remote_file_content(url)
+            if response is None:
+                print(
+                    Fore.RED + f"Nie udało się pobrać pliku {url}. Aktualizacja przerwana.")
+                return
+
+            with open(file_name, 'wb') as local_file:  # Otwarcie w trybie binarnym
+                # Zapis zawartości binarnej
+                local_file.write(response.content)
+                print(Fore.LIGHTBLACK_EX + f"Pobrano {file_name}")
+
+        def get_remote_file_content(self, url):
             try:
-                response = requests.get(
-                    "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt")
-                return response.text
+                response = requests.get(url)
+                if response.status_code == 200:
+                    return response
+                else:
+                    print(
+                        Fore.RED + f"Błąd podczas pobierania pliku {url}: {response.status_code}")
+                    return None
             except Exception as e:
+                print(
+                    Fore.RED + f"Wystąpił błąd podczas pobierania pliku {url}: {e}")
                 return None
 
     # Szukanie folderu na pulpicie zawierającego plik main2.py
@@ -77,8 +100,6 @@ try:
     else:
         print("Nie znaleziono wymaganych plików/folderów na pulpicie.")
         sys.exit(1)
-
-    version_txt_path = os.path.join(folder_path, "version.txt")
 
     # Sprawdzenie połączenia internetowego
     try:
@@ -93,7 +114,7 @@ try:
     urls = [line.strip()
             for line in lista_txt_content.split('\n') if line.strip()]
 
-    automa = Automa(urls, folder_path, version_txt_path)
+    automa = Automa(urls, folder_path)
     automa.run()
     time.sleep(3)
 

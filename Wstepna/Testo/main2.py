@@ -111,6 +111,7 @@ try:
 except:
     print("Nie udało się pobrać pliku. Połącz się z internetem")
 
+
 def wybierz_styl_z_pliku():
     try:
         # Funkcja do odczytywania zawartości pliku i wybierania stylu
@@ -214,16 +215,20 @@ class AutoStartManager:
             return False
 
     def add_to_startup(self, file_path):
-        bat_path = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(
-            getpass.getuser())
+        uzytkownik = getpass.getuser()
+        bat_path = fr'C:\Users\{uzytkownik}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
         bat_file_path = os.path.join(bat_path, "Magnesy-update.bat")
 
-        if not os.path.exists(bat_path):
-            os.makedirs(bat_path)
+        try:
+            if not os.path.exists(bat_path):
+                os.makedirs(bat_path)
 
-        with open(bat_file_path, "w+") as bat_file:
-            bat_file.write("@echo off\n")
-            bat_file.write('start "" "{}"'.format(file_path))
+            with open(bat_file_path, "w+") as bat_file:
+                bat_file.write("@echo off\n")
+                bat_file.write('start "" "{}"'.format(file_path))
+        except PermissionError as e:
+            print(f"Nie można utworzyć pliku wsadowego w {bat_path}: {e}")
+
 
     def run(self):
         # Szukaj folderu zawierającego main2.py i folder rei
@@ -740,7 +745,8 @@ class OknoAktualizacji(QWidget):
                     except Exception as e:
                         print(
                             Fore.RED + f" - Wystąpił błąd podczas instalacji:\n {e}" + Style.RESET_ALL)
-                        print(Fore.MAGENTA + "Połącz się z internetem" + Style.RESET_ALL)
+                        print(Fore.MAGENTA +
+                              "Połącz się z internetem" + Style.RESET_ALL)
                         messagebox.showinfo(
                             'Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Spróbuj ponownie za chwilę\nPołącz się z internetem')
 
@@ -961,7 +967,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         self.toggle_button.clicked.connect(self.onToggleSwitch)
 
     def automa(self):
-        if messagebox.askokcancel("Autostart", 'Ta opcja doda aktualizator do autostartu, możesz to cofnąć w każdej chwili\nW niektórych przypadkach możesz zobaczyć okno terminala na killka sekund'):
+        if messagebox.askokcancel("Autostart", 'Ta opcja doda aktualizator do autostartu, możesz to cofnąć w każdej chwili\nW niektórych przypadkach możesz zobaczyć okno terminalu na killka sekund\nJeśli program się zamknie - coś poszło nie tak'):
             global ustawienie_auto
             # Utwórz instancję klasy AutoStartManager i uruchom
             auto_start_manager = AutoStartManager()
@@ -1109,7 +1115,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
                         print("Wystąpił problem podczas pobierania pliku")
                 except:
                     print("Brak dostępu do interentu, nie można pobrać stylu")
-                    messagebox.showwarning('Brak internetu', "Nie możesz ustawić tego stylu, ponieważ go nie pobrałeś; nie można go pobrać, ponieważ nie masz połączenia z internetem")
+                    messagebox.showwarning(
+                        'Brak internetu', "Nie możesz ustawić tego stylu, ponieważ go nie pobrałeś; nie można go pobrać, ponieważ nie masz połączenia z internetem")
             ustawianie_stylu(styl)
 
         except:

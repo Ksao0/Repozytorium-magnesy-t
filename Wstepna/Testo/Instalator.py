@@ -407,7 +407,7 @@ może być w innych folderach.
                     for line in lista_txt_content.split('\n') if line.strip()]
 
             text_label.setText(
-                f'Masz najnowszą wersję; sprawdź terminal')
+                f'Sprawdź terminal')
 
             automa = Automa(urls, folder_path)
             automa.run()

@@ -1328,7 +1328,7 @@ class ZaawansowaneOkno(QWidget):
         etykieta_info = QLabel('Wpisz ilość pakietów i cenę za magnes', self)
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
-        button_ustawienia = QPushButton('Ustawienia', self)
+        button_ustawienia = QPushButton('Opcje', self)
         układ.addWidget(button_ustawienia, 0, 4, 1, 1)
         button_ustawienia.clicked.connect(
             self.pokaz_ustawienia)  # Połącz przycisk z funkcją

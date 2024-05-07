@@ -39,6 +39,14 @@ pia_reset = 0
 os.system('cls')  # W przypadku Windows, używamy polecenia cls
 print('Dziennik działań:')
 
+# Sprawdzenie połączenia internetowego
+try:
+    requests.get("https://www.google.com", timeout=5)
+except (requests.ConnectionError, requests.Timeout):
+    print("Brak połączenia z internetem.\nZamykanie...")
+    time.sleep(2)
+    sys.exit(2)
+
 # Inicjalizacja obiektu do obsługi powiadomień
 toaster = ToastNotifier()
 

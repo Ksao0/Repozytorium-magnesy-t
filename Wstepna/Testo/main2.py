@@ -95,47 +95,60 @@ else:
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
-# Zmień na właściwy adres URL pliku .ico
-url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
+try:
+    # Zmień na właściwy adres URL pliku .ico
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
 
-response = requests.get(url)
-if response.status_code == 200:
-    icon_data = response.content
-    filename = os.path.basename(url)
+    response = requests.get(url)
+    if response.status_code == 200:
+        icon_data = response.content
+        filename = os.path.basename(url)
 
-    with open(filename, 'wb') as icon_file:
-        icon_file.write(icon_data)
-else:
-    print("Nie udało się pobrać pliku.")
-
+        with open(filename, 'wb') as icon_file:
+            icon_file.write(icon_data)
+    else:
+        print("Nie udało się pobrać pliku.")
+except:
+    print("Nie udało się pobrać pliku. Połącz się z internetem")
 
 def wybierz_styl_z_pliku():
-    # Funkcja do odczytywania zawartości pliku i wybierania stylu
+    try:
+        # Funkcja do odczytywania zawartości pliku i wybierania stylu
 
-    # Sprawdzenie, czy plik istnieje
-    if os.path.isfile("Styl.txt"):
-        # Otwarcie pliku do odczytu
-        with open("Styl.txt", "r", encoding='utf-8') as plik:
-            # Odczytanie zawartości i usunięcie białych znaków z końca
-            styl = plik.read().strip()
-            if os.path.isfile(f"styl_{styl}.css"):
-                ustawianie_stylu(styl)
-            else:
-                try:
-                    print('Nie znaleziono pliku arkusza stylu')
-                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+        # Sprawdzenie, czy plik istnieje
+        if os.path.isfile("Styl.txt"):
+            # Otwarcie pliku do odczytu
+            with open("Styl.txt", "r", encoding='utf-8') as plik:
+                # Odczytanie zawartości i usunięcie białych znaków z końca
+                styl = plik.read().strip()
+                if os.path.isfile(f"styl_{styl}.css"):
+                    ustawianie_stylu(styl)
+                else:
+                    try:
+                        print('Nie znaleziono pliku arkusza stylu')
+                        url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
 
-                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                    nazwa_pliku = f"styl_{styl}.css"
-                    response = requests.get(url)
+                        # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                        nazwa_pliku = f"styl_{styl}.css"
+                        response = requests.get(url)
 
-                    if response.status_code == 200:
-                        with open(nazwa_pliku, 'wb') as plik:
-                            plik.write(response.content)
-                        print(f'Pobrano styl: {styl}')
-                        app.setStyleSheet(open(f'styl_{styl}.css').read())
-                        print(f'Ustawiono styl na: {styl}')
-                    else:
+                        if response.status_code == 200:
+                            with open(nazwa_pliku, 'wb') as plik:
+                                plik.write(response.content)
+                            print(f'Pobrano styl: {styl}')
+                            app.setStyleSheet(open(f'styl_{styl}.css').read())
+                            print(f'Ustawiono styl na: {styl}')
+                        else:
+                            toaster = Powiadomienia()
+                            toaster.powiadomienie_jednorazowe(
+                                tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+                            print('Zapisany styl nie istnieje')
+                            ustawianie_stylu("szarość")
+                            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+                            with open("Styl.txt", "w", encoding='utf-8') as plik:
+                                plik.write("szarość")
+                            print(' Zapisano preferencje')
+                    except:
                         toaster = Powiadomienia()
                         toaster.powiadomienie_jednorazowe(
                             tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
@@ -145,37 +158,36 @@ def wybierz_styl_z_pliku():
                         with open("Styl.txt", "w", encoding='utf-8') as plik:
                             plik.write("szarość")
                         print(' Zapisano preferencje')
-                except:
-                    toaster = Powiadomienia()
-                    toaster.powiadomienie_jednorazowe(
-                        tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
-                    print('Zapisany styl nie istnieje')
-                    ustawianie_stylu("szarość")
-                    # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                    with open("Styl.txt", "w", encoding='utf-8') as plik:
-                        plik.write("szarość")
-                    print(' Zapisano preferencje')
-    else:
-        try:
-            app.setStyleSheet(open('styl_szarość.css').read())
-            print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
-        except:
-            print('Nie znaleziono pliku arkusza stylu')
-            # Podaj URL pliku, który chcesz pobrać
-            url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
-
-            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-            nazwa_pliku = "styl_szarość.css"
-            response = requests.get(url)
-
-            if response.status_code == 200:
-                with open(nazwa_pliku, 'wb') as plik:
-                    plik.write(response.content)
-                print('Pobrano styl: szarość')
+        else:
+            try:
                 app.setStyleSheet(open('styl_szarość.css').read())
-                print('Ustawiono styl na: szarość')
-            else:
-                print("Wystąpił problem podczas pobierania pliku")
+                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+            except:
+                try:
+                    try:
+                        print('Nie znaleziono pliku arkusza stylu')
+                        # Podaj URL pliku, który chcesz pobrać
+                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+
+                        # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                        nazwa_pliku = "styl_szarość.css"
+                        response = requests.get(url)
+
+                        if response.status_code == 200:
+                            with open(nazwa_pliku, 'wb') as plik:
+                                plik.write(response.content)
+                            print('Pobrano styl: szarość')
+                            app.setStyleSheet(open('styl_szarość.css').read())
+                            print('Ustawiono styl na: szarość')
+                        else:
+                            print("Wystąpił problem podczas pobierania pliku")
+                    except:
+                        app.setStyleSheet(open('styl_ametyst.css').read())
+                except:
+                    print(
+                        'Nie posiadasz żadnego pliku ze stylem, połącz się z internetem.')
+    except:
+        print('Nie posiadasz żadnego pliku ze stylem, połącz się z internetem.')
 
 
 class AutoStartManager:
@@ -255,22 +267,25 @@ def ustawianie_stylu(styl):
                 app.setStyleSheet(open('styl_szarość.css').read())
                 print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
             except:
-                print('Nie znaleziono pliku arkusza stylu')
-                # Podaj URL pliku, który chcesz pobrać
-                url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+                try:
+                    print('Nie znaleziono pliku arkusza stylu')
+                    # Podaj URL pliku, który chcesz pobrać
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
 
-                # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                nazwa_pliku = "styl_szarość.css"
-                response = requests.get(url)
+                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                    nazwa_pliku = "styl_szarość.css"
+                    response = requests.get(url)
 
-                if response.status_code == 200:
-                    with open(nazwa_pliku, 'wb') as plik:
-                        plik.write(response.content)
-                    print('Pobrano styl: szarość')
-                    app.setStyleSheet(open('styl_szarość.css').read())
-                    print('Ustawiono styl na: szarość')
-                else:
-                    print("Wystąpił problem podczas pobierania pliku")
+                    if response.status_code == 200:
+                        with open(nazwa_pliku, 'wb') as plik:
+                            plik.write(response.content)
+                        print('Pobrano styl: szarość')
+                        app.setStyleSheet(open('styl_szarość.css').read())
+                        print('Ustawiono styl na: szarość')
+                    else:
+                        print("Wystąpił problem podczas pobierania pliku")
+                except:
+                    print("Nie ustawiono stylu, połącz się z internetem")
 
 
 class Ikona:
@@ -358,29 +373,32 @@ class Ikona:
 def Inne():
     print('Dziennik działań:')
 
-    def Inne1p():
-        try:  # Tego pliku nie ma w repozytorium
-            subprocess.run(['python', 'Inne.py'])
-        except:
-            pass
+    try:
+        def Inne1p():
+            try:  # Tego pliku nie ma w repozytorium
+                subprocess.run(['python', 'Inne.py'])
+            except:
+                pass
 
-    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-    thread = threading.Thread(target=Inne1p)
+        # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+        thread = threading.Thread(target=Inne1p)
 
-    # Uruchamianie wątku
-    thread.start()
+        # Uruchamianie wątku
+        thread.start()
 
-    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-    thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
+        # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+        thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
 
-    # Uruchamianie wątku
-    thread.start()
+        # Uruchamianie wątku
+        thread.start()
 
-    # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-    thread = threading.Thread(target=download_icon)
+        # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+        thread = threading.Thread(target=download_icon)
 
-    # Uruchamianie wątku
-    thread.start()
+        # Uruchamianie wątku
+        thread.start()
+    except:
+        print("Brak dostępu do internetu")
 
 
 def download_icon():
@@ -643,18 +661,7 @@ class OknoAktualizacji(QWidget):
     def __init__(self):
         super().__init__()
 
-        # Tutaj zdefiniuj przycisk "Aktualizuj"
-        self.przycisk_aktualizuj = QPushButton('Aktualizuj')
         self.przycisk_instalator = QPushButton('Anuluj')  # Nieużywane
-
-        self.urls = [
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Instalator.py",
-            "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/main2.py"
-            # Dodaj tutaj inne URL-e do plików, jeśli są
-        ]
 
         self.inicjalizuj_ui()
 
@@ -662,20 +669,15 @@ class OknoAktualizacji(QWidget):
         układ = QGridLayout()
 
         etykieta_info = QLabel(
-            'Nie przerywaj aktualizacji, jeśli nie jest to konieczne konieczne')
+            'Nigdy nie przerywaj aktualizacji! Zostaniesz poinformowany o jej zakończeniu.\nPamiętaj o dostępie do internetu!')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()
         układ.addWidget(self.pasek_postępu, 1, 0, 1, 2)
 
-        self.przycisk_aktualizuj = QPushButton('Aktualizuj')
         # Użyj przycisku self.przycisk_instalator
         self.przycisk_instalator = QPushButton('Instalator')
-
-        self.przycisk_aktualizuj.clicked.connect(self.rozpocznij_aktualizacje)
         self.przycisk_instalator.clicked.connect(self.okno_instalator)
-
-        układ.addWidget(self.przycisk_aktualizuj, 2, 0)
 
         # Ustaw arkusz stylu dla przycisku self.przycisk_instalator
         self.przycisk_instalator.setStyleSheet("""
@@ -690,41 +692,11 @@ class OknoAktualizacji(QWidget):
         """)
 
         # Dodaj przycisk self.przycisk_instalator do interfejsu
-        układ.addWidget(self.przycisk_instalator, 2, 1)
+        układ.addWidget(self.przycisk_instalator, 2, 0, 1, 2)
 
         self.setLayout(układ)
-        self.setWindowTitle('Okno Aktualizatora')
+        self.setWindowTitle('Wprowadzenie do aktualizacji')
         self.setGeometry(200, 200, 400, 150)
-
-        self.pasek_postępu.setValue(0)
-        self.watek_aktualizacji = AktualizacjaWatek(self.urls)
-        self.watek_aktualizacji.aktualizacja_zakonczona.connect(
-            self.zakoncz_aktualizacje)
-
-    def rozpocznij_aktualizacje(self):
-        self.pasek_postępu.setValue(0)
-
-        # Wyłącz przycisk i zmień jego wygląd
-        self.przycisk_aktualizuj.setEnabled(False)
-        self.przycisk_aktualizuj.setText('Aktualizacja w toku...')
-        self.przycisk_aktualizuj.setStyleSheet(
-            'background-color: lightgray; color: gray;')
-
-        # Wyłącz przycisk i zmień jego wygląd
-        self.przycisk_instalator.setEnabled(False)
-        self.przycisk_instalator.setStyleSheet(
-            'background-color: gray; color: lightgray;')
-
-        self.watek_aktualizacji.start()
-
-    def zakoncz_aktualizacje(self, value):
-        self.pasek_postępu.setValue(value)
-        if value == 100:
-            # Tutaj dodano uruchomienie programu z nowego pliku main.py po zakończeniu aktualizacji
-            # subprocess.run(["python", "Aktualizator.py"])
-            # Uruchomienie programu z nowego pliku main2.py po zakończeniu aktualizacji
-            os.execl(sys.executable, sys.executable, "main2.py")
-            QCoreApplication.quit()  # Zamknij bieżący program po zakończeniu aktualizacji
 
     def okno_instalator(self):
         global instalator_sesja
@@ -733,17 +705,53 @@ class OknoAktualizacji(QWidget):
 
             def otworz():
                 try:
+                    # ścieżka do pliku Instalator.py w bieżącym folderze
+                    path = os.path.join(os.getcwd(), "Instalator.py")
+
+                    # usuń plik Instalator.py, jeśli istnieje
+                    if os.path.exists(path):
+                        os.remove(path)
+                    # print("Usunięto plik Instalator.py")
+
+                    # pobierz plik main.py z repozytorium
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Instalator.py"
+                    urllib.request.urlretrieve(url, path)
+                    # print("Zastąpiono plik Instalator.py")
+
                     subprocess.run(['python', 'Instalator.py'])
-                except:
-                    messagebox.showinfo(
-                        'Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Wykonaj zwykłą aktualizację, a instalator zostanie pobrany.')
+                    print('Pobrano instalator')
+                except Exception as e:
+                    print(
+                        Fore.RED + f" - Wystąpił błąd podczas instalacji:\n {e}" + Style.RESET_ALL)
+                    try:
+                        print('Ponowna próba pobrania instalatora...')
+                        # ścieżka do pliku Instalator.py w bieżącym folderze
+                        path = os.path.join(os.getcwd(), "Instalator.py")
+
+                        # usuń plik Instalator.py, jeśli istnieje
+                        if os.path.exists(path):
+                            os.remove(path)
+                        # print("Usunięto plik Instalator.py")
+
+                        # pobierz plik main.py z repozytorium
+                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Instalator.py"
+                        urllib.request.urlretrieve(url, path)
+                        # print("Zastąpiono plik Instalator.py")
+                    except Exception as e:
+                        print(
+                            Fore.RED + f" - Wystąpił błąd podczas instalacji:\n {e}" + Style.RESET_ALL)
+                        print(Fore.MAGENTA + "Połącz się z internetem" + Style.RESET_ALL)
+                        messagebox.showinfo(
+                            'Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Spróbuj ponownie za chwilę\nPołącz się z internetem')
+
             # Tworzenie nowego wątku, który wywołuje funkcję open_file()
             thread = threading.Thread(target=otworz)
 
             # Uruchamianie wątku
             thread.start()
         else:
-            messagebox.showinfo('Info', 'Instalator może być otwarty tylko raz na uruchomienie programu. Jeśli okno jeszcze się nie wyświetliło - poczekaj, jeszcze się ładuje.\nJeśli nie pojawi się w ciągu kilkudziesięciu sekund - uruchom cały program ponownie')
+            messagebox.showinfo(
+                'Info', 'Instalator może być otwarty tylko raz na uruchomienie programu. Jeśli okno jeszcze się nie wyświetliło - poczekaj, nadal się ładuje, może to potrwwać kilka sekund i zależy to od twojego internetu.')
 
 
 class OknoUstawien(QWidget):
@@ -1084,20 +1092,24 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
                     # Odczytanie zawartości i usunięcie białych znaków z końca
                     styl_teraz = plik.read().strip()
             except:
-                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+                try:
+                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
 
-                # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                nazwa_pliku = f"styl_{styl}.css"
-                response = requests.get(url)
+                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+                    nazwa_pliku = f"styl_{styl}.css"
+                    response = requests.get(url)
 
-                if response.status_code == 200:
-                    with open(nazwa_pliku, 'wb') as plik:
-                        plik.write(response.content)
-                    print(f'Pobrano styl: {styl}')
-                    app.setStyleSheet(open(f'styl_{styl}.css').read())
-                    print(f'Ustawiono styl na: {styl}')
-                else:
-                    print("Wystąpił problem podczas pobierania pliku")
+                    if response.status_code == 200:
+                        with open(nazwa_pliku, 'wb') as plik:
+                            plik.write(response.content)
+                        print(f'Pobrano styl: {styl}')
+                        app.setStyleSheet(open(f'styl_{styl}.css').read())
+                        print(f'Ustawiono styl na: {styl}')
+                    else:
+                        print("Wystąpił problem podczas pobierania pliku")
+                except:
+                    print("Brak dostępu do interentu, nie można pobrać stylu")
+                    messagebox.showwarning('Brak internetu', "Nie możesz ustawić tego stylu, ponieważ go nie pobrałeś; nie można go pobrać, ponieważ nie masz połączenia z internetem")
             ustawianie_stylu(styl)
 
         except:
@@ -1336,7 +1348,7 @@ class ZaawansowaneOkno(QWidget):
         button_opinie = QPushButton('Aktualizuj', self)
         układ.addWidget(button_opinie, 0, 3, 1, 1)
         button_opinie.clicked.connect(
-            self.pokaz_aktualizator)  # Poprawione podłączenie do funkcji
+            self.pokaz_aktualizator)  # Pokazywanie danego okna do aktualizacji
 
         button_usun_zapisy = QPushButton('Usuń zapisy', self)
         układ.addWidget(button_usun_zapisy, 0, 5, 1, 1)

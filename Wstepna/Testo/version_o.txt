@@ -1,3 +1,4 @@
-2.5.4.1.2
-To instalator!
-Od teraz możesz instalować program na innych komputerach!
+2.5.5
+Przy aktualizacji każdorazowo będą instalowane wymagane biblioteki.
+ - Możesz je też zainstalować bez aktualizacji
+Naprawiono problemy z programem w przypadku braku internetu

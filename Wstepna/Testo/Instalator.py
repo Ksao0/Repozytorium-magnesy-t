@@ -28,6 +28,10 @@ teraz = 0
 teraz_bib = 0
 global zdjecie
 zdjecie = 0
+global zakonczono_pliki
+zakonczono_pliki = False
+global zakonczon_biblioteki
+zakonczon_biblioteki = False
 
 
 class MainWindow(QMainWindow):
@@ -139,13 +143,36 @@ QPushButton {
 
         def aktualizacja1():
             global teraz
-            if teraz == 0:
+            global teraz_bib
+            if teraz == 0 and teraz_bib == 0:
                 teraz = 1
+                print(Fore.LIGHTYELLOW_EX +
+                      '\nRozpoczynam aktualizację:' + Style.RESET_ALL)
+
+                global zakonczono_pliki, zakonczon_biblioteki
+                zakonczono_pliki = False
+                zakonczon_biblioteki = False
+
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
                 thread = threading.Thread(target=aktualizacja)
-
                 # Uruchamianie wątku
                 thread.start()
+
+                # Tworzenie nowego wątku, który wywołuje funkcję open_file()
+                thread = threading.Thread(target=zainstaluj_biblioteki1)
+                # Uruchamianie wątku
+                thread.start()
+
+                while True:
+                    if zakonczono_pliki == True and zakonczon_biblioteki == True:
+                        break
+
+                ctypes.windll.user32.ShowWindow(
+                    ctypes.windll.kernel32.GetConsoleWindow(), 1)
+
+                print(Fore.GREEN +
+                      '\nAktualizacja zakończona, możesz zamknąć instalator')
+
             else:
                 print(Fore.MAGENTA + "Ten wątek jest już aktywny. (aktualizacja)")
 
@@ -201,7 +228,7 @@ które nie muszą być natychmiast pobrane wybierz opcję aktualizacji.
                         """
 Zainstaluj biblioteki, a następnie utwórz folder w którym będą:
     - folder rei
-    - plik main.py (pamiętaj o odpowiedznim rozszerzeniu)
+    - plik main.py (pamiętaj o odpowiednim rozszerzeniu pliku)
 Następnie przeprowadź aktualizację
 Ten folder nie musi znajdować się bozpośrednio na pulpicie,
 może być w innych folderach.
@@ -260,6 +287,8 @@ może być w innych folderach.
             time.sleep(5)
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)
+            global zakonczon_biblioteki
+            zakonczon_biblioteki = True
 
         # Funkcja do uzyskania listy zainstalowanych pakietów
         def get_installed_packages():
@@ -377,7 +406,8 @@ może być w innych folderach.
             urls = [line.strip()
                     for line in lista_txt_content.split('\n') if line.strip()]
 
-            text_label.setText(f'Masz najnowszą wersję')
+            text_label.setText(
+                f'Masz najnowszą wersję; uruchom ponownie, aby wprowadzić zmiany')
 
             automa = Automa(urls, folder_path)
             automa.run()
@@ -385,6 +415,8 @@ może być w innych folderach.
             time.sleep(2)
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)
+            global zakonczono_pliki
+            zakonczono_pliki = True
 
         # Przypisanie akcji do przycisków
         button1.clicked.connect(

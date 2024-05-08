@@ -975,10 +975,6 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
 ''', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
-        button_klienci = QPushButton("Zarządzanie klientami", zakladka)
-        button_klienci.clicked.connect(self.klienci)
-        układ.addWidget(button_klienci, 1, 0, 1, 1)
-
         self.button_polacz = QPushButton("Połącz z serwerem", zakladka)
         self.button_polacz.clicked.connect(self.otworz_odbiorca)
         układ.addWidget(self.button_polacz, 3, 0, 1, 1)
@@ -1110,13 +1106,6 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             self.toggle_button.setText(
                 'Sprawdzanie aktualiacji w tle: wyłączone')
             ustawienie_sprawdzanie_aktualizacji_w_tle = False
-
-    def klienci(self):
-        try:
-
-            subprocess.run(['python', 'Klienci.py'])
-        except:
-            pass
 
     def utworz_zakladke_estetyka(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
@@ -1438,9 +1427,13 @@ class ZaawansowaneOkno(QWidget):
             'Całkowita wartość pakietów: ', self)
         układ.addWidget(etykieta_calkowita_wartosc_pakietow, 6, 0, 1, 2)
 
+        button_klienci = QPushButton("Zarządzanie klientami", self)
+        button_klienci.clicked.connect(self.klienci)
+        układ.addWidget(button_klienci, 7, 0, 1, 2)
+
         text_edit_historia = QTextEdit(self)
         text_edit_historia.setReadOnly(True)
-        układ.addWidget(text_edit_historia, 1, 3, 6, 3)
+        układ.addWidget(text_edit_historia, 1, 3, 7, 3)
 
         text_edit_historia.setPlainText("Brak historii obliczeń")
 
@@ -1467,6 +1460,12 @@ class ZaawansowaneOkno(QWidget):
         ustawienie_sprawdzanie_aktualizacji_w_tle = False
         zaawansowane_okno_zamkniete = True
         event.accept()
+
+    def klienci(self):
+        try:
+            subprocess.run(['python', 'Klienci.py'])
+        except:
+            pass
 
     def pokaz_ustawienia(self):
         # Tworzymy instancję klasy OknoUstawien

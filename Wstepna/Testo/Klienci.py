@@ -9,7 +9,6 @@ import requests
 from main2 import Powiadomienia
 import threading
 
-
 def aktualnosc():
     try:
         try:
@@ -31,7 +30,7 @@ def aktualnosc():
         if klienci_online != klienci_local:
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia=f"Nowość!", tresc_powiadomienia=f'Wyszła nowa wersja zarządzania klientami! Aby ją zainstalować zaktualizuj cały program', duration=3)
+                tytul_powiadomienia=f"Nowość!", tresc_powiadomienia=f'Wyszła nowa wersja zarządzania klientami! Aby ją zainstalować zaktualizuj program :D', duration=3)
     except:
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
@@ -513,5 +512,5 @@ if __name__ == "__main__":
 
     # Uruchamianie wątku
     thread.start()
-
+    aktualnosc()
     sys.exit(app.exec_())

@@ -196,23 +196,31 @@ class AutoStartManager:
         pass
 
     def find_main2_folder(self):
-        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        for root, dirs, files in os.walk(desktop_path):
-            if 'main2.py' in files and 'rei' in dirs:
-                # Jeśli do folderu rei to:
-                # return os.path.join(root, 'rei')
-                return os.path.join(root)
-        return None
+        try:
+            desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+            for root, dirs, files in os.walk(desktop_path):
+                if 'main2.py' in files and 'rei' in dirs:
+                    # Jeśli do folderu rei to:
+                    # return os.path.join(root, 'rei')
+                    return os.path.join(root)
+            return None
+        except Exception as e:
+            print(
+                Fore.RED + f" - Wystąpił błąd (AutostartManager, find_main2_folder):\n{e}" + Style.RESET_ALL)
 
     def download_file(self, url, destination):
-        response = requests.get(url)
-        if response.status_code == 200:
-            with open(destination, 'wb') as file:
-                file.write(response.content)
-            return True
-        else:
-            print("Wystąpił problem podczas pobierania pliku.")
-            return False
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                with open(destination, 'wb') as file:
+                    file.write(response.content)
+                return True
+            else:
+                print("Wystąpił problem podczas pobierania pliku.")
+                return False
+        except Exception as e:
+            print(
+                Fore.RED + f" - Wystąpił błąd (AutostartManager, download_file):\n{e}" + Style.RESET_ALL)
 
     def add_to_startup(self, file_path):
         uzytkownik = getpass.getuser()
@@ -226,32 +234,37 @@ class AutoStartManager:
             with open(bat_file_path, "w+") as bat_file:
                 bat_file.write("@echo off\n")
                 bat_file.write('start "" "{}"'.format(file_path))
+
+                print("Plik Automa.py został dodany do autostartu.")
         except PermissionError as e:
             print(f"Nie można utworzyć pliku wsadowego w {bat_path}: {e}")
 
-
     def run(self):
-        # Szukaj folderu zawierającego main2.py i folder rei
-        main2_folder = self.find_main2_folder()
-        print(f'{main2_folder}')
-        if main2_folder:
-            print("Znaleziono folder zawierający main2.py i folder rei:", main2_folder)
+        try:
+            # Szukaj folderu zawierającego main2.py i folder rei
+            main2_folder = self.find_main2_folder()
+            print(f'{main2_folder}')
+            if main2_folder:
+                print(
+                    "Znaleziono folder zawierający main2.py i folder rei:", main2_folder)
 
-            # Ścieżka do pobrania pliku Automa.py
-            automa_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.py"
-            automa_destination = os.path.join(main2_folder, "Automa.py")
+                # Ścieżka do pobrania pliku Automa.py
+                automa_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.py"
+                automa_destination = os.path.join(main2_folder, "Automa.py")
 
-            # Pobierz plik Automa.py
-            if self.download_file(automa_url, automa_destination):
-                print("Pobrano plik Automa.py.")
+                # Pobierz plik Automa.py
+                if self.download_file(automa_url, automa_destination):
+                    print("Pobrano plik Automa.py.")
 
-                # Dodaj plik Automa.py do autostartu
-                self.add_to_startup(automa_destination)
-                print("Plik Automa.py został dodany do autostartu.")
+                    # Dodaj plik Automa.py do autostartu
+                    self.add_to_startup(automa_destination)
+                else:
+                    print("Nie udało się pobrać pliku Automa.py.")
             else:
-                print("Nie udało się pobrać pliku Automa.py.")
-        else:
-            print("Nie znaleziono folderu zawierającego main2.py i folder rei.")
+                print("Nie znaleziono folderu zawierającego main2.py i folder rei.")
+        except Exception as e:
+            print(
+                Fore.RED + f" - Wystąpił błąd (AutostartManager, run):\n{e}" + Style.RESET_ALL)
 
 
 def ustawianie_stylu(styl):

@@ -249,7 +249,6 @@ class AutoStartManager:
         except Exception as e:
             print(
                 Fore.RED + f" - Wystąpił błąd (AutostartManager, add_to_startup):\n{e}" + Style.RESET_ALL)
-            time.sleep(10)
 
     def run_as_admin(self, argv=None):
         """

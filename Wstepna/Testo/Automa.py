@@ -1,10 +1,78 @@
 import os
 import requests
-import ctypes
 import sys
 from colorama import Fore, Style
 import time
 import threading
+import random
+import subprocess
+import ctypes
+
+
+def zainstaluj_biblioteki():
+    try:
+        from main2 import Powiadomienia
+        toaster = Powiadomienia()
+        toaster.powiadomienie_jednorazowe(
+            tytul_powiadomienia="Biblioteki?", tresc_powiadomienia=f"Ze względu na to, że możesz nie mieć wszystkich bibliotek wymaganych do działania programu proces aktualizacji potrwa trochę dłużej", duration=3)
+        ctypes.windll.user32.ShowWindow(
+            ctypes.windll.kernel32.GetConsoleWindow(), 1)
+    except:
+        print(Fore.LIGHTGREEN_EX + 'Ze względu na to, że możesz nie mieć wszystkich bibliotek wymaganych do działania programu proces aktualizacji potrwa trochę dłużej\n')
+
+    def get_installed_packages():
+        try:
+            installed_packages = subprocess.check_output(
+                ['pip', 'freeze']).decode().split('\n')
+            installed_packages = [pkg.split('==')[0]
+                                  for pkg in installed_packages if pkg]
+            return installed_packages
+        except subprocess.CalledProcessError:
+            print("Nie udało się uzyskać listy zainstalowanych pakietów.")
+            return []
+
+    try:
+        libraries_to_install = requests.get(
+            'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/bib.txt').text.strip().split()
+
+        installed_packages = get_installed_packages()
+
+        def install_library(lib):
+            if lib not in installed_packages:
+                print(Fore.LIGHTBLACK_EX +
+                      f"Instalowanie biblioteki: {lib}, czekaj...")
+                subprocess.run(["pip", "install", lib],
+                               capture_output=True, text=True)
+                print(Fore.BLUE + "Biblioteka", lib,
+                      "została pomyślnie zainstalowana.")
+            else:
+                print(Fore.CYAN +
+                      f"Biblioteka {lib} jest już zainstalowana.")
+
+        # Tworzenie wątków dla instalacji bibliotek
+        threads = []
+        for lib in libraries_to_install:
+            thread = threading.Thread(
+                target=install_library, args=(lib,))
+            thread.start()
+            threads.append(thread)
+
+        # Oczekiwanie na zakończenie wszystkich wątków
+        for thread in threads:
+            thread.join()
+
+        print(Fore.LIGHTGREEN_EX + '\nAktualność plików:')
+
+    except Exception as e:
+        print(Fore.RED + "Wystąpił błąd:", e)
+
+
+# Wygeneruj losową liczbę od 0 do 100
+losowa_liczba = random.randint(0, 100)
+
+# Sprawdź, czy wygenerowana liczba jest mniejsza niż 5 (czyli 5% szans)
+if losowa_liczba < 2:
+    zainstaluj_biblioteki()
 
 try:
     print(f'{Fore.LIGHTBLACK_EX}Aktualizowanie magnesów\n\nAby wyłączyć tę opcję usuń ją z autostaru')
@@ -75,7 +143,7 @@ try:
             with open(file_name, 'wb') as local_file:  # Otwarcie w trybie binarnym
                 # Zapis zawartości binarnej
                 local_file.write(response.content)
-                print(Fore.LIGHTBLACK_EX + f"Pobrano {file_name}")
+                print(Fore.LIGHTBLUE_EX + f"Pobrano {file_name}")
 
         def get_remote_file_content(self, url):
             try:

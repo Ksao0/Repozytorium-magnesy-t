@@ -7,12 +7,50 @@ import threading
 import random
 import subprocess
 import ctypes
+from PyQt5.QtWidgets import QWidget
+from win10toast import ToastNotifier
+
+
+class Powiadomienia(QWidget):
+    # Przekierowanie błędów do "czarnej dziury"
+    sys.stderr = open('nul', 'w')
+
+    def __init__(self):
+        self.toaster = self.MyToastNotifier()
+
+    def powiadomienie_jednorazowe(self, tytul_powiadomienia, tresc_powiadomienia, duration):
+        self.toaster.show_toast(
+            msg=tresc_powiadomienia, duration=duration, tytul_powiadomienia=tytul_powiadomienia)
+
+    class MyToastNotifier(ToastNotifier):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.wyswietlone_powiadomienie = False
+
+        def show_toast(self, msg, icon_path=None, duration=5, threaded=True, tytul_powiadomienia=""):
+            icon_path = "rei/icon.ico"
+            nazwa_aplikacji = ""  # Nazwa aplikacji nie będzie już wyświetlana
+            if nazwa_aplikacji != "":
+                title = f"{nazwa_aplikacji} - {tytul_powiadomienia}"
+            else:
+                title = f"{tytul_powiadomienia}"
+            try:
+                if not self.wyswietlone_powiadomienie:
+                    if not threaded:
+                        return super().show_toast(title, msg, icon_path, duration, threaded)
+                    else:
+                        threading.Thread(target=self._show_toast, args=(
+                            title, msg, icon_path, duration)).start()
+                        self.wyswietlone_powiadomienie = True
+                        return 1  # lub inna wartość int
+            except Exception as e:
+                # Przechwytywanie błędów, ale nie wyświetlanie ich
+                pass
 
 
 def version_sprawdzanie():
     try:
         from packaging import version
-        from main2 import Powiadomienia
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
@@ -46,8 +84,9 @@ def version_sprawdzanie():
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 1)
             zainstaluj_biblioteki()
-    except:
-        return
+    except Exception as e:
+        print(e)
+        time.sleep(3)
 
 
 def zainstaluj_biblioteki():

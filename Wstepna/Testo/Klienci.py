@@ -307,14 +307,6 @@ class OknoKlientow(QtWidgets.QMainWindow):
 
         label_pakietow = QtWidgets.QLabel("Liczba pakietów:")
         entry_pakietow = QtWidgets.QLineEdit()
-
-        if obiekt is not None and hasattr(obiekt, 'addWidget'):
-            # Wywołaj metodę addWidget tylko gdy obiekt nie jest None i posiada taką metodę
-            obiekt.addWidget(widget)
-        else:
-            print(
-                "Nie można wywołać metody addWidget na pustym obiekcie lub obiekt nie posiada takiej metody")
-
         dialog.layout().addWidget(label_pakietow)
         dialog.layout().addWidget(entry_pakietow)
 

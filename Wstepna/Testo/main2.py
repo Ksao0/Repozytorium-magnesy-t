@@ -236,7 +236,7 @@ class AutoStartManager:
                 bat_file.write('start "" "{}"'.format(file_path))
 
                 print("Plik Automa.py został dodany do autostartu.")
-        except PermissionError as e:
+        except Exception as e:
             # Jeśli wystąpi błąd PermissionError, wyświetl okno dialogowe z prośbą o nadanie uprawnień administratora
             reply = QMessageBox.question(None, 'Uprawnienia administratora', "Program wymaga uprawnień administratora do dodania do autostartu. Czy chcesz uruchomić ponownie z uprawnieniami administratora?",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)

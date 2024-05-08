@@ -550,11 +550,11 @@ def sprawdzanie_nowych_aktualizacji():
                 print(f"  {local_aktualna_wersja} --> {najnowsza_wersja_online}")
                 toaster = Powiadomienia()
                 toaster.powiadomienie_jednorazowe(
-                    tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować ", duration=3)
+                    tytul_powiadomienia="Nowa wersja", tresc_powiadomienia=f"Dostępna jest aktualizacja:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nMożesz ją zainstalować", duration=3)
 
             if version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
                 messagebox.showerror("Aktualizacje nie są takie straszne ;)",
-                                     f"Ta wersja jet już przestarzała, warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
+                                     f"Ta wersja jest już przestarzała, warto robić aktualizacje co jakiś czas\nP.S. Zrób to teraz\n\t{local_aktualna_wersja} --> {najnowsza_wersja_online}")
         except Exception as e:
             print(e)
             pass
@@ -1427,13 +1427,16 @@ class ZaawansowaneOkno(QWidget):
             'Całkowita wartość pakietów: ', self)
         układ.addWidget(etykieta_calkowita_wartosc_pakietow, 6, 0, 1, 2)
 
+        etykieta_info_trybZ = QLabel('Aby liczyć w trybie za magnes wejdź w opcje', self)
+        układ.addWidget(etykieta_info_trybZ, 7, 0, 1, 2)
+
         button_klienci = QPushButton("Zarządzanie klientami", self)
         button_klienci.clicked.connect(self.klienci)
-        układ.addWidget(button_klienci, 7, 0, 1, 2)
+        układ.addWidget(button_klienci, 8, 0, 1, 2)
 
         text_edit_historia = QTextEdit(self)
         text_edit_historia.setReadOnly(True)
-        układ.addWidget(text_edit_historia, 1, 3, 7, 3)
+        układ.addWidget(text_edit_historia, 1, 3, 8, 3)
 
         text_edit_historia.setPlainText("Brak historii obliczeń")
 

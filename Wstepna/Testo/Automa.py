@@ -9,6 +9,47 @@ import subprocess
 import ctypes
 
 
+def version_sprawdzanie():
+    try:
+        from packaging import version
+        from main2 import Powiadomienia
+        # Pobierz zawartość pliku version.txt z repozytorium na GitHub
+        try:
+            url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
+            response = requests.get(url)
+            response.raise_for_status()  # sprawdź, czy nie było błędu w pobieraniu
+            version_online = response.content.decode('utf-8').strip()
+        except requests.exceptions.RequestException as e:
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia="Internet?", tresc_powiadomienia=f"Chyba nie masz dostępu do internetu, do zobaczenia!", duration=3)
+            return
+
+        version_online_lines = version_online.split('\n')
+        # Odczytaj zawartość pliku version.txt w twoim programie
+        path = os.path.join(os.getcwd(), "version.txt")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                version_local = f.read().strip()
+        else:
+            version_local = "1.0.0"
+
+        version_local_lines = version_local.split('\n')
+
+        najnowsza_wersja_online = version_online_lines[0]
+        local_aktualna_wersja = version_local_lines[0]
+
+        if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online) or version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia="Nowa wersja!", tresc_powiadomienia=f"Pobieranie aktualizacji:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZaczynamy instalowanie!", duration=3)
+            ctypes.windll.user32.ShowWindow(
+                ctypes.windll.kernel32.GetConsoleWindow(), 1)
+            zainstaluj_biblioteki()
+    except:
+        return
+
+
 def zainstaluj_biblioteki():
     try:
         from main2 import Powiadomienia
@@ -66,6 +107,8 @@ def zainstaluj_biblioteki():
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd:", e)
 
+
+version_sprawdzanie()
 
 # Wygeneruj losową liczbę od 0 do 100
 losowa_liczba = random.randint(0, 100)

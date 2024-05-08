@@ -46,6 +46,8 @@ class Powiadomienia(QWidget):
             except Exception as e:
                 # Przechwytywanie błędów, ale nie wyświetlanie ich
                 pass
+        ctypes.windll.user32.ShowWindow(
+            ctypes.windll.kernel32.GetConsoleWindow(), 1)
 
 
 def version_sprawdzanie():

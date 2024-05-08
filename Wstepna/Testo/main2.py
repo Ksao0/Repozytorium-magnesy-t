@@ -237,7 +237,37 @@ class AutoStartManager:
 
                 print("Plik Automa.py został dodany do autostartu.")
         except PermissionError as e:
-            print(f"Nie można utworzyć pliku wsadowego w {bat_path}: {e}")
+            # Jeśli wystąpi błąd PermissionError, wyświetl okno dialogowe z prośbą o nadanie uprawnień administratora
+            reply = QMessageBox.question(None, 'Uprawnienia administratora', "Program wymaga uprawnień administratora do dodania do autostartu. Czy chcesz uruchomić ponownie z uprawnieniami administratora?",
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                # Ponownie uruchom program z uprawnieniami administratora
+                self.run_as_admin(sys.argv)
+            else:
+                print("Nie dodano programu do autostartu.\n" + Fore.RED + f" - Wystąpił błąd:\n{e}" + Style.RESET_ALL)
+
+    def run_as_admin(self, argv=None):
+        """
+        Restarts the current program with admin rights.
+        """
+        if os.name != 'nt':
+            return False  # Funkcja działa tylko na systemach Windows
+
+        if ctypes.windll.shell32.IsUserAnAdmin():
+            return True
+
+        if argv is None:
+            argv = sys.argv
+        if hasattr(sys, '_MEIPASS'):
+            # Support pyinstaller wrapped program.
+            arguments = argv[1:]
+        else:
+            arguments = argv
+        argument_line = ' '.join(arguments)
+        executable = sys.executable
+        ctypes.windll.shell32.ShellExecuteW(
+            None, "runas", executable, argument_line, None, 1)
+        sys.exit(0)
 
     def run(self):
         try:

@@ -9,6 +9,7 @@ import subprocess
 import ctypes
 from PyQt5.QtWidgets import QWidget
 from win10toast import ToastNotifier
+from packaging import version
 
 
 class Powiadomienia(QWidget):
@@ -52,8 +53,6 @@ class Powiadomienia(QWidget):
 
 def version_sprawdzanie():
     try:
-        from packaging import version
-
         # Szukanie folderu na pulpicie zawierającego plik main2.py
         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
         for root, dirs, files in os.walk(desktop_path):

@@ -9,6 +9,7 @@ import requests
 from main2 import Powiadomienia
 import threading
 
+
 def aktualnosc():
     try:
         try:

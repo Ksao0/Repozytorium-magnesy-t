@@ -721,7 +721,7 @@ class OknoAktualizacji(QWidget):
         układ = QGridLayout()
 
         etykieta_info = QLabel(
-            'Nigdy nie przerywaj aktualizacji! Zostaniesz poinformowany o jej zakończeniu.\nPamiętaj o dostępie do internetu!')
+            'Nigdy nie przerywaj aktualizacji! Zostaniesz poinformowany o jej zakończeniu.\nPamiętaj o dostępie do internetu!\nAktualizacji nie można cofnąć.')
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         self.pasek_postępu = QProgressBar()
@@ -1427,7 +1427,8 @@ class ZaawansowaneOkno(QWidget):
             'Całkowita wartość pakietów: ', self)
         układ.addWidget(etykieta_calkowita_wartosc_pakietow, 6, 0, 1, 2)
 
-        etykieta_info_trybZ = QLabel('Aby liczyć w trybie za magnes wejdź w opcje', self)
+        etykieta_info_trybZ = QLabel(
+            'Aby liczyć w trybie za magnes wejdź w opcje', self)
         układ.addWidget(etykieta_info_trybZ, 7, 0, 1, 2)
 
         button_klienci = QPushButton("Zarządzanie klientami", self)

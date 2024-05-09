@@ -171,7 +171,7 @@ QPushButton {
                     ctypes.windll.kernel32.GetConsoleWindow(), 1)
 
                 print(Fore.GREEN +
-                      '\nAktualizacja zakończona, możesz zamknąć instalator')
+                      '\nAktualizacja zakończona, możesz zamknąć instalator.\nWyłącz wszystkie otwarte okna programu do magnesów')
 
             else:
                 print(Fore.MAGENTA + "Ten wątek jest już aktywny. (aktualizacja)")

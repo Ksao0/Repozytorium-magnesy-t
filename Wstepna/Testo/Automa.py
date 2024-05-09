@@ -53,7 +53,7 @@ class Powiadomienia(QWidget):
 def version_sprawdzanie():
     try:
         from packaging import version
-        
+
         # Szukanie folderu na pulpicie zawierającego plik main2.py
         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
         for root, dirs, files in os.walk(desktop_path):
@@ -104,7 +104,6 @@ def version_sprawdzanie():
 
 def zainstaluj_biblioteki():
     try:
-        from main2 import Powiadomienia
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
             tytul_powiadomienia="Biblioteki?", tresc_powiadomienia=f"Ze względu na to, że możesz nie mieć wszystkich bibliotek wymaganych do działania programu proces aktualizacji potrwa trochę dłużej", duration=3)

@@ -53,6 +53,17 @@ class Powiadomienia(QWidget):
 def version_sprawdzanie():
     try:
         from packaging import version
+        
+        # Szukanie folderu na pulpicie zawierającego plik main2.py
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        for root, dirs, files in os.walk(desktop_path):
+            if "main2.py" in files and "rei" in dirs:
+                folder_path = root
+                break
+        else:
+            print("Nie znaleziono wymaganych plików/folderów na pulpicie.")
+            return
+
         # Pobierz zawartość pliku version.txt z repozytorium na GitHub
         try:
             url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/version.txt'
@@ -67,7 +78,7 @@ def version_sprawdzanie():
 
         version_online_lines = version_online.split('\n')
         # Odczytaj zawartość pliku version.txt w twoim programie
-        path = os.path.join(os.getcwd(), "version.txt")
+        path = os.path.join(folder_path, "version.txt")
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 version_local = f.read().strip()

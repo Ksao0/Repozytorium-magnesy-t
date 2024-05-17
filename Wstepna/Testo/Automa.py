@@ -11,6 +11,9 @@ from PyQt5.QtWidgets import QWidget
 from win10toast import ToastNotifier
 from packaging import version
 
+# Minimalizowanie cmd
+ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+
 
 class Powiadomienia(QWidget):
     # Przekierowanie błędów do "czarnej dziury"

@@ -1,0 +1,4 @@
+2.5.5
+Po uruchomieniu pobierane są teraz też aktualizacje opcjonalne
+  Aby to działało włącz aktualizację po uruchomieniu w:
+  Opcje>Inne>Aktualizacja po uruchomieniu

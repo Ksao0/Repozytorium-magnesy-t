@@ -17,7 +17,7 @@ import time
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 # Maksymalna szerokość okna
-MAX_WIDTH = 550  # Możesz dostosować wartość do swoich preferencji
+MAX_WIDTH = 550
 
 # Inicjalizacja Colorama
 colorama.init()

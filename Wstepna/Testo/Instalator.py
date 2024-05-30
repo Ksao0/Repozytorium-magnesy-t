@@ -34,30 +34,6 @@ global zakonczon_biblioteki
 zakonczon_biblioteki = False
 
 
-try:
-    # Zmień na właściwy adres URL pliku .ico
-    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/icon.ico"
-    save_folder = "rei"  # Nazwa folderu, gdzie chcesz zapisać plik .ico
-
-    # Utworzenie folderu "rei", jeśli nie istnieje
-    folder_path = "rei"
-
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
-    response = requests.get(url)
-    if response.status_code == 200:
-        icon_data = response.content
-        filename = os.path.basename(url)
-        save_path = os.path.join(save_folder, filename)
-
-        with open(save_path, 'wb') as icon_file:
-            icon_file.write(icon_data)
-
-except Exception as e:
-    print(e)
-
-
 class MainWindow(QMainWindow):
 
     def __init__(self):

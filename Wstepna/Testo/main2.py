@@ -235,7 +235,7 @@ class AutoStartManager:
                 bat_file.write("@echo off\n")
                 bat_file.write('start "" "{}"'.format(file_path))
 
-                print("Plik Automa.exe został dodany do autostartu.")
+                print("Plik Automa.py został dodany do autostartu.")
         except PermissionError as e:
             # Jeśli wystąpi błąd PermissionError, wyświetl okno dialogowe z prośbą o nadanie uprawnień administratora
             reply = QMessageBox.question(None, 'Uprawnienia administratora', "Program wymaga uprawnień administratora do dodania do autostartu. Czy chcesz uruchomić ponownie z uprawnieniami administratora?",
@@ -282,18 +282,18 @@ class AutoStartManager:
                 print(
                     "Znaleziono folder zawierający main2.py i folder rei:", main2_folder)
 
-                # Ścieżka do pobrania pliku Automa.exe
-                automa_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.exe"
-                automa_destination = os.path.join(main2_folder, "Automa.exe")
+                # Ścieżka do pobrania pliku Automa.py
+                automa_url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Automa.py"
+                automa_destination = os.path.join(main2_folder, "Automa.py")
 
-                # Pobierz plik Automa.exe
+                # Pobierz plik Automa.py
                 if self.download_file(automa_url, automa_destination):
-                    print("Pobrano plik Automa.exe.")
+                    print("Pobrano plik Automa.py.")
 
-                    # Dodaj plik Automa.exe do autostartu
+                    # Dodaj plik Automa.py do autostartu
                     self.add_to_startup(automa_destination)
                 else:
-                    print("Nie udało się pobrać pliku Automa.exe.")
+                    print("Nie udało się pobrać pliku Automa.py.")
             else:
                 print("Nie znaleziono folderu zawierającego main2.py i folder rei.")
         except Exception as e:

@@ -96,7 +96,6 @@ else:
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 try:
-    # Zmień na właściwy adres URL pliku .ico
     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py"
 
     response = requests.get(url)

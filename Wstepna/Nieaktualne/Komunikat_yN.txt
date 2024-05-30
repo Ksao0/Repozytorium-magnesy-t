@@ -1,8 +1,0 @@
-Jeszcze nieudostępniono...
-Na ten moment nie udostępniono jeszcze dokładniejszych informacji. Ta sekcja jest odświerzana po ponownym uruchomieniu,
-Na wszelki wypadek nie używaj przycisku "Więcej opcji"
-<<<<<<< HEAD
-NIE KASUJ ŻADNYCH PLIKÓW PROGRAMU
-=======
-NIE KASUJ PLIKÓW PROGRAMU
->>>>>>> e9b29f442be3fd857d7c55634fa2e0c2d8454538

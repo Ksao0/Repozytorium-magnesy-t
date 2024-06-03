@@ -35,19 +35,17 @@ zakonczon_biblioteki = False
 
 
 # URL do pliku PNG w repozytorium GitHub
-url = 'https://raw.githubusercontent.com/USERNAME/REPOSITORY/BRANCH/path/to/image.png'
+url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Tropic.png'
 
-# Pobranie pliku
-response = requests.get(url)
+# Nazwa pliku do zapisania
+filename = 'Tropic.png'
 
-# Sprawdzenie, czy pobranie było udane
-if response.status_code == 200:
-    # Zapisanie pliku
-    with open('image.png', 'wb') as file:
-        file.write(response.content)
-    print("Plik został pobrany i zapisany jako 'image.png'")
-else:
-    print(f"Nie udało się pobrać pliku. Status kod: {response.status_code}")
+try:
+    # Pobranie pliku
+    urllib.request.urlretrieve(url, filename)
+except Exception as e:
+    print(f"Nie udało się pobrać pliku: {
+          e}, instalator może nie mieć szaty graficznej")
 
 
 class MainWindow(QMainWindow):

@@ -44,8 +44,8 @@ try:
     # Pobranie pliku
     urllib.request.urlretrieve(url, filename)
 except Exception as e:
-    print(f"Nie udało się pobrać pliku: {
-          e}, instalator może nie mieć szaty graficznej")
+    print(f"Nie udało się pobrać pliku:
+          {e}, instalator może nie mieć szaty graficznej")
 
 
 class MainWindow(QMainWindow):

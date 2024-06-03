@@ -223,10 +223,10 @@ QPushButton {
                     text_label.setText(f'Jeszcze nie masz naszego programu')
                     text_label_N2.setText(
                         """
-Zainstaluj biblioteki, a następnie utwórz folder w którym będą:
-    - folder rei
-    - plik main.py (pamiętaj o odpowiednim rozszerzeniu pliku)
-Następnie przeprowadź aktualizację
+Zainstaluj biblioteki, a następnie utwórz folder, w którym będą:
+    - folder rei,
+    - plik main.py (pamiętaj o odpowiednim rozszerzeniu pliku).
+Następnie przeprowadź aktualizację.
 Ten folder nie musi znajdować się bozpośrednio na pulpicie,
 może być w innych folderach.
                             """)

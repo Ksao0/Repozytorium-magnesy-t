@@ -34,6 +34,22 @@ global zakonczon_biblioteki
 zakonczon_biblioteki = False
 
 
+# URL do pliku PNG w repozytorium GitHub
+url = 'https://raw.githubusercontent.com/USERNAME/REPOSITORY/BRANCH/path/to/image.png'
+
+# Pobranie pliku
+response = requests.get(url)
+
+# Sprawdzenie, czy pobranie było udane
+if response.status_code == 200:
+    # Zapisanie pliku
+    with open('image.png', 'wb') as file:
+        file.write(response.content)
+    print("Plik został pobrany i zapisany jako 'image.png'")
+else:
+    print(f"Nie udało się pobrać pliku. Status kod: {response.status_code}")
+
+
 class MainWindow(QMainWindow):
 
     def __init__(self):

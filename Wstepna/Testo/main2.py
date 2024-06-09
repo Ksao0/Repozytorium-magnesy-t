@@ -126,7 +126,8 @@ def wybierz_styl_z_pliku():
                 else:
                     try:
                         print('Nie znaleziono pliku arkusza stylu')
-                        url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+                        url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                            styl}.css"
 
                         # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
                         nazwa_pliku = f"styl_{styl}.css"
@@ -223,7 +224,8 @@ class AutoStartManager:
 
     def add_to_startup(self, file_path):
         uzytkownik = getpass.getuser()
-        bat_path = fr'C:\Users\{uzytkownik}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
+        bat_path = fr'C:\Users\{
+            uzytkownik}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
         bat_file_path = os.path.join(bat_path, "Magnesy-update.bat")
 
         try:
@@ -308,7 +310,8 @@ def ustawianie_stylu(styl):
     except:
         try:
             # Podaj URL pliku, który chcesz pobrać
-            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                styl}.css"
 
             # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
             nazwa_pliku = f"styl_{styl}.css"
@@ -426,10 +429,12 @@ def Inne():
 
     try:
         def Inne1p():
-            try:  # Tego pliku nie ma w repozytorium
-                subprocess.run(['python', 'Inne.py'])
-            except:
-                pass
+            path = os.path.join(os.getcwd(), "Inne.py")
+            if os.path.exists(path):
+                try:  # Tego pliku nie ma w repozytorium
+                    subprocess.run(['python', 'Inne.py'])
+                except:
+                    pass
 
         # Tworzenie nowego wątku, który wywołuje funkcję open_file()
         thread = threading.Thread(target=Inne1p)
@@ -890,7 +895,8 @@ class OknoUstawien(QWidget):
 
         button_zapisz1 = QPushButton('Ustaw domyślne ceny', zakladka)
         button_zapisz1.clicked.connect(lambda: self.zmien_ceny(None, None, None, None, etykieta_cena_tektura,
-                                                               etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))  # Połącz przycisk z funkcją
+                                                               # Połącz przycisk z funkcją
+                                                               etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
         układ.addWidget(button_zapisz1, 5, 0, 1, 1)
 
         button_zapisz2 = QPushButton('Zapisz zmiany', zakladka)
@@ -1027,10 +1033,12 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
                 tytul_powiadomienia=f"Ustawiono!", tresc_powiadomienia=f'Zaktualizowowaliśmy lub ustawiliśmy to ustawienie dla użytkownika {getpass.getuser()}!\nInstrukcje dotyczące usuwania tego ustawienia są w dzienniku działań', duration=3)
 
             # Ścieżka do katalogu Startup
-            sciezka_do_kasowania = rf'{Fore.LIGHTYELLOW_EX}C:\Users\{Fore.CYAN}TWOJA_NAZWA_UŻYTKOWNIKA{Fore.LIGHTYELLOW_EX}\AppData\Roaming\Microsoft\Windows\Start     Menu\Programs\Startup{Style.RESET_ALL}'
+            sciezka_do_kasowania = rf'{Fore.LIGHTYELLOW_EX}C:\Users\{Fore.CYAN}TWOJA_NAZWA_UŻYTKOWNIKA{
+                Fore.LIGHTYELLOW_EX}\AppData\Roaming\Microsoft\Windows\Start     Menu\Programs\Startup{Style.RESET_ALL}'
 
             # Kolorowe instrukcje
-            print(f"{Fore.LIGHTBLACK_EX}Aby wyłączyć - usuń plik {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z tej ścieżki:\n{sciezka_do_kasowania}{Fore.LIGHTBLACK_EX}\nPamiętaj o uzupełnieniu nazwy użytkownika ({Fore.BLUE}{getpass.getuser()}{Style.RESET_ALL}{Fore.LIGHTBLACK_EX})\nEwentualnie usuń {Fore.LIGHTYELLOW_EX} startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z autostartu w menedżerze zadań\n")
+            print(f"{Fore.LIGHTBLACK_EX}Aby wyłączyć - usuń plik {Fore.LIGHTYELLOW_EX}startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z tej ścieżki:\n{sciezka_do_kasowania}{Fore.LIGHTBLACK_EX}\nPamiętaj o uzupełnieniu nazwy użytkownika ({
+                  Fore.BLUE}{getpass.getuser()}{Style.RESET_ALL}{Fore.LIGHTBLACK_EX})\nEwentualnie usuń {Fore.LIGHTYELLOW_EX} startup.py{Style.RESET_ALL}{Fore.LIGHTBLACK_EX} z autostartu w menedżerze zadań\n")
         else:
             messagebox.showinfo('Autostart', "Anulowano")
 
@@ -1134,7 +1142,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
                     styl_teraz = plik.read().strip()
             except:
                 try:
-                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                        styl}.css"
 
                     # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
                     nazwa_pliku = f"styl_{styl}.css"
@@ -1161,7 +1170,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             styl_teraz = "Brak stylu"
 
         if styl_teraz == "Brak stylu":
-            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                styl}.css"
 
             # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
             nazwa_pliku = f"styl_{styl}.css"
@@ -1414,7 +1424,8 @@ class ZaawansowaneOkno(QWidget):
         button_oblicz = QPushButton('Oblicz', self)
         układ.addWidget(button_oblicz, 3, 0, 1, 2)
         button_oblicz.clicked.connect(lambda: self.oblicz_i_zapisz(
-            pole_ilosc, pole_cena, text_edit_historia, etykieta_zarobisz, etykieta_wydasz, etykieta_calkowita_wartosc_pakietow))  # Połącz przycisk z funkcją
+            # Połącz przycisk z funkcją
+            pole_ilosc, pole_cena, text_edit_historia, etykieta_zarobisz, etykieta_wydasz, etykieta_calkowita_wartosc_pakietow))
 
         etykieta_zarobisz = QLabel('Zarobisz: ', self)
         układ.addWidget(etykieta_zarobisz, 4, 0, 1, 2)
@@ -1538,7 +1549,8 @@ class ZaawansowaneOkno(QWidget):
         koszty = tektura + nadruk + foliamg + woreczkipp
         bilans = razem - koszty
 
-        wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+        wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {
+            cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
         aktualna_zawartosc = text_edit_historia.toPlainText()
 
         aktualna_zawartosc = aktualna_zawartosc.replace(

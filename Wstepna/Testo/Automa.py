@@ -50,7 +50,7 @@ class Powiadomienia(QWidget):
             except Exception as e:
                 # Przechwytywanie błędów, ale nie wyświetlanie ich
                 pass
-        #ctypes.windll.user32.ShowWindow(
+        # ctypes.windll.user32.ShowWindow(
         #    ctypes.windll.kernel32.GetConsoleWindow(), 1)
 
 
@@ -96,7 +96,7 @@ def version_sprawdzanie():
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
                 tytul_powiadomienia="Nowa wersja!", tresc_powiadomienia=f"Pobieranie aktualizacji:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZaczynamy instalowanie!", duration=3)
-            #ctypes.windll.user32.ShowWindow(
+            # ctypes.windll.user32.ShowWindow(
             #    ctypes.windll.kernel32.GetConsoleWindow(), 1)
             zainstaluj_biblioteki()
     except Exception as e:
@@ -263,7 +263,7 @@ try:
             break
     else:
         print("Nie znaleziono wymaganych plików/folderów na pulpicie.")
-        sys.exit(1)
+        sys.exit()
 
     # Sprawdzenie połączenia internetowego
     try:

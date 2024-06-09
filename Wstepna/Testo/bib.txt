@@ -129,6 +129,7 @@ werkzeug
 wheel
 whichcraft
 win10toast
+windows10toast
 wrapt
 xmltodict
 yarl

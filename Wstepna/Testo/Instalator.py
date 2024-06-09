@@ -12,6 +12,7 @@ import urllib.request
 import subprocess
 import threading
 import time
+import random
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -34,17 +35,28 @@ global zakonczon_biblioteki
 zakonczon_biblioteki = False
 
 
-# URL do pliku PNG w repozytorium GitHub
-url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Tropic.png'
+def obraz():
+    # URL do pliku PNG w repozytorium GitHub
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Tropic.png'
 
-# Nazwa pliku do zapisania
-filename = 'Tropic.png'
+    # Nazwa pliku do zapisania
+    filename = 'Tropic.png'
 
-try:
-    # Pobranie pliku
-    urllib.request.urlretrieve(url, filename)
-except Exception as e:
-    print(f"Nie udało się pobrać pliku, instalator może nie mieć szaty graficznej")
+    try:
+        # Pobranie pliku
+        urllib.request.urlretrieve(url, filename)
+    except Exception as e:
+        print(f"Nie udało się pobrać pliku, instalator może nie mieć szaty graficznej")
+
+
+path = os.path.join(os.getcwd(), "Tropic.png")
+if not os.path.exists(path):
+    obraz()
+else:
+    szansa = random.randint(0, 30)
+
+    if szansa < 3:
+        obraz()
 
 
 class MainWindow(QMainWindow):

@@ -15,7 +15,6 @@ from packaging import version
 # Wygeneruj losową liczbę od 0 do 100
 uruchom = random.randint(0, 100)
 
-# Sprawdź, czy wygenerowana liczba jest mniejsza niż 5 (czyli 5% szans)
 if uruchom < 65:
     exit()
 

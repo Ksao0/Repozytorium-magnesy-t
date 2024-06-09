@@ -11,6 +11,14 @@ from PyQt5.QtWidgets import QWidget
 from win10toast import ToastNotifier
 from packaging import version
 
+
+# Wygeneruj losową liczbę od 0 do 100
+uruchom = random.randint(0, 100)
+
+# Sprawdź, czy wygenerowana liczba jest mniejsza niż 5 (czyli 5% szans)
+if uruchom < 65:
+    exit()
+
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 

@@ -13,8 +13,6 @@ import subprocess
 import threading
 import time
 import random
-import psutil
-import speedtest
 
 # Ustawienie maksymalnej liczby wątków
 MAX_THREADS_BIBLIOTEKI = 10
@@ -457,32 +455,6 @@ może być w innych folderach.
         button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
             target=zainstaluj_biblioteki1).start())
 
-
-def monitor_system():
-    while True:
-        # Monitoruj obciążenie procesora
-        cpu_load = psutil.cpu_percent()
-
-        st = speedtest.Speedtest()
-        # Przeliczenie na megabity na sekundę
-        download_speed = st.download() / 1024 / 1024
-        # Jeśli obciążenie procesora przekracza 80% lub szybkość pobierania jest poniżej 5 Mbps
-        if cpu_load > 80 or download_speed < 5:
-            if sema._value > 0:  # Sprawdzenie, czy semafor jest większy od zera
-                sema.release()  # Zmniejsz
-            if sema2._value > 0:  # Sprawdzenie, czy semafor jest większy od zera
-                sema2.release()
-        else:
-            sema.acquire()  # Zwiększ
-            sema2.acquire()
-
-        time.sleep(5)
-
-
-system_monitor_thread = threading.Thread(target=monitor_system)
-# Ustawienie wątku jako demon, aby zakończył się wraz z głównym programem
-system_monitor_thread.daemon = True
-system_monitor_thread.start()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

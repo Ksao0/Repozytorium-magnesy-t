@@ -135,4 +135,3 @@ xmltodict
 yarl
 zope.event
 zope.interface
-speedtest

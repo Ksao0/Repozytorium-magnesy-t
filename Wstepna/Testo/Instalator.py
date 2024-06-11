@@ -476,14 +476,14 @@ def monitor_cpu_usage():
         # Reakcja na zmianę zużycia CPU
         if cpu_percent < 50.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
             if MAX_THREADS_biblioteki != initial_max_threads:
-                # Zwiększ maksymalną ilość wątków, ale nie więcej niż początkowa wartość
+                # Zwiększ maksymalną ilość wątków, ale nie więcej niż początkowa wartość + x
                 MAX_THREADS_biblioteki = min(
-                    MAX_THREADS_biblioteki + 1, initial_max_threads)
+                    MAX_THREADS_biblioteki + 1, initial_max_threads + 5)
 
                 print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zw): {
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
 
-        elif cpu_percent > 80.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
+        elif cpu_percent > 85.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
             if MAX_THREADS_biblioteki != 1:
                 # Zmniejsz maksymalną ilość wątków, ale nie mniej niż 1
                 MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 1)

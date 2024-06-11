@@ -181,12 +181,14 @@ QPushButton {
                 zakonczon_biblioteki = False
 
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=aktualizacja, name="Aktualizowanie")
+                thread = threading.Thread(
+                    target=aktualizacja, name="Aktualizowanie")
                 # Uruchamianie wątku
                 thread.start()
 
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek")
+                thread = threading.Thread(
+                    target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek")
                 # Uruchamianie wątku
                 thread.start()
 
@@ -208,7 +210,8 @@ QPushButton {
             if teraz_bib == 0:
                 teraz_bib = 1
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=zainstaluj_biblioteki, name="Pobieranie bibliotek")
+                thread = threading.Thread(
+                    target=zainstaluj_biblioteki, name="Pobieranie bibliotek")
 
                 # Uruchamianie wątku
                 thread.start()

@@ -22,7 +22,6 @@ import sys
 import threading
 import shutil
 from win10toast import ToastNotifier
-
 from packaging import version
 import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
 from colorama import Fore, Style

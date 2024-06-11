@@ -306,7 +306,7 @@ może być w innych folderach.
 
             global teraz_bib
             teraz_bib = 0
-            time.sleep(5)
+            time.sleep(1)
             ctypes.windll.user32.ShowWindow(
                 ctypes.windll.kernel32.GetConsoleWindow(), 0)
             global zakonczon_biblioteki

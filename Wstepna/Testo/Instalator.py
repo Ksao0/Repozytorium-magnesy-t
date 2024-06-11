@@ -181,12 +181,12 @@ QPushButton {
                 zakonczon_biblioteki = False
 
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=aktualizacja)
+                thread = threading.Thread(target=aktualizacja, name="Aktualizowanie")
                 # Uruchamianie wątku
                 thread.start()
 
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=zainstaluj_biblioteki1)
+                thread = threading.Thread(target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek")
                 # Uruchamianie wątku
                 thread.start()
 
@@ -208,7 +208,7 @@ QPushButton {
             if teraz_bib == 0:
                 teraz_bib = 1
                 # Tworzenie nowego wątku, który wywołuje funkcję open_file()
-                thread = threading.Thread(target=zainstaluj_biblioteki)
+                thread = threading.Thread(target=zainstaluj_biblioteki, name="Pobieranie bibliotek")
 
                 # Uruchamianie wątku
                 thread.start()
@@ -294,7 +294,7 @@ może być w innych folderach.
                 threads = []
                 for lib in libraries_to_install:
                     thread = threading.Thread(
-                        target=install_library, args=(lib,))
+                        target=install_library, args=(lib,), name=f"Pobieranie {lib}")
                     thread.start()
                     threads.append(thread)
 
@@ -352,7 +352,7 @@ może być w innych folderach.
 
                         # Tworzenie i uruchamianie wątku dla każdego pliku
                         thread = threading.Thread(
-                            target=self.process_file, args=(url, file_name))
+                            target=self.process_file, args=(url, file_name), name="Pobieranie plików z kodem")
                         thread.start()
                         threads.append(thread)
 
@@ -446,9 +446,9 @@ może być w innych folderach.
 
         # Przypisanie akcji do przycisków
         button_aktualizuj.clicked.connect(
-            lambda: threading.Thread(target=aktualizacja1).start())
+            lambda: threading.Thread(target=aktualizacja1, name="Koordynowanie aktualizacji").start())
         button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
-            target=zainstaluj_biblioteki1).start())
+            target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
 
 # Ustawienie maksymalnej liczby wątków
@@ -495,7 +495,7 @@ def monitor_cpu_usage():
 
 
 # Uruchom wątek monitorowania zużycia CPU
-thread_CPU = threading.Thread(target=monitor_cpu_usage)
+thread_CPU = threading.Thread(target=monitor_cpu_usage, name="monitor_cpu")
 thread_CPU.daemon = True  # Wątek działać będzie w tle
 thread_CPU.start()
 

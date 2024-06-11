@@ -477,15 +477,15 @@ def monitor_cpu_usage():
                 MAX_THREADS_biblioteki = min(
                     MAX_THREADS_biblioteki + 1, initial_max_threads)
 
-                print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {
-                      MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}")
+                print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zw): {
+                      MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
 
         elif cpu_percent > 80.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
             if MAX_THREADS_biblioteki != 1:
                 # Zmniejsz maksymalną ilość wątków, ale nie mniej niż 1
                 MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 1)
 
-                print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {
+                print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zm): {
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
         else:
             continue
@@ -495,9 +495,9 @@ def monitor_cpu_usage():
 
 
 # Uruchom wątek monitorowania zużycia CPU
-thread = threading.Thread(target=monitor_cpu_usage)
-thread.daemon = True  # Wątek działać będzie w tle
-thread.start()
+thread_CPU = threading.Thread(target=monitor_cpu_usage)
+thread_CPU.daemon = True  # Wątek działać będzie w tle
+thread_CPU.start()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

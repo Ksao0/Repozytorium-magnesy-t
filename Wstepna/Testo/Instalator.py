@@ -13,13 +13,8 @@ import subprocess
 import threading
 import time
 import random
+import psutil
 
-# Ustawienie maksymalnej liczby wątków
-MAX_THREADS_BIBLIOTEKI = 10
-MAX_THREADS_AKTUALIZACJA = 6
-
-sema = threading.Semaphore(MAX_THREADS_BIBLIOTEKI)
-sema2 = threading.Semaphore(MAX_THREADS_AKTUALIZACJA)
 
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
@@ -455,6 +450,54 @@ może być w innych folderach.
         button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
             target=zainstaluj_biblioteki1).start())
 
+
+# Ustawienie maksymalnej liczby wątków
+MAX_THREADS_biblioteki = 10
+MAX_THREADS_aktualizacja = 6
+
+sema = threading.Semaphore(MAX_THREADS_biblioteki)
+sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
+print(Fore.YELLOW +
+      f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}")
+
+
+def monitor_cpu_usage():
+    global MAX_THREADS_biblioteki  # Dodaj deklarację zmiennej globalnej
+    # Początkowa maksymalna liczba wątków
+    initial_max_threads = MAX_THREADS_biblioteki
+
+    while True:
+        # Pobierz procentowe zużycie CPU
+        cpu_percent = psutil.cpu_percent()
+
+        # Reakcja na zmianę zużycia CPU
+        if cpu_percent < 50.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
+            if MAX_THREADS_biblioteki != initial_max_threads:
+                # Zwiększ maksymalną ilość wątków, ale nie więcej niż początkowa wartość
+                MAX_THREADS_biblioteki = min(
+                    MAX_THREADS_biblioteki + 1, initial_max_threads)
+
+                print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {
+                      MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}")
+
+        elif cpu_percent > 80.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
+            if MAX_THREADS_biblioteki != 1:
+                # Zmniejsz maksymalną ilość wątków, ale nie mniej niż 1
+                MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 1)
+
+                print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {
+                      MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
+        else:
+            continue
+
+        # Oczekiwanie przed ponownym sprawdzeniem
+        time.sleep(3)
+
+
+# Uruchom wątek monitorowania zużycia CPU
+thread = threading.Thread(target=monitor_cpu_usage)
+thread.daemon = True  # Wątek działać będzie w tle
+thread.start()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

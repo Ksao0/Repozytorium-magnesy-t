@@ -460,14 +460,16 @@ MAX_THREADS_aktualizacja = 6
 
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
-print(Fore.YELLOW +
-      f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}\nTa wartość będzie się zmieniać na bieżąco na podstawie użycia CPU")
 
 
 def monitor_cpu_usage():
     global MAX_THREADS_biblioteki  # Dodaj deklarację zmiennej globalnej
     # Początkowa maksymalna liczba wątków
     initial_max_threads = MAX_THREADS_biblioteki
+    x = 5
+
+    print(Fore.WHITE +
+          f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}\nTa wartość będzie się zmieniać na bieżąco na podstawie użycia CPU. ")
 
     while True:
         # Pobierz procentowe zużycie CPU
@@ -475,10 +477,10 @@ def monitor_cpu_usage():
 
         # Reakcja na zmianę zużycia CPU
         if cpu_percent < 50.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-            if MAX_THREADS_biblioteki != initial_max_threads:
+            if MAX_THREADS_biblioteki != initial_max_threads + x:
                 # Zwiększ maksymalną ilość wątków, ale nie więcej niż początkowa wartość + x
                 MAX_THREADS_biblioteki = min(
-                    MAX_THREADS_biblioteki + 1, initial_max_threads + 5)
+                    MAX_THREADS_biblioteki + 1, initial_max_threads + x)
 
                 print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zw): {
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")

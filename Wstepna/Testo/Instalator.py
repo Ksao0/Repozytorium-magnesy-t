@@ -461,7 +461,7 @@ MAX_THREADS_aktualizacja = 6
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
 print(Fore.YELLOW +
-      f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}")
+      f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}\nTa wartość będzie się zmieniać na bieżąco na podstawie użycia CPU")
 
 
 def monitor_cpu_usage():

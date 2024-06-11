@@ -14,6 +14,13 @@ import threading
 import time
 import random
 
+# Ustawienie maksymalnej liczby wątków
+MAX_THREADS_BIBLIOTEKI = 10
+MAX_THREADS_AKTUALIZACJA = 6
+
+sema = threading.Semaphore(MAX_THREADS_BIBLIOTEKI)
+sema2 = threading.Semaphore(MAX_THREADS_AKTUALIZACJA)
+
 # Minimalizowanie cmd
 ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
@@ -160,11 +167,11 @@ QPushButton {
         text_label_N2.setGeometry(130, 130, 340, 215)
 
         # Dodajemy przyciski
-        button1 = QPushButton("Aktualizuj", self)
-        button1.setGeometry(10, height - 40, 100, 30)
+        button_aktualizuj = QPushButton("Aktualizuj", self)
+        button_aktualizuj.setGeometry(10, height - 40, 100, 30)
 
-        button2 = QPushButton("Zainstaluj biblioteki", self)
-        button2.setGeometry(120, height - 40, 125, 30)
+        button_tylko_biblioteki = QPushButton("Zainstaluj biblioteki", self)
+        button_tylko_biblioteki.setGeometry(120, height - 40, 125, 30)
 
         def aktualizacja1():
             global teraz
@@ -276,16 +283,17 @@ może być w innych folderach.
 
                 # Funkcja instalująca pojedynczą bibliotekę
                 def install_library(lib):
-                    if lib not in installed_packages:
-                        print(Fore.LIGHTBLACK_EX +
-                              f"Instalowanie biblioteki: {lib}, czekaj...")
-                        subprocess.run(["pip", "install", lib],
-                                       capture_output=True, text=True)
-                        print(Fore.BLUE + "Biblioteka", lib,
-                              "została pomyślnie zainstalowana.")
-                    else:
-                        print(Fore.CYAN +
-                              f"Biblioteka {lib} jest już zainstalowana.")
+                    with sema:  # Ograniczenie ilości wątków do wartości na początku pliku
+                        if lib not in installed_packages:
+                            print(Fore.LIGHTBLACK_EX +
+                                  f"Instalowanie biblioteki: {lib}, czekaj...")
+                            subprocess.run(["pip", "install", lib],
+                                           capture_output=True, text=True)
+                            print(Fore.BLUE + "Biblioteka", lib,
+                                  "została pomyślnie zainstalowana.")
+                        else:
+                            print(Fore.CYAN +
+                                  f"Biblioteka {lib} jest już zainstalowana.")
 
                 # Tworzenie wątków dla instalacji bibliotek
                 threads = []
@@ -358,18 +366,19 @@ może być w innych folderach.
                         thread.join()
 
                 def process_file(self, url, file_name):
-                    if not os.path.exists(file_name):
-                        print(
-                            Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
-                        self.download_file(url, file_name)
-                    else:
-                        if not self.compare_files(url, file_name):
-                            print(Fore.LIGHTBLACK_EX +
-                                  f"Plik {file_name} jest nieaktualny.")
+                    with sema2:
+                        if not os.path.exists(file_name):
+                            print(
+                                Fore.MAGENTA + f"Plik {file_name} nie istnieje na komputerze. Traktuję jako nieaktualny.")
                             self.download_file(url, file_name)
                         else:
-                            print(Fore.CYAN +
-                                  f"Plik {file_name} jest aktualny.")
+                            if not self.compare_files(url, file_name):
+                                print(Fore.LIGHTBLACK_EX +
+                                      f"Plik {file_name} jest nieaktualny.")
+                                self.download_file(url, file_name)
+                            else:
+                                print(Fore.CYAN +
+                                      f"Plik {file_name} jest aktualny.")
 
                 def compare_files(self, url, local_file_path):
                     response = self.get_remote_file_content(url)
@@ -441,9 +450,9 @@ może być w innych folderach.
             zakonczono_pliki = True
 
         # Przypisanie akcji do przycisków
-        button1.clicked.connect(
+        button_aktualizuj.clicked.connect(
             lambda: threading.Thread(target=aktualizacja1).start())
-        button2.clicked.connect(lambda: threading.Thread(
+        button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
             target=zainstaluj_biblioteki1).start())
 
 

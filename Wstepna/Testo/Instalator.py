@@ -454,7 +454,6 @@ może być w innych folderach.
             target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
 
-
 MAX_THREADS_biblioteki = 4
 MAX_THREADS_aktualizacja = 2
 
@@ -486,9 +485,9 @@ def monitor_cpu_usage():
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
 
         elif cpu_percent > 85.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-            if MAX_THREADS_biblioteki != 1:
+            if MAX_THREADS_biblioteki != 2:
                 # Zmniejsz maksymalną ilość wątków, ale nie mniej niż 1
-                MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 1)
+                MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
 
                 print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zm): {
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")

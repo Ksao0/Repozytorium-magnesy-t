@@ -454,9 +454,9 @@ może być w innych folderach.
             target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
 
-# Ustawienie maksymalnej liczby wątków
-MAX_THREADS_biblioteki = 10
-MAX_THREADS_aktualizacja = 6
+
+MAX_THREADS_biblioteki = 4
+MAX_THREADS_aktualizacja = 2
 
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)

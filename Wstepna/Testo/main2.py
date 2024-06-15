@@ -799,6 +799,8 @@ class OknoAktualizacji(QWidget):
                               "Połącz się z internetem" + Style.RESET_ALL)
                         messagebox.showinfo(
                             'Aktualizacja', 'Aby przejść do instalatora musisz go najpierw posiadać. Spróbuj ponownie za chwilę\nPołącz się z internetem')
+                        global instalator_sesja
+                        instalator_sesja = 1
 
             # Tworzenie nowego wątku, który wywołuje funkcję open_file()
             thread = threading.Thread(target=otworz)

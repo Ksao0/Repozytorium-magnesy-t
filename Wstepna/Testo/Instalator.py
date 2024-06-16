@@ -518,13 +518,13 @@ def monitor_cpu_usage():
 
     # Początkowa maksymalna liczba wątków
     if tryb == "Procesory logiczne":
-        MAX_THREADS_biblioteki = logical_cores
+        MAX_THREADS_biblioteki = min(1, logical_cores)
         initial_max_threads = logical_cores
     elif tryb == "Rdzenie":
-        MAX_THREADS_biblioteki = physical_cores
+        MAX_THREADS_biblioteki = min(1, physical_cores)
         initial_max_threads = physical_cores
     elif tryb == "1":
-        MAX_THREADS_biblioteki = 1
+        MAX_THREADS_biblioteki = min(1, 1)
         initial_max_threads = 1
     elif tryb == "2":
         MAX_THREADS_biblioteki = 2

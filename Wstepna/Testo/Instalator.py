@@ -285,6 +285,17 @@ może być w innych folderach.
                         if lib not in installed_packages:
                             print(Fore.LIGHTBLACK_EX +
                                   f"Instalowanie biblioteki: {lib}, czekaj...")
+                            
+                            # Monitorowanie użycia CPU podczas instalacji
+                            while True:
+                                # Pobierz aktualne zużycie CPU
+                                cpu_percent = psutil.cpu_percent(interval=1)
+                                if cpu_percent > 85.0:
+                                    print(Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę.")
+                                    time.sleep(2)  # Zatrzymanie wątku na 2 sekundy
+                                else:
+                                    break
+
                             subprocess.run(["pip", "install", lib],
                                            capture_output=True, text=True)
                             print(Fore.BLUE + "Biblioteka", lib,
@@ -464,6 +475,8 @@ MAX_THREADS_aktualizacja = min(6, logical_cores)
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
 
+# Minimalna ilość wątków
+min_threads = logical_cores // 2
 
 def monitor_cpu_usage():
     global MAX_THREADS_biblioteki  # Dodaj deklarację zmiennej globalnej
@@ -489,8 +502,7 @@ def monitor_cpu_usage():
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
 
         elif cpu_percent > 85.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-            if MAX_THREADS_biblioteki != 2:
-                # Zmniejsz maksymalną ilość wątków, ale nie mniej niż 1
+            if MAX_THREADS_biblioteki != min_threads:
                 MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
 
                 print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zm): {

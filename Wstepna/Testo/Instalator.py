@@ -1,7 +1,7 @@
 import sys
 import os
 import requests
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QComboBox
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from packaging import version
@@ -166,7 +166,16 @@ QPushButton {
         button_aktualizuj.setGeometry(10, height - 40, 100, 30)
 
         button_tylko_biblioteki = QPushButton("Zainstaluj biblioteki", self)
-        button_tylko_biblioteki.setGeometry(120, height - 40, 125, 30)
+        button_tylko_biblioteki.setGeometry(120, height - 40, 115, 30)
+
+        # Lista rozwijana do wyboru trybu
+        self.combo_box = QComboBox(self)
+        self.combo_box.setGeometry(245, height - 40, 145, 30)
+        self.combo_box.addItems(
+            ["Automatyczny", "Rdzenie", "Procesory logiczne", "1", "2"])
+
+        # Obsługa wyboru trybu
+        self.combo_box.currentIndexChanged.connect(self.wybierz_tryb)
 
         def aktualizacja1():
             global teraz
@@ -219,6 +228,7 @@ QPushButton {
                 print(Fore.MAGENTA + "Ten wątek jest już aktywny. (biblioteki)")
 
         # Funkcja do sprawdzania wersji
+
         def wersja():
             try:
                 # Pobierz zawartość pliku version.txt z repozytorium na GitHub
@@ -477,6 +487,12 @@ może być w innych folderach.
         button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
             target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
+    def wybierz_tryb(self):
+        wybrany_tryb = self.combo_box.currentText()
+        global tryb
+        tryb = wybrany_tryb
+        print(Fore.LIGHTBLACK_EX + f"Wybrano tryb: {wybrany_tryb}")
+
 
 # Pobierz ilość rdzeni fizycznych i logicznych
 physical_cores = psutil.cpu_count(logical=False)
@@ -497,14 +513,43 @@ print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni: {physical_cores}\n" +
 
 def monitor_cpu_usage():
     global MAX_THREADS_biblioteki
-    # Początkowa maksymalna liczba wątków
-    initial_max_threads = physical_cores + int(logical_cores / 2)
+    global tryb
+    tryb = "Automatyczny"
+
+    if tryb == "Procesory logiczne":
+        # Początkowa maksymalna liczba wątków
+        initial_max_threads = logical_cores
+    elif tryb == "Rdzenie":
+        # Początkowa maksymalna liczba wątków
+        initial_max_threads = physical_cores
+    elif tryb == "1":
+        initial_max_threads = 1
+    elif tryb == "2":
+        initial_max_threads = 2
+    else:
+        # Początkowa maksymalna liczba wątków
+        initial_max_threads = physical_cores + int(logical_cores / 2)
+
     print(initial_max_threads)
 
     print(Fore.WHITE +
           f"Maksymalna ilość wątków dla twojego komputera wynosi {initial_max_threads}.\nbędziemy zmieniać ilość wątków w oparciu o tą wartość")
 
     while True:
+        if tryb == "Procesory logiczne":
+            # Początkowa maksymalna liczba wątków
+            initial_max_threads = logical_cores
+        elif tryb == "Rdzenie":
+            # Początkowa maksymalna liczba wątków
+            initial_max_threads = physical_cores
+        elif tryb == "1":
+            initial_max_threads = 1
+        elif tryb == "2":
+            initial_max_threads = 2
+        else:
+            # Początkowa maksymalna liczba wątków
+            initial_max_threads = physical_cores + int(logical_cores / 2)
+
         # Pobierz procentowe zużycie CPU
         cpu_percent = psutil.cpu_percent()
 

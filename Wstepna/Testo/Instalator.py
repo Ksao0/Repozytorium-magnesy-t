@@ -291,10 +291,12 @@ może być w innych folderach.
                                 # Pobierz aktualne zużycie CPU
                                 cpu_percent = psutil.cpu_percent(interval=1)
                                 if cpu_percent > 85.0:
+                                    czas_zatrzymania_watku = random.randint(
+                                        0, 5)
+                                    czas_zatrzymania_watku = czas_zatrzymania_watku + \
+                                        int(cpu_percent/10)
                                     print(
-                                        Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę.")
-                                    # Zatrzymanie wątku na 2 sekundy
-                                    time.sleep(3)
+                                        Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę ({czas_zatrzymania_watku} s).")
                                 else:
                                     break
 
@@ -410,9 +412,12 @@ może być w innych folderach.
                         # Pobierz aktualne zużycie CPU
                         cpu_percent = psutil.cpu_percent(interval=1)
                         if cpu_percent > 85.0:
+                            czas_zatrzymania_watku = random.randint(
+                                0, 5)
+                            czas_zatrzymania_watku = czas_zatrzymania_watku + \
+                                int(cpu_percent/10)
                             print(
-                                Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę.")
-                            time.sleep(2)  # Zatrzymanie wątku na 2 sekundy
+                                Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę ({czas_zatrzymania_watku} s).")
                         else:
                             break
                     response = self.get_remote_file_content(url)

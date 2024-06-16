@@ -483,24 +483,26 @@ physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
 
 # Wybór ilości wątków na podstawie rdzeni (max, ilość rdzeni)
-MAX_THREADS_biblioteki = min(12, logical_cores)
-MAX_THREADS_aktualizacja = min(6, logical_cores)
+MAX_THREADS_biblioteki = min(12, physical_cores)
+MAX_THREADS_aktualizacja = min(6, physical_cores)
 
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
 
 # Minimalna ilość wątków
-min_threads = logical_cores // 2
+minimalna_watkow = logical_cores // 2
+print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni: {physical_cores}\n" +
+      Fore.LIGHTBLACK_EX + f"Ilość procesorów logicznych: {logical_cores}")
 
 
 def monitor_cpu_usage():
-    global MAX_THREADS_biblioteki  # Dodaj deklarację zmiennej globalnej
+    global MAX_THREADS_biblioteki
     # Początkowa maksymalna liczba wątków
-    initial_max_threads = MAX_THREADS_biblioteki
-    x = 5
+    initial_max_threads = physical_cores + int(logical_cores / 2)
+    print(initial_max_threads)
 
     print(Fore.WHITE +
-          f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}\nTa wartość będzie się zmieniać na bieżąco na podstawie użycia CPU. ")
+          f"Maksymalna ilość wątków dla twojego komputera wynosi {initial_max_threads}.\nbędziemy zmieniać ilość wątków w oparciu o tą wartość")
 
     while True:
         # Pobierz procentowe zużycie CPU
@@ -508,16 +510,20 @@ def monitor_cpu_usage():
 
         # Reakcja na zmianę zużycia CPU
         if cpu_percent < 50.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-            if MAX_THREADS_biblioteki != initial_max_threads + x:
-                # Zwiększ maksymalną ilość wątków, ale nie więcej niż początkowa wartość + x
+            if MAX_THREADS_biblioteki != initial_max_threads:
+                # Zwiększ maksymalną ilość wątków, ale nie więcej niż initial_max_threads
                 MAX_THREADS_biblioteki = min(
-                    MAX_THREADS_biblioteki + 1, initial_max_threads + x)
+                    MAX_THREADS_biblioteki + 1, initial_max_threads)
 
                 print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zw): {
                       MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
-
         elif cpu_percent > 85.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-            if MAX_THREADS_biblioteki != min_threads:
+            if MAX_THREADS_biblioteki != minimalna_watkow:
+                if MAX_THREADS_biblioteki > minimalna_watkow:
+                    MAX_THREADS_biblioteki = minimalna_watkow - 1
+                    if MAX_THREADS_biblioteki <= 1:
+                        MAX_THREADS_biblioteki = 2
+
                 MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
 
                 print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zm): {

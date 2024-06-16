@@ -307,6 +307,7 @@ może być w innych folderach.
                                         int(cpu_percent/10)
                                     print(
                                         Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę ({czas_zatrzymania_watku} s).")
+                                    time.sleep(czas_zatrzymania_watku)
                                 else:
                                     break
 

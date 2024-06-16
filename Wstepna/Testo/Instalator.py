@@ -285,14 +285,16 @@ może być w innych folderach.
                         if lib not in installed_packages:
                             print(Fore.LIGHTBLACK_EX +
                                   f"Instalowanie biblioteki: {lib}, czekaj...")
-                            
+
                             # Monitorowanie użycia CPU podczas instalacji
                             while True:
                                 # Pobierz aktualne zużycie CPU
                                 cpu_percent = psutil.cpu_percent(interval=1)
                                 if cpu_percent > 85.0:
-                                    print(Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę.")
-                                    time.sleep(2)  # Zatrzymanie wątku na 2 sekundy
+                                    print(
+                                        Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę.")
+                                    # Zatrzymanie wątku na 2 sekundy
+                                    time.sleep(3)
                                 else:
                                     break
 
@@ -405,6 +407,16 @@ może być w innych folderach.
                 def download_file(self, url, file_name):
                     print(Fore.MAGENTA +
                           f"Rozpoczynam aktualizację pliku {file_name}...")
+                    # Monitorowanie użycia CPU podczas instalacji
+                    while True:
+                        # Pobierz aktualne zużycie CPU
+                        cpu_percent = psutil.cpu_percent(interval=1)
+                        if cpu_percent > 85.0:
+                            print(
+                                Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę.")
+                            time.sleep(2)  # Zatrzymanie wątku na 2 sekundy
+                        else:
+                            break
                     response = self.get_remote_file_content(url)
                     if response is None:
                         print(
@@ -464,6 +476,7 @@ może być w innych folderach.
         button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
             target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
+
 # Pobierz ilość rdzeni fizycznych i logicznych
 physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
@@ -477,6 +490,7 @@ sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
 
 # Minimalna ilość wątków
 min_threads = logical_cores // 2
+
 
 def monitor_cpu_usage():
     global MAX_THREADS_biblioteki  # Dodaj deklarację zmiennej globalnej

@@ -326,8 +326,6 @@ może być w innych folderach.
             global teraz_bib
             teraz_bib = 0
             time.sleep(1)
-            ctypes.windll.user32.ShowWindow(
-                ctypes.windll.kernel32.GetConsoleWindow(), 0)
             global zakonczon_biblioteki
             zakonczon_biblioteki = True
 
@@ -465,8 +463,6 @@ może być w innych folderach.
             automa.run()
             teraz = 0
             time.sleep(2)
-            ctypes.windll.user32.ShowWindow(
-                ctypes.windll.kernel32.GetConsoleWindow(), 0)
             global zakonczono_pliki
             zakonczono_pliki = True
 

@@ -453,9 +453,13 @@ może być w innych folderach.
         button_tylko_biblioteki.clicked.connect(lambda: threading.Thread(
             target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
+# Pobierz ilość rdzeni fizycznych i logicznych
+physical_cores = psutil.cpu_count(logical=False)
+logical_cores = psutil.cpu_count(logical=True)
 
-MAX_THREADS_biblioteki = 4
-MAX_THREADS_aktualizacja = 2
+# Wybór ilości wątków na podstawie rdzeni (max, ilość rdzeni)
+MAX_THREADS_biblioteki = min(12, logical_cores)
+MAX_THREADS_aktualizacja = min(6, logical_cores)
 
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)

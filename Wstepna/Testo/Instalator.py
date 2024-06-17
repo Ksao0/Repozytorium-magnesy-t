@@ -308,6 +308,8 @@ może być w innych folderach.
                                     print(
                                         Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę ({czas_zatrzymania_watku} s).")
                                     time.sleep(czas_zatrzymania_watku)
+                                    print(
+                                        Fore.MAGENTA + f"CPU: {cpu_percent}%. Wątek {threading.current_thread().name} wznowiony.")
                                 else:
                                     break
 
@@ -430,6 +432,8 @@ może być w innych folderach.
                             print(
                                 Fore.RED + f"Wysokie zużycie CPU: {cpu_percent}%. Wątek {threading.current_thread().name} zatrzymuje się na chwilę ({czas_zatrzymania_watku} s).")
                             time.sleep(czas_zatrzymania_watku)
+                            print(
+                                Fore.MAGENTA + f"CPU: {cpu_percent}%. Wątek {threading.current_thread().name} wznowiony.")
                         else:
                             break
                     response = self.get_remote_file_content(url)

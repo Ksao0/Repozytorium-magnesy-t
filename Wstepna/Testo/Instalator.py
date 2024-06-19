@@ -567,6 +567,7 @@ def monitor_cpu_usage():
                 initial_max_threads = 2
                 MAX_THREADS_biblioteki = 2
             else:
+                minimalna_watkow = 2
                 initial_max_threads = physical_cores + int(logical_cores / 2)
 
             sema = threading.Semaphore(MAX_THREADS_biblioteki)

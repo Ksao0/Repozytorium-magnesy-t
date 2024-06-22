@@ -1,4 +1,3 @@
 2.5.5
-Po uruchomieniu pobierane są teraz też aktualizacje opcjonalne
-  Aby to działało włącz aktualizację po uruchomieniu w:
-  Opcje>Inne>Aktualizacja po uruchomieniu
+Dodano sprawdzanie bazy bibliotek po uruchomieniu programu
+  Nigdy nie zamykaj instalatora przed wykonaniem aktualizacji!

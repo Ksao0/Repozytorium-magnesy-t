@@ -269,8 +269,13 @@ Zainstaluj biblioteki, a następnie utwórz folder, w którym będą:
     - folder rei,
     - plik main.py (pamiętaj o odpowiednim rozszerzeniu pliku).
 Następnie przeprowadź aktualizację.
-Ten folder nie musi znajdować się bozpośrednio na pulpicie,
+
+Folder z plikami nie musi znajdować się bozpośrednio na pulpicie,
 może być w innych folderach.
+Wszystkie pliki muszą się znajdować w jednym folderze.
+
+Jeśli nie spełnisz tego wymagania - nie pobierzesz plików z kodem,
+pobrane zostaną tylko biblioteki.
                             """)
 
             except Exception as e:

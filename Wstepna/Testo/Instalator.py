@@ -520,6 +520,7 @@ minimalna_watkow = logical_cores // 2
 print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni: {physical_cores}")
 print(Fore.LIGHTBLACK_EX + f"Ilość procesorów logicznych: {logical_cores}")
 
+
 def monitor_cpu_usage():
     global minimalna_watkow
     global MAX_THREADS_biblioteki
@@ -527,7 +528,8 @@ def monitor_cpu_usage():
     global sema
     global tryb_stary
     tryb = "Automatyczny"
-    tryb_stary = ""
+    tryb_stary = "no"
+    MAX_THREADS_biblioteki_stary = ""
 
     # Początkowa maksymalna liczba wątków
     if tryb == "Procesory logiczne (max)":
@@ -545,10 +547,10 @@ def monitor_cpu_usage():
     else:  # Automatyczny
         MAX_THREADS_biblioteki = min(12, physical_cores)
         initial_max_threads = physical_cores + int(logical_cores / 2)
-    
+
     sema = threading.Semaphore(MAX_THREADS_biblioteki)
-    print(initial_max_threads)
-    print(Fore.WHITE + f"Maksymalna ilość wątków dla twojego komputera wynosi {initial_max_threads}. Będziemy zmieniać ilość wątków w oparciu o tą wartość")
+    print(f"Maksymalna ilość wątków dla twojego komputera wynosi {
+          initial_max_threads}. Będziemy zmieniać ilość wątków w oparciu o tą wartość")
 
     while True:
         if tryb_stary == "no" or tryb_stary != tryb:
@@ -579,17 +581,22 @@ def monitor_cpu_usage():
         if minimalna_watkow != 1 and tryb not in ["Procesory logiczne (max)", "Rdzenie (max)", "1", "2"]:
             if cpu_percent < 50.0:
                 if MAX_THREADS_biblioteki != initial_max_threads:
-                    MAX_THREADS_biblioteki = min(MAX_THREADS_biblioteki + 1, initial_max_threads)
+                    MAX_THREADS_biblioteki = min(
+                        MAX_THREADS_biblioteki + 1, initial_max_threads)
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
             elif cpu_percent > 85.0:
                 if MAX_THREADS_biblioteki != minimalna_watkow:
                     MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
 
-        print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
+        if MAX_THREADS_biblioteki_stary == "no" or MAX_THREADS_biblioteki_stary != MAX_THREADS_biblioteki:
+            print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {
+                MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
 
         tryb_stary = tryb
+        MAX_THREADS_biblioteki_stary = MAX_THREADS_biblioteki
         time.sleep(3)
+
 
 # Uruchom wątek monitorowania zużycia CPU
 thread_CPU = threading.Thread(target=monitor_cpu_usage, name="monitor_cpu")

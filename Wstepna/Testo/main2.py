@@ -856,8 +856,8 @@ class OknoAktualizacji(QWidget):
             # Uruchamianie wątku
             thread.start()
         else:
-            messagebox.showinfo(
-                'Info', 'Instalator może być otwarty tylko raz na uruchomienie programu. Jeśli okno jeszcze się nie wyświetliło - poczekaj, nadal się ładuje, może to potrwać kilka sekund i zależy to od twojego internetu.')
+            messagebox.showwarning(
+                'Zabezpieczenia', 'Instalator może być otwarty tylko raz na uruchomienie programu. Jeśli okno jeszcze się nie wyświetliło - poczekaj, nadal się ładuje, może to potrwać kilka sekund i zależy to od twojego internetu.')
 
 
 class OknoUstawien(QWidget):

@@ -11,6 +11,17 @@ from PyQt5.QtWidgets import QWidget
 from win10toast import ToastNotifier
 from packaging import version
 
+# Ukrywanie konsoli na stałe
+
+
+def hide_console():
+    whnd = ctypes.windll.kernel32.GetConsoleWindow()
+    if whnd != 0:
+        ctypes.windll.user32.ShowWindow(whnd, 0)
+        ctypes.windll.kernel32.CloseHandle(whnd)
+
+
+hide_console()
 
 # Wygeneruj losową liczbę od 0 do 100
 uruchom = random.randint(0, 100)

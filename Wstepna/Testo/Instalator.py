@@ -112,10 +112,10 @@ def info_DATA_biblioteki():
 
 def obraz():
     # URL do pliku PNG w repozytorium GitHub
-    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Tropic.png'
+    url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Instala.png'
 
     # Nazwa pliku do zapisania
-    filename = 'Tropic.png'
+    filename = 'Instala.png'
 
     try:
         # Pobranie pliku
@@ -124,13 +124,13 @@ def obraz():
         print(f"Nie udało się pobrać pliku, instalator może nie mieć szaty graficznej")
 
 
-path = os.path.join(os.getcwd(), "Tropic.png")
+path = os.path.join(os.getcwd(), "Instala.png")
 if not os.path.exists(path):
     obraz()
 else:
-    szansa = random.randint(0, 30)
+    szansa = random.randint(0, 100)
 
-    if szansa < 3:
+    if szansa < 35:
         obraz()
 
 
@@ -140,7 +140,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         global zdjecie
         # Ścieżka do obrazu
-        image_path = "tropic.png"
+        image_path = "Instala.png"
 
         # Sprawdzenie, czy plik istnieje
         if os.path.exists(image_path):

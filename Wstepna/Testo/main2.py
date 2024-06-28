@@ -25,6 +25,9 @@ from win10toast import ToastNotifier
 from packaging import version
 import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
 from colorama import Fore, Style
+import zlib
+from cryptography.fernet import Fernet
+import gzip
 
 os.system('cls')
 global ustawienie_auto
@@ -1428,8 +1431,7 @@ class ZaawansowaneOkno(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.okno_ustawien = None  # Dodaj atrybut do przechowywania referencji do OknoUstawien
-        # Dodaj atrybut do przechowywania referencji do OknoUstawien
+        self.okno_ustawien = None
         self.okno_aktualizacji = None
         self.inicjalizuj_ui()
 
@@ -1448,13 +1450,11 @@ class ZaawansowaneOkno(QWidget):
 
         button_opinie = QPushButton('Aktualizuj', self)
         układ.addWidget(button_opinie, 0, 3, 1, 1)
-        button_opinie.clicked.connect(
-            self.pokaz_aktualizator)  # Pokazywanie danego okna do aktualizacji
+        button_opinie.clicked.connect(self.pokaz_aktualizator)
 
         button_usun_zapisy = QPushButton('Usuń zapisy', self)
         układ.addWidget(button_usun_zapisy, 0, 5, 1, 1)
-        button_usun_zapisy.clicked.connect(
-            lambda: self.wykasuj_zapisy(text_edit_historia))
+        button_usun_zapisy.clicked.connect(lambda: self.wykasuj_zapisy(text_edit_historia))
 
         etykieta_ilosc = QLabel('Ilość pakietów: ', self)
         układ.addWidget(etykieta_ilosc, 1, 0, 1, 1)
@@ -1501,9 +1501,9 @@ class ZaawansowaneOkno(QWidget):
         text_edit_historia.setPlainText("Brak historii obliczeń")
 
         # Ładujemy dane z pliku do QTextEdit
-        path = os.path.join(os.getcwd(), "Zapisy.txt")
+        path = os.path.join(os.getcwd(), "Zapisy.txt.gz")
         if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
+            with gzip.open(path, "rt", encoding="utf-8") as f:
                 zawartosc = f.read().strip()
                 if zawartosc == '':
                     text_edit_historia.setPlainText("Brak historii obliczeń")
@@ -1531,7 +1531,6 @@ class ZaawansowaneOkno(QWidget):
             pass
 
     def pokaz_ustawienia(self):
-        # Tworzymy instancję klasy OknoUstawien
         if not self.okno_ustawien or not self.okno_ustawien.isVisible():
             self.okno_ustawien = OknoUstawien()
             self.okno_ustawien.show()
@@ -1539,7 +1538,6 @@ class ZaawansowaneOkno(QWidget):
             self.okno_ustawien.raise_()
 
     def pokaz_aktualizator(self):
-        # Tworzymy instancję klasy OknoAktualizacji
         if not self.okno_aktualizacji or not self.okno_aktualizacji.isVisible():
             self.okno_aktualizacji = OknoAktualizacji()
             self.okno_aktualizacji.show()
@@ -1549,32 +1547,21 @@ class ZaawansowaneOkno(QWidget):
     def wykasuj_zapisy(self, text_edit_historia):
         try:
             if messagebox.askyesno('Kasowanie historii', 'Czy na pewno chcesz usunąć poprzednie obliczenia?'):
-                # Ścieżka do pliku Zapisy.txt w bieżącym folderze
-                path = os.path.join(os.getcwd(), "Zapisy.txt")
-
-                # Usuń plik Zapisy.txt, jeśli istnieje
+                path = os.path.join(os.getcwd(), "Zapisy.txt.gz")
                 if os.path.exists(path):
                     os.remove(path)
-                    with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
-                        file.write('')
-
-                text_edit_historia.setPlainText('Historia została skasowana')
+                    text_edit_historia.setPlainText('Historia została skasowana')
         except:
-            messagebox.showinfo(
-                'Brak pliku', "Nie masz jeszcze historii zapisów")
+            messagebox.showinfo('Brak pliku', "Nie masz jeszcze historii zapisów")
 
     def oblicz_i_zapisz(self, pole_ilosc, pole_cena, text_edit_historia, etykieta_zarobisz, etykieta_wydasz, etykieta_calkowita_wartosc_pakietow):
         liczba_pakietow = pole_ilosc.value()
         cena_za_magnes = pole_cena.value()
 
         now = datetime.datetime.now()
-
         data_obliczenia = now.strftime("%d.%m.%Y %H:%M:%S")
 
-        # # Pobieranie kosztów z pliku
         path = os.path.join(os.getcwd(), "Ceny.txt")
-
-        # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
         if os.path.exists(path):
             with open(path, "r", encoding='utf-8') as f:
                 teraz_ceny = f.read()
@@ -1598,25 +1585,21 @@ class ZaawansowaneOkno(QWidget):
         koszty = tektura + nadruk + foliamg + woreczkipp
         bilans = razem - koszty
 
-        wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {
-            cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+        wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
         aktualna_zawartosc = text_edit_historia.toPlainText()
 
-        aktualna_zawartosc = aktualna_zawartosc.replace(
-            "Brak historii obliczeń", "")
-        aktualna_zawartosc = aktualna_zawartosc.replace(
-            "Historia została skasowana", "")
+        aktualna_zawartosc = aktualna_zawartosc.replace("Brak historii obliczeń", "")
+        aktualna_zawartosc = aktualna_zawartosc.replace("Historia została skasowana", "")
         text_edit_historia.setPlainText(wyniki + aktualna_zawartosc)
 
         etykieta_zarobisz.setText(f'Zarobisz: {bilans:.2f} zł')
         etykieta_wydasz.setText(f'Wydasz: {koszty:.2f} zł')
+        etykieta_calkowita_wartosc_pakietow.setText(f'Całkowita wartość pakietów: {razem:.2f} zł')
 
-        etykieta_calkowita_wartosc_pakietow.setText(
-            f'Całkowita wartość pakietów: {razem:.2f} zł')
-
-        # Zapisz wynik obliczeń do pliku Zapisy.txt
-        with open('Zapisy.txt', mode='w', encoding='utf-8') as file:
+        # Zapisz wynik obliczeń do pliku Zapisy.txt.gz skompresowanego
+        with gzip.open('Zapisy.txt.gz', mode='wt', encoding='utf-8') as file:
             file.write(wyniki + aktualna_zawartosc)
+
 
 
 if __name__ == '__main__':

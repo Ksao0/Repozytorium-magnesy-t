@@ -135,3 +135,5 @@ xmltodict
 yarl
 zope.event
 zope.interface
+cryptography
+gzip

@@ -160,7 +160,7 @@ def wybierz_styl_z_pliku():
                         # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
                         with open("Styl.txt", "w", encoding='utf-8') as plik:
                             plik.write("szarość")
-                        print(' Zapisano preferencje')
+                        print(Fore.LIGHTCYAN_EX + ' Zapisano preferencje' + Style.RESET_ALL)
         else:
             try:
                 app.setStyleSheet(open('styl_szarość.css').read())

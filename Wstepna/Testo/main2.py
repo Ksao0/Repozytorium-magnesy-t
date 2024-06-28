@@ -546,7 +546,7 @@ def sprawdz_biblioteki():
                   "Liczba znanych bibliotek w pliku jest mniejsza niż wymagana - " + Fore.CYAN + "zaktualizuj program" + Style.RESET_ALL)
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia="Biblioteki", tresc_powiadomienia=f"Być może nie posiadasz wszystkich potrzebnych do działania programu bibliotek", duration=3)
+                tytul_powiadomienia="Biblioteki", tresc_powiadomienia=f"Wykonaj aktualizację, a problem zniknie", duration=3)
             messagebox.showerror(
                 "Zagrożenie", "Wykonaj aktualizację, aby program działał prawidłowo, okno instalatora zostanie za chwilę otwarte.\nNie otwieraj instalatora przez program przed wykonaniem tej aktualizacji!")
 

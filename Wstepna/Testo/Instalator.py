@@ -39,6 +39,77 @@ global tryb_stary
 tryb_stary = "no"
 
 
+class OperacjeNaPliku:
+    def __init__(self, nazwa_pliku):
+        self.nazwa_pliku = nazwa_pliku
+
+    def podmien_linijke(self, numer_linii, nowa_zawartosc):
+        # Otwarcie pliku i odczytanie całej zawartości
+        with open(self.nazwa_pliku, 'r', encoding='utf-8') as plik:
+            linie = plik.readlines()
+
+        # Sprawdzenie czy numer linii jest prawidłowy
+        if numer_linii < 0 or numer_linii >= len(linie):
+            print("Błąd: Numer linii jest nieprawidłowy.")
+            return
+
+        # Zmiana zawartości wybranej linii
+        linie[numer_linii] = nowa_zawartosc + '\n'
+
+        # Zapis zmodyfikowanej zawartości do pliku
+        with open(self.nazwa_pliku, 'w', encoding='utf-8') as plik:
+            for linia in linie:
+                plik.write(linia)
+
+
+def info_DATA_biblioteki():
+    nazwa_pliku = "DATA.txt"
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/bib.txt"
+
+    # Pobierz zawartość pliku z URL i policz linie
+    response = requests.get(url)
+    if response.status_code != 200:
+        print("Błąd: Nie można pobrać pliku z URL.")
+        return
+
+    linie_z_url = response.text.splitlines()
+    liczba_linii_z_url = len(linie_z_url)
+
+    # Sprawdź, czy plik DATA.txt istnieje
+    if os.path.exists(nazwa_pliku):
+        with open(nazwa_pliku, 'r', encoding='utf-8') as plik:
+            pierwsza_linia = plik.readline().strip()
+
+        try:
+            liczba_z_data = int(pierwsza_linia)
+        except ValueError:
+            print(Fore.YELLOW + "Błąd:\n" + Fore.RED +
+                  "Format pliku DATA.txt nie jest prawidłowy, jeśli ten błąd będzie się powtarzał - usuń DATA.txt z plików programu" + Style.RESET_ALL)
+
+            liczba_z_data = -1
+
+        if liczba_z_data < liczba_linii_z_url:
+            nazwa_pliku = "DATA.txt"
+            operacje = OperacjeNaPliku(nazwa_pliku)
+            numer_linii = 0  # Numer linii do zmiany
+            nowa_zawartosc = f"{liczba_linii_z_url}"
+            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
+
+        elif liczba_z_data > liczba_linii_z_url:
+            # Któraś biblioteka nie jest już wymagana
+            nazwa_pliku = "DATA.txt"
+            operacje = OperacjeNaPliku(nazwa_pliku)
+            numer_linii = 0  # Numer linii do zmiany
+            nowa_zawartosc = f"{pierwsza_linia}"
+            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
+    else:
+        # Zapisz liczbę linijek do nowego pliku DATA.txt
+        with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
+            plik.write(str(liczba_linii_z_url) + '\n')
+        print(f"Plik {nazwa_pliku} nie istniał. Zapisano dane {
+              liczba_linii_z_url} do nowego pliku.")
+
+
 def obraz():
     # URL do pliku PNG w repozytorium GitHub
     url = 'https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Tropic.png'
@@ -342,6 +413,7 @@ pobrane zostaną tylko biblioteki.
 
                 print(Fore.GREEN +
                       "Wszystkie biblioteki zostały pomyślnie zainstalowane.")
+                info_DATA_biblioteki()
             except Exception as e:
                 print(Fore.RED + "Wystąpił błąd:", e)
 

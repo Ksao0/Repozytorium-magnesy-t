@@ -536,7 +536,7 @@ def sprawdz_biblioteki():
             liczba_z_data = int(pierwsza_linia)
         except ValueError:
             print(Fore.YELLOW + "Błąd:\n" + Fore.RED +
-                  "Pierwsza linia pliku DATA.txt nie jest prawidłowa, jeśli ten błąd będzie się powtarzał - usuń DATA.txt z plików programu" + Style.RESET_ALL)
+                  "Format pliku DATA.txt nie jest prawidłowy, jeśli ten błąd będzie się powtarzał - usuń DATA.txt z plików programu" + Style.RESET_ALL)
             liczba_z_data = -1
 
         if liczba_z_data == liczba_linii_z_url:
@@ -544,17 +544,14 @@ def sprawdz_biblioteki():
         elif liczba_z_data < liczba_linii_z_url:
             print(Fore.YELLOW +
                   "Liczba znanych bibliotek w pliku jest mniejsza niż wymagana - " + Fore.CYAN + "zaktualizuj program" + Style.RESET_ALL)
+            toaster = Powiadomienia()
+            toaster.powiadomienie_jednorazowe(
+                tytul_powiadomienia="Biblioteki", tresc_powiadomienia=f"Być może nie posiadasz wszystkich potrzebnych do działania programu bibliotek", duration=3)
             messagebox.showerror(
-                "Komunikat", "Wykonaj aktualizację, aby program działał prawidłowo, okno instalatora zostanie za chwilę otwarte.\nO ile nie wystąpią problemy - nie otwieraj, ani nie zamykaj instalatora samodzielnie przed wykonaniem tej aktualizacji!")
+                "Zagrożenie", "Wykonaj aktualizację, aby program działał prawidłowo, okno instalatora zostanie za chwilę otwarte.\nNie otwieraj instalatora przez program przed wykonaniem tej aktualizacji!")
 
             subprocess.run(['python', 'Instalator.py'])
 
-            nazwa_pliku = "DATA.txt"
-            operacje = OperacjeNaPliku(nazwa_pliku)
-            numer_linii = 0  # Numer linii do zmiany
-            nowa_zawartosc = f"{liczba_linii_z_url}"
-            operacje.podmien_linijke(numer_linii, nowa_zawartosc)
-            
         elif liczba_z_data > liczba_linii_z_url:
             # Któraś biblioteka nie jest już wymagana
             nazwa_pliku = "DATA.txt"
@@ -566,7 +563,7 @@ def sprawdz_biblioteki():
         # Zapisz liczbę linijek do nowego pliku DATA.txt
         with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
             plik.write(str(liczba_linii_z_url) + '\n')
-        print(f"Plik {nazwa_pliku} nie istniał. Zapisano liczbę linijek {
+        print(f"Plik {nazwa_pliku} nie istniał. Zapisano dane {
               liczba_linii_z_url} do nowego pliku.")
 
 
@@ -598,7 +595,8 @@ def sprawdzanie_nowych_aktualizacji():
             najnowsza_wersja_online = version_online_lines[0]
             local_aktualna_wersja = version_local_lines[0]
             if version.parse(local_aktualna_wersja) == version.parse(najnowsza_wersja_online):
-                sprawdz_biblioteki() # Jeśli się okarz, że zapomniałem dodać jakąś bibliotekę podczas wydawania nowej wersji
+                # Jeśli się okarz, że zapomniałem dodać jakąś bibliotekę podczas wydawania nowej wersji
+                sprawdz_biblioteki()
             if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
                 print("Dostępna jest aktualizacja:")
                 print(f"  {local_aktualna_wersja} --> {najnowsza_wersja_online}")
@@ -1454,7 +1452,8 @@ class ZaawansowaneOkno(QWidget):
 
         button_usun_zapisy = QPushButton('Usuń zapisy', self)
         układ.addWidget(button_usun_zapisy, 0, 5, 1, 1)
-        button_usun_zapisy.clicked.connect(lambda: self.wykasuj_zapisy(text_edit_historia))
+        button_usun_zapisy.clicked.connect(
+            lambda: self.wykasuj_zapisy(text_edit_historia))
 
         etykieta_ilosc = QLabel('Ilość pakietów: ', self)
         układ.addWidget(etykieta_ilosc, 1, 0, 1, 1)
@@ -1550,9 +1549,11 @@ class ZaawansowaneOkno(QWidget):
                 path = os.path.join(os.getcwd(), "Zapisy.txt.gz")
                 if os.path.exists(path):
                     os.remove(path)
-                    text_edit_historia.setPlainText('Historia została skasowana')
+                    text_edit_historia.setPlainText(
+                        'Historia została skasowana')
         except:
-            messagebox.showinfo('Brak pliku', "Nie masz jeszcze historii zapisów")
+            messagebox.showinfo(
+                'Brak pliku', "Nie masz jeszcze historii zapisów")
 
     def oblicz_i_zapisz(self, pole_ilosc, pole_cena, text_edit_historia, etykieta_zarobisz, etykieta_wydasz, etykieta_calkowita_wartosc_pakietow):
         liczba_pakietow = pole_ilosc.value()
@@ -1585,21 +1586,24 @@ class ZaawansowaneOkno(QWidget):
         koszty = tektura + nadruk + foliamg + woreczkipp
         bilans = razem - koszty
 
-        wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+        wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {
+            cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
         aktualna_zawartosc = text_edit_historia.toPlainText()
 
-        aktualna_zawartosc = aktualna_zawartosc.replace("Brak historii obliczeń", "")
-        aktualna_zawartosc = aktualna_zawartosc.replace("Historia została skasowana", "")
+        aktualna_zawartosc = aktualna_zawartosc.replace(
+            "Brak historii obliczeń", "")
+        aktualna_zawartosc = aktualna_zawartosc.replace(
+            "Historia została skasowana", "")
         text_edit_historia.setPlainText(wyniki + aktualna_zawartosc)
 
         etykieta_zarobisz.setText(f'Zarobisz: {bilans:.2f} zł')
         etykieta_wydasz.setText(f'Wydasz: {koszty:.2f} zł')
-        etykieta_calkowita_wartosc_pakietow.setText(f'Całkowita wartość pakietów: {razem:.2f} zł')
+        etykieta_calkowita_wartosc_pakietow.setText(
+            f'Całkowita wartość pakietów: {razem:.2f} zł')
 
         # Zapisz wynik obliczeń do pliku Zapisy.txt.gz skompresowanego
         with gzip.open('Zapisy.txt.gz', mode='wt', encoding='utf-8') as file:
             file.write(wyniki + aktualna_zawartosc)
-
 
 
 if __name__ == '__main__':

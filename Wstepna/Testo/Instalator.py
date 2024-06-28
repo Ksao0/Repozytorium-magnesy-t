@@ -667,7 +667,7 @@ def monitor_cpu_usage():
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
 
         if MAX_THREADS_biblioteki_stary == "no" or MAX_THREADS_biblioteki_stary != MAX_THREADS_biblioteki:
-            print(Fore.YELLOW + f"Aktualna maksymalna ilość wątków: {
+            print(Fore.LIGHTBLUE_EX + f"Aktualna maksymalna ilość wątków: {
                 MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
 
         tryb_stary = tryb

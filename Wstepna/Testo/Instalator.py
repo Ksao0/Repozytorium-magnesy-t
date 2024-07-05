@@ -37,6 +37,8 @@ global zakonczon_biblioteki
 zakonczon_biblioteki = False
 global tryb_stary
 tryb_stary = "no"
+max_ilosc_zatrzymanych_watkow = 2
+ilosc_zatrzymanych_watkow = 0
 
 
 class OperacjeNaPliku:
@@ -379,7 +381,8 @@ pobrane zostaną tylko biblioteki.
                                 # Pobierz aktualne zużycie CPU
                                 cpu_percent = psutil.cpu_percent(interval=1)
                                 global max_ilosc_zatrzymanych_watkow
-                                if cpu_percent > 95.0 and ilosc_zatrzymanych_watkow >= max_ilosc_zatrzymanych_watkow:
+                                global ilosc_zatrzymanych_watkow
+                                if cpu_percent > 95.0 and ilosc_zatrzymanych_watkow <= max_ilosc_zatrzymanych_watkow:
                                     ilosc_zatrzymanych_watkow = ilosc_zatrzymanych_watkow + 1
                                     czas_zatrzymania_watku = random.randint(
                                         0, 5)
@@ -629,7 +632,8 @@ def monitor_cpu_usage():
         initial_max_threads = physical_cores + int(logical_cores / 2)
 
     sema = threading.Semaphore(MAX_THREADS_biblioteki)
-    print(f"Maksymalna ilość wątków w każdym trybie instalatora dla twojego komputera wynosi {initial_max_threads}.")
+    print(f"Maksymalna ilość wątków w każdym trybie instalatora dla twojego komputera wynosi {
+          initial_max_threads}.")
 
     global max_ilosc_zatrzymanych_watkow
     while True:
@@ -656,7 +660,7 @@ def monitor_cpu_usage():
                 minimalna_watkow = 2
                 initial_max_threads = physical_cores + int(logical_cores / 2)
                 max_ilosc_zatrzymanych_watkow = physical_cores + \
-                    int(logical_cores / 2) - 2
+                    int(logical_cores / 2) - 3
 
             print(f"Maksymalna ilość zatrzymanych wątków jednocześnie (dla wybranego trybu): {
                   max_ilosc_zatrzymanych_watkow}")
@@ -671,19 +675,22 @@ def monitor_cpu_usage():
                 if MAX_THREADS_biblioteki != initial_max_threads:
                     MAX_THREADS_biblioteki = min(
                         MAX_THREADS_biblioteki + 1, initial_max_threads)
+                    max_ilosc_zatrzymanych_watkow = max_ilosc_zatrzymanych_watkow + 1
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
             elif cpu_percent > 85.0:
                 if MAX_THREADS_biblioteki != minimalna_watkow:
                     MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
+                    max_ilosc_zatrzymanych_watkow = max_ilosc_zatrzymanych_watkow - 1
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
 
         if MAX_THREADS_biblioteki_stary == "no" or MAX_THREADS_biblioteki_stary != MAX_THREADS_biblioteki:
             print(Fore.LIGHTCYAN_EX + f"Aktualna maksymalna ilość wątków: {
                 MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
-
+            print(Fore.LIGHTBLACK_EX + f"Maksymalna ilość zatrzymanych wątków jednocześnie: {
+                  max_ilosc_zatrzymanych_watkow}")
         tryb_stary = tryb
         MAX_THREADS_biblioteki_stary = MAX_THREADS_biblioteki
-        time.sleep(3)
+        time.sleep(2)
 
 
 # Uruchom wątek monitorowania zużycia CPU

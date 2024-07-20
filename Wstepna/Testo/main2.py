@@ -53,7 +53,7 @@ class PaletaStylow(QWidget):
         painter = QPainter(self)
         x = 0
         y = 0
-        rozmiar = 50
+        rozmiar = 18
         padding = 5
         for kolor in self.kolory:
             painter.fillRect(QRect(x, y, rozmiar, rozmiar), QBrush(QColor(kolor)))

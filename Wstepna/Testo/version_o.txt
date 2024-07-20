@@ -1,4 +1,2 @@
-2.5.6.1
-Kompresja historii obliczeń!
-  Historia obliczeń będzie od teraz zapisywana w .zip
-Małe usprawnienia procesu aktualizacji
+2.5.7
+ Poprawa wydajności

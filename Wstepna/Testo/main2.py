@@ -14,8 +14,8 @@ import urllib
 import datetime
 import tkinter as tk
 from tkinter import messagebox
-from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QCoreApplication
-from PyQt5.QtGui import QPalette, QColor, QIcon
+from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QCoreApplication, QRect
+from PyQt5.QtGui import QPalette, QColor, QIcon, QPainter, QColor, QBrush
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
 import os
 import sys
@@ -28,6 +28,7 @@ from colorama import Fore, Style
 import zlib
 from cryptography.fernet import Fernet
 import gzip
+from functools import lru_cache
 
 os.system('cls')
 global ustawienie_auto
@@ -37,6 +38,29 @@ zaawansowane_okno_zamkniete = False
 
 global instalator_sesja
 instalator_sesja = 0
+
+
+class PaletaStylow(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.kolory = []
+
+    def set_kolory(self, kolory):
+        self.kolory = kolory
+        self.update()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        x = 0
+        y = 0
+        rozmiar = 50
+        padding = 5
+        for kolor in self.kolory:
+            painter.fillRect(QRect(x, y, rozmiar, rozmiar), QBrush(QColor(kolor)))
+            x += rozmiar + padding
+            if x + rozmiar > self.width():
+                x = 0
+                y += rozmiar + padding
 
 
 class OperacjeNaPliku:
@@ -160,7 +184,8 @@ def wybierz_styl_z_pliku():
                         # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
                         with open("Styl.txt", "w", encoding='utf-8') as plik:
                             plik.write("szarość")
-                        print(Fore.LIGHTCYAN_EX + ' Zapisano preferencje' + Style.RESET_ALL)
+                        print(Fore.LIGHTCYAN_EX +
+                              ' Zapisano preferencje' + Style.RESET_ALL)
         else:
             try:
                 app.setStyleSheet(open('styl_szarość.css').read())
@@ -943,7 +968,8 @@ class OknoUstawien(QWidget):
         pole_cena_woreczki = QDoubleSpinBox(zakladka)
         układ.addWidget(pole_cena_woreczki, 4, 1, 1, 1)
 
-        button_zapisz1 = QPushButton('Ustaw domyślne ceny', zakladka)
+        button_zapisz1 = QPushButton(
+            'Ustaw domyślne ceny (repozytorium)', zakladka)
         button_zapisz1.clicked.connect(lambda: self.zmien_ceny(None, None, None, None, etykieta_cena_tektura,
                                                                # Połącz przycisk z funkcją
                                                                etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
@@ -1167,92 +1193,105 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
     def utworz_zakladke_estetyka(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
+
         etykieta_cena_tektura = QLabel(
             'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n - gotowe style\n - kreator motywów\n\nNa razie to okno będzie bardzo uproszczone:', zakladka)
         układ.addWidget(etykieta_cena_tektura, 1, 0, 1, 2)
 
-        button_styl_szarosc = QPushButton("Szarość", zakladka)
-        button_styl_szarosc.clicked.connect(
-            lambda: self.ustawianie_styli("szarość"))
-        układ.addWidget(button_styl_szarosc, 3, 0, 1, 1)
+        # Przyciski i podglądy stylów
+        style_buttons = [
+            ("Szarość", "szarość"),
+            ("Ametyst", "ametyst")
+        ]
 
-        button_styl_szarosc = QPushButton("Ametyst", zakladka)
-        button_styl_szarosc.clicked.connect(
-            lambda: self.ustawianie_styli("ametyst"))
-        układ.addWidget(button_styl_szarosc, 3, 1, 1, 1)
+        row = 2
+        for text, style_name in style_buttons:
+            # Utwórz przycisk do ustawiania stylu
+            button = QPushButton(text, zakladka)
+            button.clicked.connect(lambda _, s=style_name: self.ustawianie_styli(s))
+
+            # Utwórz widget do podglądu stylu
+            preview_widget = PaletaStylow(zakladka)
+            self.aktualizuj_podglad_stylu(button, preview_widget, style_name)
+
+            # Dodaj przycisk i widget do układu
+            układ.addWidget(button, row, 0)
+            układ.addWidget(preview_widget, row, 1, 1, 2)
+
+            row += 1
+
+    def aktualizuj_podglad_stylu(self, button, preview_widget, style_name):
+        try:
+            # Wczytaj styl z pliku lub pobierz z internetu
+            path = f"styl_{style_name}.css"
+            if not os.path.isfile(path):
+                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/{path}"
+                response = requests.get(url)
+                if response.status_code == 200:
+                    with open(path, 'wb') as plik:
+                        plik.write(response.content)
+                else:
+                    preview_widget.set_kolory(["#FFFFFF"])
+                    return
+
+            with open(path, 'r', encoding='utf-8') as file:
+                style = file.read()
+            
+            # Wyszukaj kolory w stylu
+            kolory = self.wyszukaj_kolory(style)
+            kolory = self.sortuj_kolory(kolory)
+            preview_widget.set_kolory(kolory)
+            
+            # Zastosuj styl do buttona
+            button.setStyleSheet(style)
+            
+        except Exception as e:
+            print(f"Błąd podczas ładowania stylu: {e}")
+            preview_widget.set_kolory(["#FFFFFF"])
+
+    def wyszukaj_kolory(self, style):
+        # Przykładowa implementacja wyszukiwania kolorów w stylu
+        import re
+        kolory = re.findall(r'#\w{6}', style)
+        return list(set(kolory))  # Usunięcie duplikatów
+
+    def sortuj_kolory(self, kolory):
+        # Sortuj kolory według jasności
+        def jasnosc(kolor):
+            kolor_rgb = QColor(kolor)
+            return kolor_rgb.lightness()
+        
+        return sorted(kolory, key=jasnosc)
 
     def ustawianie_styli(self, styl):
         try:
             with open("Styl.txt", "r", encoding='utf-8') as plik:
-                # Odczytanie zawartości i usunięcie białych znaków z końca
                 styl_teraz = plik.read().strip()
-            try:
-                with open(f"styl_{styl}.css", "r", encoding='utf-8') as plik:
-                    # Odczytanie zawartości i usunięcie białych znaków z końca
-                    styl_teraz = plik.read().strip()
-            except:
-                try:
-                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
-                        styl}.css"
-
-                    # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                    nazwa_pliku = f"styl_{styl}.css"
-                    response = requests.get(url)
-
-                    if response.status_code == 200:
-                        with open(nazwa_pliku, 'wb') as plik:
-                            plik.write(response.content)
-                        print(f'Pobrano styl: {styl}')
-                        app.setStyleSheet(open(f'styl_{styl}.css').read())
-                        print(f'Ustawiono styl na: {styl}')
-                    else:
-                        print("Wystąpił problem podczas pobierania pliku")
-                except:
-                    print("Brak dostępu do interentu, nie można pobrać stylu")
-                    messagebox.showwarning(
-                        'Brak internetu', "Nie możesz ustawić tego stylu, ponieważ go nie pobrałeś; nie można go pobrać, ponieważ nie masz połączenia z internetem")
-            ustawianie_stylu(styl)
-
         except:
-            toaster = Powiadomienia()
-            toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia="Pliki sa ciekawe, co nie?", tresc_powiadomienia="Najprawdopodobniej musiałeś usnąć plik z danymi o ostatnim aktywowanym stylu. Może zrobiłeś to teraz, może wcześniej. Nie powtarzaj tego.\nProblem został rozwiązany", duration=3)
             styl_teraz = "Brak stylu"
 
-        if styl_teraz == "Brak stylu":
-            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
-                styl}.css"
+        if styl_teraz == styl:
+            return
 
-            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-            nazwa_pliku = f"styl_{styl}.css"
-            response = requests.get(url)
+        try:
+            path = f"styl_{styl}.css"
+            if not os.path.isfile(path):
+                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/{path}"
+                response = requests.get(url)
+                if response.status_code == 200:
+                    with open(path, 'wb') as plik:
+                        plik.write(response.content)
+                else:
+                    print("Wystąpił problem podczas pobierania pliku")
+                    return
 
-            if response.status_code == 200:
-                with open(nazwa_pliku, 'wb') as plik:
-                    plik.write(response.content)
-                print(f'Pobrano styl: {styl}')
-                app.setStyleSheet(open(f'styl_{styl}.css').read())
-                print(f'Ustawiono styl na: {styl}')
-            else:
-                print("Wystąpił problem podczas pobierania pliku")
-
-        if styl_teraz != styl:
-            ustawianie_stylu(styl)
-
-            path = os.path.join(os.getcwd(), "Styl.txt")
-
-            # Sprawdzenie, czy plik istnieje i ewentualne jego utworzenie
-            if not os.path.isfile("Styl.txt"):
-                open("Styl.txt", "w", encoding='utf-8').close()
-
-            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+            app.setStyleSheet(open(path, 'r', encoding='utf-8').read())
             with open("Styl.txt", "w", encoding='utf-8') as plik:
                 plik.write(styl)
-            print(' Zapisano preferencje')
-        else:
-            toaster = Powiadomienia()
-            toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia="Ten styl jest już aktywny", tresc_powiadomienia="Próbujesz ustawić jeszcze raz dokładnie ten sam styl, którego używasz ;)", duration=3)
+            print('Zapisano preferencje')
+        except Exception as e:
+            print(f"Błąd podczas ustawiania stylu: {e}")
+
 
     def utworz_zakladke_tryb(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
@@ -1308,21 +1347,26 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
         ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
 
-        ceny_tektura = ceny_tektura / 224
-        ceny_nadruk = ceny_nadruk / 224
-        ceny_foliamg = ceny_foliamg / 224
-        ceny_woreczkipp = ceny_woreczkipp / 224
+        @lru_cache(maxsize=None)
+        def obliczenia(ceny_tektura, ceny_nadruk, ceny_foliamg, ceny_woreczkipp, liczba_magnesow, cena_za_magnes_2):
+            ceny_tektura = ceny_tektura / 224
+            ceny_nadruk = ceny_nadruk / 224
+            ceny_foliamg = ceny_foliamg / 224
+            ceny_woreczkipp = ceny_woreczkipp / 224
 
-        tektura = ceny_tektura * liczba_magnesow
-        nadruk = ceny_nadruk * liczba_magnesow
-        foliamg = ceny_foliamg * liczba_magnesow
-        woreczkipp = ceny_woreczkipp * liczba_magnesow
+            tektura = ceny_tektura * liczba_magnesow
+            nadruk = ceny_nadruk * liczba_magnesow
+            foliamg = ceny_foliamg * liczba_magnesow
+            woreczkipp = ceny_woreczkipp * liczba_magnesow
 
-        koszty = tektura + nadruk + foliamg + woreczkipp
-        cenaZaWszystko = cena_za_magnes_2 * liczba_magnesow
+            koszty = tektura + nadruk + foliamg + woreczkipp
 
-        razem = cena_za_magnes_2 * liczba_magnesow
-        bilans = razem - koszty
+            razem = cena_za_magnes_2 * liczba_magnesow
+            bilans = razem - koszty
+            return bilans, koszty, razem
+
+        bilans, koszty, razem = obliczenia(
+            ceny_tektura, ceny_nadruk, ceny_foliamg, ceny_woreczkipp, liczba_magnesow, cena_za_magnes_2)
 
         zarobisz_za_magnes.setText(f'Zarobisz: {bilans:.2f} zł')
         wydasz_za_magnes.setText(f'Wydasz: {koszty:.2f} zł')
@@ -1574,17 +1618,23 @@ class ZaawansowaneOkno(QWidget):
         ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
         ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
 
-        magnesy_w_pakiecie = liczba_pakietow * 224
-        cena_za_pakiet = cena_za_magnes * 224
-        razem = cena_za_pakiet * liczba_pakietow
+        @lru_cache(maxsize=15)
+        def obliczenia(ceny_tektura, ceny_nadruk, ceny_foliamg, ceny_woreczkipp, liczba_pakietow, cena_za_magnes):
+            magnesy_w_pakiecie = liczba_pakietow * 224
+            cena_za_pakiet = cena_za_magnes * 224
+            razem = cena_za_pakiet * liczba_pakietow
 
-        tektura = ceny_tektura * liczba_pakietow
-        nadruk = ceny_nadruk * liczba_pakietow
-        foliamg = ceny_foliamg * liczba_pakietow
-        woreczkipp = ceny_woreczkipp * liczba_pakietow
+            tektura = ceny_tektura * liczba_pakietow
+            nadruk = ceny_nadruk * liczba_pakietow
+            foliamg = ceny_foliamg * liczba_pakietow
+            woreczkipp = ceny_woreczkipp * liczba_pakietow
 
-        koszty = tektura + nadruk + foliamg + woreczkipp
-        bilans = razem - koszty
+            koszty = tektura + nadruk + foliamg + woreczkipp
+            bilans = razem - koszty
+            return magnesy_w_pakiecie, cena_za_pakiet, koszty, bilans, razem
+
+        magnesy_w_pakiecie, cena_za_pakiet, koszty, bilans, razem = obliczenia(
+            ceny_tektura, ceny_nadruk, ceny_foliamg, ceny_woreczkipp, liczba_pakietow, cena_za_magnes)
 
         wyniki = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {
             cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"

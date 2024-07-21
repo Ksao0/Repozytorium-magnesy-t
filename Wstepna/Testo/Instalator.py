@@ -336,6 +336,7 @@ QPushButton {
                             "\n".join(version_opis.split('\n')[1:]))
                 else:
                     text_label.setText(f'Jeszcze nie masz naszego programu')
+                    text_label_N.setText("Niezainstalowano")
                     text_label_N2.setText(
                         """
 Zainstaluj biblioteki, a następnie utwórz folder, w którym będą:

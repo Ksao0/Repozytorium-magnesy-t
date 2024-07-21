@@ -1,12 +1,12 @@
-import sys
-import os
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5 import QtWidgets, QtGui, QtCore
-import messagebox
 import datetime
-from PyQt5.QtCore import Qt
-import requests
 from main2 import Powiadomienia
+import messagebox
+import os
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMessageBox
+import requests
+import sys
 import threading
 
 
@@ -52,7 +52,8 @@ def wybierz_styl_z_pliku():
             else:
                 try:
                     print('Nie znaleziono pliku arkusza stylu')
-                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+                    url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                        styl}.css"
 
                     # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
                     nazwa_pliku = f"styl_{styl}.css"
@@ -115,7 +116,8 @@ def ustawianie_stylu(styl):
     except:
         try:
             # Podaj URL pliku, który chcesz pobrać
-            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{styl}.css"
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                styl}.css"
 
             # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
             nazwa_pliku = f"styl_{styl}.css"
@@ -194,7 +196,8 @@ class OknoKlientow(QtWidgets.QMainWindow):
                 if os.path.exists(file_path):
                     os.remove(file_path)
 
-        history_file_path = f"klienci/KLIENT_HISTORIA.{client_name} - {client_city}.txt"
+        history_file_path = f"klienci/KLIENT_HISTORIA.{
+            client_name} - {client_city}.txt"
         if os.path.exists(history_file_path):
             os.remove(history_file_path)
 
@@ -277,7 +280,8 @@ class OknoKlientow(QtWidgets.QMainWindow):
         koszty = tektura + nadruk + foliamg + woreczkipp
         bilans = razem - koszty
 
-        wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
+        wyniki_a = f"Data: {data_obliczenia}\n\nLiczba pakietów: {liczba_pakietow} szt.\nLiczba magnesów: {magnesy_w_pakiecie} szt.\nCena za 1 magnes: {
+            cena_za_magnes:.2f} zł\nJeden pakiet to: {cena_za_pakiet:.2f} zł\nKoszty: {koszty:.2f} zł\nZysk sprzedaży: {bilans:.2f} zł\nCena za wszystkie pakiety: {razem:.2f} zł\n\n"
 
         history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
 
@@ -342,7 +346,8 @@ class OknoKlientow(QtWidgets.QMainWindow):
 
         selected_client = self.clients_list.currentItem().text()
         if selected_client:
-            history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+            history_file_path = f"klienci/KLIENT_HISTORIA.{
+                selected_client}.txt"
             if os.path.exists(history_file_path):
                 with open(history_file_path, "r") as history_file:
                     history_data = history_file.read()

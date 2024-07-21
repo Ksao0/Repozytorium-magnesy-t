@@ -1,34 +1,46 @@
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLabel, QMessageBox
+from colorama import Fore, Style
+from cryptography.fernet import Fernet
 import ctypes
-from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
-from PyQt5 import QtWidgets
-import win32com.client
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QVBoxLayout, QTabWidget, QApplication, QScrollArea
-from github import Github
-import requests
-import time
-import subprocess
-import urllib.request
-import urllib
 import datetime
-import tkinter as tk
-from tkinter import messagebox
-from PyQt5.QtCore import Qt, QTimer, QThread, pyqtSignal, QCoreApplication, QRect
-from PyQt5.QtGui import QPalette, QColor, QIcon, QPainter, QColor, QBrush
-from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton, QDoubleSpinBox, QLabel, QSpinBox, QTextEdit, QProgressBar
+from functools import lru_cache
+from github import Github
+import getpass
+import gzip
 import os
+import requests
+import shutil
+import subprocess
 import sys
 import threading
-import shutil
+import time
+import tkinter as tk
+from tkinter import messagebox
+import urllib
+import urllib.request
+import win32com.client
 from win10toast import ToastNotifier
-from packaging import version
-import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
-from colorama import Fore, Style
-import zlib
-from cryptography.fernet import Fernet
-import gzip
-from functools import lru_cache
+from packaging import version  # Upewnij się, że ten import jest prawidłowy
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import Qt, QCoreApplication, QTimer, QThread, pyqtSignal, QRect
+from PyQt5.QtGui import QPalette, QColor, QIcon, QPainter, QBrush
+from PyQt5.QtWidgets import (
+    QApplication, 
+    QGridLayout, 
+    QLabel, 
+    QMessageBox, 
+    QPushButton, 
+    QFileDialog,
+    QDoubleSpinBox, 
+    QSpinBox, 
+    QTextEdit, 
+    QProgressBar, 
+    QScrollArea, 
+    QTabWidget, 
+    QVBoxLayout, 
+    QWidget
+)
+
+
 
 os.system('cls')
 global ustawienie_auto

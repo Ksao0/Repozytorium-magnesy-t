@@ -31,11 +31,11 @@ def aktualnosc():
         if klienci_online != klienci_local:
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia=f"Nowość!", tresc_powiadomienia=f'Wyszła nowa wersja zarządzania klientami! Aby ją zainstalować zaktualizuj program :D', duration=3)
+                tytul_powiadomienia=f"Nowość!", tresc_powiadomienia=f'Wyszła nowa wersja zarządzania klientami! Aby ją zainstalować zaktualizuj program!', duration=3)
     except:
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
-            tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Na wszelki wypadek zaktualizuj program do najnowszej wersji i spróbuj ponownie', duration=3)
+            tytul_powiadomienia=f"Coś jest nie tak", tresc_powiadomienia=f'Zaktualizuj program do najnowszej wersji i spróbuj ponownie.', duration=3)
 
 
 def wybierz_styl_z_pliku():

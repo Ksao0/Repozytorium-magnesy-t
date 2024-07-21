@@ -93,7 +93,7 @@ def version_sprawdzanie():
         except requests.exceptions.RequestException as e:
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia="Internet?", tresc_powiadomienia=f"Chyba nie masz dostępu do internetu, do zobaczenia!", duration=3)
+                tytul_powiadomienia="Brak internetu", tresc_powiadomienia=f"Brak dostępu do internetu, sprawdź połączenie", duration=3)
             return
 
         version_online_lines = version_online.split('\n')
@@ -113,7 +113,7 @@ def version_sprawdzanie():
         if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online) or version.parse(version_online_lines[0]) > version.parse(version_local_lines[1]):
             toaster = Powiadomienia()
             toaster.powiadomienie_jednorazowe(
-                tytul_powiadomienia="Nowa wersja!", tresc_powiadomienia=f"Pobieranie aktualizacji:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}\nZaczynamy instalowanie!", duration=3)
+                tytul_powiadomienia="Nowa wersja!", tresc_powiadomienia=f"Pobieranie aktualizacji:\n   {local_aktualna_wersja} --> {najnowsza_wersja_online}", duration=3)
             # ctypes.windll.user32.ShowWindow(
             #    ctypes.windll.kernel32.GetConsoleWindow(), 1)
             zainstaluj_biblioteki()

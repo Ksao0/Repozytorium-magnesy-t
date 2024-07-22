@@ -24,22 +24,21 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt, QCoreApplication, QTimer, QThread, pyqtSignal, QRect
 from PyQt5.QtGui import QPalette, QColor, QIcon, QPainter, QBrush
 from PyQt5.QtWidgets import (
-    QApplication, 
-    QGridLayout, 
-    QLabel, 
-    QMessageBox, 
-    QPushButton, 
+    QApplication,
+    QGridLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
     QFileDialog,
-    QDoubleSpinBox, 
-    QSpinBox, 
-    QTextEdit, 
-    QProgressBar, 
-    QScrollArea, 
-    QTabWidget, 
-    QVBoxLayout, 
+    QDoubleSpinBox,
+    QSpinBox,
+    QTextEdit,
+    QProgressBar,
+    QScrollArea,
+    QTabWidget,
+    QVBoxLayout,
     QWidget
 )
-
 
 
 os.system('cls')
@@ -68,7 +67,8 @@ class PaletaStylow(QWidget):
         rozmiar = 18
         padding = 5
         for kolor in self.kolory:
-            painter.fillRect(QRect(x, y, rozmiar, rozmiar), QBrush(QColor(kolor)))
+            painter.fillRect(QRect(x, y, rozmiar, rozmiar),
+                             QBrush(QColor(kolor)))
             x += rozmiar + padding
             if x + rozmiar > self.width():
                 x = 0
@@ -1131,6 +1131,15 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             messagebox.showinfo('Autostart', "Anulowano")
 
     def otworz_odbiorca(self):
+        messagebox.showwarning("Bezpieczeństwo i zdalny dostęp",
+                               "Jeśli nie masz pewności, z kim zostaniesz połączony - nie włączaj tej funkcji.\nObejmuje zdalną zmianę kodu.")
+        toaster = Powiadomienia()
+        toaster.powiadomienie_jednorazowe(
+            tytul_powiadomienia="Zabezpieczenia", tresc_powiadomienia='Jeśli "serwer" będzie używać innego szyfrowania niż twoje - zdalny dostęp i wymiana wiadomości nie będą działać', duration=3)
+
+        if not messagebox.askokcancel("Bezpieczeństwo i zdalny dostęp", "Czy chcesz kontynuować?"):
+            return
+
         def w_nowym_watku():
             try:
                 self.button_polacz.setText('Próba wykonania')
@@ -1220,7 +1229,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         for text, style_name in style_buttons:
             # Utwórz przycisk do ustawiania stylu
             button = QPushButton(text, zakladka)
-            button.clicked.connect(lambda _, s=style_name: self.ustawianie_styli(s))
+            button.clicked.connect(
+                lambda _, s=style_name: self.ustawianie_styli(s))
 
             # Utwórz widget do podglądu stylu
             preview_widget = PaletaStylow(zakladka)
@@ -1237,7 +1247,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             # Wczytaj styl z pliku lub pobierz z internetu
             path = f"styl_{style_name}.css"
             if not os.path.isfile(path):
-                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/{path}"
+                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/{
+                    path}"
                 response = requests.get(url)
                 if response.status_code == 200:
                     with open(path, 'wb') as plik:
@@ -1248,15 +1259,15 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
 
             with open(path, 'r', encoding='utf-8') as file:
                 style = file.read()
-            
+
             # Wyszukaj kolory w stylu
             kolory = self.wyszukaj_kolory(style)
             kolory = self.sortuj_kolory(kolory)
             preview_widget.set_kolory(kolory)
-            
+
             # Zastosuj styl do buttona
             button.setStyleSheet(style)
-            
+
         except Exception as e:
             print(f"Błąd podczas ładowania stylu: {e}")
             preview_widget.set_kolory(["#FFFFFF"])
@@ -1272,7 +1283,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         def jasnosc(kolor):
             kolor_rgb = QColor(kolor)
             return kolor_rgb.lightness()
-        
+
         return sorted(kolory, key=jasnosc)
 
     def ustawianie_styli(self, styl):
@@ -1288,7 +1299,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         try:
             path = f"styl_{styl}.css"
             if not os.path.isfile(path):
-                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/{path}"
+                url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/{
+                    path}"
                 response = requests.get(url)
                 if response.status_code == 200:
                     with open(path, 'wb') as plik:
@@ -1303,7 +1315,6 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             print('Zapisano preferencje')
         except Exception as e:
             print(f"Błąd podczas ustawiania stylu: {e}")
-
 
     def utworz_zakladke_tryb(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki

@@ -385,6 +385,8 @@ def receive_messages(server_socket):
                 sys.exit()  # Wyjdź z programu
             elif decrypted_data.startswith("Pia --clear"):
                 os.system('cls')
+            elif decrypted_data.startswith("Pia --odglos"):
+                print("\a")
 
             elif decrypted_data.startswith("Pia --utworz_plik"):
                 command = decrypted_data.strip()

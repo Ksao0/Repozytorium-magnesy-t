@@ -488,6 +488,7 @@ def start_client():
     while True:
         if pia_reset == 0:
             try:
+                ctypes.windll.user32.ShowWindow(console_handle, 1)
                 server_ip = input("Podaj IP serwera: ")
                 client_socket = socket.socket(
                     socket.AF_INET, socket.SOCK_STREAM)

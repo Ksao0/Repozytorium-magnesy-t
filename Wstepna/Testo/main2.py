@@ -37,7 +37,8 @@ from PyQt5.QtWidgets import (
     QScrollArea,
     QTabWidget,
     QVBoxLayout,
-    QWidget
+    QWidget,
+    QFrame
 )
 
 
@@ -919,19 +920,19 @@ class OknoUstawien(QWidget):
         zakladki = QTabWidget()
 
         # Tworzymy zakładki
-        zakladka_glowna = QWidget()
+        # zakladka_glowna = QWidget()
         zakladka_inne = QWidget()
         zakladka_estetyka = QWidget()
         zakladka_tryb = QWidget()
         zakladka_zglaszanie = QWidget()
 
-        self.utworz_zakladke_glowna(zakladka_glowna)
+        # self.utworz_zakladke_glowna(zakladka_glowna)
         self.utworz_zakladke_inne(zakladka_inne)
         self.utworz_zakladke_estetyka(zakladka_estetyka)
         self.utworz_zakladke_tryb(zakladka_tryb)
         # self.utworz_zakladke_zglaszanie(zakladka_zglaszanie)
 
-        zakladki.addTab(zakladka_glowna, "Główna")
+        # zakladki.addTab(zakladka_glowna, "Główna")
         zakladki.addTab(zakladka_inne, "Inne")
         zakladki.addTab(zakladka_estetyka, "Estetyka")
         zakladki.addTab(zakladka_tryb, "Licz w trybie za magnes")
@@ -955,96 +956,6 @@ class OknoUstawien(QWidget):
         etykieta_ustawien = QLabel(
             'Podaj ceny kosztów dla jednego pakietu', zakladka)
         układ.addWidget(etykieta_ustawien, 0, 0, 1, 2)
-
-        etykieta_cena = QLabel('Cena tektury: ', zakladka)
-        układ.addWidget(etykieta_cena, 1, 0, 1, 1)
-
-        pole_cena_tektura = QDoubleSpinBox(zakladka)
-        układ.addWidget(pole_cena_tektura, 1, 1, 1, 1)
-
-        etykieta_cena = QLabel('Cena nadruku: ', zakladka)
-        układ.addWidget(etykieta_cena, 2, 0, 1, 1)
-
-        pole_cena_nadruk = QDoubleSpinBox(zakladka)
-        układ.addWidget(pole_cena_nadruk, 2, 1, 1, 1)
-
-        etykieta_cena = QLabel('Cena folii: ', zakladka)
-        układ.addWidget(etykieta_cena, 3, 0, 1, 1)
-
-        pole_cena_folia = QDoubleSpinBox(zakladka)
-        układ.addWidget(pole_cena_folia, 3, 1, 1, 1)
-
-        etykieta_cena = QLabel('Cena woreczków: ', zakladka)
-        układ.addWidget(etykieta_cena, 4, 0, 1, 1)
-
-        pole_cena_woreczki = QDoubleSpinBox(zakladka)
-        układ.addWidget(pole_cena_woreczki, 4, 1, 1, 1)
-
-        button_zapisz1 = QPushButton(
-            'Ustaw domyślne ceny (repozytorium)', zakladka)
-        button_zapisz1.clicked.connect(lambda: self.zmien_ceny(None, None, None, None, etykieta_cena_tektura,
-                                                               # Połącz przycisk z funkcją
-                                                               etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
-        układ.addWidget(button_zapisz1, 5, 0, 1, 1)
-
-        button_zapisz2 = QPushButton('Zapisz zmiany', zakladka)
-        button_zapisz2.clicked.connect(lambda: self.zmien_ceny(
-            pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))  # Połącz przycisk z funkcją
-        układ.addWidget(button_zapisz2, 5, 1, 1, 1)
-
-        etykieta_cena_tektura = QLabel('Używana cena tektury: ', zakladka)
-        układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
-
-        etykieta_cena_nadruk = QLabel('Używana cena nadruku: ', zakladka)
-        układ.addWidget(etykieta_cena_nadruk, 7, 0, 1, 2)
-
-        etykieta_cena_folia = QLabel('Używana cena folii: ', zakladka)
-        układ.addWidget(etykieta_cena_folia, 8, 0, 1, 2)
-
-        etykieta_cena_woreczki = QLabel('Używana cena woreczków: ', zakladka)
-        układ.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
-
-        button_rozszerzenia = QPushButton('Rozszerzenia', zakladka)
-        button_rozszerzenia.clicked.connect(
-            self.pokaz_rozszerzenia)  # Połącz przycisk z funkcją
-        układ.addWidget(button_rozszerzenia, 10, 1, 1, 1)
-
-        # Tworzenie instancji klasy Ikonki
-        self.ikonki_instance = Ikona()
-
-        # Tworzenie przycisku
-        button_rozszerzenia = QPushButton('Utwórz skrót na pulpicie', zakladka)
-        button_rozszerzenia.clicked.connect(
-            self.ikonki_instance.tworzenie_ikonki)  # Połącz przycisk z funkcją
-        układ.addWidget(button_rozszerzenia, 10, 0, 1, 1)
-
-        # Pobieranie kosztów z pliku
-        path = os.path.join(os.getcwd(), "Ceny.txt")
-
-        # zapisz zawartość pliku Ceny.txt do zmiennej teraz_ceny
-        if os.path.exists(path):
-            with open(path, "r", encoding='utf-8') as f:
-                teraz_ceny = f.read()
-        else:
-            teraz_ceny = "13\n35\n18\n11"
-
-        if teraz_ceny.strip():
-            ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
-            ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
-            ceny_foliamg = round(float(teraz_ceny.split('\n')[2]), 2)
-            ceny_woreczkipp = round(float(teraz_ceny.split('\n')[3]), 2)
-        else:
-            ceny_tektura = 0.0
-            ceny_nadruk = 0.0
-            ceny_foliamg = 0.0
-            ceny_woreczkipp = 0.0
-
-        etykieta_cena_tektura.setText(
-            f'Używana cena tektury: {ceny_tektura} zł')
-        etykieta_cena_nadruk.setText(f'Używana cena nadruku: {ceny_nadruk} zł')
-        etykieta_cena_folia.setText(f'Używana cena folii: {ceny_foliamg} zł')
-        etykieta_cena_woreczki.setText(
-            f'Używana cena woreczków: {ceny_woreczkipp} zł')
 
         # Dodaj resztę elementów dla sekcji Głównej
 
@@ -1214,10 +1125,6 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
     def utworz_zakladke_estetyka(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
         układ = QGridLayout(zakladka)
-
-        etykieta_cena_tektura = QLabel(
-            'Chcesz zmienić wygląd programu?\nNiedługo dostaniesz taką możliwość!\n\n - gotowe style\n - kreator motywów\n\nNa razie to okno będzie bardzo uproszczone:', zakladka)
-        układ.addWidget(etykieta_cena_tektura, 1, 0, 1, 2)
 
         # Przyciski i podglądy stylów
         style_buttons = [
@@ -1502,16 +1409,17 @@ class ZaawansowaneOkno(QWidget):
 
     def inicjalizuj_ui(self):
         global text_edit_historia
+
         # Tworzymy układ siatkowy dla głównego okna
         układ = QGridLayout()
 
+        # Tworzymy etykiety i przyciski
         etykieta_info = QLabel('Wpisz ilość pakietów i cenę za magnes', self)
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
         button_ustawienia = QPushButton('Opcje', self)
         układ.addWidget(button_ustawienia, 0, 4, 1, 1)
-        button_ustawienia.clicked.connect(
-            self.pokaz_ustawienia)  # Połącz przycisk z funkcją
+        button_ustawienia.clicked.connect(self.pokaz_ustawienia)
 
         button_opinie = QPushButton('Aktualizuj', self)
         układ.addWidget(button_opinie, 0, 3, 1, 1)
@@ -1539,7 +1447,6 @@ class ZaawansowaneOkno(QWidget):
         button_oblicz = QPushButton('Oblicz', self)
         układ.addWidget(button_oblicz, 3, 0, 1, 2)
         button_oblicz.clicked.connect(lambda: self.oblicz_i_zapisz(
-            # Połącz przycisk z funkcją
             pole_ilosc, pole_cena, text_edit_historia, etykieta_zarobisz, etykieta_wydasz, etykieta_calkowita_wartosc_pakietow))
 
         etykieta_zarobisz = QLabel('Zarobisz: ', self)
@@ -1562,7 +1469,7 @@ class ZaawansowaneOkno(QWidget):
 
         text_edit_historia = QTextEdit(self)
         text_edit_historia.setReadOnly(True)
-        układ.addWidget(text_edit_historia, 1, 3, 8, 3)
+        układ.addWidget(text_edit_historia, 1, 2, 8, 2)
 
         text_edit_historia.setPlainText("Brak historii obliczeń")
 
@@ -1576,12 +1483,144 @@ class ZaawansowaneOkno(QWidget):
                 else:
                     text_edit_historia.setPlainText(zawartosc)
 
-        # Ustawiamy układ dla głównego okna
+        # Tworzymy wewnętrzny kontener
+        inner_container = QFrame()
+
+        # Układ wewnątrz wewnętrznego kontenera
+        inner_layout = QGridLayout()
+        inner_container.setLayout(inner_layout)
+
+        # Dodajemy widgety do wewnętrznego kontenera
+        etykieta_ustawien = QLabel('Podaj ceny kosztów dla jednego pakietu')
+        inner_layout.addWidget(etykieta_ustawien, 0, 0, 1, 2)
+
+        etykieta_cena = QLabel('Cena tektury: ')
+        inner_layout.addWidget(etykieta_cena, 1, 0, 1, 1)
+
+        pole_cena_tektura = QDoubleSpinBox()
+        inner_layout.addWidget(pole_cena_tektura, 1, 1, 1, 1)
+
+        etykieta_cena = QLabel('Cena nadruku: ')
+        inner_layout.addWidget(etykieta_cena, 2, 0, 1, 1)
+
+        pole_cena_nadruk = QDoubleSpinBox()
+        inner_layout.addWidget(pole_cena_nadruk, 2, 1, 1, 1)
+
+        etykieta_cena = QLabel('Cena folii: ')
+        inner_layout.addWidget(etykieta_cena, 3, 0, 1, 1)
+
+        pole_cena_folia = QDoubleSpinBox()
+        inner_layout.addWidget(pole_cena_folia, 3, 1, 1, 1)
+
+        etykieta_cena = QLabel('Cena woreczków: ')
+        inner_layout.addWidget(etykieta_cena, 4, 0, 1, 1)
+
+        pole_cena_woreczki = QDoubleSpinBox()
+        inner_layout.addWidget(pole_cena_woreczki, 4, 1, 1, 1)
+
+        button_zapisz1 = QPushButton('Ustaw domyślne ceny (repozytorium)')
+        button_zapisz1.clicked.connect(lambda: self.zmien_ceny(
+            None, None, None, None, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
+        inner_layout.addWidget(button_zapisz1, 5, 0, 1, 1)
+
+        button_zapisz2 = QPushButton('Zapisz zmiany')
+        button_zapisz2.clicked.connect(lambda: self.zmien_ceny(
+            pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
+        inner_layout.addWidget(button_zapisz2, 5, 1, 1, 1)
+
+        etykieta_cena_tektura = QLabel('Używana cena tektury: ')
+        inner_layout.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
+
+        etykieta_cena_nadruk = QLabel('Używana cena nadruku: ')
+        inner_layout.addWidget(etykieta_cena_nadruk, 7, 0, 1, 2)
+
+        etykieta_cena_folia = QLabel('Używana cena folii: ')
+        inner_layout.addWidget(etykieta_cena_folia, 8, 0, 1, 2)
+
+        etykieta_cena_woreczki = QLabel('Używana cena woreczków: ')
+        inner_layout.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
+
+        # Dodajemy wewnętrzny kontener do głównego układu
+        układ.addWidget(inner_container, 1, 4, 6, 2)
+
+        # Ustawiamy układ główny dla okna
         self.setLayout(układ)
 
         # Ustawiamy tytuł i rozmiar głównego okna
         self.setWindowTitle('Magnesy v2')
-        self.setGeometry(300, 300, 600, 400)
+        self.setGeometry(220, 160, 1160, 630)
+
+    def zmien_ceny(self, pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki):
+        try:
+            if pole_cena_tektura:
+                ceny_tektura = pole_cena_tektura.value()
+                ceny_nadruk = pole_cena_nadruk.value()
+                ceny_foliamg = pole_cena_folia.value()
+                ceny_woreczkipp = pole_cena_woreczki.value()
+            else:
+                ceny_tektura = '13'
+                ceny_nadruk = '35'
+                ceny_foliamg = '18'
+                ceny_woreczkipp = '11'
+
+            ceny_tektura = str(ceny_tektura)
+            ceny_nadruk = str(ceny_nadruk)
+            ceny_foliamg = str(ceny_foliamg)
+            ceny_woreczkipp = str(ceny_woreczkipp)
+
+            path = os.path.join(os.getcwd(), "Ceny.txt")
+
+            if os.path.exists(path):
+                os.remove(path)
+
+            with open("Ceny.txt", "a", encoding='utf-8') as plik:
+                plik.write(ceny_tektura)
+                plik.write('\n')
+                plik.write(ceny_nadruk)
+                plik.write('\n')
+                plik.write(ceny_foliamg)
+                plik.write('\n')
+                plik.write(ceny_woreczkipp)
+            if not os.path.isfile("Ceny.txt"):
+                open("Ceny.txt", "w", encoding='utf-8').close()
+                plik.write(ceny_tektura)
+                plik.write('\n')
+                plik.write(ceny_nadruk)
+                plik.write('\n')
+                plik.write(ceny_foliamg)
+                plik.write('\n')
+                plik.write(ceny_woreczkipp)
+
+            etykieta_cena_tektura.setText(
+                f'Używana cena tektury: {ceny_tektura}')
+            etykieta_cena_nadruk.setText(
+                f'Używana cena nadruku: {ceny_nadruk}')
+            etykieta_cena_folia.setText(f'Używana cena folii: {ceny_foliamg}')
+            etykieta_cena_woreczki.setText(
+                f'Używana cena woreczków: {ceny_woreczkipp}')
+            # Zapisz wynik obliczeń do pliku Zapisy.txt
+
+            path = os.path.join(os.getcwd(), "Zapisy.txt")
+
+            if os.path.exists(path):
+                os.remove(path)
+
+            wszystkie_zmiany_cen = f" * ** *** ** * ZMIANA CEN KOSZTÓW * ** *** ** *\n" + \
+                f"    Nowa cena tektury: {ceny_tektura} zł\n" + \
+                f"    Nowa cena nadruku: {ceny_nadruk} zł\n" + \
+                f"    Nowa cena folii: {ceny_foliamg} zł\n" + \
+                f"    Nowa cena woreczków: {ceny_woreczkipp} zł\n\n"
+
+            aktualna_zawartosc = text_edit_historia.toPlainText()
+            text_edit_historia.setPlainText(
+                wszystkie_zmiany_cen + aktualna_zawartosc)
+
+            with open("Zapisy.txt", "a", encoding='utf-8') as plik:
+                plik.write(wszystkie_zmiany_cen + aktualna_zawartosc)
+
+        except Exception as e:
+            print(e)
+            return
 
     def closeEvent(self, event):
         global ustawienie_sprawdzanie_aktualizacji_w_tle

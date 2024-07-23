@@ -1,11 +1,21 @@
-/*Ten sstyl jest jeszcze tworzony */
-
 QWidget {
     background-color: #1B0C1A; /* Kolor tła głównego okna */
     color: #F2F2F2; /* Kolor tekstu */
     selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
     selection-background-color: #441d32; /* Ustawienie koloru tła zaznaczonego tekstu */
     font-size: 12px; /* Ogólna wielkość czcionki */
+}
+
+QWidget#inner_container {
+    background-color: #221521; /* Kolor tła wewnętrznego kontenera */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+}
+QWidget#inner_container QLabel, QWidget#inner_container{
+    background-color: #221521; /* Kolor tła etykiet i przycisków */
+    color: #F2F2F2; /* Kolor tekstu */
+    selection-color: #40535b; /* Kolor zaznaczonego tekstu */
+    selection-background-color: #441d32; /* Kolor tła zaznaczonego tekstu */
+    font-size: 12px; /* Wielkość czcionki */
 }
 
 QStatusBar {
@@ -47,9 +57,8 @@ QTextEdit {
     selection-background-color: #311022; /* Kolor tła zaznaczonego tekstu */
 }
 
-
 QScrollBar:vertical {
-    background-color: #281d29; /* Kolor tła pionowego paska przewijania */
+    background-color: #2e2030; /* Kolor tła pionowego paska przewijania */
     width: 10px; /* Szerokość pionowego paska przewijania */
 }
 
@@ -63,7 +72,7 @@ QScrollBar::sub-page:vertical {
 
 
 QScrollBar:horizontal {
-    background-color: #281d29; /* Kolor tła poziomego paska przewijania */
+    background-color: #2e2030; /* Kolor tła poziomego paska przewijania */
     height: 10px; /* Wysokość poziomego paska przewijania */
 }
 QScrollBar::handle:vertical,

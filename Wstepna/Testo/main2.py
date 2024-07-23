@@ -41,7 +41,6 @@ from PyQt5.QtWidgets import (
     QFrame
 )
 
-
 os.system('cls')
 global ustawienie_auto
 global ustawienie_sprawdzanie_aktualizacji_w_tle
@@ -183,43 +182,43 @@ def wybierz_styl_z_pliku():
                             toaster.powiadomienie_jednorazowe(
                                 tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
                             print('Zapisany styl nie istnieje')
-                            ustawianie_stylu("szarość")
+                            ustawianie_stylu("ametyst")
                             # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
                             with open("Styl.txt", "w", encoding='utf-8') as plik:
-                                plik.write("szarość")
+                                plik.write("ametyst")
                             print(' Zapisano preferencje')
                     except:
                         toaster = Powiadomienia()
                         toaster.powiadomienie_jednorazowe(
                             tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
                         print('Zapisany styl nie istnieje')
-                        ustawianie_stylu("szarość")
+                        ustawianie_stylu("ametyst")
                         # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
                         with open("Styl.txt", "w", encoding='utf-8') as plik:
-                            plik.write("szarość")
+                            plik.write("ametyst")
                         print(Fore.LIGHTCYAN_EX +
                               ' Zapisano preferencje' + Style.RESET_ALL)
         else:
             try:
-                app.setStyleSheet(open('styl_szarość.css').read())
-                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+                app.setStyleSheet(open('styl_ametyst.css').read())
+                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: ametyst')
             except:
                 try:
                     try:
                         print('Nie znaleziono pliku arkusza stylu')
                         # Podaj URL pliku, który chcesz pobrać
-                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+                        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_ametyst.css"
 
                         # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                        nazwa_pliku = "styl_szarość.css"
+                        nazwa_pliku = "styl_ametyst.css"
                         response = requests.get(url)
 
                         if response.status_code == 200:
                             with open(nazwa_pliku, 'wb') as plik:
                                 plik.write(response.content)
-                            print('Pobrano styl: szarość')
-                            app.setStyleSheet(open('styl_szarość.css').read())
-                            print('Ustawiono styl na: szarość')
+                            print('Pobrano styl: ametyst')
+                            app.setStyleSheet(open('styl_ametyst.css').read())
+                            print('Ustawiono styl na: ametyst')
                         else:
                             print("Wystąpił problem podczas pobierania pliku")
                     except:
@@ -358,24 +357,24 @@ def ustawianie_stylu(styl):
             response = requests.get(url)
         except:
             try:
-                app.setStyleSheet(open('styl_szarość.css').read())
-                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: szarość')
+                app.setStyleSheet(open('styl_ametyst.css').read())
+                print('Nie znaleziono arkusza stylu\n Ustawiono styl na: ametyst')
             except:
                 try:
                     print('Nie znaleziono pliku arkusza stylu')
                     # Podaj URL pliku, który chcesz pobrać
-                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_szarość.css"
+                    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_ametyst.css"
 
                     # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
-                    nazwa_pliku = "styl_szarość.css"
+                    nazwa_pliku = "styl_ametyst.css"
                     response = requests.get(url)
 
                     if response.status_code == 200:
                         with open(nazwa_pliku, 'wb') as plik:
                             plik.write(response.content)
-                        print('Pobrano styl: szarość')
-                        app.setStyleSheet(open('styl_szarość.css').read())
-                        print('Ustawiono styl na: szarość')
+                        print('Pobrano styl: ametyst')
+                        app.setStyleSheet(open('styl_ametyst.css').read())
+                        print('Ustawiono styl na: ametyst')
                     else:
                         print("Wystąpił problem podczas pobierania pliku")
                 except:
@@ -574,7 +573,7 @@ def sprawdz_biblioteki():
             liczba_z_data = int(pierwsza_linia)
         except ValueError:
             print(Fore.YELLOW + "Błąd:\n" + Fore.RED +
-                  "Format pliku DATA.txt nie jest prawidłowy, jeśli ten błąd będzie się powtarzał - usuń DATA.txt z plików programu" + Style.RESET_ALL)
+                  "Format pliku DATA.txt nie jest prawidłowy, jeśli ten błąd będzie się powtarzał - usuń DATA.txt z plików programu i wykonaj aktualizcję" + Style.RESET_ALL)
             liczba_z_data = -1
 
         if liczba_z_data == liczba_linii_z_url:
@@ -1129,7 +1128,8 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         # Przyciski i podglądy stylów
         style_buttons = [
             ("Szarość", "szarość"),
-            ("Ametyst", "ametyst")
+            ("Ametyst", "ametyst"),
+            ("Prosta zieleń", "p_zielony")
         ]
 
         row = 2
@@ -1539,6 +1539,8 @@ class ZaawansowaneOkno(QWidget):
 
         etykieta_cena_woreczki = QLabel('Używana cena woreczków: ')
         inner_layout.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
+
+        inner_container.setObjectName("inner_container")
 
         # Dodajemy wewnętrzny kontener do głównego układu
         układ.addWidget(inner_container, 1, 4, 6, 2)

@@ -3,6 +3,7 @@ QWidget {
     color: #FFFFFF; /* Kolor tekstu */
     selection-color: #40535b; /* Ustawienie koloru zaznaczonego tekstu */
     selection-background-color: #EAEAEA; /* Ustawienie koloru tła zaznaczonego tekstu */
+    font-size: 12px; /* Ogólna wielkość czcionki */
 }
 
 QStatusBar {

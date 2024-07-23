@@ -1,0 +1,171 @@
+QWidget {
+    background-color: #072720cb; /* Kolor tła głównego okna rgba(22, 68, 58, 0.795) */
+    color: #058166; /* Kolor tekstu */
+    selection-color: #095b8a; /* Ustawienie koloru zaznaczonego tekstu */
+    selection-background-color: #102141cb; /* Ustawienie koloru tła zaznaczonego tekstu */ /* #0c7077cb */
+    font-size: 12px; /* Ogólna wielkość czcionki */
+}
+
+QLabel {
+    background-color: #072720cb;
+}
+
+QWidget#inner_container {
+    background-color: rgba(5, 44, 36, 0.795); /* Kolor tła wewnętrznego kontenera */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+}
+QWidget#inner_container QLabel#inner_container, QWidget#inner_container{
+    background-color: rgba(5, 44, 36, 0.795); /* Kolor tła etykiet i przycisków rgba(6, 51, 41, 0.795)*/
+    color: #058166; /* Kolor tekstu */
+    selection-color: #40535b; /* Kolor zaznaczonego tekstu */
+    selection-background-color: #0c7077cb; /* Kolor tła zaznaczonego tekstu */
+    font-size: 12px; /* Wielkość czcionki */
+}
+
+QStatusBar {
+    background-color: #333333; /* Kolor tła paska statusu */
+    color: #FFFFFF; /* Kolor tekstu paska statusu */
+}
+
+
+QPushButton {
+    background-color: rgba(13, 59, 49, 0.795); /* Kolor tła przycisków z 50% przezroczystością */
+    color: rgb(128, 199, 182); /* Kolor tekstu przycisków */
+    border: 1px solid rgba(5, 63, 50, 0.788); /* Grubość i kolor obramowania przycisków */
+    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+    text-align: center;
+    alignment: center
+}
+
+QPushButton:hover {
+    background-color: rgba(14, 68, 56, 0.795); /* Kolor tła przycisków po najechaniu myszką */
+}
+
+QTextEdit {
+    background-color: #0e3f34cb; /* Kolor tła przycisków */
+    color: #058166; /* Kolor tekstu przycisków */
+    border: 1px solid #051811; /* Grubość i kolor obramowania przycisków */
+    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+
+    selection-color: #115042; /* Ustawienie koloru zaznaczonego tekstu */
+    selection-background-color: #0c7077cb; /* Ustawienie koloru tła zaznaczonego tekstu */ /* #0c7077cb */
+
+    /* background-color: #13523dcb; /* Kolor tła przycisków */
+    /* background-color: #0c7077cb; /* Kolor tła przycisków */
+    /* background-color: #054235; /* Kolor tła przycisków */
+
+}
+
+QTextEdit {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop: 0 #13523dcb, /* Początek gradientu */
+        stop: 0.35 #0c7077cb, /* Środkowy kolor gradientu */
+        stop: 1 #054235); /* Koniec gradientu */
+}
+
+QScrollBar:vertical {
+    background-color: #073022;
+    width: 10px; /* Szerokość pionowego paska przewijania */
+}
+
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical,
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: none; /* Wyłączenie tła dla różnych części pionowego paska przewijania */
+}
+
+
+QScrollBar:horizontal {
+    background-color: #073022; /* Kolor tła poziomego paska przewijania */
+    height: 10px; /* Wysokość poziomego paska przewijania */
+}
+QScrollBar::handle:vertical,
+QScrollBar::handle:horizontal {
+    background-color: #041b16; /* Kolor "uchwytu" poziomego paska przewijania */
+    border-radius: 5px; /* Zaokrąglenie narożników "uchwytu" */
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal,
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal {
+    background: none; /* Wyłączenie tła dla różnych części poziomego paska przewijania */
+}
+
+QLineEdit,
+QDoubleSpinBox {
+    background-color: #054235; /* Kolor tła przycisków */
+    color: #058166; /* Kolor tekstu przycisków */
+    border: 1px solid #13523dcb; /* Grubość i kolor obramowania przycisków */
+    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+}
+
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+    width: 0px; /* Ustaw szerokość przycisków na 0, aby je ukryć */
+}
+
+
+QSpinBox {
+    background-color: #054235; /* Kolor tła przycisków */
+    color: #058166; /* Kolor tekstu przycisków */
+    border: 1px solid #13523dcb; /* Grubość i kolor obramowania przycisków */
+    border-radius: 5px; /* Zaokrąglenie narożników przycisków */
+    padding: 5px 10px; /* Wewnętrzny odstęp przycisków */
+}
+
+QProgressBar { /* Styl dla paska postępu */
+    border: 2px solid #0c7077cb; /* Grubość i kolor obramowania */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+    text-align: center; /* Wycentrowany tekst */
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop: 0 #13523dcb, /* Początek gradientu */
+        stop: 0.5 #054235, /* Środkowy kolor gradientu */
+        stop: 1 #0c7077cb); /* Koniec gradientu */
+}
+
+QProgressBar::chunk { /* Styl dla wypełnienia paska postępu */
+    background-color: #0c7077cb; /* Kolor wypełnienia */
+    width: 10px; /* Szerokość wypełnienia */
+}
+
+
+/* Usunięcie obramowania dla panelu zakładek */
+QTabWidget {
+    border: none;
+}
+
+
+QTabWidget::pane { /* Styl dla panelu zakładek */
+    border-top: 0px solid #343637; /* Górne obramowanie panelu */
+}
+
+QTabWidget::tab-bar { /* Styl dla paska zakładek */
+    alignment: left; /* Wyrównanie do lewej */
+}
+
+QTabBar::tab { /* Styl dla pojedynczej zakładki */
+    background-color: #08362c; /* Kolor tła zakładki */
+    color: #058166; /* Kolor tekstu */
+    min-width: 55px; /* Minimalna szerokość zakładki */
+    padding: 5px; /* Wewnętrzny odstęp */
+    margin-right: 2px; /* Prawy margines */
+    padding-right: 19%;
+    text-align: center; /* Wyśrodkowanie tekstu */
+    padding-left: 21%;
+
+}
+
+QTabBar::tab:selected { /* Styl dla wybranej zakładki */
+    background-color: #0b4b50; /* Kolor tła wybranej zakładki */
+    color: #058166; /* Kolor tekstu */
+}
+
+QTabBar::tab:last {
+    margin-right: 0;
+    border-bottom-right-radius: 7px; /* Zaokrąglenie górnego prawego rogu */
+}

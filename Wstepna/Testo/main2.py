@@ -148,6 +148,21 @@ try:
 except:
     print("Nie udało się pobrać pliku. Połącz się z internetem")
 
+try:
+    url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Klienci.py"
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        icon_data = response.content
+        filename = os.path.basename(url)
+
+        with open(filename, 'wb') as icon_file:
+            icon_file.write(icon_data)
+    else:
+        print("Nie udało się pobrać pliku.")
+except:
+    print("Nie udało się pobrać pliku. Połącz się z internetem")
+
 
 def wybierz_styl_z_pliku():
     try:

@@ -1144,7 +1144,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         style_buttons = [
             ("Szarość", "szarość"),
             ("Ametyst", "ametyst"),
-            ("Prosta zieleń", "p_zielony")
+            ("Zieleń", "p_zielony")
         ]
 
         row = 2

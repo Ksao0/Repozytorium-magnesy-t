@@ -165,6 +165,19 @@ except:
 
 
 def wybierz_styl_z_pliku():
+    def styl_awaryjny():
+        toaster = Powiadomienia()
+        toaster.powiadomienie_jednorazowe(
+            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istniwięc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+        print('Zapisany styl nie istnieje')
+
+        ustawianie_stylu("ametyst")
+
+        # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
+        with open("Styl.txt", "w", encoding='utf-8') as plik:
+            plik.write("ametyst")
+        print(Fore.LIGHTCYAN_EX +
+              ' Zapisano preferencje' + Style.RESET_ALL)
     try:
         # Funkcja do odczytywania zawartości pliku i wybierania stylu
 
@@ -189,30 +202,14 @@ def wybierz_styl_z_pliku():
                         if response.status_code == 200:
                             with open(nazwa_pliku, 'wb') as plik:
                                 plik.write(response.content)
-                            print(f'Pobrano styl: {styl}')
+                            print(Fore.LIGHTBLACK_EX + f'Pobrano styl: {styl}')
                             app.setStyleSheet(open(f'styl_{styl}.css').read())
-                            print(f'Ustawiono styl na: {styl}')
+                            print(Fore.LIGHTBLACK_EX +
+                                  f'Ustawiono styl na: {styl}')
                         else:
-                            toaster = Powiadomienia()
-                            toaster.powiadomienie_jednorazowe(
-                                tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
-                            print('Zapisany styl nie istnieje')
-                            ustawianie_stylu("ametyst")
-                            # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                            with open("Styl.txt", "w", encoding='utf-8') as plik:
-                                plik.write("ametyst")
-                            print(' Zapisano preferencje')
+                            styl_awaryjny()
                     except:
-                        toaster = Powiadomienia()
-                        toaster.powiadomienie_jednorazowe(
-                            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
-                        print('Zapisany styl nie istnieje')
-                        ustawianie_stylu("ametyst")
-                        # Otwarcie pliku w trybie zapisu (nadpisanie istniejącej zawartości)
-                        with open("Styl.txt", "w", encoding='utf-8') as plik:
-                            plik.write("ametyst")
-                        print(Fore.LIGHTCYAN_EX +
-                              ' Zapisano preferencje' + Style.RESET_ALL)
+                        styl_awaryjny()
         else:
             try:
                 app.setStyleSheet(open('styl_ametyst.css').read())
@@ -239,10 +236,18 @@ def wybierz_styl_z_pliku():
                     except:
                         app.setStyleSheet(open('styl_ametyst.css').read())
                 except:
-                    print(
-                        'Nie posiadasz żadnego pliku ze stylem, połącz się z internetem.')
+
+                    # Sprawdzenie połączenia internetowego
+                    try:
+                        requests.get("https://www.google.com", timeout=5)
+
+                    except (requests.ConnectionError, requests.Timeout):
+                        print("Brak połączenia z internetem.")
+                        print(
+                            'Nie posiadasz żadnego pliku ze stylem, połącz się z internetem.')
     except:
-        print('Nie posiadasz żadnego pliku ze stylem, połącz się z internetem.')
+        print('Nie posiadasz żadnego pliku ze stylem, połącz się z internetem i ' +
+              Fore.RED + 'wykonaj aktualizację programu' + Style.RESET_ALL)
 
 
 class AutoStartManager:
@@ -479,7 +484,7 @@ class Ikona:
 
 
 def Inne():
-    print('Dziennik działań:')
+    print(Fore.LIGHTBLACK_EX + 'Dziennik działań:')
 
     try:
         def Inne1p():
@@ -490,13 +495,15 @@ def Inne():
                 except:
                     pass
 
-        thread = threading.Thread(target=Inne1p)
-        thread.start()
-
         thread = threading.Thread(target=sprawdzanie_nowych_aktualizacji)
         thread.start()
+        time.sleep(1)
 
         thread = threading.Thread(target=download_icon)
+        thread.start()
+        time.sleep(1)
+
+        thread = threading.Thread(target=Inne1p)
         thread.start()
     except:
         print("Brak dostępu do internetu")
@@ -873,9 +880,9 @@ class OknoAktualizacji(QWidget):
                     url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Instalator.py"
                     urllib.request.urlretrieve(url, path)
                     # print("Zastąpiono plik Instalator.py")
+                    print('Pobrano instalator')
 
                     subprocess.run(['python', 'Instalator.py'])
-                    print('Pobrano instalator')
                 except Exception as e:
                     print(
                         Fore.RED + f" - Wystąpił błąd podczas instalacji:\n {e}" + Style.RESET_ALL)
@@ -1246,7 +1253,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         układ.addWidget(etykieta_ilosc_magnesow, 0, 0, 1, 1)
 
         pole_ilosc_magnesow = QSpinBox(zakladka)
-        pole_ilosc_magnesow.setMaximum(9999999)
+        pole_ilosc_magnesow.setMaximum(10000000)
         układ.addWidget(pole_ilosc_magnesow, 0, 1, 1, 2)
 
         etykieta_cena_za_magnes = QLabel("Cena za magnes: ", zakladka)
@@ -1449,14 +1456,14 @@ class ZaawansowaneOkno(QWidget):
         układ.addWidget(etykieta_ilosc, 1, 0, 1, 1)
 
         pole_ilosc = QSpinBox(self)
-        pole_ilosc.setMaximum(1000)
+        pole_ilosc.setMaximum(1001)
         układ.addWidget(pole_ilosc, 1, 1, 1, 1)
 
         etykieta_cena = QLabel('Cena za magnes: ', self)
         układ.addWidget(etykieta_cena, 2, 0, 1, 1)
 
         pole_cena = QDoubleSpinBox(self)
-        pole_cena.setMaximum(1000)
+        pole_cena.setMaximum(1001)
         układ.addWidget(pole_cena, 2, 1, 1, 1)
 
         button_oblicz = QPushButton('Oblicz', self)
@@ -1746,13 +1753,13 @@ if __name__ == '__main__':
     # Wyświetlamy główne okno
     okno.show()
 
+    wybierz_styl_z_pliku()
+
     # Tworzenie nowego wątku, który wywołuje funkcję open_file()
     thread = threading.Thread(target=Inne)
 
     # Uruchamianie wątku
     thread.start()
-
-    wybierz_styl_z_pliku()
 
     # Uruchamiamy pętlę główną
     sys.exit(app.exec_())

@@ -1,3 +1,5 @@
-2.5.8
- Poprawa wydajności
- Zmiana wyglądu głównego okna
+2.5.9
+ - Poprawa wydajności
+ - Zmiana wyglądu głównego okna
+ - Usunięto znane błędy
+ - Poprawiono wyświetlanie komunikatów w terminalu

@@ -39,7 +39,7 @@ global pia_reset
 pia_reset = 0
 
 os.system('cls')  # W przypadku Windows, używamy polecenia cls
-print('Dziennik działań:')
+print(Fore.LIGHTBLACK_EX + 'Dziennik działań:')
 
 # Sprawdzenie połączenia internetowego
 try:
@@ -93,7 +93,8 @@ def czytaj_folder(nazwa_folderu, server_socket):
             formatted_response = f'Zawartość folderu "{
                 nazwa_folderu}":\n{zawartosc_folderu}'
             # Wyślij zawartość folderu na serwer
-            server_socket.sendall(szyfrowanie(formatted_response).encode('utf-8'))
+            server_socket.sendall(szyfrowanie(
+                formatted_response).encode('utf-8'))
         else:
             # Jeśli folder nie istnieje, wyślij informację o tym na serwer
             message = f'Folder "{nazwa_folderu}" nie istnieje na pulpicie.'
@@ -239,8 +240,9 @@ def tworzenie_ikonki():
 def Pia_reset(server_socket):
     global pia_reset
     try:
-        server_socket.sendall(szyfrowanie("$ Wykonywanie funkcji").encode('utf-8'))
-        
+        server_socket.sendall(szyfrowanie(
+            "$ Wykonywanie funkcji").encode('utf-8'))
+
         # Lista adresów URL plików do pobrania
         urls = [
             "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Odbiorca.py",
@@ -258,7 +260,8 @@ def Pia_reset(server_socket):
             else:
                 print(
                     Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-                server_socket.sendall(szyfrowanie("Polecenie serwera nie mogło zostać wykonane").encode('utf-8'))
+                server_socket.sendall(szyfrowanie(
+                    "Polecenie serwera nie mogło zostać wykonane").encode('utf-8'))
         pia_reset = 1
         time.sleep(3)
 
@@ -270,14 +273,16 @@ def Pia_reset(server_socket):
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         print(Style.RESET_ALL)
         # Wysłanie komunikatu do serwera w przypadku błędu
-        server_socket.sendall(szyfrowanie(f"Polecenie serwera nie mogło zostać wykonane [0]:\nU użytkownika wystąpił błąd:\n{e}").encode('utf-8'))
+        server_socket.sendall(szyfrowanie(
+            f"Polecenie serwera nie mogło zostać wykonane [0]:\nU użytkownika wystąpił błąd:\n{e}").encode('utf-8'))
 
 
 def Pia_aktul(server_socket):
     global pia_reset
     try:
         # Przekonwertowanie komunikatu na bajty
-        server_socket.sendall(szyfrowanie("$ Wykonywanie funkcji").encode('utf-8'))
+        server_socket.sendall(szyfrowanie(
+            "$ Wykonywanie funkcji").encode('utf-8'))
 
         # Lista adresów URL plików do pobrania
         urls = [
@@ -296,15 +301,17 @@ def Pia_aktul(server_socket):
                     file.write(file_data)
             else:
                 # Wyślij komunikat o błędzie w formacie bajtów
-                print(Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
-                server_socket.sendall(szyfrowanie("Polecenie serwera nie mogło zostać wykonane").encode('utf-8'))
+                print(
+                    Fore.MAGENTA + "Polecenie serwera nie mogło zostać wykonane" + Style.RESET_ALL)
+                server_socket.sendall(szyfrowanie(
+                    "Polecenie serwera nie mogło zostać wykonane").encode('utf-8'))
         pia_reset = 1
     except Exception as e:
         print(Fore.RED + "Wystąpił błąd podczas wykonywania polecenia:", e)
         print(Style.RESET_ALL)
         # Wysłanie komunikatu do serwera w przypadku błędu w formacie bajtów
-        server_socket.sendall(szyfrowanie("Polecenie serwera nie mogło zostać wykonane [0]").encode('utf-8'))
-
+        server_socket.sendall(szyfrowanie(
+            "Polecenie serwera nie mogło zostać wykonane [0]").encode('utf-8'))
 
 
 # Funkcja do obsługi powiadomień

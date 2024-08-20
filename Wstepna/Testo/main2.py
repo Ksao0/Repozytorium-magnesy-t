@@ -443,8 +443,8 @@ class Ikona:
 
             # Wyświetl powiadomienie o utworzeniu skrótu
             msg = QMessageBox()
-            msg.setWindowTitle("Skrót utworzony")
-            msg.setText("Skrót na pulpicie został utworzony!")
+            msg.setWindowTitle("Skrót utworzony!")
+            msg.setText("Skrót na pulpicie został utworzony!\nBędze w pierwwszym wolnym miejscu na pulpicie, lub w miejscu już istniejącego skrótu do tego programu.")
             msg.setIcon(QMessageBox.Information)
             msg.exec_()
 
@@ -1033,6 +1033,16 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         układ.addWidget(self.toggle_button, 2, 0, 1, 1)
 
         self.toggle_button.clicked.connect(self.onToggleSwitch)
+
+        self.button_skrot = QPushButton(
+            "Dodaj skrót na pulpicie", zakladka)
+        self.button_skrot.clicked.connect(self.tworzenie_skrotu)
+        układ.addWidget(self.button_skrot, 5, 0, 1, 1)
+
+    def tworzenie_skrotu(self):
+        # Utwórz instancję klasy i wywołaj metodę
+        ikona = Ikona()
+        ikona.tworzenie_ikonki()
 
     def automa(self):
         if messagebox.askokcancel("Autostart", 'Ta opcja doda aktualizator do autostartu, możesz to cofnąć w każdej chwili\nW niektórych przypadkach możesz zobaczyć okno terminalu na killka sekund\nJeśli program się zamknie - coś poszło nie tak'):

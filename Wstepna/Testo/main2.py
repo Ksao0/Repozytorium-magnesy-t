@@ -444,7 +444,8 @@ class Ikona:
             # Wyświetl powiadomienie o utworzeniu skrótu
             msg = QMessageBox()
             msg.setWindowTitle("Skrót utworzony!")
-            msg.setText("Skrót na pulpicie został utworzony!\nBędze w pierwwszym wolnym miejscu na pulpicie, lub w miejscu już istniejącego skrótu do tego programu.")
+            msg.setText(
+                "Skrót na pulpicie został utworzony!\nBędze w pierwwszym wolnym miejscu na pulpicie, lub w miejscu już istniejącego skrótu do tego programu.")
             msg.setIcon(QMessageBox.Information)
             msg.exec_()
 
@@ -1302,7 +1303,12 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             with open(path, "r", encoding='utf-8') as f:
                 teraz_ceny = f.read()
         else:
-            teraz_ceny = "13\n35\n18\n11"
+            if messagebox.askokcancel("Brak pliku cen", "Nie można było znaleźć pliku cen kosztów. Czy chcesz kontynuuować♀ z domyslnymi cenami?\nTektura: 13 zł\nNadruk: 35 zł\nFolia magnetyczna: 18 zł\nWoreczki pp: 11 zł"):
+                teraz_ceny = "13\n35\n18\n11"
+            else:
+                messagebox.showinfo("Ustaw ceny"
+                    "Ustaw nowe ceny w odpowiednim oknie i spróbuj ponownie.")
+                return
 
         ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
         ceny_nadruk = round(float(teraz_ceny.split('\n')[1]), 2)
@@ -1343,78 +1349,6 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             self.okno_rozszerzen.show()
         else:
             self.okno_rozszerzen.raise_()
-
-    def zmien_ceny(self, pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki):
-        try:
-            if pole_cena_tektura:
-                ceny_tektura = pole_cena_tektura.value()
-                ceny_nadruk = pole_cena_nadruk.value()
-                ceny_foliamg = pole_cena_folia.value()
-                ceny_woreczkipp = pole_cena_woreczki.value()
-            else:
-                ceny_tektura = '13'
-                ceny_nadruk = '35'
-                ceny_foliamg = '18'
-                ceny_woreczkipp = '11'
-
-            ceny_tektura = str(ceny_tektura)
-            ceny_nadruk = str(ceny_nadruk)
-            ceny_foliamg = str(ceny_foliamg)
-            ceny_woreczkipp = str(ceny_woreczkipp)
-
-            path = os.path.join(os.getcwd(), "Ceny.txt")
-
-            if os.path.exists(path):
-                os.remove(path)
-
-            with open("Ceny.txt", "a", encoding='utf-8') as plik:
-                plik.write(ceny_tektura)
-                plik.write('\n')
-                plik.write(ceny_nadruk)
-                plik.write('\n')
-                plik.write(ceny_foliamg)
-                plik.write('\n')
-                plik.write(ceny_woreczkipp)
-            if not os.path.isfile("Ceny.txt"):
-                open("Ceny.txt", "w", encoding='utf-8').close()
-                plik.write(ceny_tektura)
-                plik.write('\n')
-                plik.write(ceny_nadruk)
-                plik.write('\n')
-                plik.write(ceny_foliamg)
-                plik.write('\n')
-                plik.write(ceny_woreczkipp)
-
-            etykieta_cena_tektura.setText(
-                f'Używana cena tektury: {ceny_tektura}')
-            etykieta_cena_nadruk.setText(
-                f'Używana cena nadruku: {ceny_nadruk}')
-            etykieta_cena_folia.setText(f'Używana cena folii: {ceny_foliamg}')
-            etykieta_cena_woreczki.setText(
-                f'Używana cena woreczków: {ceny_woreczkipp}')
-            # Zapisz wynik obliczeń do pliku Zapisy.txt
-
-            path = os.path.join(os.getcwd(), "Zapisy.txt")
-
-            if os.path.exists(path):
-                os.remove(path)
-
-            wszystkie_zmiany_cen = f" * ** *** ** * ZMIANA CEN KOSZTÓW * ** *** ** *\n" + \
-                f"    Nowa cena tektury: {ceny_tektura} zł\n" + \
-                f"    Nowa cena nadruku: {ceny_nadruk} zł\n" + \
-                f"    Nowa cena folii: {ceny_foliamg} zł\n" + \
-                f"    Nowa cena woreczków: {ceny_woreczkipp} zł\n\n"
-
-            aktualna_zawartosc = text_edit_historia.toPlainText()
-            text_edit_historia.setPlainText(
-                wszystkie_zmiany_cen + aktualna_zawartosc)
-
-            with open("Zapisy.txt", "a", encoding='utf-8') as plik:
-                plik.write(wszystkie_zmiany_cen + aktualna_zawartosc)
-
-        except Exception as e:
-            print(e)
-            return
 
     def utworz_zakladke_zglaszanie(self, zakladka):
         # Tworzymy układ siatkowy dla zakładki
@@ -1526,31 +1460,42 @@ class ZaawansowaneOkno(QWidget):
         etykieta_ustawien = QLabel('Podaj ceny kosztów dla jednego pakietu')
         inner_layout.addWidget(etykieta_ustawien, 0, 0, 1, 2)
 
-        etykieta_cena = QLabel('Cena tektury: ')
-        inner_layout.addWidget(etykieta_cena, 1, 0, 1, 1)
+        # Odczytanie cen z pliku
+        ceny = self.odczytaj_ceny_z_pliku('Ceny.txt')
+
+        # Etykieta i pole dla ceny tektury
+        etykieta_cena_tektura = QLabel('Cena tektury: ')
+        inner_layout.addWidget(etykieta_cena_tektura, 1, 0, 1, 1)
 
         pole_cena_tektura = QDoubleSpinBox()
+        pole_cena_tektura.setValue(ceny.get('tektura', 0.0))
         inner_layout.addWidget(pole_cena_tektura, 1, 1, 1, 1)
 
-        etykieta_cena = QLabel('Cena nadruku: ')
-        inner_layout.addWidget(etykieta_cena, 2, 0, 1, 1)
+        # Etykieta i pole dla ceny nadruku
+        etykieta_cena_nadruk = QLabel('Cena nadruku: ')
+        inner_layout.addWidget(etykieta_cena_nadruk, 2, 0, 1, 1)
 
         pole_cena_nadruk = QDoubleSpinBox()
+        pole_cena_nadruk.setValue(ceny.get('nadruk', 0.0))
         inner_layout.addWidget(pole_cena_nadruk, 2, 1, 1, 1)
 
-        etykieta_cena = QLabel('Cena folii: ')
-        inner_layout.addWidget(etykieta_cena, 3, 0, 1, 1)
+        # Etykieta i pole dla ceny folii
+        etykieta_cena_folia = QLabel('Cena folii: ')
+        inner_layout.addWidget(etykieta_cena_folia, 3, 0, 1, 1)
 
         pole_cena_folia = QDoubleSpinBox()
+        pole_cena_folia.setValue(ceny.get('folia', 0.0))
         inner_layout.addWidget(pole_cena_folia, 3, 1, 1, 1)
 
-        etykieta_cena = QLabel('Cena woreczków: ')
-        inner_layout.addWidget(etykieta_cena, 4, 0, 1, 1)
+        # Etykieta i pole dla ceny woreczków
+        etykieta_cena_woreczki = QLabel('Cena woreczków: ')
+        inner_layout.addWidget(etykieta_cena_woreczki, 4, 0, 1, 1)
 
         pole_cena_woreczki = QDoubleSpinBox()
+        pole_cena_woreczki.setValue(ceny.get('woreczki', 0.0))
         inner_layout.addWidget(pole_cena_woreczki, 4, 1, 1, 1)
 
-        button_zapisz1 = QPushButton('Ustaw domyślne ceny (repozytorium)')
+        button_zapisz1 = QPushButton('Ustaw domyślne ceny (zapisane w kodzie)')
         button_zapisz1.clicked.connect(lambda: self.zmien_ceny(
             None, None, None, None, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
         inner_layout.addWidget(button_zapisz1, 5, 0, 1, 1)
@@ -1572,6 +1517,20 @@ class ZaawansowaneOkno(QWidget):
         etykieta_cena_woreczki = QLabel('Używana cena woreczków: ')
         inner_layout.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
 
+        # Ustawianie cen od razu po włączeniu w etykietach
+        ceny_tektura = pole_cena_tektura.value()
+        ceny_nadruk = pole_cena_nadruk.value()
+        ceny_foliamg = pole_cena_folia.value()
+        ceny_woreczkipp = pole_cena_woreczki.value()
+
+        etykieta_cena_tektura.setText(
+            f'Używana cena tektury: {ceny_tektura}')
+        etykieta_cena_nadruk.setText(
+            f'Używana cena nadruku: {ceny_nadruk}')
+        etykieta_cena_folia.setText(f'Używana cena folii: {ceny_foliamg}')
+        etykieta_cena_woreczki.setText(
+            f'Używana cena woreczków: {ceny_woreczkipp}')
+
         inner_container.setObjectName("inner_container")
 
         # Dodajemy wewnętrzny kontener do głównego układu
@@ -1583,6 +1542,31 @@ class ZaawansowaneOkno(QWidget):
         # Ustawiamy tytuł i rozmiar głównego okna
         self.setWindowTitle('Magnesy v2')
         self.setGeometry(220, 160, 1160, 630)
+
+    def odczytaj_ceny_z_pliku(self, nazwa_pliku):
+        # Sprawdzenie, czy plik istnieje
+        if not os.path.isfile(nazwa_pliku):
+
+            if messagebox.showwarning("Brak pliku cen", "Nie można było znaleźć pliku cen kosztów. Zostaną wczytane domyślne koszty za pakiet:\nTektura: 13 zł\nNadruk: 35 zł\nFolia magnetyczna: 18 zł\nWoreczki pp: 11 zł"):
+                self.zmien_ceny(None, None, None, None, 13, 35, 18, 11)
+            else:
+                messagebox.showinfo("Informacja", "Poprzednie ostrzerzenie będzie wyświetlane do momentu ręcznego ustalenia cen\n(można ponownie ustawić ceny domyślne)")
+                return {}
+
+        ceny = {}
+        try:
+            with open(nazwa_pliku, 'r') as plik:
+                linie = plik.readlines()
+                ceny = {
+                    'tektura': float(linie[0].strip()) if len(linie) > 1 else 0.0,
+                    'nadruk': float(linie[1].strip()) if len(linie) > 0 else 0.0,
+                    'folia': float(linie[2].strip()) if len(linie) > 2 else 0.0,
+                    'woreczki': float(linie[3].strip()) if len(linie) > 3 else 0.0,
+                }
+        except (IOError, ValueError) as e:
+            print(f'Błąd podczas odczytu pliku: {e}')
+
+        return ceny
 
     def zmien_ceny(self, pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki):
         try:

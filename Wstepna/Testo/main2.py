@@ -5,6 +5,7 @@ import datetime
 from functools import lru_cache
 from github import Github
 import getpass
+import zipfile
 import gzip
 import os
 import requests
@@ -21,7 +22,7 @@ import win32com.client
 from win10toast import ToastNotifier
 from packaging import version  # Upewnij się, że ten import jest prawidłowy
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import Qt, QCoreApplication, QTimer, QThread, pyqtSignal, QRect
+from PyQt5.QtCore import Qt, QCoreApplication, QTimer, QThread, pyqtSignal, QRect, QDateTime
 from PyQt5.QtGui import QPalette, QColor, QIcon, QPainter, QBrush
 from PyQt5.QtWidgets import (
     QApplication,
@@ -934,40 +935,47 @@ class OknoUstawien(QWidget):
     def inicjalizuj_ui(self):
         układ_glowny = QVBoxLayout(self)
 
-        # Tworzymy obszar przewijania dla zakładek
-        obszar_przewijania = QScrollArea(self)
-        obszar_przewijania.setWidgetResizable(True)
-
         # Tworzymy widget zakładek
         zakladki = QTabWidget()
 
-        # Tworzymy zakładki
-        # zakladka_glowna = QWidget()
+        # Tworzymy zakładki i obszary przewijania
         zakladka_inne = QWidget()
         zakladka_estetyka = QWidget()
         zakladka_tryb = QWidget()
-        zakladka_zglaszanie = QWidget()
+        zakladka_notatnik = QWidget()
 
-        # self.utworz_zakladke_glowna(zakladka_glowna)
-        self.utworz_zakladke_inne(zakladka_inne)
-        self.utworz_zakladke_estetyka(zakladka_estetyka)
-        self.utworz_zakladke_tryb(zakladka_tryb)
-        # self.utworz_zakladke_zglaszanie(zakladka_zglaszanie)
+        scroll_inne = QScrollArea()
+        scroll_estetyka = QScrollArea()
+        scroll_tryb = QScrollArea()
+        scroll_notatnik = QScrollArea()
 
-        # zakladki.addTab(zakladka_glowna, "Główna")
-        zakladki.addTab(zakladka_inne, "Inne")
-        zakladki.addTab(zakladka_estetyka, "Estetyka")
-        zakladki.addTab(zakladka_tryb, "Licz w trybie za magnes")
-        # zakladki.addTab(zakladka_zglaszanie, "Zgłoś/zapytaj")
+        # Ustawiamy widgety przewijania dla każdej zakładki
+        scroll_inne.setWidget(zakladka_inne)
+        scroll_inne.setWidgetResizable(True)
+        scroll_estetyka.setWidget(zakladka_estetyka)
+        scroll_estetyka.setWidgetResizable(True)
+        scroll_tryb.setWidget(zakladka_tryb)
+        scroll_tryb.setWidgetResizable(True)
+        scroll_notatnik.setWidget(zakladka_notatnik)
+        scroll_notatnik.setWidgetResizable(True)
 
-        # Ustawiamy widget zakładek jako widżet obszaru przewijania
-        obszar_przewijania.setWidget(zakladki)
+        # Dodajemy zakładki do zakładek
+        zakladki.addTab(scroll_inne, "Inne")
+        zakladki.addTab(scroll_estetyka, "Estetyka")
+        zakladki.addTab(scroll_tryb, "Licz w trybie za magnes")
+        zakladki.addTab(scroll_notatnik, "Notatnik")
 
-        # Dodajemy obszar przewijania do układu głównego
-        układ_glowny.addWidget(obszar_przewijania)
+        # Dodajemy zakładki do głównego układu
+        układ_glowny.addWidget(zakladki)
 
         self.setWindowTitle('Ustawienia')
         self.setGeometry(900, 300, 512, 365)
+
+        # Inicjalizujemy zawartość zakładek
+        self.utworz_zakladke_inne(zakladka_inne)
+        self.utworz_zakladke_estetyka(zakladka_estetyka)
+        self.utworz_zakladke_tryb(zakladka_tryb)
+        self.utworz_zakladke_notatnik(zakladka_notatnik)
 
     # Pozostała część kodu
 
@@ -1307,7 +1315,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
                 teraz_ceny = "13\n35\n18\n11"
             else:
                 messagebox.showinfo("Ustaw ceny"
-                    "Ustaw nowe ceny w odpowiednim oknie i spróbuj ponownie.")
+                                    "Ustaw nowe ceny w odpowiednim oknie i spróbuj ponownie.")
                 return
 
         ceny_tektura = round(float(teraz_ceny.split('\n')[0]), 2)
@@ -1350,19 +1358,80 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         else:
             self.okno_rozszerzen.raise_()
 
-    def utworz_zakladke_zglaszanie(self, zakladka):
-        # Tworzymy układ siatkowy dla zakładki
-        układ = QGridLayout(zakladka)
+    def utworz_zakladke_notatnik(self, zakladka):
+        układ = QVBoxLayout(zakladka)
 
-        etykieta_ustawien = QLabel(
-            'Wpisz swoje zgłoszenie, pytanie, lub propozycję i ją nam wyślij!', zakladka)
-        układ.addWidget(etykieta_ustawien, 0, 0, 1, 2)
+        self.notatnik = QTextEdit(zakladka)
+        self.notatnik.setPlaceholderText(
+            "Wpisz swoje notatki tutaj i zapisz przyciskiem poniżej...\n"
+            "Notatka jest zapisywana automatycznie co 3 sekundy\n"
+            "Notatka jest trwała i ma nieograniczoną długość."
+        )
 
-        pole_pytan = QTextEdit(zakladka)
-        układ.addWidget(pole_pytan, 1, 0, 1, 2)
+        # Ścieżka do pliku ZIP
+        self.zip_plik = "notatki.zip"
+        self.notatnik_plik = "notatki.txt"
 
-        button_wyslij = QPushButton("Wyślij!", zakladka)
-        układ.addWidget(button_wyslij, 2, 0, 1, 2)
+        # Wczytaj istniejące notatki, jeśli plik ZIP istnieje
+        if os.path.exists(self.zip_plik):
+            with zipfile.ZipFile(self.zip_plik, 'r') as z:
+                if self.notatnik_plik in z.namelist():
+                    with z.open(self.notatnik_plik) as plik:
+                        self.notatnik.setPlainText(plik.read().decode('utf-8'))
+
+        # Dodajemy notatnik do układu
+        układ.addWidget(self.notatnik)
+
+        # Tworzymy przycisk zapisu
+        self.przycisk_zapisz = QPushButton("Zapisz notatki", zakladka)
+        self.przycisk_zapisz.clicked.connect(self.zapisz_notatki)
+        układ.addWidget(self.przycisk_zapisz)
+
+        # Etykieta do wyświetlania statusu zapisu
+        self.etykieta_statusu = QLabel("Wczytano notatkę", zakladka)
+        układ.addWidget(self.etykieta_statusu)
+        self.etykieta_statusu.setStyleSheet("color: gray;")
+
+        # Inicjalizacja czasu ostatniej zmiany
+        self.czas_ostatniej_zmiany = QDateTime.currentDateTime()
+
+        # Timer do sprawdzania zmiany co 3 sekundy
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.sprawdz_i_zapisz)
+        self.timer.start(3000)  # 3000 ms = 3 sekundy
+
+        # Połączenie sygnału zmiany tekstu z aktualizacją czasu ostatniej zmiany
+        self.notatnik.textChanged.connect(self.aktualizuj_czas_zmiany)
+
+    def aktualizuj_czas_zmiany(self):
+        self.czas_ostatniej_zmiany = QDateTime.currentDateTime()
+        self.etykieta_statusu.setText("Niezapisane zmiany")
+        self.etykieta_statusu.setStyleSheet("color: orange;")
+
+    def sprawdz_i_zapisz(self):
+        # Sprawdzenie, czy minęło 3 sekundy od ostatniej zmiany
+        if self.czas_ostatniej_zmiany.secsTo(QDateTime.currentDateTime()) >= 3:
+            self.zapisz_notatki()
+
+    def zapisz_notatki(self):
+        try:
+            self.etykieta_statusu.setText("Zapisywanie...")
+            self.etykieta_statusu.setStyleSheet("color: blue;")
+            self.repaint()  # Aktualizacja etykiety przed rozpoczęciem zapisu
+
+            with zipfile.ZipFile(self.zip_plik, 'w') as z:
+                with z.open(self.notatnik_plik, 'w') as plik:
+                    plik.write(self.notatnik.toPlainText().encode('utf-8'))
+            
+            # Po zakończeniu zapisu
+            self.etykieta_statusu.setText("Notatki zostały zapisane pomyślnie.")
+            self.etykieta_statusu.setStyleSheet("color: green;")
+        except Exception as e:
+            self.etykieta_statusu.setText(f"Nie udało się zapisać notatek: {e}")
+            self.etykieta_statusu.setStyleSheet("color: red;")
+
+
+
 
 
 class ZaawansowaneOkno(QWidget):
@@ -1550,7 +1619,8 @@ class ZaawansowaneOkno(QWidget):
             if messagebox.showwarning("Brak pliku cen", "Nie można było znaleźć pliku cen kosztów. Zostaną wczytane domyślne koszty za pakiet:\nTektura: 13 zł\nNadruk: 35 zł\nFolia magnetyczna: 18 zł\nWoreczki pp: 11 zł"):
                 self.zmien_ceny(None, None, None, None, 13, 35, 18, 11)
             else:
-                messagebox.showinfo("Informacja", "Poprzednie ostrzerzenie będzie wyświetlane do momentu ręcznego ustalenia cen\n(można ponownie ustawić ceny domyślne)")
+                messagebox.showinfo(
+                    "Informacja", "Poprzednie ostrzerzenie będzie wyświetlane do momentu ręcznego ustalenia cen\n(można ponownie ustawić ceny domyślne)")
                 return {}
 
         ceny = {}

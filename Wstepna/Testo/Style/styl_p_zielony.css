@@ -169,3 +169,10 @@ QTabBar::tab:last {
     margin-right: 0;
     border-bottom-right-radius: 7px; /* Zaokrąglenie górnego prawego rogu */
 }
+
+QListWidget {
+    border: 0px;
+    border-radius: 5px;
+    background-color: rgba(13, 59, 49, 0.795);
+    padding: 5px;
+}

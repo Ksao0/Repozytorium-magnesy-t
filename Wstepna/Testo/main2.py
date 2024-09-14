@@ -41,6 +41,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QFrame
 )
+import random
 
 os.system('cls')
 global ustawienie_auto
@@ -364,6 +365,16 @@ class AutoStartManager:
 
 def ustawianie_stylu(styl):
     try:
+        szansa = random.randint(0, 100)
+        if szansa < 20:
+            # Podaj URL pliku, który chcesz pobrać
+            url = f"https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Wstepna/Testo/Style/styl_{
+                styl}.css"
+
+            # Podaj nazwę, pod jaką chcesz zapisać pobrany plik
+            nazwa_pliku = f"styl_{styl}.css"
+            response = requests.get(url)
+
         app.setStyleSheet(open(f'styl_{styl}.css').read())
         print(f'Ustawiono styl na: {styl}')
 
@@ -1422,16 +1433,15 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
             with zipfile.ZipFile(self.zip_plik, 'w') as z:
                 with z.open(self.notatnik_plik, 'w') as plik:
                     plik.write(self.notatnik.toPlainText().encode('utf-8'))
-            
+
             # Po zakończeniu zapisu
-            self.etykieta_statusu.setText("Notatki zostały zapisane pomyślnie.")
+            self.etykieta_statusu.setText(
+                "Notatki zostały zapisane pomyślnie.")
             self.etykieta_statusu.setStyleSheet("color: green;")
         except Exception as e:
-            self.etykieta_statusu.setText(f"Nie udało się zapisać notatek: {e}")
+            self.etykieta_statusu.setText(
+                f"Nie udało się zapisać notatek: {e}")
             self.etykieta_statusu.setStyleSheet("color: red;")
-
-
-
 
 
 class ZaawansowaneOkno(QWidget):

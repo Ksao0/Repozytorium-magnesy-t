@@ -1,4 +1,2 @@
 2.5.9
 2.7.2
-
-Po co są dwie wersje w tym pliku? Aby uniknąć problemów z aktualizacją, gdyż w niektórych przypadkach program może nie wykryć zmiany wersji, jeśli jest ona taka sama jak poprzednia. Wersja 2.7.2 jest używana do aktualizacji, a 2.5.9 do sprawdzania wersji w kodzie programu. Gdzie jest ten proces sprawdzania w kodzie?

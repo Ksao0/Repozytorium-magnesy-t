@@ -634,29 +634,24 @@ def monitor_cpu_usage():
     tryb_stary = "no"
     MAX_THREADS_biblioteki_stary = None
 
-    # Początkowa maksymalna liczba wątków w zależności od trybu
     def ustaw_wartosci_wstepne():
-        nonlocal MAX_THREADS_biblioteki_stary
         if tryb == "Procesory logiczne (max)":
             max_threads = logical_cores
             minimalna = logical_cores
-            max_zatrzymane = int(logical_cores / 2)
         elif tryb == "Rdzenie (max)":
             max_threads = physical_cores
             minimalna = physical_cores
-            max_zatrzymane = int(physical_cores / 2)
         elif tryb == "1":
             max_threads = 1
             minimalna = 1
-            max_zatrzymane = 0
         elif tryb == "2":
             max_threads = 2
             minimalna = 2
-            max_zatrzymane = 1
         else:  # Automatyczny tryb
             max_threads = physical_cores
             minimalna = 2
-            max_zatrzymane = physical_cores + int(logical_cores / 2) - 3
+
+        max_zatrzymane = max(0, (max_threads // 2) - 1)
         return max_threads, minimalna, max_zatrzymane
 
     MAX_THREADS_biblioteki, minimalna_watkow, max_ilosc_zatrzymanych_watkow = ustaw_wartosci_wstepne()
@@ -667,38 +662,45 @@ def monitor_cpu_usage():
     print(
         f"Maksymalna ilość zatrzymanych wątków jednocześnie: {max_ilosc_zatrzymanych_watkow}")
 
+    param_lock = threading.Lock()
+
     while True:
         if tryb_stary != tryb:
-            # Aktualizacja ustawień po zmianie trybu
-            MAX_THREADS_biblioteki, minimalna_watkow, max_ilosc_zatrzymanych_watkow = ustaw_wartosci_wstepne()
-            sema = threading.Semaphore(MAX_THREADS_biblioteki)
+            with param_lock:
+                MAX_THREADS_biblioteki, minimalna_watkow, max_ilosc_zatrzymanych_watkow = ustaw_wartosci_wstepne()
+                sema = threading.Semaphore(MAX_THREADS_biblioteki)
             print(
                 f"[Zmiana trybu] Maksymalna ilość wątków: {MAX_THREADS_biblioteki}")
             print(
                 f"[Zmiana trybu] Maksymalna ilość zatrzymanych wątków: {max_ilosc_zatrzymanych_watkow}")
 
         cpu_percent = psutil.cpu_percent(interval=1)
+        disk_percent = psutil.disk_usage('/').percent  # monitorowanie dysku
 
-        # Adaptacja liczby wątków w trybie automatycznym
-        if minimalna_watkow > 1 and tryb not in ["Procesory logiczne (max)", "Rdzenie (max)", "1", "2"]:
-            if cpu_percent < 50.0:
-                if MAX_THREADS_biblioteki < physical_cores + int(logical_cores / 2):
-                    MAX_THREADS_biblioteki += 1
-                    max_ilosc_zatrzymanych_watkow += 1
-                    sema = threading.Semaphore(MAX_THREADS_biblioteki)
-                    print(
-                        Fore.GREEN + f"CPU < 50%, zwiększam wątki do {MAX_THREADS_biblioteki}")
-            elif cpu_percent > 85.0:
-                if MAX_THREADS_biblioteki > minimalna_watkow:
-                    MAX_THREADS_biblioteki -= 1
-                    max_ilosc_zatrzymanych_watkow -= 1
-                    sema = threading.Semaphore(MAX_THREADS_biblioteki)
-                    print(
-                        Fore.RED + f"CPU > 85%, zmniejszam wątki do {MAX_THREADS_biblioteki}")
+        # Dynamiczna adaptacja tylko dla trybu automatycznego
+        if tryb not in ["Procesory logiczne (max)", "Rdzenie (max)", "1", "2"]:
+            if minimalna_watkow > 1:
+                max_limit = physical_cores + (logical_cores // 2)
+                if cpu_percent < 50.0 and disk_percent < 80.0:
+                    if MAX_THREADS_biblioteki < max_limit:
+                        MAX_THREADS_biblioteki += 1
+                        max_ilosc_zatrzymanych_watkow = max(
+                            0, (MAX_THREADS_biblioteki // 2) - 1)
+                        sema = threading.Semaphore(MAX_THREADS_biblioteki)
+                        print(
+                            Fore.GREEN + f"CPU < 50% i dysk < 80%, zwiększam wątki do {MAX_THREADS_biblioteki}")
+                elif cpu_percent > 85.0 or disk_percent > 95.0:
+                    if MAX_THREADS_biblioteki > minimalna_watkow:
+                        MAX_THREADS_biblioteki -= 1
+                        max_ilosc_zatrzymanych_watkow = max(
+                            0, (MAX_THREADS_biblioteki // 2) - 1)
+                        sema = threading.Semaphore(MAX_THREADS_biblioteki)
+                        print(
+                            Fore.RED + f"CPU > 85% lub dysk > 95%, zmniejszam wątki do {MAX_THREADS_biblioteki}")
 
         if MAX_THREADS_biblioteki_stary != MAX_THREADS_biblioteki:
             print(Fore.LIGHTCYAN_EX +
-                  f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}; zużycie CPU: {cpu_percent}%")
+                  f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}; zużycie CPU: {cpu_percent}%; zużycie dysku: {disk_percent}%")
             print(Fore.LIGHTBLACK_EX +
                   f"Maksymalna ilość zatrzymanych wątków: {max_ilosc_zatrzymanych_watkow}")
 

@@ -39,6 +39,7 @@ global tryb_stary
 tryb_stary = "no"
 max_ilosc_zatrzymanych_watkow = 2
 ilosc_zatrzymanych_watkow = 0
+tryb = "Automatyczny"
 
 
 class OperacjeNaPliku:
@@ -62,6 +63,7 @@ class OperacjeNaPliku:
         with open(self.nazwa_pliku, 'w', encoding='utf-8') as plik:
             for linia in linie:
                 plik.write(linia)
+# Klasa do obsługi operacji na pliku DATA.txt. Dzięki tej klasie można łatwo podmieniać linijki w pliku DATA.txt, który przechowuje liczbę linii z pliku bib.txt z repozytorium GitHub.
 
 
 def info_DATA_biblioteki():
@@ -110,6 +112,7 @@ def info_DATA_biblioteki():
             plik.write(str(liczba_linii_z_url) + '\n')
         print(f"Plik {nazwa_pliku} nie istniał. Zapisano dane {
               liczba_linii_z_url} do nowego pliku.")
+# Funkcja info_DATA_biblioteki() sprawdza, czy plik DATA.txt istnieje i czy liczba linii w pliku bib.txt z repozytorium GitHub jest taka sama jak w DATA.txt. Jeśli nie, to podmienia pierwszą linię w DATA.txt na aktualną liczbę linii z bib.txt. Jeśli DATA.txt nie istnieje, to tworzy go i zapisuje liczbę linii z bib.txt.
 
 
 def obraz():
@@ -134,6 +137,8 @@ else:
 
     if szansa < 35:
         obraz()
+
+# Klasa MainWindow dziedziczy po QMainWindow i tworzy główne okno aplikacji
 
 
 class MainWindow(QMainWindow):
@@ -215,7 +220,9 @@ QPushButton {
 
         # Dodajemy napis
         text_label = QLabel("Instalator", self)
-        text_label.setAlignment(Qt.AlignCenter)
+
+        text_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # Wcześniej było, ale jest błąd (też działa, ale pylance tak twierdzi): text_label.setAlignment(Qt.AlignCenter)
         text_label.setStyleSheet(
             "color: white; font-size: 16px; background-color: rgba(1, 22, 17, 0.665);")
         text_label.setGeometry(10, 10, width - 17, 30)
@@ -580,124 +587,131 @@ pobrane zostaną tylko biblioteki.
             target=zainstaluj_biblioteki1, name="Koordynowanie pobierania bibliotek").start())
 
     def wybierz_tryb(self):
-        wybrany_tryb = self.combo_box.currentText()
         global tryb
+        wybrany_tryb = self.combo_box.currentText()
         tryb = wybrany_tryb
         print(Fore.LIGHTBLACK_EX + f"Wybrano tryb: {wybrany_tryb}")
 
 
-# Pobierz ilość rdzeni fizycznych i logicznych
-physical_cores = psutil.cpu_count(logical=False)
-logical_cores = psutil.cpu_count(logical=True)
+# --- Funkcja pomocnicza do bezpiecznego pobierania liczby rdzeni ---
+def safe_cpu_count(logical: bool) -> int:
+    count = psutil.cpu_count(logical=logical)
+    if count is None or count < 1:
+        # Domyślnie minimalnie 1 rdzeń, bo inaczej nie ma sensu
+        print(Fore.YELLOW +
+              f"Uwaga: Nie wykryto liczby {'logiczych' if logical else 'fizycznych'} rdzeni. Ustawiam 1.")
+        return 1
+    return count
 
-# Wybór ilości wątków na podstawie rdzeni (max, ilość rdzeni)
-MAX_THREADS_biblioteki = min(12, physical_cores)
-MAX_THREADS_aktualizacja = min(6, physical_cores)
 
-global sema
+# --- Pobierz ilość rdzeni fizycznych i logicznych ---
+physical_cores = safe_cpu_count(logical=False)
+logical_cores = safe_cpu_count(logical=True)
+
+
+# --- Wybór ilości wątków na podstawie rdzeni (max, ilość rdzeni) ---
+MAX_THREADS_biblioteki = min(21, physical_cores)
+MAX_THREADS_aktualizacja = min(9, physical_cores)
+
 sema = threading.Semaphore(MAX_THREADS_biblioteki)
 sema2 = threading.Semaphore(MAX_THREADS_aktualizacja)
 
-# Minimalna ilość wątków
-global minimalna_watkow
-minimalna_watkow = logical_cores // 2
-print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni: {physical_cores}")
+minimalna_watkow = logical_cores
+
+print(Fore.LIGHTBLACK_EX + f"Ilość rdzeni fizycznych: {physical_cores}")
 print(Fore.LIGHTBLACK_EX + f"Ilość procesorów logicznych: {logical_cores}")
 
 
+# --- Funkcja monitorująca zużycie CPU i zarządzająca wątkami ---
 def monitor_cpu_usage():
     global minimalna_watkow
     global MAX_THREADS_biblioteki
     global tryb
     global sema
     global tryb_stary
-    tryb = "Automatyczny"
-    tryb_stary = "no"
-    MAX_THREADS_biblioteki_stary = ""
-
-    # Początkowa maksymalna liczba wątków
-    if tryb == "Procesory logiczne (max)":
-        MAX_THREADS_biblioteki = min(1, logical_cores)
-        initial_max_threads = logical_cores
-    elif tryb == "Rdzenie (max)":
-        MAX_THREADS_biblioteki = min(1, physical_cores)
-        initial_max_threads = physical_cores
-    elif tryb == "1":
-        MAX_THREADS_biblioteki = 1
-        initial_max_threads = 1
-    elif tryb == "2":
-        MAX_THREADS_biblioteki = 2
-        initial_max_threads = 2
-    else:  # Automatyczny
-        MAX_THREADS_biblioteki = min(12, physical_cores)
-        initial_max_threads = physical_cores + int(logical_cores / 2)
-
-    sema = threading.Semaphore(MAX_THREADS_biblioteki)
-    print(f"Maksymalna ilość wątków w każdym trybie instalatora dla twojego komputera wynosi {
-          initial_max_threads}.")
-
     global max_ilosc_zatrzymanych_watkow
+
+    tryb_stary = "no"
+    MAX_THREADS_biblioteki_stary = None
+
+    # Początkowa maksymalna liczba wątków w zależności od trybu
+    def ustaw_wartosci_wstepne():
+        nonlocal MAX_THREADS_biblioteki_stary
+        if tryb == "Procesory logiczne (max)":
+            max_threads = logical_cores
+            minimalna = logical_cores
+            max_zatrzymane = int(logical_cores / 2)
+        elif tryb == "Rdzenie (max)":
+            max_threads = physical_cores
+            minimalna = physical_cores
+            max_zatrzymane = int(physical_cores / 2)
+        elif tryb == "1":
+            max_threads = 1
+            minimalna = 1
+            max_zatrzymane = 0
+        elif tryb == "2":
+            max_threads = 2
+            minimalna = 2
+            max_zatrzymane = 1
+        else:  # Automatyczny tryb
+            max_threads = physical_cores
+            minimalna = 2
+            max_zatrzymane = physical_cores + int(logical_cores / 2) - 3
+        return max_threads, minimalna, max_zatrzymane
+
+    MAX_THREADS_biblioteki, minimalna_watkow, max_ilosc_zatrzymanych_watkow = ustaw_wartosci_wstepne()
+    sema = threading.Semaphore(MAX_THREADS_biblioteki)
+
+    print(
+        f"Maksymalna ilość wątków w trybie '{tryb}': {MAX_THREADS_biblioteki}")
+    print(
+        f"Maksymalna ilość zatrzymanych wątków jednocześnie: {max_ilosc_zatrzymanych_watkow}")
+
     while True:
-        if tryb_stary == "no" or tryb_stary != tryb:
-            if tryb == "Procesory logiczne (max)":
-                initial_max_threads = logical_cores
-                MAX_THREADS_biblioteki = logical_cores
-                max_ilosc_zatrzymanych_watkow = int(logical_cores / 2)
-            elif tryb == "Rdzenie (max)":
-                initial_max_threads = physical_cores
-                MAX_THREADS_biblioteki = physical_cores
-                max_ilosc_zatrzymanych_watkow = int(physical_cores / 2)
-            elif tryb == "1":
-                minimalna_watkow = 1
-                initial_max_threads = 1
-                MAX_THREADS_biblioteki = 1
-                max_ilosc_zatrzymanych_watkow = 0
-            elif tryb == "2":
-                minimalna_watkow = 2
-                initial_max_threads = 2
-                MAX_THREADS_biblioteki = 2
-                max_ilosc_zatrzymanych_watkow = 1
-            else:
-                minimalna_watkow = 2
-                initial_max_threads = physical_cores + int(logical_cores / 2)
-                max_ilosc_zatrzymanych_watkow = physical_cores + \
-                    int(logical_cores / 2) - 3
-
-            print(f"Maksymalna ilość zatrzymanych wątków jednocześnie (dla wybranego trybu): {
-                  max_ilosc_zatrzymanych_watkow}")
+        if tryb_stary != tryb:
+            # Aktualizacja ustawień po zmianie trybu
+            MAX_THREADS_biblioteki, minimalna_watkow, max_ilosc_zatrzymanych_watkow = ustaw_wartosci_wstepne()
             sema = threading.Semaphore(MAX_THREADS_biblioteki)
+            print(
+                f"[Zmiana trybu] Maksymalna ilość wątków: {MAX_THREADS_biblioteki}")
+            print(
+                f"[Zmiana trybu] Maksymalna ilość zatrzymanych wątków: {max_ilosc_zatrzymanych_watkow}")
 
-        # Pobierz procentowe zużycie CPU
-        cpu_percent = psutil.cpu_percent()
+        cpu_percent = psutil.cpu_percent(interval=1)
 
-        # Reakcja na zmianę zużycia CPU
-        if minimalna_watkow != 1 and tryb not in ["Procesory logiczne (max)", "Rdzenie (max)", "1", "2"]:
+        # Adaptacja liczby wątków w trybie automatycznym
+        if minimalna_watkow > 1 and tryb not in ["Procesory logiczne (max)", "Rdzenie (max)", "1", "2"]:
             if cpu_percent < 50.0:
-                if MAX_THREADS_biblioteki != initial_max_threads:
-                    MAX_THREADS_biblioteki = min(
-                        MAX_THREADS_biblioteki + 1, initial_max_threads)
-                    max_ilosc_zatrzymanych_watkow = max_ilosc_zatrzymanych_watkow + 1
+                if MAX_THREADS_biblioteki < physical_cores + int(logical_cores / 2):
+                    MAX_THREADS_biblioteki += 1
+                    max_ilosc_zatrzymanych_watkow += 1
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
+                    print(
+                        Fore.GREEN + f"CPU < 50%, zwiększam wątki do {MAX_THREADS_biblioteki}")
             elif cpu_percent > 85.0:
-                if MAX_THREADS_biblioteki != minimalna_watkow:
-                    MAX_THREADS_biblioteki = max(MAX_THREADS_biblioteki - 1, 2)
-                    max_ilosc_zatrzymanych_watkow = max_ilosc_zatrzymanych_watkow - 1
+                if MAX_THREADS_biblioteki > minimalna_watkow:
+                    MAX_THREADS_biblioteki -= 1
+                    max_ilosc_zatrzymanych_watkow -= 1
                     sema = threading.Semaphore(MAX_THREADS_biblioteki)
+                    print(
+                        Fore.RED + f"CPU > 85%, zmniejszam wątki do {MAX_THREADS_biblioteki}")
 
-        if MAX_THREADS_biblioteki_stary == "no" or MAX_THREADS_biblioteki_stary != MAX_THREADS_biblioteki:
-            print(Fore.LIGHTCYAN_EX + f"Aktualna maksymalna ilość wątków: {
-                MAX_THREADS_biblioteki}; użycie CPU: {cpu_percent}%")
-            print(Fore.LIGHTBLACK_EX + f"Maksymalna ilość zatrzymanych wątków jednocześnie: {
-                  max_ilosc_zatrzymanych_watkow}")
+        if MAX_THREADS_biblioteki_stary != MAX_THREADS_biblioteki:
+            print(Fore.LIGHTCYAN_EX +
+                  f"Aktualna maksymalna ilość wątków: {MAX_THREADS_biblioteki}; zużycie CPU: {cpu_percent}%")
+            print(Fore.LIGHTBLACK_EX +
+                  f"Maksymalna ilość zatrzymanych wątków: {max_ilosc_zatrzymanych_watkow}")
+
         tryb_stary = tryb
         MAX_THREADS_biblioteki_stary = MAX_THREADS_biblioteki
-        time.sleep(2)
+        time.sleep(1)
 
 
-# Uruchom wątek monitorowania zużycia CPU
-thread_CPU = threading.Thread(target=monitor_cpu_usage, name="monitor_cpu")
-thread_CPU.daemon = True  # Wątek działać będzie w tle
+# --- Uruchomienie wątku monitorującego CPU ---
+thread_CPU = threading.Thread(
+    target=monitor_cpu_usage, name="monitor_cpu", daemon=True)
 thread_CPU.start()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

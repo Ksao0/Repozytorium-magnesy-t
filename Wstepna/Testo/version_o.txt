@@ -1,6 +1,4 @@
 2.5.8.2
- - Poprawa wydajności
- - Nowa estetyka
- - Usunięto znane błędy
- - Drobne poprawki
- - Poprawiono wyświetlanie komunikatów w terminalu
+ - Liczne poprawki
+
+Wszystkie zgłoszone błędy pomagają w rozwoju programu!

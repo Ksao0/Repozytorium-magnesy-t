@@ -10,7 +10,7 @@ import time
 import os
 import subprocess
 from win10toast import ToastNotifier  # Import modułu do obsługi powiadomień
-from szyfrowanie import szyfrowanie, odszyfrowanie
+from szyfrowanie import szyfrowanie, odszyfrowanie  # type: ignore
 from PyQt5.QtWidgets import QMessageBox, QPushButton, QFileDialog
 import tkinter.messagebox
 import messagebox

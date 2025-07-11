@@ -296,32 +296,37 @@ class OknoKlientow(QtWidgets.QMainWindow):
             history_file.write(f"{wyniki_a}\n{old_history}")
 
     def calculate(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            liczba_pakietow, cena_za_magnes = self.get_input_values()
-            if liczba_pakietow is not None and cena_za_magnes is not None:
-                self.obliczenia(liczba_pakietow,
-                                cena_za_magnes, selected_client)
+        current_item = self.clients_list.currentItem()
+        if current_item is not None:
+            selected_client = current_item.text()
+            if selected_client:
+                liczba_pakietow, cena_za_magnes = self.get_input_values()
+                if liczba_pakietow is not None and cena_za_magnes is not None:
+                    self.obliczenia(liczba_pakietow,
+                                    cena_za_magnes, selected_client)
+        else:
+            QtWidgets.QMessageBox.warning(self, "Błąd", "Nie wybrano klienta.")
 
     def get_input_values(self):
         dialog = QtWidgets.QDialog()
         dialog.setWindowTitle("Wprowadź dane")
         dialog.setModal(True)
-        dialog.setLayout(QtWidgets.QVBoxLayout())
+        layout = QtWidgets.QVBoxLayout()
+        dialog.setLayout(layout)
 
         label_pakietow = QtWidgets.QLabel("Liczba pakietów:")
         entry_pakietow = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_pakietow)
-        dialog.layout().addWidget(entry_pakietow)
+        layout.addWidget(label_pakietow)
+        layout.addWidget(entry_pakietow)
 
         label_cena = QtWidgets.QLabel("Cena za magnes:")
         entry_cena = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_cena)
-        dialog.layout().addWidget(entry_cena)
+        layout.addWidget(label_cena)
+        layout.addWidget(entry_cena)
 
         button_ok = QtWidgets.QPushButton("OK")
         button_ok.clicked.connect(dialog.accept)
-        dialog.layout().addWidget(button_ok)
+        layout.addWidget(button_ok)
 
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             pakietow = entry_pakietow.text()
@@ -344,28 +349,32 @@ class OknoKlientow(QtWidgets.QMainWindow):
             QMessageBox.information(
                 self, "Pomoc kontekstowa", "To jest pomoc kontekstowa dla tego okna.")
 
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            history_file_path = f"klienci/KLIENT_HISTORIA.{
-                selected_client}.txt"
-            if os.path.exists(history_file_path):
-                with open(history_file_path, "r") as history_file:
-                    history_data = history_file.read()
+        current_item = self.clients_list.currentItem()
+        if current_item is not None:
+            selected_client = current_item.text()
+            if selected_client:
+                history_file_path = f"klienci/KLIENT_HISTORIA.{selected_client}.txt"
+                if os.path.exists(history_file_path):
+                    with open(history_file_path, "r") as history_file:
+                        history_data = history_file.read()
 
-                # Tworzenie okna dialogowego z edytowalnym polem tekstowym
-                dialog = QtWidgets.QDialog(self)
-                dialog.setWindowTitle(f"Historia klienta: {selected_client}")
-                dialog.resize(600, 400)
+                    # Tworzenie okna dialogowego z edytowalnym polem tekstowym
+                    dialog = QtWidgets.QDialog(self)
+                    dialog.setWindowTitle(
+                        f"Historia klienta: {selected_client}")
+                    dialog.resize(600, 400)
 
-                text_edit = QtWidgets.QTextEdit(dialog)
-                text_edit.setPlainText(history_data)
-                text_edit.setReadOnly(True)
-                text_edit.setGeometry(10, 10, 580, 380)
+                    text_edit = QtWidgets.QTextEdit(dialog)
+                    text_edit.setPlainText(history_data)
+                    text_edit.setReadOnly(True)
+                    text_edit.setGeometry(10, 10, 580, 380)
 
-                dialog.exec_()
-            else:
-                QtWidgets.QMessageBox.information(
-                    self, "Historia klienta", "Brak historii dla tego klienta.")
+                    dialog.exec_()
+                else:
+                    QtWidgets.QMessageBox.information(
+                        self, "Historia klienta", "Brak historii dla tego klienta.")
+        else:
+            QtWidgets.QMessageBox.warning(self, "Błąd", "Nie wybrano klienta.")
 
     def get_client_city(self, client_name):
         client_file_path = os.path.join("klienci", f"KLIENT.{client_name}.txt")
@@ -377,62 +386,71 @@ class OknoKlientow(QtWidgets.QMainWindow):
         return "Brak danych o miejscowości"
 
     def show_client_info(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            client_name = selected_client.split(" - ")[0]
-            client_file_path = f"klienci/KLIENT.{client_name}.txt"
-            if os.path.exists(client_file_path):
-                with open(client_file_path, "r") as client_file:
-                    client_data = client_file.read().splitlines()
-                info_dialog = QtWidgets.QMessageBox()
-                info_dialog.setWindowTitle(selected_client)
-                info_dialog.setText(
-                    f"Nazwa: {client_data[0]}\nMiejscowość: {client_data[1]}\nTelefon: {client_data[2]}\nInformacje dodatkowe: {client_data[3] if len(client_data) >= 4 else 'Brak'}")
-                info_dialog.exec_()
+        current_item = self.clients_list.currentItem()
+        if current_item is not None:
+            selected_client = current_item.text()
+            if selected_client:
+                client_name = selected_client.split(" - ")[0]
+                client_file_path = f"klienci/KLIENT.{client_name}.txt"
+                if os.path.exists(client_file_path):
+                    with open(client_file_path, "r") as client_file:
+                        client_data = client_file.read().splitlines()
+                    info_dialog = QtWidgets.QMessageBox()
+                    info_dialog.setWindowTitle(selected_client)
+                    info_dialog.setText(
+                        f"Nazwa: {client_data[0]}\nMiejscowość: {client_data[1]}\nTelefon: {client_data[2]}\nInformacje dodatkowe: {client_data[3] if len(client_data) >= 4 else 'Brak'}")
+                    info_dialog.exec_()
+        else:
+            QtWidgets.QMessageBox.warning(self, "Błąd", "Nie wybrano klienta.")
 
     def edit_client_info(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            client_name = selected_client.split(" - ")[0]
-            client_file_path = f"klienci/KLIENT.{client_name}.txt"
-            if os.path.exists(client_file_path):
-                with open(client_file_path, "r") as client_file:
-                    client_data = client_file.read().splitlines()
+        current_item = self.clients_list.currentItem()
+        if current_item is not None:
+            selected_client = current_item.text()
+            if selected_client:
+                client_name = selected_client.split(" - ")[0]
+                client_file_path = f"klienci/KLIENT.{client_name}.txt"
+                if os.path.exists(client_file_path):
+                    with open(client_file_path, "r") as client_file:
+                        client_data = client_file.read().splitlines()
 
-                dialog = QtWidgets.QDialog()
-                dialog.setWindowTitle(
-                    f"Edycja danych klienta: {selected_client}")
-                dialog.setModal(True)
-                dialog.setLayout(QtWidgets.QVBoxLayout())
+                    dialog = QtWidgets.QDialog()
+                    dialog.setWindowTitle(
+                        f"Edycja danych klienta: {selected_client}")
+                    dialog.setModal(True)
+                    layout = QtWidgets.QVBoxLayout()
+                    dialog.setLayout(layout)
 
-                label_name = QtWidgets.QLabel("Nazwa klienta*:")
-                entry_name = QtWidgets.QLineEdit(client_data[0])
-                dialog.layout().addWidget(label_name)
-                dialog.layout().addWidget(entry_name)
+                    label_name = QtWidgets.QLabel("Nazwa klienta*:")
+                    entry_name = QtWidgets.QLineEdit(client_data[0])
+                    layout.addWidget(label_name)
+                    layout.addWidget(entry_name)
 
-                label_city = QtWidgets.QLabel("Miejscowość*:")
-                entry_city = QtWidgets.QLineEdit(client_data[1])
-                dialog.layout().addWidget(label_city)
-                dialog.layout().addWidget(entry_city)
+                    label_city = QtWidgets.QLabel("Miejscowość*:")
+                    entry_city = QtWidgets.QLineEdit(client_data[1])
+                    layout.addWidget(label_city)
+                    layout.addWidget(entry_city)
 
-                label_phone = QtWidgets.QLabel("Telefon:")
-                entry_phone = QtWidgets.QLineEdit(client_data[2])
-                dialog.layout().addWidget(label_phone)
-                dialog.layout().addWidget(entry_phone)
+                    label_phone = QtWidgets.QLabel("Telefon:")
+                    entry_phone = QtWidgets.QLineEdit(client_data[2])
+                    layout.addWidget(label_phone)
+                    layout.addWidget(entry_phone)
 
-                label_additional_info = QtWidgets.QLabel(
-                    "Informacje dodatkowe:")
-                entry_additional_info = QtWidgets.QLineEdit(
-                    client_data[3] if len(client_data) >= 4 else "")
-                dialog.layout().addWidget(label_additional_info)
-                dialog.layout().addWidget(entry_additional_info)
+                    label_additional_info = QtWidgets.QLabel(
+                        "Informacje dodatkowe:")
+                    entry_additional_info = QtWidgets.QLineEdit(
+                        client_data[3] if len(client_data) >= 4 else "")
+                    layout.addWidget(label_additional_info)
+                    layout.addWidget(entry_additional_info)
 
-                button_save = QtWidgets.QPushButton("Zapisz zmiany")
-                button_save.clicked.connect(lambda: self.save_edited_client(dialog, client_name, entry_name.text(
-                ), entry_city.text(), entry_phone.text(), entry_additional_info.text()))
-                dialog.layout().addWidget(button_save)
+                    button_save = QtWidgets.QPushButton("Zapisz zmiany")
+                    button_save.clicked.connect(lambda: self.save_edited_client(dialog, client_name, entry_name.text(
+                    ), entry_city.text(), entry_phone.text(), entry_additional_info.text()))
+                    layout.addWidget(button_save)
 
-                dialog.exec_()
+                    dialog.exec_()
+        else:
+            QtWidgets.QMessageBox.warning(self, "Błąd", "Nie wybrano klienta.")
 
     def save_edited_client(self, dialog, client_name, name, city, phone, additional_info):
         if not name:
@@ -453,32 +471,33 @@ class OknoKlientow(QtWidgets.QMainWindow):
         dialog = QtWidgets.QDialog()
         dialog.setWindowTitle("Nowy klient")
         dialog.setModal(True)
-        dialog.setLayout(QtWidgets.QVBoxLayout())
+        layout = QtWidgets.QVBoxLayout()
+        dialog.setLayout(layout)
 
         label_name = QtWidgets.QLabel("Nazwa klienta*:")
         entry_name = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_name)
-        dialog.layout().addWidget(entry_name)
+        layout.addWidget(label_name)
+        layout.addWidget(entry_name)
 
         label_city = QtWidgets.QLabel("Miejscowość*:")
         entry_city = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_city)
-        dialog.layout().addWidget(entry_city)
+        layout.addWidget(label_city)
+        layout.addWidget(entry_city)
 
         label_phone = QtWidgets.QLabel("Telefon:")
         entry_phone = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_phone)
-        dialog.layout().addWidget(entry_phone)
+        layout.addWidget(label_phone)
+        layout.addWidget(entry_phone)
 
         label_additional_info = QtWidgets.QLabel("Informacje dodatkowe:")
         entry_additional_info = QtWidgets.QLineEdit()
-        dialog.layout().addWidget(label_additional_info)
-        dialog.layout().addWidget(entry_additional_info)
+        layout.addWidget(label_additional_info)
+        layout.addWidget(entry_additional_info)
 
         button_create = QtWidgets.QPushButton("Utwórz")
         button_create.clicked.connect(lambda: self.create_new_client(dialog, entry_name.text(
         ), entry_city.text(), entry_phone.text(), entry_additional_info.text()))
-        dialog.layout().addWidget(button_create)
+        layout.addWidget(button_create)
 
         dialog.exec_()
 
@@ -496,13 +515,17 @@ class OknoKlientow(QtWidgets.QMainWindow):
         self.load_clients_list()
 
     def delete_client(self):
-        selected_client = self.clients_list.currentItem().text()
-        if selected_client:
-            response = QtWidgets.QMessageBox.question(
-                self, "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-            if response == QtWidgets.QMessageBox.Yes:
-                self.delete_client_file(selected_client)
-                self.load_clients_list()
+        current_item = self.clients_list.currentItem()
+        if current_item is not None:
+            selected_client = current_item.text()
+            if selected_client:
+                response = QtWidgets.QMessageBox.question(
+                    self, "Usuń klienta", f"Czy na pewno chcesz usunąć klienta: {selected_client}?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+                if response == QtWidgets.QMessageBox.Yes:
+                    self.delete_client_file(selected_client)
+                    self.load_clients_list()
+        else:
+            QtWidgets.QMessageBox.warning(self, "Błąd", "Nie wybrano klienta.")
 
 
 if __name__ == "__main__":

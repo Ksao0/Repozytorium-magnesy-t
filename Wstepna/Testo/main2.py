@@ -53,6 +53,13 @@ global instalator_sesja
 instalator_sesja = 0
 
 
+def minimalizowanie():
+    # Zminimalizuj wszystkie istniejące top-level widgets
+    for widget in QApplication.topLevelWidgets():
+        if widget.isVisible():
+            widget.showMinimized()
+
+
 class PaletaStylow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -170,7 +177,7 @@ def wybierz_styl_z_pliku():
     def styl_awaryjny():
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
-            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istniwięc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
+            tytul_powiadomienia=f"Ten styl too... {styl}?", tresc_powiadomienia=f'Ostatni ustawiony przez ciebie styl to „{styl}“. Taki styl nie istnieje, więc na razie ustawimy inny styl. Nie zmieniaj danych w plikach', duration=3)
         print('Zapisany styl nie istnieje')
 
         ustawianie_stylu("ametyst")
@@ -497,7 +504,6 @@ class Ikona:
 
 
 def Inne():
-    print(Fore.LIGHTBLACK_EX + 'Dziennik działań:')
 
     try:
         def Inne1p():
@@ -658,6 +664,7 @@ def sprawdzanie_nowych_aktualizacji():
             path = os.path.join(os.getcwd(), "version.txt")
             if os.path.exists(path):
                 with open(path, "r", encoding="utf-8") as f:
+                    global version_local
                     version_local = f.read().strip()
             else:
                 version_local = "1.0.0"
@@ -667,7 +674,7 @@ def sprawdzanie_nowych_aktualizacji():
             najnowsza_wersja_online = version_online_lines[0]
             local_aktualna_wersja = version_local_lines[0]
             if version.parse(local_aktualna_wersja) == version.parse(najnowsza_wersja_online):
-                # Jeśli się okarz, że zapomniałem dodać jakąś bibliotekę podczas wydawania nowej wersji
+                # Jeśli się okaże, że zapomniałem dodać jakąś bibliotekę podczas wydawania nowej wersji
                 sprawdz_biblioteki()
             if version.parse(local_aktualna_wersja) < version.parse(najnowsza_wersja_online):
                 print("Dostępna jest aktualizacja:")
@@ -702,7 +709,7 @@ class OknoRozszerzen(QWidget):
     def inicjalizuj_ui(self):
         toaster = Powiadomienia()
         toaster.powiadomienie_jednorazowe(
-            tytul_powiadomienia="Rozszerzenia? Hmm...", tresc_powiadomienia="Niektóre rozszerzenia mogą otwierać się dłużej\nAby zarządzać rozszerzeniem, przejdź do plików programu i dodaj, lub usuń jego folder", duration=3)
+            tytul_powiadomienia="Otwarcie okna może zająć minutę", tresc_powiadomienia="Niektóre rozszerzenia mogą otwierać się dłużej ze względu na ilość danych do załadowania.\nAby zarządzać rozszerzeniem, przejdź do plików programu i dodaj, lub usuń jego folder.", duration=3)
 
         # Tworzymy układ siatkowy dla okna rozszerzeń
         układ = QGridLayout()
@@ -978,8 +985,8 @@ class OknoUstawien(QWidget):
 
         # Dodajemy zakładki do głównego układu
         układ_glowny.addWidget(zakladki)
-
-        self.setWindowTitle('Ustawienia')
+        global version_local
+        self.setWindowTitle('Ustawienia ' + version_local)
         self.setGeometry(900, 300, 512, 365)
 
         # Inicjalizujemy zawartość zakładek
@@ -1020,7 +1027,9 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
 ''', zakladka)
         układ.addWidget(etykieta_cena_tektura, 6, 0, 1, 2)
 
-        self.button_polacz = QPushButton("Połącz z serwerem", zakladka)
+        self.button_polacz = QPushButton(
+            "Połącz z serwerem (zablokowane)", zakladka)
+        self.button_polacz.setCheckable(False)
         self.button_polacz.clicked.connect(self.otworz_odbiorca)
         układ.addWidget(self.button_polacz, 3, 0, 1, 1)
 
@@ -1059,13 +1068,17 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         self.button_skrot.clicked.connect(self.tworzenie_skrotu)
         układ.addWidget(self.button_skrot, 5, 0, 1, 1)
 
+        self.button_rozszerzenia = QPushButton("Rozszerzenia", zakladka)
+        self.button_rozszerzenia.clicked.connect(self.pokaz_rozszerzenia)
+        układ.addWidget(self.button_rozszerzenia, 2, 1, 1, 1)
+
     def tworzenie_skrotu(self):
         # Utwórz instancję klasy i wywołaj metodę
         ikona = Ikona()
         ikona.tworzenie_ikonki()
 
     def automa(self):
-        if messagebox.askokcancel("Autostart", 'Ta opcja doda aktualizator do autostartu, możesz to cofnąć w każdej chwili\nW niektórych przypadkach możesz zobaczyć okno terminalu na killka sekund\nJeśli program się zamknie - coś poszło nie tak'):
+        if messagebox.askokcancel("Autostart", 'Ta opcja doda aktualizator do autostartu, możesz to cofnąć w każdej chwili\nW niektórych przypadkach możesz zobaczyć okno terminalu na kilka sekund\nCzy chcesz kontynuować?'):
             global ustawienie_auto
             # Utwórz instancję klasy AutoStartManager i uruchom
             auto_start_manager = AutoStartManager()
@@ -1462,13 +1475,17 @@ class ZaawansowaneOkno(QWidget):
         etykieta_info = QLabel('Wpisz ilość pakietów i cenę za magnes', self)
         układ.addWidget(etykieta_info, 0, 0, 1, 2)
 
-        button_ustawienia = QPushButton('Opcje', self)
-        układ.addWidget(button_ustawienia, 0, 4, 1, 1)
-        button_ustawienia.clicked.connect(self.pokaz_ustawienia)
+        # button_opinie = QPushButton('Poradnik', self)
+        # układ.addWidget(button_opinie, 0, 3, 1, 1)
+        # button_opinie.clicked.connect(self.pobierz_program_poradnika)
 
         button_opinie = QPushButton('Aktualizuj', self)
         układ.addWidget(button_opinie, 0, 3, 1, 1)
         button_opinie.clicked.connect(self.pokaz_aktualizator)
+
+        button_ustawienia = QPushButton('Opcje', self)
+        układ.addWidget(button_ustawienia, 0, 4, 1, 1)
+        button_ustawienia.clicked.connect(self.pokaz_ustawienia)
 
         button_usun_zapisy = QPushButton('Usuń zapisy', self)
         układ.addWidget(button_usun_zapisy, 0, 5, 1, 1)
@@ -1505,7 +1522,7 @@ class ZaawansowaneOkno(QWidget):
         układ.addWidget(etykieta_calkowita_wartosc_pakietow, 6, 0, 1, 2)
 
         etykieta_info_trybZ = QLabel(
-            'Aby liczyć w trybie za magnes wejdź w opcje', self)
+            'Aby liczyć w trybie za magnes wejdź w opcje i wybierz odpowiednią zakładkę', self)
         układ.addWidget(etykieta_info_trybZ, 7, 0, 1, 2)
 
         button_klienci = QPushButton("Zarządzanie klientami", self)
@@ -1546,42 +1563,42 @@ class ZaawansowaneOkno(QWidget):
         etykieta_cena_tektura = QLabel('Cena tektury: ')
         inner_layout.addWidget(etykieta_cena_tektura, 1, 0, 1, 1)
 
-        pole_cena_tektura = QDoubleSpinBox()
-        pole_cena_tektura.setValue(ceny.get('tektura', 0.0))
-        inner_layout.addWidget(pole_cena_tektura, 1, 1, 1, 1)
+        self.pole_cena_tektura = QDoubleSpinBox()
+        self.pole_cena_tektura.setValue(ceny.get('tektura', 0.0))
+        inner_layout.addWidget(self.pole_cena_tektura, 1, 1, 1, 1)
 
         # Etykieta i pole dla ceny nadruku
         etykieta_cena_nadruk = QLabel('Cena nadruku: ')
         inner_layout.addWidget(etykieta_cena_nadruk, 2, 0, 1, 1)
 
-        pole_cena_nadruk = QDoubleSpinBox()
-        pole_cena_nadruk.setValue(ceny.get('nadruk', 0.0))
-        inner_layout.addWidget(pole_cena_nadruk, 2, 1, 1, 1)
+        self.pole_cena_nadruk = QDoubleSpinBox()
+        self.pole_cena_nadruk.setValue(ceny.get('nadruk', 0.0))
+        inner_layout.addWidget(self.pole_cena_nadruk, 2, 1, 1, 1)
 
         # Etykieta i pole dla ceny folii
         etykieta_cena_folia = QLabel('Cena folii: ')
         inner_layout.addWidget(etykieta_cena_folia, 3, 0, 1, 1)
 
-        pole_cena_folia = QDoubleSpinBox()
-        pole_cena_folia.setValue(ceny.get('folia', 0.0))
-        inner_layout.addWidget(pole_cena_folia, 3, 1, 1, 1)
+        self.pole_cena_folia = QDoubleSpinBox()
+        self.pole_cena_folia.setValue(ceny.get('folia', 0.0))
+        inner_layout.addWidget(self.pole_cena_folia, 3, 1, 1, 1)
 
         # Etykieta i pole dla ceny woreczków
         etykieta_cena_woreczki = QLabel('Cena woreczków: ')
         inner_layout.addWidget(etykieta_cena_woreczki, 4, 0, 1, 1)
 
-        pole_cena_woreczki = QDoubleSpinBox()
-        pole_cena_woreczki.setValue(ceny.get('woreczki', 0.0))
-        inner_layout.addWidget(pole_cena_woreczki, 4, 1, 1, 1)
+        self.pole_cena_woreczki = QDoubleSpinBox()
+        self.pole_cena_woreczki.setValue(ceny.get('woreczki', 0.0))
+        inner_layout.addWidget(self.pole_cena_woreczki, 4, 1, 1, 1)
 
-        button_zapisz1 = QPushButton('Ustaw domyślne ceny (zapisane w kodzie)')
+        button_zapisz1 = QPushButton('Ustaw domyślne ceny (chmura)')
         button_zapisz1.clicked.connect(lambda: self.zmien_ceny(
             None, None, None, None, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
         inner_layout.addWidget(button_zapisz1, 5, 0, 1, 1)
 
         button_zapisz2 = QPushButton('Zapisz zmiany')
         button_zapisz2.clicked.connect(lambda: self.zmien_ceny(
-            pole_cena_tektura, pole_cena_nadruk, pole_cena_folia, pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
+            self.pole_cena_tektura, self.pole_cena_nadruk, self.pole_cena_folia, self.pole_cena_woreczki, etykieta_cena_tektura, etykieta_cena_nadruk, etykieta_cena_folia, etykieta_cena_woreczki))
         inner_layout.addWidget(button_zapisz2, 5, 1, 1, 1)
 
         etykieta_cena_tektura = QLabel('Używana cena tektury: ')
@@ -1597,10 +1614,10 @@ class ZaawansowaneOkno(QWidget):
         inner_layout.addWidget(etykieta_cena_woreczki, 9, 0, 1, 2)
 
         # Ustawianie cen od razu po włączeniu w etykietach
-        ceny_tektura = pole_cena_tektura.value()
-        ceny_nadruk = pole_cena_nadruk.value()
-        ceny_foliamg = pole_cena_folia.value()
-        ceny_woreczkipp = pole_cena_woreczki.value()
+        ceny_tektura = self.pole_cena_tektura.value()
+        ceny_nadruk = self.pole_cena_nadruk.value()
+        ceny_foliamg = self.pole_cena_folia.value()
+        ceny_woreczkipp = self.pole_cena_woreczki.value()
 
         etykieta_cena_tektura.setText(
             f'Używana cena tektury: {ceny_tektura}')
@@ -1621,6 +1638,24 @@ class ZaawansowaneOkno(QWidget):
         # Ustawiamy tytuł i rozmiar głównego okna
         self.setWindowTitle('Magnesy v2')
         self.setGeometry(220, 160, 1160, 630)
+
+    def pobierz_program_poradnika(self):
+        os.system('cls')
+        # ścieżka do pliku Instrukcja.py w bieżącym folderze
+        path = os.path.join(os.getcwd(), "Instrukcja.py")
+
+        # usuń plik Instrukcja.py, jeśli istnieje
+        if os.path.exists(path):
+            os.remove(path)
+        # print("Usunięto plik Instrukcja.py")
+        # pobierz plik main.py z repozytorium
+        url = "https://raw.githubusercontent.com/Ksao0/Repozytorium-magnesy-t/main/Poprzednie/Stara/Instrukcja.py"
+        urllib.request.urlretrieve(url, path)
+        # print("Zastąpiono plik Instrukcja.py")
+
+        minimalizowanie()
+
+        subprocess.run(['python', 'Instrukcja.py'])
 
     def odczytaj_ceny_z_pliku(self, nazwa_pliku):
         # Sprawdzenie, czy plik istnieje
@@ -1656,10 +1691,22 @@ class ZaawansowaneOkno(QWidget):
                 ceny_foliamg = pole_cena_folia.value()
                 ceny_woreczkipp = pole_cena_woreczki.value()
             else:
-                ceny_tektura = '13'
-                ceny_nadruk = '35'
-                ceny_foliamg = '18'
-                ceny_woreczkipp = '11'
+                url = "https://raw.githubusercontent.com/Ksao0/Aplikacja_ma_telefon-Magnesy/refs/heads/main/prices.json"
+                response = requests.get(url)
+                tekst = response.text
+
+                linie = [l.strip() for l in tekst.strip().splitlines()
+                         if l.strip() not in ('{', '}', '')]
+
+                ceny_tektura = linie[0]
+                ceny_nadruk = linie[1]
+                ceny_foliamg = linie[2]
+                ceny_woreczkipp = linie[3]
+
+                self.pole_cena_tektura.setValue(float(ceny_tektura))
+                self.pole_cena_nadruk.setValue(float(ceny_nadruk))
+                self.pole_cena_folia.setValue(float(ceny_foliamg))
+                self.pole_cena_woreczki.setValue(float(ceny_woreczkipp))
 
             ceny_tektura = str(ceny_tektura)
             ceny_nadruk = str(ceny_nadruk)
@@ -1827,6 +1874,7 @@ if __name__ == '__main__':
     # Wyświetlamy główne okno
     okno.show()
 
+    print(Fore.LIGHTBLACK_EX + 'Dziennik działań:')
     wybierz_styl_z_pliku()
 
     # Tworzenie nowego wątku, który wywołuje funkcję open_file()

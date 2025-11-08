@@ -1030,7 +1030,7 @@ Wszystkie wątki programu zostaną zamknięte po aktualizacji.
         self.button_polacz = QPushButton(
             "Połącz z serwerem (zablokowane)", zakladka)
         self.button_polacz.setCheckable(False)
-        self.button_polacz.clicked.connect(self.otworz_odbiorca)
+        # self.button_polacz.clicked.connect(self.otworz_odbiorca)
         układ.addWidget(self.button_polacz, 3, 0, 1, 1)
 
         self.button_automa = QPushButton(
